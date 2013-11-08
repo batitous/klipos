@@ -1,0 +1,43 @@
+# kernel source files:
+
+# Default kernel source :
+C_KERNEL=klist.c kmemory.c kernel.c fault.c klock.c ktimer.c kiostream.c
+
+ifeq ($(dvoslib),yes)
+    
+else
+    C_KERNEL+= main.c
+endif
+
+# If event set to yes, then include the event manager :
+ifeq ($(kevent),yes)
+    C_KERNEL+= slist.c kevent.c
+    COMPILER_DEFINES+= -DKERNEL_USE_KEVENT
+endif
+
+# If we want debug on kernel, then add faultdump
+ifeq ($(debug),yes)
+    C_KERNEL+= faultdump.c
+endif
+
+ifeq ($(debug-lite),yes)
+    C_KERNEL+= faultdumplite.c
+endif
+
+# If minimal is set to yes, then we don't include the next source :
+ifneq ($(kernelmin),yes)
+
+    C_KERNEL+= kchannel.c kmutex.c
+    C_KERNEL+= kmemorypool.c
+
+endif
+
+
+#Path to KERNEL
+KERN=$(DVOS_PATH)kernel/
+
+# Source path of KERNEL
+SRC_KERN=$(KERN)source
+
+# Include path of KERNEL
+INC_KERN=-I$(KERN)include

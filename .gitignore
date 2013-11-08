@@ -1,0 +1,16 @@
+*.o
+*.obj
+*.DS_Store
+Build
+DerivedData
+depends
+*.xcuserstate
+*.xcscheme
+xcschememanagement.plist
+*.ncb
+Debug
+Release
+*.suo
+*.user
+*.exe
+*.pdb
