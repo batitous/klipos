@@ -1,0 +1,55 @@
+# Klipos makefile needs:
+# SOURCE INCLUDE DEFINE KLIPOS_PATH
+
+# clean variables of Klipos
+SOURCE_KLIP = 
+SOURCE_PATH_KLIP =
+HEADER_KLIP = 
+
+
+# Configure mcu core
+
+
+# Add hw makefile
+
+
+# Add board makefile
+
+
+
+# Add kernel makefile
+ifeq ($(kernel),no)
+
+else
+	KERNEL_PATH=$(KLIPOS_PATH)kernel 
+    include $(KERNEL_PATH)/Makefile.kernel
+endif
+
+
+
+
+# Add include:
+INCLUDE+=$(HEADER_KLIP)
+
+# Add source:
+SOURCE+=$(SOURCE_KLIP)
+
+# Add source path:
+SOURCE_PATH+=(SOURCE_PATH_KLIP)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
