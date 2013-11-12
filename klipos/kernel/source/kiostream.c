@@ -47,7 +47,7 @@ void writeByteToKIOStream(KIOStream *stream, UInt8 data)
     stream->write++;
 }
 
-UInt32 readBufferFromKIOStream(IOStream *stream, UInt8 *buffer, UInt32 len)
+UInt32 readBufferFromKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len)
 {
     UInt32 counter, i, size, read;
     

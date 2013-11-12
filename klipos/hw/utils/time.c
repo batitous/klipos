@@ -19,31 +19,25 @@
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 */
-#ifndef KLIPOS_KERNEL_MAIN_H
-#define KLIPOS_KERNEL_MAIN_H
+#include "../include/types.h"
 
-#ifdef __cplusplus
-extern "C" {
+// it's not for precise delay, only delay
+
+#ifdef MCU_IS_LPC13XX
+#       define LOOP_DELAY      2
 #endif
 
-#include "../../hw/include/types.h"
-    
-#include "klist.h"
-#include "kernel.h"
-#include "kthread.h"
-#include "kevent.h"
-#include "kiostream.h"
-#include "klock.h"
-#include "ktimer.h"
-#include "kmemorystack.h"
-#include "kmemory.h"
-
-
-
-#ifdef __cplusplus
- }
+#ifdef MCU_IS_LPC17XX
+#       define LOOP_DELAY       4
 #endif
 
-#endif
+void  waitUs(UInt32  delay)
+{
+    volatile  UInt32  i;
+
+    for (i = 0; i < (LOOP_DELAY * delay); i++)
+    {
+        ;
+    }
+}

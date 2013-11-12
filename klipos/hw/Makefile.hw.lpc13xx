@@ -1,0 +1,17 @@
+# Makefile needs this symbol:
+# HW_PATH SOURCE_KLIP SOURCE_PATH_KLIP HEADER_KLIP
+
+
+SOURCE_PATH_KLIP += $(HW_PATH)mcu/lpc13xx
+
+
+# Include the drivers source code:
+include $(HW_PATH)drivers/Makefile.lpc1xxx
+
+
+# Linker HW
+HW_LINKER_FILE=$(HW_PATH)mcu/lpc13xx/lpc13xx.ld
+
+
+# Asm HW
+HW_STARTUP_ASM=$(HW_PATH)mcu/lpc13xx/startup.S

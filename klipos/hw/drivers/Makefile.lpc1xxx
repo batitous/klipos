@@ -1,0 +1,35 @@
+
+# Include path of Hardware library:
+HEADER_KLIP +=-I$(HW_PATH)include/ \
+            -I$(HW_PATH)include/core \
+            -I$(HW_PATH)include/drivers \
+            -I$(HW_PATH)include/mcu
+
+# Source path of Hardware library:
+SOURCE_PATH_KLIP += $(HW_PATH)core/cortex-m3 \
+                $(HW_PATH)drivers \
+                $(HW_PATH)drivers/lpc1xxx/analog \
+                $(HW_PATH)drivers/lpc1xxx/uart \
+                $(HW_PATH)drivers/lpc1xxx/i2c \
+                $(HW_PATH)drivers/lpc1xxx/spi \
+                $(HW_PATH)drivers/lpc1xxx/gpio \
+                $(HW_PATH)drivers/lpc1xxx/timer \
+                $(HW_PATH)drivers/lpc1xxx/pwm \
+                $(HW_PATH)drivers/lpc1xxx/rom-iap \
+                $(HW_PATH)drivers/lpc1xxx/flash \
+                $(HW_PATH)drivers/external/compass \
+                $(HW_PATH)drivers/external/accelerometer \
+                $(HW_PATH)drivers/external/magnetometer \
+                $(HW_PATH)drivers/external/mem-protocol \
+                $(HW_PATH)drivers/external/flash \
+                $(HW_PATH)drivers/lpc1xxx/sleep \
+                $(HW_PATH)drivers \
+                $(HW_PATH)utils \
+                $(HW_PATH)libc \
+                $(HW_PATH)math
+
+
+# Default hw source files:
+SOURCE_KLIP += init.c core_cm3.c time.c 
+
+

@@ -3,13 +3,13 @@
 
 
 # Default kernel source :
-SRC_KERNEL = kernel.c kiostream.c klist.c klock.c ktimer.c
+SRC_KERNEL = kernel.c kiostream.c klist.c klock.c ktimer.c main.c
 
 
 # If event set to yes, then include the event manager :
 ifeq ($(kevent),yes)
     SRC_KERNEL += slist.c kevent.c
-    COMPILER_DEFINES += -DKERNEL_USE_KEVENT
+    DEFINE += -DKERNEL_USE_KEVENT
 endif
 
 SRC_PATH_KERNEL=$(KERNEL_PATH)/source

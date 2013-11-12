@@ -50,7 +50,7 @@ extern void initKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size);
  */
 extern void writeByteToKIOStream(KIOStream *stream, UInt8 data);
 
-extern UInt32 readBufferFromKIOStream(IOStream *stream, UInt8 *buffer, UInt32 len);
+extern UInt32 readBufferFromKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len);
 
 /** @brief Get one byte from an IO Stream object.
  *

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="84">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df name="klipos" root="../../klipos">
+      <df name="hw">
+        <df name="core">
+          <df name="cortex-m3">
+            <in>core_cm3.c</in>
+          </df>
+        </df>
+        <df name="drivers">
+          <df name="external">
+          </df>
+          <df name="lpc1xxx">
+            <df name="sleep">
+              <in>sleep-lpc13xx.c</in>
+              <in>sleep-lpc17xx.c</in>
+              <in>wakeup-lpc13xx.c</in>
+            </df>
+          </df>
+        </df>
+        <df name="exceptions">
+          <in>exception-dump.c</in>
+          <in>exception-dumplite.c</in>
+          <in>exception.c</in>
+        </df>
+        <df name="include">
+          <df name="core">
+            <in>bit-band.h</in>
+            <in>core_cm3.h</in>
+            <in>core_cmFunc.h</in>
+            <in>core_cmInstr.h</in>
+          </df>
+          <df name="drivers">
+            <in>sleep.h</in>
+          </df>
+          <df name="mcu">
+            <in>lpc13xx.h</in>
+            <in>lpc17xx.h</in>
+          </df>
+          <in>libc.h</in>
+          <in>libs-default.h</in>
+          <in>libs-hardware.h</in>
+          <in>math.h</in>
+          <in>types.h</in>
+          <in>utils.h</in>
+        </df>
+        <df name="libc">
+        </df>
+        <df name="maths">
+        </df>
+        <df name="mcu">
+          <df name="lpc13xx">
+            <in>init.c</in>
+            <in>lpc13xx.ld</in>
+            <in>startup.S</in>
+          </df>
+          <df name="lpc17xx">
+            <in>init.c</in>
+            <in>lpc17xx.ld</in>
+            <in>startup.S</in>
+          </df>
+        </df>
+        <df name="utils">
+          <in>time.c</in>
+        </df>
+      </df>
+      <df name="kernel">
+        <df name="include">
+          <in>kernel-klipos.h</in>
+          <in>kernel-private.h</in>
+          <in>kernel.h</in>
+          <in>kevent.h</in>
+          <in>kiostream.h</in>
+          <in>klist.h</in>
+          <in>klock.h</in>
+          <in>kmemory.h</in>
+          <in>kmemorystack.h</in>
+          <in>kthread.h</in>
+          <in>ktimer.h</in>
+        </df>
+        <df name="source">
+          <in>kernel.c</in>
+          <in>kevent.c</in>
+          <in>kiostream.c</in>
+          <in>klist.c</in>
+          <in>klock.c</in>
+          <in>kmemory.c</in>
+          <in>kmemorypool.c</in>
+          <in>ktimer.c</in>
+          <in>main.c</in>
+          <in>slist.c</in>
+        </df>
+      </df>
+    </df>
+    <df name="lpc13xx-test" root=".">
+      <df name="build">
+      </df>
+      <df name="include">
+      </df>
+      <df name="source">
+        <in>usermain.c</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile.options</itemPath>
+      <itemPath>Makefile.toolchainconfig</itemPath>
+      <itemPath>include</itemPath>
+      <itemPath>source</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+    <Elem>../../klipos</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>build/firmware.elf</executablePath>
+          <cTool>
+            <incDir>
+              <pElem>.</pElem>
+            </incDir>
+          </cTool>
+        </makeTool>
+      </makefileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

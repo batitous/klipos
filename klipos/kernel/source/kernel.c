@@ -464,9 +464,8 @@ void initKernel(void)
     // the __end variable comes from the linker script
     // __end store the address where free memory begins
     
-    extern char __end;
-    
-    defaultMemory = initKernelMemory( (UInt8 *)&__end,KERNEL_MEMORY);
+//    extern char __end;
+//    defaultMemory = initKernelMemory( (UInt8 *)&__end,KERNEL_MEMORY);
     // todo end
     
     initKList(&tasksReady);

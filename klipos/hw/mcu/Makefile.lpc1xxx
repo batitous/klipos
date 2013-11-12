@@ -1,0 +1,71 @@
+# Configuration file for lpc1xxx mcu
+
+
+ifeq ($(mcu),lpc1313)
+    mcu = lpc1311
+endif
+
+ifeq ($(mcu),lpc1342)
+    mcu = lpc1311
+endif
+
+ifeq ($(mcu),lpc1343)
+    mcu = lpc1311
+endif
+
+
+
+ifeq ($(mcu),lpc1316)
+    mcu = lpc1315
+endif
+
+ifeq ($(mcu),lpc1317)
+    mcu = lpc1315
+endif
+
+ifeq ($(mcu),lpc1345)
+    mcu = lpc1315
+endif
+
+ifeq ($(mcu),lpc1346)
+    mcu = lpc1315
+endif
+
+ifeq ($(mcu),lpc1347)
+    mcu = lpc1315
+endif
+
+
+#==== Use the LPC1311/13/42/43 MCU ====#
+ifeq ($(mcu),lpc1311)
+    DEFINE += -DMCU_IS_LPC13XX
+    DEFINE += -DMCU_IS_LPC1311
+    DEFINE += -DKERNEL_CPU_FREQ=72000
+
+    ASM_OPTIONS += --defsym McuLpc1315=0
+
+    HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc13xx
+endif
+
+#==== Use the LPC1315/16/17/45/46/47 MCU ====#
+ifeq ($(mcu),lpc1315)
+    DEFINE += -DMCU_IS_LPC13XX
+    DEFINE += -DMCU_IS_LPC1315
+    DEFINE += -DKERNEL_CPU_FREQ=72000
+
+    ASM_OPTIONS += --defsym McuLpc1315=1
+
+    HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc13xx
+endif
+
+#==== Use the lpc17xx core ====#
+ifeq ($(mcu),lpc17xx)
+    DEFINE += -DMCU_IS_LPC17XX
+    DEFINE += -DKERNEL_CPU_FREQ=100000
+
+    HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc17xx
+endif
+
+
+
+
