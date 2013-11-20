@@ -5,7 +5,7 @@
 # Executable name:
 NAME = firmware
 
-DEFINE = -DHARDWARE_IS_LPC13_DEV
+DEFINE =
 
 # project source files:
 SOURCE_PROJECT=usermain.c 

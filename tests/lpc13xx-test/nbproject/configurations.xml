@@ -36,6 +36,9 @@
               <in>sleep-lpc17xx.c</in>
               <in>wakeup-lpc13xx.c</in>
             </df>
+            <df name="timer">
+              <in>timer32-lpc13xx.c</in>
+            </df>
             <df name="uart">
               <in>uart0.c</in>
             </df>

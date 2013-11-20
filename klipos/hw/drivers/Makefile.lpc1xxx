@@ -42,3 +42,5 @@ SOURCE_KLIP += pwm-lpc13xx.c
 SOURCE_KLIP += i2c0-master.c i2c-master-lpc13xx.c
 
 SOURCE_KLIP += i2c-master-soft.c
+
+SOURCE_KLIP += timer32-lpc13xx.c

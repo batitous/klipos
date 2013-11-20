@@ -22,74 +22,27 @@
 */
 #include "../../../include/libs-klipos.h"
 
-
 //-------------------------- configuration macro
 
-#ifdef HARDWARE_IS_LPC13_DEV
-/* hardware is the lpc13 development board */
-#       define GPIO_PORT       LPC_GPIO2
-#       define SCL_PIN         0
-#       define SDA_PIN         2
-#       define initI2cIO()      /* remove pull-up:*/ \
-                                CLRBITS(LPC_IOCON->PIO2_2,0x18);\
-                                CLRBITS(LPC_IOCON->PIO2_0,0x18);
-#endif
-
-
-#ifdef HARDWARE_IS_LPC13XX_SENSOR
-/* hardware is the lpc1311 sensor */
-#       ifdef MCU_IS_LPC1311
-#              define GPIO_PORT       LPC_GPIO1
-#              define SCL_PIN         3
-#              define SDA_PIN         4
-#              define initI2cIO()     /* remove pull-up:*/ \
-                                      CLRBITS(LPC_IOCON->PIO1_4,0x18);\
-                                      CLRBITS(LPC_IOCON->SWDIO_PIO1_3,0x18);\
-                                      /* set SWDIO_PIO1_3 to GPIO mode */ \
-                                      SETBIT(LPC_IOCON->SWDIO_PIO1_3,0);
-#       else
-/* hardware is the lpc1315 sensor */
-#              define GPIO_PORT       LPC_GPIO
-#              define SCL_PIN         15
-#              define SDA_PIN         16
-#              define initI2cIO()     /* remove pull up */\
-                                      CLRBITS(LPC_IOCON->SWDIO_PIO0_15,0x18);\
-                                      CLRBITS(LPC_IOCON->PIO0_16,0x18);\
-                                      /* set SWDIO_PIO0_15 to GPIO mode */\
-                                      SETBIT(LPC_IOCON->SWDIO_PIO0_15,0);
-#       endif
-#endif
-
-#ifdef HARDWARE_IS_BYC_V1
-/* hardware is the byc board */
-#       define GPIO_PORT       LPC_GPIO1
-#       define SCL_PIN         22 //compass20
-#       define SDA_PIN         20 //compass22
-#       define initI2CIO()     /* remove pull-up */ \
-                               SETBIT(LPC_PINCON->PINMODE1,9);\
-                               SETBIT(LPC_PINCON->PINMODE1,13);
-#endif
-
-
 #ifdef MCU_IS_LPC1311
-#       define I2C_DIR         GPIO_PORT->DIR     
-#       define I2C_SET(pin)    SETBIT(GPIO_PORT->DATA,pin);
-#       define I2C_CLR(pin)    CLRBIT(GPIO_PORT->DATA,pin);
-#       define I2C_GET         GPIO_PORT->DATA
+#       define I2C_DIR         I2CSOFT_PORT->DIR     
+#       define I2C_SET(pin)    SETBIT(I2CSOFT_PORT->DATA,pin);
+#       define I2C_CLR(pin)    CLRBIT(I2CSOFT_PORT->DATA,pin);
+#       define I2C_GET         I2CSOFT_PORT->DATA
 #endif
 
 #ifdef MCU_IS_LPC1315
-#       define I2C_DIR         GPIO_PORT->DIR[0]     
-#       define I2C_SET(pin)    SETBIT(GPIO_PORT->SET[0],pin);
-#       define I2C_CLR(pin)    SETBIT(GPIO_PORT->CLR[0],pin);
-#       define I2C_GET         GPIO_PORT->PIN[0]
+#       define I2C_DIR         I2CSOFT_PORT->DIR[0]     
+#       define I2C_SET(pin)    SETBIT(I2CSOFT_PORT->SET[0],pin);
+#       define I2C_CLR(pin)    SETBIT(I2CSOFT_PORT->CLR[0],pin);
+#       define I2C_GET         I2CSOFT_PORT->PIN[0]
 #endif
 
 #ifdef MCU_IS_LPC17XX
-#       define I2C_DIR         GPIO_PORT->FIODIR
-#       define I2C_SET(pin)    SETBIT(GPIO_PORT->FIOSET,pin);
-#       define I2C_CLR(pin)    SETBIT(GPIO_PORT->FIOCLR,pin);
-#       define I2C_GET         GPIO_PORT->FIOPIN
+#       define I2C_DIR         I2CSOFT_PORT->FIODIR
+#       define I2C_SET(pin)    SETBIT(I2CSOFT_PORT->FIOSET,pin);
+#       define I2C_CLR(pin)    SETBIT(I2CSOFT_PORT->FIOCLR,pin);
+#       define I2C_GET         I2CSOFT_PORT->FIOPIN
 #endif
 
 
@@ -116,6 +69,11 @@ static const I2cMaster i2cSoftMaster =
     sendBufferToI2cSoft,
     getBufferFromI2cSoft
 };
+
+static LPC_GPIO_TypeDef *I2CSOFT_PORT;
+static int SCL_PIN;
+static int SDA_PIN;
+
 
 //-------------------------- private functions
 
@@ -232,22 +190,12 @@ static UInt8 i2c_soft_receive_bit(void)
 
 //-------------------------- public functions
 
-const I2cMaster * initI2cSoft(void)
+const I2cMaster * initI2cSoft(LPC_GPIO_TypeDef *port, int sda, int scl)
 {
-    initI2cIO();
-    
-    
-    // select i/o function
-    //CLRBITS(LPC_IOCON->PIO0_4,0x3);
-    // standard I/O
-    //SETBIT(LPC_IOCON->PIO0_4,8);
-    
-    // select i/o function
-    //CLRBITS(LPC_IOCON->PIO0_5,0x3);
-    // standard I/O
-    //SETBIT(LPC_IOCON->PIO0_5,8);
-    
-    
+    I2CSOFT_PORT = port;
+    SDA_PIN = sda;
+    SCL_PIN = scl;
+        
     return &i2cSoftMaster;
 }
 

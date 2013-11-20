@@ -78,15 +78,6 @@ typedef struct _pwm_device_
  * @param percentage            Duty cycle (between 0% and 1000%).
  */
 extern void initPwm(Pwm *pwm, PWMTIMER timerType, PWMOUTPUT pwmSelected, UInt32 widthInUs, UInt32 widthDivider, UInt32 percentage);
-        
-/** @brief Set PWM duty cycle.
- * 
- * @param pwm                   Pwm object.
- * @param percentage            Set duty cycle (between 0% and 1000%).
- */
-extern void setPwmDutyCycle(Pwm *pwm, UInt32 percentage);
-
-extern void setPwmWidth(Pwm *pwm, UInt32 widthInUs);
 
 
 /** @brief Enable or Disable PWM.
@@ -96,6 +87,16 @@ extern void setPwmWidth(Pwm *pwm, UInt32 widthInUs);
  */
 extern void enablePwm(Pwm *pwm, Bool start);
 
+
+/** @brief Set PWM duty cycle.
+ * 
+ * @param pwm                   Pwm object.
+ * @param percentage            Set duty cycle (between 0% and 1000%).
+ */
+extern void setPwmDutyCycle(Pwm *pwm, UInt32 percentage);
+
+
+extern void setPwmWidth(Pwm *pwm, UInt32 widthInUs);
 
 
 

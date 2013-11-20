@@ -27,7 +27,8 @@
 extern "C" {
 #endif
     
-extern const I2cMaster * initI2cSoft(void);
+// you have to initialize yourself the sda/scl pin (remove pull-up) !
+extern const I2cMaster * initI2cSoft(LPC_GPIO_TypeDef *port, int sda, int scl);
 
 extern UInt32 sendBufferToI2cSoft(UInt8 addr, UInt8 *buffer, UInt32 len);
 

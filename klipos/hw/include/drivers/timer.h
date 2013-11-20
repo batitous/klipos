@@ -36,7 +36,41 @@ typedef enum _timer_
     TIMER3 = 3
 } TIMER;
 
+typedef void (*TimerIrqCallback)(void);
 
+extern void setTimer0Callback(TimerIrqCallback c);
+extern void setTimer1Callback(TimerIrqCallback c);
+
+/** Initialize the specified timer interrupt to be fired
+ * 
+ * By default, the timer is disable, you have to enable manually the timer with enableTimer32
+ * 
+ * @param timerSelected         Timer
+ * @param waitInUs              Time in microseconds
+ * @return False if error
+ */
+extern Bool initTimer32(TIMER timerSelected, UInt32 waitInUs);
+
+/** Set the time of the specified timer
+ * 
+ * @param timerSelected
+ * @param waitInUs              New time in microseconds
+ */
+extern void setTimer32(TIMER timerSelected, UInt32 waitInUs);
+
+/** Enable or disable a timer
+ * 
+ * @param timerSelected         Timer
+ * @param enable                True to enable a timer, False to disable a timer
+ */
+extern void enableTimer32(TIMER timerSelected, Bool enable);
+
+
+/** Wait some time
+ * 
+ * @param waitInUs      Time in microseconds
+ */
+extern void waitUsPrecise(TIMER timerSelected, UInt32 waitInUs);
 
 
 #ifdef __cplusplus
