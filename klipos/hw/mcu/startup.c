@@ -53,55 +53,7 @@ WEAK void IntDefaultHandler(void);
 //
 //*****************************************************************************
 
-//MCU_IS_LPC1311
-void WAKEUP_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void I2C_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_16_0_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_16_1_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_32_0_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_32_1_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void SSP0_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void UART0_IRQHandler(void) ALIAS(IntDefaultHandler);
-void USB_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void USB_FIQn(void) ALIAS(IntDefaultHandler);
-void ADC_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void WDT_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void BOD_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void RESERVED_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void EINT3_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void EINT2_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void EINT1_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void EINT0_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-
-
-
-
-#ifdef MCU_IS_LPC1315
-void PIN_INT0_IRQHandler(void) ALIAS(IntDefaultHandler);
-void PIN_INT1_IRQHandler(void) ALIAS(IntDefaultHandler);
-void PIN_INT2_IRQHandler(void) ALIAS(IntDefaultHandler);
-void PIN_INT3_IRQHandler(void) ALIAS(IntDefaultHandler);
-void PIN_INT4_IRQHandler(void) ALIAS(IntDefaultHandler);
-void PIN_INT5_IRQHandler(void) ALIAS(IntDefaultHandler);
-void PIN_INT6_IRQHandler(void) ALIAS(IntDefaultHandler);
-void PIN_INT7_IRQHandler(void) ALIAS(IntDefaultHandler);
-void GINT0_IRQHandler(void) ALIAS(IntDefaultHandler);
-void GINT1_IRQHandler(void) ALIAS(IntDefaultHandler);
-void RESERVED_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void SSP1_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void I2C_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_16_0_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_16_1_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_32_0_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void TIMER_32_1_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void SSP0_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void UART0_IRQHandler(void) ALIAS(IntDefaultHandler);
-void USB_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void USB_FIQn(void) ALIAS(IntDefaultHandler);
-void ADC_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void WDT_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-void BOD_IRQn_Handler(void) ALIAS(IntDefaultHandler);
-#endif
+#include "lpc13xx/isr-vector.h"
 
 
 //*****************************************************************************
@@ -135,98 +87,13 @@ void (* const g_pfnVectors[])(void) = {
     SysTick_Handler,             /* SysTick Handler              */
     
     // Chip Level 
-    WAKEUP_IRQn_Handler,        /* All I/O pins can be used as wakeup source.       */
-    WAKEUP_IRQn_Handler,        /* There are 40 pins in total for LPC17xx           */
-    WAKEUP_IRQn_Handler,                  
-    WAKEUP_IRQn_Handler,                  
-    WAKEUP_IRQn_Handler,                     
-    WAKEUP_IRQn_Handler,                          
-    WAKEUP_IRQn_Handler,                          
-    WAKEUP_IRQn_Handler,                          
-    WAKEUP_IRQn_Handler,                          
-    WAKEUP_IRQn_Handler,                          
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    WAKEUP_IRQn_Handler,                        
-    I2C_IRQn_Handler,           /* I2C Interrupt                                    */
-    TIMER_16_0_IRQn_Handler,    /* 16-bit Timer0 Interrupt                          */
-    TIMER_16_1_IRQn_Handler,    /* 16-bit Timer1 Interrupt                          */
-    TIMER_32_0_IRQn_Handler,    /* 32-bit Timer0 Interrupt                          */
-    TIMER_32_1_IRQn_Handler,    /* 32-bit Timer1 Interrupt                          */
-    SSP0_IRQn_Handler,          /* SSP0 Interrupt  - new name                                   */
-    UART0_IRQHandler,           /* UART Interrupt                                   */
-    USB_IRQn_Handler,           /* USB Regular Interrupt                            */
-    USB_FIQn,                   /* USB Fast Interrupt                               */
-    ADC_IRQn_Handler,           /* A/D Converter Interrupt                          */
-    WDT_IRQn_Handler,           /* Watchdog timer Interrupt                         */  
-    BOD_IRQn_Handler,           /* Brown Out Detect(BOD) Interrupt                  */
-    RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
-    EINT3_IRQn_Handler,         /* External Interrupt 3 Interrupt                   */
-    EINT2_IRQn_Handler,         /* External Interrupt 2 Interrupt                   */
-    EINT1_IRQn_Handler,         /* External Interrupt 1 Interrupt                   */
-    EINT0_IRQn_Handler          /* External Interrupt 0 Interrupt                   */
+    
+#ifdef MCU_IS_LPC1311
+#       include "lpc13xx/isr-vector-lpc1311.c"
+#endif
     
 #ifdef MCU_IS_LPC1315
-    
-    PIN_INT0_IRQHandler,        /* GPIO Interrupt 0 Interrupt                       */
-    PIN_INT1_IRQHandler,        /* GPIO Interrupt 1 Interrupt                       */
-    PIN_INT2_IRQHandler,        /* GPIO Interrupt 2 Interrupt                       */
-    PIN_INT3_IRQHandler,        /* GPIO Interrupt 3 Interrupt                       */
-    PIN_INT4_IRQHandler,        /* GPIO Interrupt 4 Interrupt                       */
-    PIN_INT5_IRQHandler,        /* GPIO Interrupt 5 Interrupt                       */
-    PIN_INT6_IRQHandler,        /* GPIO Interrupt 6 Interrupt                       */
-    PIN_INT7_IRQHandler,        /* GPIO Interrupt 7 Interrupt                       */
-    GINT0_IRQHandler,           /* GPIO Group 0 Interrupt                           */
-    GINT1_IRQHandler,           /* GPIO Group 1 Interrupt                           */
-    RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
-    RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
-    RESERVED_IRQn_Handler,      /* RIT Interrupt                                    */
-    RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
-    SSP1_IRQn_Handler,          /* SSP1 Interrupt  - new name                       */
-    I2C_IRQn_Handler,           /* I2C Interrupt                                    */
-    TIMER_16_0_IRQn_Handler,    /* 16-bit Timer0 Interrupt                          */
-    TIMER_16_1_IRQn_Handler,    /* 16-bit Timer1 Interrupt                          */
-    TIMER_32_0_IRQn_Handler,    /* 32-bit Timer0 Interrupt                          */
-    TIMER_32_1_IRQn_Handler,    /* 32-bit Timer1 Interrupt                          */
-    SSP0_IRQn_Handler,          /* SSP0 Interrupt  - new name                       */
-    UART0_IRQHandler,           /* UART Interrupt                                   */
-    USB_IRQn_Handler,           /* USB Regular Interrupt                            */
-    USB_FIQn,                   /* USB Fast Interrupt                               */
-    ADC_IRQn_Handler,           /* A/D Converter Interrupt                          */
-    WDT_IRQn_Handler,           /* Watchdog timer Interrupt                         */  
-    BOD_IRQn_Handler,           /* Brown Out Detect(BOD) Interrupt                  */
-    RESERVED_IRQn_Handler,      /* Flash Interrupt                                  */
-    RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
-    RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
-    RESERVED_IRQn_Handler,      /* USB Wakeup Interrupt                             */
-    RESERVED_IRQn_Handler      /* Reserved Interrupt                               */
+#       include "lpc13xx/isr-vector-lpc1315.c"
 #endif
             
             

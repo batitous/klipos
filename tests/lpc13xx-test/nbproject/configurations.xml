@@ -53,6 +53,9 @@
         <df name="mcu">
           <df name="lpc13xx">
             <in>init.c</in>
+            <in>isr-vector-lpc1311.c</in>
+            <in>isr-vector-lpc1315.c</in>
+            <in>isr-vector.h</in>
           </df>
           <df name="lpc17xx">
             <in>init.c</in>
