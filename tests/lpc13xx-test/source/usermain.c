@@ -169,10 +169,15 @@ void led(void)
     
     printf("Thread is runing !\r\n");
     
+    UInt8 * m = malloc(1000);
+    UInt32 i;
     
     while(1)
     {
         waitDataFromIOStream(&uartStream);
+        
+         for(i=0;i<1000;i++)
+             m[i] = 0xAA;
         
         if (getByteFromUart0(&data)==True)
         {
@@ -182,6 +187,11 @@ void led(void)
             }
             else
             {
+                for(i=0;i<1000;i++)
+                {
+                    m[i] = 0xAA;
+                }
+                
                 sendByteToUart0(data+1);
             }
         }
@@ -190,18 +200,25 @@ void led(void)
     }
 }
 
+KMemory * defaultMemory;
 
 int usermain(void)
 {
-   
-
     initUart0();
     setPrintfInterface(sendByteToUart0);
     
+ 
+    // memory init
+    // the _ebss variable comes from the linker script
+    // _ebss store the address where free memory begins
     
+    extern unsigned int _ebss;
+    defaultMemory = initMemory( (UInt8 *)&_ebss,1024);
+    
+   
     printf("Hello from KLIPOS :-)\r\n");
     
-    initThread( &threadLed, led, threadLedStack, 512, 10, 5);
+    initThread( &threadLed, led, threadLedStack, 256, 10, 5);
     
    
     

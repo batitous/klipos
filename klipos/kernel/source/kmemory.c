@@ -55,7 +55,7 @@
 
 
 #ifdef USE_MEMORY_TRACE
-#   define TRACE_MEM(str)	debugPrintf str
+#   define TRACE_MEM(str)	printf str
 #else
 #   define TRACE_MEM(str)
 #endif
@@ -76,7 +76,7 @@ UInt32 getSizeOfBlock(const KMemory * block, const KMemory * previous)
 //-------------------------- public functions
 
 
-KMemory * initKernelMemory(const UInt8 * mem, UInt32 sizeInByte)
+KMemory * initMemory(const UInt8 * mem, UInt32 sizeInByte)
 {
     KMemory * start;
     KMemory * end;

@@ -34,10 +34,6 @@
 #   define TRACE_MEMSTACK(str)
 #endif
 
-//-------------------------- private variables
-
-static UInt8 *nextStackFreeAddress;
-static UInt8 *lastStackAddress;
 
 //-------------------------- public functions
 

@@ -444,7 +444,6 @@ void initThread( KThread *thread, void (*userCode)(void), UInt8 *stack, UInt32 s
 
     thread->cpuRequest = cpuTime;
     thread->quantum = thread->cpuRequest;
-//    thread->signal = 0;
     thread->waiting = 0;
     thread->priority = priority;
     thread->isReady = True;
@@ -459,15 +458,6 @@ void initThread( KThread *thread, void (*userCode)(void), UInt8 *stack, UInt32 s
 
 void initKernel(void)
 {
-    
-    // todo memory init
-    // the __end variable comes from the linker script
-    // __end store the address where free memory begins
-    
-//    extern char __end;
-//    defaultMemory = initKernelMemory( (UInt8 *)&__end,KERNEL_MEMORY);
-    // todo end
-    
     initKList(&tasksReady);
     initKList(&tasksWaiting);
     initKList(&tasksBlocked);

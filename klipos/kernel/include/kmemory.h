@@ -38,7 +38,7 @@ typedef struct _kernel_link_memory_
  * @param sizeInByte            Maximum value: 131068 bytes (127Kbytes)
  * @return 
  */
-extern KMemory * initKernelMemory(const UInt8 * mem, UInt32 sizeInByte);
+extern KMemory * initMemory(const UInt8 * mem, UInt32 sizeInByte);
 
 extern UInt32 getMemoryAvailable(KMemory * mem);
 

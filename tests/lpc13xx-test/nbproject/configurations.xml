@@ -91,7 +91,7 @@
           <in>klist.c</in>
           <in>klock.c</in>
           <in>kmemory.c</in>
-          <in>kmemorypool.c</in>
+          <in>kmemorystack.c</in>
           <in>ktimer.c</in>
           <in>main.c</in>
           <in>slist.c</in>

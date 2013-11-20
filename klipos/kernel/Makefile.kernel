@@ -12,6 +12,10 @@ ifeq ($(kevent),yes)
     DEFINE += -DKERNEL_USE_KEVENT
 endif
 
+ifeq ($(kernelmemory),yes)
+    SRC_KERNEL += kmemory.c kmemorystack.c
+endif
+
 ifeq ($(kerneldebug),yes)
     SRC_KERNEL += debug.c
     DEFINE += -DKERNEL_USE_DEBUG
