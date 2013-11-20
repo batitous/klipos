@@ -38,3 +38,7 @@ endif
 SOURCE_KLIP += analog.c analog-lpc13xx.c
 
 SOURCE_KLIP += pwm-lpc13xx.c
+
+SOURCE_KLIP += i2c0-master.c i2c-master-lpc13xx.c
+
+SOURCE_KLIP += i2c-master-soft.c

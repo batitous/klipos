@@ -22,6 +22,12 @@
               <in>gpio-irq.c</in>
               <in>gpio.c</in>
             </df>
+            <df name="i2c">
+              <in>i2c-master-common.h</in>
+              <in>i2c-master-lpc13xx.c</in>
+              <in>i2c-master-soft.c</in>
+              <in>i2c0-master.c</in>
+            </df>
             <df name="pwm">
               <in>pwm-lpc13xx.c</in>
             </df>
@@ -52,6 +58,9 @@
             <in>gpio-irq.h</in>
             <in>gpio-pins.h</in>
             <in>gpio.h</in>
+            <in>i2c-master.h</in>
+            <in>i2c-soft.h</in>
+            <in>i2c.h</in>
             <in>pwm.h</in>
             <in>sleep.h</in>
             <in>timer.h</in>

@@ -40,12 +40,14 @@ extern "C" {
 #include "drivers/analog.h"
 #include "drivers/timer.h"
 #include "drivers/pwm.h"
+#include "drivers/i2c.h"
+#include "drivers/i2c-master.h"
+#include "drivers/i2c-soft.h"
     
 /*#include "drivers/rom-iap.h"
 #include "drivers/flash.h"
 #include "drivers/flash-sst25.h"
-#include "drivers/i2c.h"
-#include "drivers/i2c-soft.h"
+
 
 #include "drivers/gpio.h"
 #include "drivers/spi.h"
