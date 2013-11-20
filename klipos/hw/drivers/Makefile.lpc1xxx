@@ -35,3 +35,6 @@ ifeq ($(gpioirq),yes)
     SOURCE_KLIP += gpio-irq-lpc1311.c
 endif
 
+SOURCE_KLIP += analog.c analog-lpc13xx.c
+
+SOURCE_KLIP += pwm-lpc13xx.c

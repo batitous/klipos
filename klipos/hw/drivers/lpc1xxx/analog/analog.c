@@ -20,51 +20,50 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef LIBS_HW_H
-#define LIBS_HW_H
+#include "../../../include/libs-klipos.h"
 
-#ifdef __cplusplus
-extern "C" {
+
+//----------------------------- private functions
+
+
+#ifdef MCU_IS_LPC1311
+#       define ANA_CR           LPC_ADC->CR
+#       define ANA_RESULT       LPC_ADC->GDR
+#       define GET_RESULT(reg)  (reg>>6) & 0x03FF
 #endif
 
-
-#include "libs-default.h"
-
-
-#include "../../kernel/include/kernel-klipos.h"
-
-#include "drivers/sleep.h"
-#include "drivers/uart.h"
-#include "drivers/gpio.h"
-#include "drivers/gpio-irq.h"
-#include "drivers/analog.h"
-#include "drivers/timer.h"
-#include "drivers/pwm.h"
-    
-/*#include "drivers/rom-iap.h"
-#include "drivers/flash.h"
-#include "drivers/flash-sst25.h"
-#include "drivers/i2c.h"
-#include "drivers/i2c-soft.h"
-
-#include "drivers/gpio.h"
-#include "drivers/spi.h"
-
-
-#include "drivers/power.h"
-#include "drivers/prs-sensor.h"
-#include "drivers/compass.h"
-#include "drivers/accelerometer.h"
-#include "drivers/magnetometer.h"
-#include "drivers/mem-protocol.h"
-#include "drivers/rgbled.h"
-#include "drivers/byc-board.h"
-#include "drivers/eeprom.h"
-#include "device.h"
-  */  
-
-#ifdef __cplusplus
- }
+#ifdef MCU_IS_LPC1315
+#       define ANA_CR           LPC_ADC->CR
+#       define ANA_RESULT       LPC_ADC->GDR
+#       define GET_RESULT(reg)  (reg>>4) & 0x0FFF
 #endif
 
+#ifdef MCU_IS_LPC17XX
+#       define ANA_CR           LPC_ADC->ADCR
+#       define ANA_RESULT       LPC_ADC->ADGDR
+#       define GET_RESULT(reg)  (reg>>4) & 0x0FFF
 #endif
+
+//----------------------------- public functions
+
+
+UInt16 getAnalog(ANALOG_CHANNEL channel)
+{
+	UInt16 result;
+	UInt32 temp;
+
+	// clear previous channel
+        CLRBITS(ANA_CR, 0xFF);
+	// set channel
+	ANA_CR |= channel;
+	// start conversion
+        SETBIT(ANA_CR,24);
+
+        while( ((temp=ANA_RESULT) & BIT(31) ) == 0);
+         
+        CLRBIT(ANA_CR,24);
+
+	result = GET_RESULT(temp);
+        
+	return result;
+}
