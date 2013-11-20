@@ -42,8 +42,6 @@ ifeq ($(mcu),lpc1311)
     DEFINE += -DMCU_IS_LPC1311
     DEFINE += -DKERNEL_CPU_FREQ=72000
 
-    ASM_OPTIONS += --defsym McuLpc1315=0
-
     HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc13xx
 endif
 
@@ -52,8 +50,6 @@ ifeq ($(mcu),lpc1315)
     DEFINE += -DMCU_IS_LPC13XX
     DEFINE += -DMCU_IS_LPC1315
     DEFINE += -DKERNEL_CPU_FREQ=72000
-
-    ASM_OPTIONS += --defsym McuLpc1315=1
 
     HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc13xx
 endif

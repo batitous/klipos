@@ -32,7 +32,7 @@
 #include "../include/kernel-private.h"
 
 
-void initKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
+void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
 {
     stream->read = 0;
     stream->write = 0;
@@ -41,13 +41,13 @@ void initKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
     stream->size = size;
 }
 
-void writeByteToKIOStream(KIOStream *stream, UInt8 data)
+void writeByteToIOStream(KIOStream *stream, UInt8 data)
 {
     stream->buffer[stream->write & (stream->size-1)] = data;
     stream->write++;
 }
 
-UInt32 readBufferFromKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len)
+UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len)
 {
     UInt32 counter, i, size, read;
     
@@ -73,7 +73,7 @@ UInt32 readBufferFromKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len)
     return counter;
 }
 
-Bool readByteFromKIOStream(KIOStream *stream, UInt8 *data)
+Bool readByteFromIOStream(KIOStream *stream, UInt8 *data)
 {
     if(stream->read!=stream->write)
     {
@@ -85,7 +85,7 @@ Bool readByteFromKIOStream(KIOStream *stream, UInt8 *data)
     return False;
 }
 
-Bool isDataAvailableFromKIOStream(KIOStream *stream)
+Bool isDataAvailableFromIOStream(KIOStream *stream)
 {
     if(stream->read!=stream->write)
     {
@@ -95,7 +95,7 @@ Bool isDataAvailableFromKIOStream(KIOStream *stream)
     return False;
 }
 
-void irqWakeUpTaskFromKIOStream(KIOStream *stream)
+void irqWakeUpTaskFromIOStream(KIOStream *stream)
 {
     KThread * th = stream->receiver;
     
@@ -107,7 +107,7 @@ void irqWakeUpTaskFromKIOStream(KIOStream *stream)
     }
 }
 
-void waitDataFromKIOStream(KIOStream *stream)
+void waitDataFromIOStream(KIOStream *stream)
 {
     if( stream->read==stream->write)
     {

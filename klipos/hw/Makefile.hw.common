@@ -1,0 +1,22 @@
+
+# Include path of common library:
+HEADER_KLIP +=-I$(HW_PATH)include/ \
+            -I$(HW_PATH)include/core \
+            -I$(HW_PATH)include/mcu
+
+# Source path of common library:
+SOURCE_PATH_KLIP += $(HW_PATH)core/cortex-m3 \
+                    $(HW_PATH)exceptions \
+                    $(HW_PATH)mcu \
+                    $(HW_PATH)utils \
+                    $(HW_PATH)libc \
+                    $(HW_PATH)math
+
+
+# Common source files:
+SOURCE_KLIP += startup.c init.c core_cm3.c time.c exception.c
+
+ifeq ($(printf),yes)
+    SOURCE_KLIP += printf.c
+    DEFINE += -DFIRMWARE_USE_PRINTF
+endif

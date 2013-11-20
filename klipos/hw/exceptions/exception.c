@@ -26,33 +26,30 @@
 
 
 
-/* try to manage processor fault */
-
-#ifdef FIRMWARE_USE_DEBUG
-
-extern void dumpFaultHandler(UInt32 * stack);
-
-#endif
-
-
 // Bus Faults Exception
 void BusFault_Handler(void)
 {
     // access to invalid memory
-    debugPrintf("BUS FAULTS EXCEPTION\r\n");
+    printf("BUS FAULTS EXCEPTION\r\n");
+    
+    while(1){}
 }
 
 // Memory Management Exception
 void MemManage_Handler(void)
 {
     // write to a read only memory, access to a undefined mpu region
-    debugPrintf("MEMORY MANAGEMENT EXCEPTION\r\n");
+    printf("MEMORY MANAGEMENT EXCEPTION\r\n");
+    
+    while(1){}
 }
 
 // Usage Faults Exception
 void UsageFault_Handler(void)
 {
-    debugPrintf("USAGE FAULTS EXCEPTION\r\n");
+    printf("USAGE FAULTS EXCEPTION\r\n");
+    
+    while(1){}
 }
 
 
@@ -67,6 +64,8 @@ void HardFault_Handler(void)
     UInt32 reg;
     UInt32 * r;
 
+    extern void dumpFaultHandler(UInt32 * stack);
+    
     // get correct stack : process stack or main stack
     __asm __volatile__ (
         "tst    LR,#4\r\n"

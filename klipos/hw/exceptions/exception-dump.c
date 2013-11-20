@@ -41,30 +41,30 @@ void dumpFaultHandler(UInt32 * stack)
     pc = stack[6];
     psr = stack[7];
 
-    debugPrintf("HARDFAULT EXCEPTION\r\n");
-    debugPrintf("[ Dump stack and fault register from base 0x%x]\r\n", stack );
-    debugPrintf("R0  = 0x%x\r\n", r0);
-    debugPrintf("R1  = 0x%x\r\n", r1);
-    debugPrintf("R2  = 0x%x\r\n", r2);
-    debugPrintf("R3  = 0x%x\r\n", r3);
-    debugPrintf("R12 = 0x%x\r\n", r12);
-    debugPrintf("LR  = 0x%x\r\n", lr);
-    debugPrintf("PC  = 0x%x\r\n", pc);
-    debugPrintf("psr = 0x%x\r\n", psr);
-    debugPrintf("PSP = 0x%x\r\n", __get_PSP() );
+    printf("HARDFAULT EXCEPTION\r\n");
+    printf("[ Dump stack and fault register from base 0x%x]\r\n", stack );
+    printf("R0  = 0x%x\r\n", r0);
+    printf("R1  = 0x%x\r\n", r1);
+    printf("R2  = 0x%x\r\n", r2);
+    printf("R3  = 0x%x\r\n", r3);
+    printf("R12 = 0x%x\r\n", r12);
+    printf("LR  = 0x%x\r\n", lr);
+    printf("PC  = 0x%x\r\n", pc);
+    printf("psr = 0x%x\r\n", psr);
+    printf("PSP = 0x%x\r\n", __get_PSP() );
 
     // Bus fault address 
-    debugPrintf("BFAR = %x\r\n", BFAR );
+    printf("BFAR = %x\r\n", BFAR );
     // MemManage Fault address 
-    debugPrintf("MMAR = %x\r\n", MMAR );
+    printf("MMAR = %x\r\n", MMAR );
     // MemManage Fault Status
-    debugPrintf("MMSR = %x\r\n", MMSR  );
+    printf("MMSR = %x\r\n", MMSR  );
     // Hard Fault Status
-    debugPrintf("HSFR = %x\r\n", (*(volatile UInt32 *)(0xE000ED2C)) );
+    printf("HSFR = %x\r\n", (*(volatile UInt32 *)(0xE000ED2C)) );
     // Debug Fault Status
-    debugPrintf("DFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED30)) );
+    printf("DFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED30)) );
     // Auxiliary Fault Status
-    debugPrintf("AFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED3C)) );
+    printf("AFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED3C)) );
     
     dumpKernel();
     

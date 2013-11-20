@@ -63,57 +63,57 @@ __cs3_heap_end:
     .type   __cs3_interrupt_vector_cortex_m, %object
 
 __cs3_interrupt_vector_cortex_m:
-    .long   __cs3_stack                 /* Top of Stack                 */
-    .long   __cs3_reset                 /* Reset Handler                */
-    .long   NMI_Handler                 /* NMI Handler                  */
-    .long   HardFault_Handler           /* Hard Fault Handler           */
-    .long   MemManage_Handler           /* MPU Fault Handler            */
-    .long   BusFault_Handler            /* Bus Fault Handler            */
-    .long   UsageFault_Handler          /* Usage Fault Handler          */
-    .long   0xefff9cda /*0xefff79be                  /* Checksum, see LPC1xxx manual */
-    .long   0                           /* Reserved                     */
-    .long   0                           /* Reserved                     */
-    .long   0                           /* Reserved                     */
-    .long   SVC_Handler                 /* SVCall Handler               */
-    .long   DebugMon_Handler            /* Debug Monitor Handler        */
-    .long   0                           /* Reserved                     */
-    .long   PendSV_Handler              /* PendSV Handler               */
-    .long   SysTick_Handler             /* SysTick Handler              */
+      __cs3_stack                 /* Top of Stack                 */
+      __cs3_reset                 /* Reset Handler                */
+      NMI_Handler                 /* NMI Handler                  */
+      HardFault_Handler           /* Hard Fault Handler           */
+      MemManage_Handler           /* MPU Fault Handler            */
+      BusFault_Handler            /* Bus Fault Handler            */
+      UsageFault_Handler          /* Usage Fault Handler          */
+      0xefff9cda /*0xefff79be                  /* Checksum, see LPC1xxx manual */
+      0                           /* Reserved                     */
+      0                           /* Reserved                     */
+      0                           /* Reserved                     */
+      SVC_Handler                 /* SVCall Handler               */
+      DebugMon_Handler            /* Debug Monitor Handler        */
+      0                           /* Reserved                     */
+      PendSV_Handler              /* PendSV Handler               */
+      SysTick_Handler             /* SysTick Handler              */
 
     /* External Interrupts */
-    .long   WDT_IRQHandler              /* 16: Watchdog Timer               */
-    .long   TIMER0_IRQHandler           /* 17: Timer0                       */
-    .long   TIMER1_IRQHandler           /* 18: Timer1                       */
-    .long   TIMER2_IRQHandler           /* 19: Timer2                       */
-    .long   TIMER3_IRQHandler           /* 20: Timer3                       */
-    .long   UART0_IRQHandler            /* 21: UART0                        */
-    .long   UART1_IRQHandler            /* 22: UART1                        */
-    .long   UART2_IRQHandler            /* 23: UART2                        */
-    .long   UART3_IRQHandler            /* 24: UART3                        */
-    .long   PWM1_IRQHandler             /* 25: PWM1                         */
-    .long   I2C0_IRQHandler             /* 26: I2C0                         */
-    .long   I2C1_IRQHandler             /* 27: I2C1                         */
-    .long   I2C2_IRQHandler             /* 28: I2C2                         */
-    .long   SPI_IRQHandler              /* 29: SPI                          */
-    .long   SSP0_IRQHandler             /* 30: SSP0                         */
-    .long   SSP1_IRQHandler             /* 31: SSP1                         */
-    .long   PLL0_IRQHandler             /* 32: PLL0 Lock (Main PLL)         */
-    .long   RTC_IRQHandler              /* 33: Real Time Clock              */
-    .long   EINT0_IRQHandler            /* 34: External Interrupt 0         */
-    .long   EINT1_IRQHandler            /* 35: External Interrupt 1         */
-    .long   EINT2_IRQHandler            /* 36: External Interrupt 2         */
-    .long   EINT3_IRQHandler            /* 37: External Interrupt 3         */
-    .long   ADC_IRQHandler              /* 38: A/D Converter                */
-    .long   BOD_IRQHandler              /* 39: Brown-Out Detect             */
-    .long   USB_IRQHandler              /* 40: USB                          */
-    .long   CAN_IRQHandler              /* 41: CAN                          */
-    .long   DMA_IRQHandler              /* 42: General Purpose DMA          */
-    .long   I2S_IRQHandler              /* 43: I2S                          */
-    .long   ENET_IRQHandler             /* 44: Ethernet                     */
-    .long   RIT_IRQHandler              /* 45: Repetitive Interrupt Timer   */
-    .long   MCPWM_IRQHandler            /* 46: Motor Control PWM            */
-    .long   QEI_IRQHandler              /* 47: Quadrature Encoder Interface */
-    .long   PLL1_IRQHandler             /* 48: PLL1 Lock (USB PLL)          */
+      WDT_IRQHandler              /* 16: Watchdog Timer               */
+      TIMER0_IRQHandler           /* 17: Timer0                       */
+      TIMER1_IRQHandler           /* 18: Timer1                       */
+      TIMER2_IRQHandler           /* 19: Timer2                       */
+      TIMER3_IRQHandler           /* 20: Timer3                       */
+      UART0_IRQHandler            /* 21: UART0                        */
+      UART1_IRQHandler            /* 22: UART1                        */
+      UART2_IRQHandler            /* 23: UART2                        */
+      UART3_IRQHandler            /* 24: UART3                        */
+      PWM1_IRQHandler             /* 25: PWM1                         */
+      I2C0_IRQHandler             /* 26: I2C0                         */
+      I2C1_IRQHandler             /* 27: I2C1                         */
+      I2C2_IRQHandler             /* 28: I2C2                         */
+      SPI_IRQHandler              /* 29: SPI                          */
+      SSP0_IRQHandler             /* 30: SSP0                         */
+      SSP1_IRQHandler             /* 31: SSP1                         */
+      PLL0_IRQHandler             /* 32: PLL0 Lock (Main PLL)         */
+      RTC_IRQHandler              /* 33: Real Time Clock              */
+      EINT0_IRQHandler            /* 34: External Interrupt 0         */
+      EINT1_IRQHandler            /* 35: External Interrupt 1         */
+      EINT2_IRQHandler            /* 36: External Interrupt 2         */
+      EINT3_IRQHandler            /* 37: External Interrupt 3         */
+      ADC_IRQHandler              /* 38: A/D Converter                */
+      BOD_IRQHandler              /* 39: Brown-Out Detect             */
+      USB_IRQHandler              /* 40: USB                          */
+      CAN_IRQHandler              /* 41: CAN                          */
+      DMA_IRQHandler              /* 42: General Purpose DMA          */
+      I2S_IRQHandler              /* 43: I2S                          */
+      ENET_IRQHandler             /* 44: Ethernet                     */
+      RIT_IRQHandler              /* 45: Repetitive Interrupt Timer   */
+      MCPWM_IRQHandler            /* 46: Motor Control PWM            */
+      QEI_IRQHandler              /* 47: Quadrature Encoder Interface */
+      PLL1_IRQHandler             /* 48: PLL1 Lock (USB PLL)          */
 
     .size   __cs3_interrupt_vector_cortex_m, . - __cs3_interrupt_vector_cortex_m
 

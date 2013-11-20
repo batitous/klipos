@@ -46,20 +46,19 @@
           <in>utils.h</in>
         </df>
         <df name="libc">
+          <in>printf.c</in>
         </df>
         <df name="maths">
         </df>
         <df name="mcu">
           <df name="lpc13xx">
             <in>init.c</in>
-            <in>lpc13xx.ld</in>
-            <in>startup.S</in>
           </df>
           <df name="lpc17xx">
             <in>init.c</in>
-            <in>lpc17xx.ld</in>
             <in>startup.S</in>
           </df>
+          <in>startup.c</in>
         </df>
         <df name="utils">
           <in>time.c</in>
@@ -67,6 +66,7 @@
       </df>
       <df name="kernel">
         <df name="include">
+          <in>kchannel.h</in>
           <in>kernel-klipos.h</in>
           <in>kernel-private.h</in>
           <in>kernel.h</in>
@@ -80,6 +80,8 @@
           <in>ktimer.h</in>
         </df>
         <df name="source">
+          <in>debug.c</in>
+          <in>kchannel.c</in>
           <in>kernel.c</in>
           <in>kevent.c</in>
           <in>kiostream.c</in>

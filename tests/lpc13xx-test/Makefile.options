@@ -8,7 +8,7 @@ NAME = firmware
 DEFINE = 
 
 # project source files:
-SOURCE_PROJECT=usermain.c
+SOURCE_PROJECT=usermain.c 
 
 # include repertory : -I<repertory path>
 HEADER_PROJECT=
@@ -19,18 +19,14 @@ SOURCE_PATH_PROJECT=./source
 # path to Klipos source directory:
 KLIPOS_PATH=../../klipos/
 
-# select mcu:
-mcu = lpc1315
+mcu = lpc1313
 
+printf = yes
+
+kerneldebug = yes
 
 
 #### compiler defines ####
-
-# Activate debug trace for kernel
-#DEFINE += -DKERNEL_USE_DEBUG
-
-# size of kernel stack : don't change !
-kernelstacksize = 0x00000200
 
 # compiler optimization:
 OPTIMIZE=-Os
@@ -60,9 +56,5 @@ LINKER_OPTION += -mthumb
 LINKER_OPTION += -lc
 LINKER_OPTION += -lgcc
 LINKER_OPTION += -lm
-
-# assembler options:
-ASM_OPTIONS =-mthumb
-ASM_OPTIONS += -mcpu=cortex-m3 --defsym Kernel_Stack_Size=$(kernelstacksize)
 
 

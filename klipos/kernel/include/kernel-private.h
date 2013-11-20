@@ -61,7 +61,8 @@ extern void manageKTimer(void);
 
 extern KList tasksWaiting;
 extern KList tasksBlocked;
+extern KList tasksReady;
 extern volatile KThread * currentTask;
-
+extern volatile UInt32 tickOfKernel;
 
 #endif

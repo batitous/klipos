@@ -48,7 +48,7 @@ static UInt8 irqPriority;       /**< task priority requested by an interrupt */
 static KThread idleThread;    /**< pointer to the idle thread */
 static UInt8 idleStack[IDLE_STACK]; /**< idle stack */
 
-static volatile UInt32 tickOfKernel;  /**< Number of tick from the beginning */
+volatile UInt32 tickOfKernel;  /**< Number of tick from the beginning */
 
 //-------------------------- private functions
 
@@ -545,55 +545,3 @@ UInt32 getCurrentTimeOfKernel(void)
     return tickOfKernel;
 }
 
-#ifdef KERNEL_USE_DEBUG
-
-void dumpKernel(void)
-{
-//    UInt32 total = 0;
-    UInt32 percent = 0;
-    KThread * thread = (KThread *)(tasksReady.next);
-
-    debugPrintf("[%6d][ Dump Kernel State: current thread %x ]\r\n", tickOfKernel, currentTask);
-/*    while( thread != (KThread *)&tasksReady)
-    {
-        total += thread->cpuUsage;
-        thread = thread->next;
-    }
-
-    thread = (KThread *)(tasksWaiting.next);
-    while( thread != (KThread *)&tasksWaiting)
-    {
-        total += thread->cpuUsage;
-        thread = thread->next;
-    }
-*/
-    thread = (KThread *)(tasksReady.next);
-    debugPrintf("Thread     Stack     Priority Quantum     Cpu used   Stack Used\r\n");
-    while( thread != (KThread *)&tasksReady)
-    {
-        percent = (thread->cpuUsage); // * 100)/ total;
-    debugPrintf("%x   %4x   %3d       %2d (%3d)     %5d    %2d\r\n", thread, thread->stack, thread->priority, thread->quantum,thread->cpuRequest, percent, thread->stackUsage);
-
-        thread = thread->next;
-    }
-
-    thread = (KThread *)(tasksWaiting.next);
-    while( thread != (KThread *)&tasksWaiting)
-    {
-        percent = (thread->cpuUsage);// * 100)/ total;
-        debugPrintf("%x   %4x   %3d       %2d (%3d)    %5d    %2d -> waiting\r\n", thread, thread->stack, thread->priority, thread->quantum, thread->cpuRequest, percent,thread->stackUsage);
-
-        thread = thread->next;
-    }
-
-    thread = (KThread *)(tasksBlocked.next);
-    while( thread != (KThread *)&tasksBlocked)
-    {
-        percent = (thread->cpuUsage);// * 100)/ total;
-        debugPrintf("%x   %4x   %3d       %2d (%3d)    %5d    %2d -> blocked\r\n", thread, thread->stack, thread->priority, thread->quantum, thread->cpuRequest, percent,thread->stackUsage);
-
-        thread = thread->next;
-    }
-}
-
-#endif //KERNEL_USE_DEBUG

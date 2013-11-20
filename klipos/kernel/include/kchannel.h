@@ -20,59 +20,37 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef LIBS_HW_LIBC_H
-#define LIBS_HW_LIBC_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-// libc function
+#ifndef KLIPOS_KERNEL_CHANNEL_H
+#define KLIPOS_KERNEL_CHANNEL_H
 
 
-extern void * memcpy(void *pDestination, const void *pSource, UInt32 size);
-
-extern void * memset(void *pBuffer, int value, UInt32 size);
-
-extern Int32 memcmp(const void *pBuffer1, const void *pBuffer2, UInt32 size);
-
-extern UInt32 strlen(const Int8 *string);
-
-
-/* Return 0 if equals
- *  Return >0 if 1st string > 2nd string
- *  Return <0 if 1st string < 2nd string
+/** @brief A channel object can be used to communicate between 2 threads
+ *  whitout using synchronization or global variables.
  */
-extern Int32 strncmp(const Int8 *pString1, const Int8 *pString2, UInt32 count);
+typedef struct _kernel_channel_
+{
+    KThread *   receiver;   /**< the receiver's thread */
+    UInt32      message;    /**< the message */
+    bool        empty;      /**< channel empty or not ? */
+} KChannel;
 
-extern Int32 strcmp(const Int8 *pString1, const Int8 *pString2);
 
-
-/* 
- * Copy 'count' byte of pSource into pDestination
+/** @brief Initialize a channel object.
  */
-extern Int8 * strncpy(Int8 *pDestination, const Int8 *pSource, UInt32 count);
+extern void initChannel(KChannel *channel);
 
-extern Int8 * strcpy(Int8 *pDestination, const Int8 *pSource);
+/** @brief Send a message to a channel object.
+ *
+ * @param channel   A correct channel object.
+ * @param message   A message.
+ */
+extern void sendMessageToChannel(KChannel * channel, UInt32 message);
 
-
-extern signed int sprintf(char *pStr, const char *pFormat, ...);
-
-
-#ifdef FIRMWARE_USE_PRINTF
-
-typedef void (*PrintfInterfaceCallback)(UInt8 data); 
-
-extern void setPrintfInterface(PrintfInterfaceCallback callback);
-
-extern void printf(const char *format, ...);
-
-#else
-#       define  printf(...)
-#endif
-
-#ifdef __cplusplus
- }
-#endif
+/** @brief Wait a message from a channel object.
+ *
+ * @param channel       A correct channel object.
+ * @return Message.
+ */
+extern UInt32 waitMessageFromChannel(KChannel * channel);
 
 #endif

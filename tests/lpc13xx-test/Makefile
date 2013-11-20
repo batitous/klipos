@@ -27,13 +27,11 @@ EXE_MAIN=$(BUILD_PATH)/$(NAME).elf
 EXE_BIN=$(BUILD_PATH)/$(NAME).bin
 
 # external library
-LIB_USE=-lc $(BUILD_PATH)/startup.o
+LIB_USE=-lc 
 
 ## Macro to compile and link:
 COMPILER=$(GCC) $(COMPILER_OPTION) $(DEFINE) $(INCLUDE) -c
-ASM_GCC=$(ASM) $(ASM_OPTIONS)
 LINKER=$(GCC) $(LINKER_OPTION) -o $(EXE_MAIN)
-HEX_OPTIONS= --output-target ihex $(EXE_MAIN) $(EXE)
 
 # Object search path:
 OBJ_FILES =$(patsubst %.c,$(BUILD_PATH)/%.o,$(SOURCE))
@@ -41,9 +39,8 @@ OBJ_FILES =$(patsubst %.c,$(BUILD_PATH)/%.o,$(SOURCE))
 ## compiler & linker & library macro :
 
 build: $(OBJ_FILES)
-	@$(ASM_GCC) $(HW_STARTUP_ASM) -o $(BUILD_PATH)/startup.o
 	@$(LINKER) $(OBJ_FILES) $(LIB_USE)
-	@$(HEX) $(HEX_OPTIONS)
+	@$(HEX) --output-target ihex $(EXE_MAIN) $(EXE)
 	@$(HEX) --strip-unneeded -O binary $(EXE_MAIN) $(EXE_BIN)
 	@$(CRC) $(EXE_BIN)
 	@$(SIZE) --target=ihex $(EXE)
@@ -72,7 +69,7 @@ cleanbuild:
 
 
 flash:
-	$(FTDI) $(EXE) -wipe /dev/cu.usbserial-004013FD  115200 12000
+	$(FTDI) $(EXE) -wipe /dev/cu.usbserial  115200 12000
 
 usb:
 	sudo $(USB) $(EXE_BIN)

@@ -39,18 +39,17 @@ typedef struct _kernel_io_stream_
 /** @brief Create a new IO Stream object.
  *
  * @param size      Size of buffer, MUST BE 8, 16, 32, 64 etc...
- * @return A new IO Stream object.
  */
-extern void initKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size);
+extern void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size);
 
 /** @brief Write a byte to an IO Stream object.
  *
  * @param stream    IO Stream object.
  * @param data      Byte to write.
  */
-extern void writeByteToKIOStream(KIOStream *stream, UInt8 data);
+extern void writeByteToIOStream(KIOStream *stream, UInt8 data);
 
-extern UInt32 readBufferFromKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len);
+extern UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len);
 
 /** @brief Get one byte from an IO Stream object.
  *
@@ -58,7 +57,7 @@ extern UInt32 readBufferFromKIOStream(KIOStream *stream, UInt8 *buffer, UInt32 l
  * @param data      Pointer to a byte where write the read's byte.
  * @return False if no byte, else True.
  */
-extern Bool readByteFromKIOStream(KIOStream *stream, UInt8 *data);
+extern Bool readByteFromIOStream(KIOStream *stream, UInt8 *data);
 
 /** @brief Wake up a task inside an IRQ.
  *
@@ -66,18 +65,18 @@ extern Bool readByteFromKIOStream(KIOStream *stream, UInt8 *data);
  *
  * @param stream    IO Stream object.
  */
-extern void irqWakeUpTaskFromKIOStream(KIOStream *stream);
+extern void irqWakeUpTaskFromIOStream(KIOStream *stream);
 
 
 /** @brief Wait data from an IO Stream object.
  *
  * @param stream    IO Stream object.
  */
-extern void waitDataFromKIOStream(KIOStream *stream);
+extern void waitDataFromIOStream(KIOStream *stream);
 
 /** @brief Is data available from an IO Stream object ?
   * @return True if data available, else False.
   */
-extern Bool isDataAvailableFromKIOStream(KIOStream *stream);
+extern Bool isDataAvailableFromIOStream(KIOStream *stream);
 
 #endif
