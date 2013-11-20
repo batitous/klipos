@@ -33,8 +33,12 @@ extern "C" {
 
 #include "../../kernel/include/kernel-klipos.h"
 
+#include "drivers/sleep.h"
 #include "drivers/uart.h"
-#include "drivers/rom-iap.h"
+#include "drivers/gpio.h"
+#include "drivers/gpio-irq.h"
+
+/*#include "drivers/rom-iap.h"
 #include "drivers/flash.h"
 #include "drivers/flash-sst25.h"
 #include "drivers/i2c.h"
@@ -44,7 +48,7 @@ extern "C" {
 #include "drivers/spi.h"
 #include "drivers/timer.h"
 #include "drivers/pwm.h"
-#include "drivers/sleep.h"
+
 #include "drivers/power.h"
 #include "drivers/prs-sensor.h"
 #include "drivers/compass.h"
@@ -55,7 +59,7 @@ extern "C" {
 #include "drivers/byc-board.h"
 #include "drivers/eeprom.h"
 #include "device.h"
-    
+  */  
 
 #ifdef __cplusplus
  }

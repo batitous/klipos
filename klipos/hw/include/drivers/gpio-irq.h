@@ -20,50 +20,52 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../include/libs-klipos.h"
+#ifndef LIB_HW_GPIO_IRQ_H
+#define	LIB_HW_GPIO_IRQ_H
+
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
+/** @brief Enable an Kernel event on a GPIO pin
+ *
+ * @param pin           Pin
+ * @param edge          Falling or Rising edge (only lpc13xx can have both on the same event!)
+ * @param callback      event callback
+ * @return
+ */
+extern void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback);
 
 
-void setMcuToSleep(SLEEPMODE mode)
-{
-    // power down not implemented
-    
-    if(SLEEP_DEEP_POWERDOWN==mode)
-    {
-        // deep power down sleep
-        
-        SETBIT(SCB->SCR,2);
-        
-        // power down
-        SETBIT(LPC_SC->PCON,0);
-        // deep power down
-        SETBIT(LPC_SC->PCON,1);
-        
-        //fully deactivate brown out
-        SETBIT(LPC_SC->PCON,2);
-        SETBIT(LPC_SC->PCON,3);
-        
-        __WFI();
-    }
-    else if (SLEEP_DEEP==mode)   
-    {
-        //deep sleep
-        LPC_SC->PCON = 0x00;
-        
-       //fully deactivate brown out 
-       SETBIT(LPC_SC->PCON,2);
-       SETBIT(LPC_SC->PCON,3);
-       
-       //Enable sleepdeep 
-       SETBIT(SCB->SCR,2);
-        
-      __WFI();
-    }
-    else
-    {
-        // default sleep
-        LPC_SC->PCON = 0;
-        SCB->SCR = 0;
-        
-       __WFI();
-    }
+/** @brief IRQ callback type */
+typedef void (*GpioIrqCallback)(UInt32 gpioEvent, UInt32 gpioEdge);
+
+
+// set the gpio irq callback
+extern void setGpioIrqCallback(GpioIrqCallback callback);
+
+
+// enable irq "by the hand"
+// Use in 2 cases:
+// - you have previously disable irq
+// - you want manage your own irq without event, you have to set your own gpio irq callback !
+extern void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge);
+
+
+// disable only the irq, the event object is not deactivated !
+
+#ifdef MCU_IS_LPC13XX
+extern void disableGpioIrq(GPIO_PIN pin);
+#endif
+
+#ifdef MCU_IS_LPC17XX
+extern void disableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge);
+#endif
+
+
+#ifdef	__cplusplus
 }
+#endif
+
+#endif	/* GPIO_IRQ_H */
+

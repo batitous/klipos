@@ -12,10 +12,19 @@
           <df name="external">
           </df>
           <df name="lpc1xxx">
+            <df name="gpio">
+              <in>gpio-irq-lpc1311.c</in>
+              <in>gpio-irq-lpc1315.c</in>
+              <in>gpio-irq.c</in>
+              <in>gpio.c</in>
+            </df>
             <df name="sleep">
               <in>sleep-lpc13xx.c</in>
               <in>sleep-lpc17xx.c</in>
               <in>wakeup-lpc13xx.c</in>
+            </df>
+            <df name="uart">
+              <in>uart0.c</in>
             </df>
           </df>
         </df>
@@ -32,7 +41,11 @@
             <in>core_cmInstr.h</in>
           </df>
           <df name="drivers">
+            <in>gpio-irq.h</in>
+            <in>gpio-pins.h</in>
+            <in>gpio.h</in>
             <in>sleep.h</in>
+            <in>uart.h</in>
           </df>
           <df name="mcu">
             <in>lpc13xx.h</in>
@@ -40,7 +53,7 @@
           </df>
           <in>libc.h</in>
           <in>libs-default.h</in>
-          <in>libs-hardware.h</in>
+          <in>libs-klipos.h</in>
           <in>math.h</in>
           <in>types.h</in>
           <in>utils.h</in>

@@ -38,14 +38,14 @@ typedef struct _k_event_
 typedef void (*KEventCallback)(KEvent * node);
 
 
-/** @brief Event register object */
-typedef struct _k_event_register_
+/** @brief Event manager object */
+typedef struct _k_event_manager_
 {
     KLink *             next;   /**< next event registered */
     UInt32              id;     /**< id of event */
     KEventCallback      callback; /**< user callback code */
     UInt32              data;   /**< specific data for user callback */
-} KEventRegister;
+} KEventManager;
 
 
 // don't use id event with bit > 0x10000, it's system reserved !
@@ -65,7 +65,7 @@ extern void initEventManager(void);
  * @param userData
  * @return True if success
  */
-extern Bool registerEvent(KEventRegister *manager, UInt32 id, KEventCallback user, UInt32 userData);
+extern Bool registerEvent(KEventManager *manager, UInt32 id, KEventCallback user, UInt32 userData);
 
 /** @brief Post an event
  * 

@@ -22,5 +22,16 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers \
 
  
+ifeq ($(uart0),yes)
+    SOURCE_KLIP += uart0.c
+endif
 
+ifeq ($(gpio),yes)
+    SOURCE_KLIP += gpio.c
+endif
+
+ifeq ($(gpioirq),yes)
+    SOURCE_KLIP += gpio-irq.c
+    SOURCE_KLIP += gpio-irq-lpc1311.c
+endif
 

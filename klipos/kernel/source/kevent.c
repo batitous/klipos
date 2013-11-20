@@ -25,8 +25,10 @@
 #include "../include/klist.h"
 #include "../include/kthread.h"
 #include "../include/kernel.h"
-#include "../include/kernel-private.h"
 #include "../include/kevent.h"
+#include "../include/ktimer.h"
+#include "../include/kernel-private.h"
+
 
 //-------------------------- private menbers:
 
@@ -41,15 +43,17 @@ static volatile UInt32 kEventWrite;     /**< write index in kEvents */
 
 static KEvent kEvents[EVENT_MAX];       /**< stack of event */
 
-static SList kEventRegisters;          /**< list of event callback */
-static KThread kEventThread;                 /**< event thread manager */
+static SList kEventManagers;          /**< list of event callback */
+KThread kEventThread;                 /**< event thread manager */
 static UInt8 kEventStack[EVENT_THREAD_STACK_SIZE];
+
+static UInt16 kEventLastAlarmId;      /**< Id for alarm event */
 
 //-------------------------- private functions:
 
-KEventRegister * getEventRegister(UInt32 id)
+KEventManager * getEventRegister(UInt32 id)
 {
-    KEventRegister * temp = (KEventRegister *)kEventRegisters.next;
+    KEventManager * temp = (KEventManager *)kEventManagers.next;
 
     while(temp!=0)
     {
@@ -66,7 +70,7 @@ KEventRegister * getEventRegister(UInt32 id)
 void kEventThreadManager(void)
 {
     UInt32 size,i;
-    KEventRegister * manager = kEventRegisters.next;
+    KEventManager * manager = kEventManagers.next;
     KEvent * e;
     
     while(1)
@@ -130,10 +134,12 @@ void initEventManager(void)
 {
     UInt32 i;
     
+    kEventLastAlarmId = 1;
+    
     kEventRead = 0;
     kEventWrite = 0;
     
-    initSList(&kEventRegisters);
+    initSList(&kEventManagers);
     
     for(i=0;i<EVENT_MAX;i++)
     {
@@ -147,7 +153,7 @@ void initEventManager(void)
        
 }
 
-Bool registerEvent(KEventRegister *manager, UInt32 id, KEventCallback user, UInt32 userData)
+Bool registerEvent(KEventManager *manager, UInt32 id, KEventCallback user, UInt32 userData)
 {
     if( getEventRegister(id) != 0)
     {
@@ -160,7 +166,7 @@ Bool registerEvent(KEventRegister *manager, UInt32 id, KEventCallback user, UInt
     manager->callback = user;
     manager->data = userData;
  
-    insertSNodeToStart(&kEventRegisters,(KLink *)manager);
+    insertSNodeToStart(&kEventManagers,(KLink *)manager);
     
     return True;
 }
@@ -175,4 +181,13 @@ void postEventFromIrq(UInt32 id, UInt32 message)
 {
     _postKEvent(id,message);
     irqSetTaskAsReady(&kEventThread);
+}
+
+void enableEventOnAlarm(KAlarm *alarm, KEventManager *manager, KEventCallback callback, UInt32 dataForCallback)
+{
+    alarm->thread = &kEventThread;
+    alarm->id = kEventLastAlarmId;
+    kEventLastAlarmId++;
+        
+    registerEvent( manager, KEVENT_ALARM_MASK | alarm->id , callback, dataForCallback);
 }

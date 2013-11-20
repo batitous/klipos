@@ -20,50 +20,45 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../include/libs-klipos.h"
+#include "../../../include/libs-klipos.h"
+
+//----------------------------- private functions
 
 
-void setMcuToSleep(SLEEPMODE mode)
+// Manage the input/output interrupt for the KEvent manager
+void keventGpioIrqCallback(UInt32 event, UInt32 edge)
 {
-    // power down not implemented
-    
-    if(SLEEP_DEEP_POWERDOWN==mode)
-    {
-        // deep power down sleep
-        
-        SETBIT(SCB->SCR,2);
-        
-        // power down
-        SETBIT(LPC_SC->PCON,0);
-        // deep power down
-        SETBIT(LPC_SC->PCON,1);
-        
-        //fully deactivate brown out
-        SETBIT(LPC_SC->PCON,2);
-        SETBIT(LPC_SC->PCON,3);
-        
-        __WFI();
-    }
-    else if (SLEEP_DEEP==mode)   
-    {
-        //deep sleep
-        LPC_SC->PCON = 0x00;
-        
-       //fully deactivate brown out 
-       SETBIT(LPC_SC->PCON,2);
-       SETBIT(LPC_SC->PCON,3);
-       
-       //Enable sleepdeep 
-       SETBIT(SCB->SCR,2);
-        
-      __WFI();
-    }
-    else
-    {
-        // default sleep
-        LPC_SC->PCON = 0;
-        SCB->SCR = 0;
-        
-       __WFI();
-    }
+    postEventFromIrq(KEVENT_GPIO_MASK | event, edge );
 }
+
+
+UInt32 getIRQNumber(UInt32 reg)
+{
+    UInt32 i;
+    
+    for (i=0;i<31;i++)
+    {
+        if ( ((reg >> i)&0x1) != 0)
+        {
+            return i;
+        }
+    }
+    return 0;
+}
+
+//----------------------------- public functions
+
+void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback)
+{
+    if ( registerEvent( manager, KEVENT_GPIO_MASK | pin, callback, 0) == False )
+    {
+        return;
+    }
+    
+    setGpioIrqCallback(keventGpioIrqCallback);
+        
+    setGpioDirection(pin,GPIO_IN);
+    enableGpioIrq(pin,edge);
+    
+}
+

@@ -88,12 +88,10 @@ void manageKTimer(void)
                     // instead of wakeup a thread, post an event
                     alarm->remaining = alarm->reload;
                     
-
                     // we can't use the "postEvent" here :-(
                     _postKEvent(KEVENT_ALARM_MASK | alarm->id ,0);
 
-                    extern KThread * kEventThread;
-                    kernelSetTaskAsReady(kEventThread);
+                    kernelSetTaskAsReady(alarm->thread);
                 }
                 else
 #endif //KERNEL_USE_KEVENT
@@ -151,16 +149,3 @@ void waitAlarm(KAlarm * alarm)
 
     alarm->remaining = alarm->reload;
 }
-
-#ifdef KERNEL_USE_KEVENT
-
-static UInt16 kEventLastAlarmId = 1;
-
-void enableEventOnAlarm(KAlarm *alarm, KEventRegister *manager, KEventCallback callback, UInt32 dataForCallback)
-{
-    alarm->id = kEventLastAlarmId;
-    kEventLastAlarmId++;
-        
-    registerEvent( manager, KEVENT_ALARM_MASK | alarm->id , callback, dataForCallback);
-}
-#endif

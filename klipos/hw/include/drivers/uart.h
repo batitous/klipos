@@ -20,50 +20,48 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../include/libs-klipos.h"
+#ifndef LIB_HW_UART_H
+#define LIB_HW_UART_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-void setMcuToSleep(SLEEPMODE mode)
+typedef bool (*ReadByteCall)(UInt8 *byte);
+typedef UInt32 (*ReadCall)(UInt8 *buffer, UInt32 size);
+typedef void (*WriteByteCall)(UInt8 byte);
+typedef void (*WriteCall)(UInt8 *buffer, UInt32 size);
+typedef void (*WaitCall)(void);
+
+typedef struct _uart_device_
 {
-    // power down not implemented
+    WaitCall     wait;
+    ReadByteCall readByte;
+    ReadCall     read;
+    WriteByteCall writeByte;
+    WriteCall    write;
+} Uart;
     
-    if(SLEEP_DEEP_POWERDOWN==mode)
-    {
-        // deep power down sleep
-        
-        SETBIT(SCB->SCR,2);
-        
-        // power down
-        SETBIT(LPC_SC->PCON,0);
-        // deep power down
-        SETBIT(LPC_SC->PCON,1);
-        
-        //fully deactivate brown out
-        SETBIT(LPC_SC->PCON,2);
-        SETBIT(LPC_SC->PCON,3);
-        
-        __WFI();
-    }
-    else if (SLEEP_DEEP==mode)   
-    {
-        //deep sleep
-        LPC_SC->PCON = 0x00;
-        
-       //fully deactivate brown out 
-       SETBIT(LPC_SC->PCON,2);
-       SETBIT(LPC_SC->PCON,3);
-       
-       //Enable sleepdeep 
-       SETBIT(SCB->SCR,2);
-        
-      __WFI();
-    }
-    else
-    {
-        // default sleep
-        LPC_SC->PCON = 0;
-        SCB->SCR = 0;
-        
-       __WFI();
-    }
+    
+
+extern const Uart * initUart0(void);
+
+
+extern void sendByteToUart0(UInt8 byte);
+extern void sendBufferToUart0(UInt8 * Buffer,UInt32 Count);
+
+extern UInt32 getBufferFromUart0(UInt8 * buffer, UInt32 len);
+extern bool getByteFromUart0(UInt8 *byte);
+
+extern void waitDataFromUart0(void);
+
+extern void powerOnUart0(void);
+extern void powerOffUart0(void);
+
+
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif

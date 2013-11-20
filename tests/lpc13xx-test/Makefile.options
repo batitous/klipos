@@ -23,8 +23,13 @@ mcu = lpc1313
 
 printf = yes
 
+kernelevent = yes
+
 kernelmemory = yes
 kerneldebug = yes
+
+uart0 = yes
+
 
 
 #### compiler defines ####
