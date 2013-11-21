@@ -139,7 +139,6 @@
       <df name="include">
       </df>
       <df name="source">
-        <in>test.c</in>
         <in>usermain.c</in>
       </df>
     </df>

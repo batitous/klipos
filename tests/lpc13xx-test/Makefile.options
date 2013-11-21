@@ -9,7 +9,7 @@ NAME = firmware
 DEFINE =
 
 # Project source files:
-SOURCE_PROJECT=test.c
+SOURCE_PROJECT=usermain.c
 
 # Include repertory : -I<repertory path>
 HEADER_PROJECT=
@@ -17,9 +17,8 @@ HEADER_PROJECT=
 # Path to project source code
 SOURCE_PATH_PROJECT=./source
 
-# Path to Klipos source directory:
-KLIPOS_PATH=../../klipos/
-
+# Path to Klipos project directory:
+KLIPOS_PATH=../../
 
 
 mcu = lpc1313

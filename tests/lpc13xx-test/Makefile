@@ -15,7 +15,10 @@ INCLUDE =
 
 include Makefile.toolchainconfig
 include Makefile.options
-include $(KLIPOS_PATH)/Makefile.klipos
+
+KLIPOS_TOOLS=$(KLIPOS_PATH)/tools/
+
+include $(KLIPOS_PATH)/klipos/Makefile.klipos
 
 SOURCE += $(SOURCE_PROJECT)
 SOURCE_PATH += $(SOURCE_PATH_PROJECT) 

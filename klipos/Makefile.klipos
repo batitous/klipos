@@ -6,14 +6,14 @@ SOURCE_KLIP =
 SOURCE_PATH_KLIP =
 HEADER_KLIP = 
 
-HW_PATH=$(KLIPOS_PATH)hw/
+HW_PATH=$(KLIPOS_PATH)klipos/hw/
 
 # Configure mcu core
 include $(HW_PATH)/mcu/Makefile.lpc1xxx
 
 
 # Add kernel makefile
-KERNEL_PATH=$(KLIPOS_PATH)kernel
+KERNEL_PATH=$(KLIPOS_PATH)klipos/kernel
 include $(KERNEL_PATH)/Makefile.kernel
 
 # Add hardware makefile

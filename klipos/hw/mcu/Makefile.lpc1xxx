@@ -44,7 +44,7 @@ ifeq ($(mcu),lpc1311)
     DEFINE += -DMCU_IS_LPC1311
     DEFINE += -DKERNEL_CPU_FREQ=72000
 
-    HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc13xx
+    HW_MAKE = $(KLIPOS_PATH)klipos/hw/Makefile.hw.lpc13xx
 endif
 
 #==== Use the LPC1315/16/17/45/46/47 MCU ====#
@@ -55,7 +55,7 @@ ifeq ($(mcu),lpc1315)
     DEFINE += -DMCU_IS_LPC1315
     DEFINE += -DKERNEL_CPU_FREQ=72000
 
-    HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc13xx
+    HW_MAKE = $(KLIPOS_PATH)klipos/hw/Makefile.hw.lpc13xx
 endif
 
 #==== Use the lpc17xx core ====#
@@ -65,7 +65,7 @@ ifeq ($(mcu),lpc17xx)
     DEFINE += -DMCU_IS_LPC17XX
     DEFINE += -DKERNEL_CPU_FREQ=100000
 
-    HW_MAKE = $(KLIPOS_PATH)hw/Makefile.hw.lpc17xx
+    HW_MAKE = $(KLIPOS_PATH)klipos/hw/Makefile.hw.lpc17xx
 endif
 
 
