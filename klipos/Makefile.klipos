@@ -12,18 +12,12 @@ HW_PATH=$(KLIPOS_PATH)hw/
 include $(HW_PATH)/mcu/Makefile.lpc1xxx
 
 
+# Add kernel makefile
+KERNEL_PATH=$(KLIPOS_PATH)kernel
+include $(KERNEL_PATH)/Makefile.kernel
+
 # Add hardware makefile
 include $(HW_MAKE)
-
-
-# Add kernel makefile
-ifeq ($(kernel),no)
-
-else
-    KERNEL_PATH=$(KLIPOS_PATH)kernel
-    include $(KERNEL_PATH)/Makefile.kernel
-endif
-
 
 # Add include:
 INCLUDE += $(HEADER_KLIP)

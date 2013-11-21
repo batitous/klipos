@@ -5,19 +5,22 @@
 # Executable name:
 NAME = firmware
 
+# Define: -D<symbol>
 DEFINE =
 
-# project source files:
-SOURCE_PROJECT=usermain.c 
+# Project source files:
+SOURCE_PROJECT=test.c
 
-# include repertory : -I<repertory path>
+# Include repertory : -I<repertory path>
 HEADER_PROJECT=
 
-# path to project source code
+# Path to project source code
 SOURCE_PATH_PROJECT=./source
 
-# path to Klipos source directory:
+# Path to Klipos source directory:
 KLIPOS_PATH=../../klipos/
+
+
 
 mcu = lpc1313
 
@@ -28,8 +31,15 @@ kernelevent = yes
 kernelmemory = yes
 kerneldebug = yes
 
-uart0 = yes
+gpio = yes
+gpioirq = yes
 
+uart0 = yes
+analog = no
+timer = no
+pwm = no
+i2cmaster = no
+i2cmastersoft = no
 
 
 #### compiler defines ####

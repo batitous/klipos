@@ -28,7 +28,10 @@
  */
 typedef struct _kernel_io_stream_
 {
+#ifndef FIRMWARE_DONT_USE_KERNEL
     KThread *       receiver;   /**< receiver thread */
+#endif
+    
     UInt8 *         buffer;     /**< input/output buffer */
     UInt16          read;       /**< read index */
     UInt16          write;      /**< write index */
@@ -59,24 +62,34 @@ extern UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 le
  */
 extern Bool readByteFromIOStream(KIOStream *stream, UInt8 *data);
 
+
+/** @brief Is data available from an IO Stream object ?
+  * @return True if data available, else False.
+  */
+extern Bool isDataAvailableFromIOStream(KIOStream *stream);
+
+
 /** @brief Wake up a task inside an IRQ.
  *
  * @warning Call this function only in an IRQ !
  *
  * @param stream    IO Stream object.
  */
-extern void irqWakeUpTaskFromIOStream(KIOStream *stream);
-
+#ifndef FIRMWARE_DONT_USE_KERNEL
+        extern void irqWakeUpTaskFromIOStream(KIOStream *stream);
+#else
+#       define irqWakeUpTaskFromIOStream(stream)
+#endif
 
 /** @brief Wait data from an IO Stream object.
  *
  * @param stream    IO Stream object.
  */
-extern void waitDataFromIOStream(KIOStream *stream);
-
-/** @brief Is data available from an IO Stream object ?
-  * @return True if data available, else False.
-  */
-extern Bool isDataAvailableFromIOStream(KIOStream *stream);
+#ifndef FIRMWARE_DONT_USE_KERNEL
+        extern void waitDataFromIOStream(KIOStream *stream);
+#else
+#       define waitDataFromIOStream(stream)
+#endif
+        
 
 #endif

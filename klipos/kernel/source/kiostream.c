@@ -34,9 +34,11 @@
 
 void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
 {
+#ifndef FIRMWARE_DONT_USE_KERNEL
+    stream->receiver = 0;
+#endif
     stream->read = 0;
     stream->write = 0;
-    stream->receiver = 0;
     stream->buffer = buffer;
     stream->size = size;
 }
@@ -95,6 +97,8 @@ Bool isDataAvailableFromIOStream(KIOStream *stream)
     return False;
 }
 
+#ifndef FIRMWARE_DONT_USE_KERNEL
+
 void irqWakeUpTaskFromIOStream(KIOStream *stream)
 {
     KThread * th = stream->receiver;
@@ -115,3 +119,5 @@ void waitDataFromIOStream(KIOStream *stream)
         setTaskAsBlocked();
     }
 }
+
+#endif

@@ -38,6 +38,8 @@ endif
 
 #==== Use the LPC1311/13/42/43 MCU ====#
 ifeq ($(mcu),lpc1311)
+    core = lpc13xx
+
     DEFINE += -DMCU_IS_LPC13XX
     DEFINE += -DMCU_IS_LPC1311
     DEFINE += -DKERNEL_CPU_FREQ=72000
@@ -47,6 +49,8 @@ endif
 
 #==== Use the LPC1315/16/17/45/46/47 MCU ====#
 ifeq ($(mcu),lpc1315)
+    core = lpc13xx
+
     DEFINE += -DMCU_IS_LPC13XX
     DEFINE += -DMCU_IS_LPC1315
     DEFINE += -DKERNEL_CPU_FREQ=72000
@@ -56,6 +60,8 @@ endif
 
 #==== Use the lpc17xx core ====#
 ifeq ($(mcu),lpc17xx)
+    core = lpc17xx
+
     DEFINE += -DMCU_IS_LPC17XX
     DEFINE += -DKERNEL_CPU_FREQ=100000
 

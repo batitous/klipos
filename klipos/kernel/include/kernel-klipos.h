@@ -35,6 +35,7 @@ extern "C" {
 #include "kthread.h"
 #include "kevent.h"
 #include "kiostream.h"
+#include "kchannel.h"
 #include "klock.h"
 #include "ktimer.h"
 #include "kmemorystack.h"

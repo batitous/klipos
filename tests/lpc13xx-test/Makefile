@@ -36,7 +36,7 @@ LINKER=$(GCC) $(LINKER_OPTION) -o $(EXE_MAIN)
 # Object search path:
 OBJ_FILES =$(patsubst %.c,$(BUILD_PATH)/%.o,$(SOURCE))
 
-## compiler & linker & library macro :
+## compiler & linker macro :
 
 build: $(OBJ_FILES)
 	@$(LINKER) $(OBJ_FILES) $(LIB_USE)
@@ -45,9 +45,6 @@ build: $(OBJ_FILES)
 	@$(CRC) $(EXE_BIN)
 	@$(SIZE) --target=ihex $(EXE)
 	@$(SIZE) -A $(EXE_MAIN)
-
-lib: $(OBJ_FILES)
-	$(ARCHIVER_CMD) $(OBJ_FILES)
 	
 vpath %.c $(SOURCE_PATH)
 

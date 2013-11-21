@@ -32,15 +32,40 @@ endif
 
 ifeq ($(gpioirq),yes)
     SOURCE_KLIP += gpio-irq.c
-    SOURCE_KLIP += gpio-irq-lpc1311.c
+    ifeq ($(mcu),lpc1311)
+        SOURCE_KLIP += gpio-irq-lpc1311.c
+    endif
+    ifeq ($(mcu),lpc1315)
+        SOURCE_KLIP += gpio-irq-lpc1315.c
+    endif
 endif
 
-SOURCE_KLIP += analog.c analog-lpc13xx.c
+ifeq ($(analog),yes)
+    SOURCE_KLIP += analog.c 
+    ifeq ($(core),lpc13xx)
+        SOURCE_KLIP += analog-lpc13xx.c
+     endif
+endif
 
-SOURCE_KLIP += pwm-lpc13xx.c
+ifeq ($(pwm),yes)
+    ifeq ($(core),lpc13xx)
+        SOURCE_KLIP += pwm-lpc13xx.c
+    endif
+endif
 
-SOURCE_KLIP += i2c0-master.c i2c-master-lpc13xx.c
+ifeq ($(i2cmaster),yes)
+    SOURCE_KLIP += i2c0-master.c 
+    ifeq ($(core),lpc13xx)
+        SOURCE_KLIP += i2c-master-lpc13xx.c
+    endif
+endif
 
-SOURCE_KLIP += i2c-master-soft.c
+ifeq ($(i2cmastersoft),yes)
+    SOURCE_KLIP += i2c-master-soft.c
+endif
 
-SOURCE_KLIP += timer32-lpc13xx.c
+ifeq ($(timer),yes)
+    ifeq ($(core),lpc13xx)
+        SOURCE_KLIP += timer32-lpc13xx.c
+    endif
+endif
