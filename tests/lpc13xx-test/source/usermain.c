@@ -87,24 +87,24 @@ int usermain(void)
     setGpioDirection(GPIO0_10,GPIO_OUT);
     CLRBIT(LPC_GPIO0->DATA,10);
     
-    initPwm(&pwm1, TIMER16_0, PWM0 | PWM1 , 2, 0, 300);
+    initPwm(&pwm1, TIMER16_0, PWM0 | PWM1 , 1, 0, 100);
     
     
-    SETBIT(LPC_GPIO0->DATA,10);
+//    SETBIT(LPC_GPIO0->DATA,10);
     
     enablePwm(&pwm1, True);
-    waitUsPrecise(TIMER0,4);
+    waitUsPrecise(TIMER0,2);
     
-    CLRBIT(LPC_GPIO0->DATA,10);
-    SETBIT(LPC_GPIO0->DATA,10);
+//    CLRBIT(LPC_GPIO0->DATA,10);
+//    SETBIT(LPC_GPIO0->DATA,10);
     
     enablePwm(&pwm1, False);
     
-    CLRBIT(LPC_GPIO0->DATA,10);
+//    CLRBIT(LPC_GPIO0->DATA,10);
     
     setPwmDutyCycle(&pwm1,800);
     enablePwm(&pwm1, True);
-    SETBIT(LPC_GPIO0->DATA,10);
+//    SETBIT(LPC_GPIO0->DATA,10);
     
     while(1);
     

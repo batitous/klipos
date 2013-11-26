@@ -23,7 +23,50 @@
 #include "../../../include/libs-klipos.h"
 
 
+//-------------------------- private variables:
+
+
+static volatile UInt8 pwm_stopped;
+
+
 //-------------------------- private functions:
+
+
+void Timer_Handler(LPC_TMR_TypeDef *timer)
+{
+    // Acknoledge interrupt
+    SETBIT(timer->IR,3);
+    
+    // Disable timer and reset counter
+    timer->TCR = 0x2;
+    
+    // Disable interrupt
+    CLRBIT(timer->MCR,9);
+    
+    pwm_stopped = 1;
+}
+
+void TIMER_16_0_IRQn_Handler(void)
+{
+    Timer_Handler(LPC_TMR16B0);
+}
+
+void TIMER_16_1_IRQn_Handler(void)
+{
+    Timer_Handler(LPC_TMR16B1);
+}
+
+/* TODO
+void TIMER_32_0_IRQn_Handler(void)
+{
+    Timer_Handler(LPC_TMR32B0);
+}
+
+void TIMER_32_1_IRQn_Handler(void)
+{
+    Timer_Handler(LPC_TMR32B1);
+}*/
+
 
 
 void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
@@ -156,8 +199,9 @@ void setPwmConfig(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, UInt32 cycle)
         // EM0 is controlled by PWM
         SETBIT(timer->PWMC,0);
         // state of MAT0 output, when start pwm, we set to HIGH
+        SETBIT(timer->EMR,0);
         // toggle MAT0 pin output
-        timer->EMR = BITS(4,0x3) | 0x1;        
+        timer->EMR |= BITS(4,0x3);        
     }
     
     if( (pwmSelected&PWM1)==PWM1)
@@ -211,11 +255,19 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
     {
         pwm->timer = LPC_TMR32B0;
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,9);
+  
+//TODO
+//        NVIC_SetPriority(TIMER_32_0_IRQn, 0x04);
+//        NVIC_EnableIRQ(TIMER_32_0_IRQn);
     }
     else if (timerSelected == TIMER32_1)
     {
         pwm->timer = LPC_TMR32B1;
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,10);
+  
+//TODO
+//        NVIC_SetPriority(TIMER_32_1_IRQn, 0x04);
+//        NVIC_EnableIRQ(TIMER_32_1_IRQn);
     }
 
     // SYSAHBCLKCTRL bit7 1 = timer0 bit8 1 =timer1 (16 bits)
@@ -223,11 +275,17 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
     {
         pwm->timer = LPC_TMR16B0;
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,7);
+        
+        NVIC_SetPriority(TIMER_16_0_IRQn, 0x04);
+        NVIC_EnableIRQ(TIMER_16_0_IRQn);
     }
     else
     {
         pwm->timer = LPC_TMR16B1;
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,8);
+        
+        NVIC_SetPriority(TIMER_16_1_IRQn, 0x04);
+        NVIC_EnableIRQ(TIMER_16_1_IRQn);
     }
     
     
@@ -279,19 +337,17 @@ void enablePwm(Pwm *pwm, Bool start)
     
     if( start==False)
     {
-        // disable timer
-//        SETBIT(timer->MCR,11);
+        // enable interrupt on match 
+        pwm_stopped = 0;
+        SETBIT(timer->MCR,9);
         
-//        while( (timer->TCR & 0x1) != 0);
-            
-        SETBIT(timer->TCR,1);
-        CLRBIT(timer->TCR,0);
+        while(pwm_stopped!=0);
     }
     else
     {
         // enable timer
-        SETBIT(timer->TCR,0);
         CLRBIT(timer->TCR,1);
+        SETBIT(timer->TCR,0);
     }
 }
 
@@ -314,9 +370,7 @@ void setPwmWidth(Pwm *pwm, UInt32 widthInUs)
 {
     LPC_TMR_TypeDef * timer = pwm->timer;
     UInt32 widthPwm;
-    
-    // power on timer module
-       
+           
     //todo 100us = (KERNEL_CPU_FREQ/100)*10 -1
     //todo 10us  = (KERNEL_CPU_FREQ /100) -1
     //todo 1us   = (KERNEL_CPU_FREQ /1000) -1
