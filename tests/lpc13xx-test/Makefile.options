@@ -34,9 +34,10 @@ gpio = yes
 gpioirq = yes
 
 uart0 = yes
+pwm = yes
+timer = yes
+
 analog = no
-timer = no
-pwm = no
 i2cmaster = no
 i2cmastersoft = no
 

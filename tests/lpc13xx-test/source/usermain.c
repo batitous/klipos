@@ -8,6 +8,10 @@ UInt8 threadLedStack[256];
 
 const Uart * uart0;
 
+Pwm pwm1;
+Pwm pwm2;
+
+
 void led(void)
 {
     UInt8 data;
@@ -75,10 +79,34 @@ int usermain(void)
     
     initThread( &threadLed, led, threadLedStack, 256, 10, 5);
     
-    
-    initAlarm(&myAlarm,500);
+    initAlarm(&myAlarm,700);
     enableEventOnAlarm(&myAlarm, &myAlarmManager, myAlarmCallback,0);
     startAlarm(&myAlarm);
+    
+    
+    setGpioDirection(GPIO0_10,GPIO_OUT);
+    CLRBIT(LPC_GPIO0->DATA,10);
+    
+    initPwm(&pwm1, TIMER16_0, PWM0 | PWM1 , 2, 0, 300);
+    
+    
+    SETBIT(LPC_GPIO0->DATA,10);
+    
+    enablePwm(&pwm1, True);
+    waitUsPrecise(TIMER0,4);
+    
+    CLRBIT(LPC_GPIO0->DATA,10);
+    SETBIT(LPC_GPIO0->DATA,10);
+    
+    enablePwm(&pwm1, False);
+    
+    CLRBIT(LPC_GPIO0->DATA,10);
+    
+    setPwmDutyCycle(&pwm1,800);
+    enablePwm(&pwm1, True);
+    SETBIT(LPC_GPIO0->DATA,10);
+    
+    while(1);
     
     return 0;
 }

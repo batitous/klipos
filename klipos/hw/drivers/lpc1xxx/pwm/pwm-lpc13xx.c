@@ -153,28 +153,27 @@ void setPwmConfig(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, UInt32 cycle)
     if( (pwmSelected&PWM0)==PWM0)
     {
         timer->MR0 = cycle;
-        // state of MAT0 output, when start pwm, we set to HIGH
-        SETBIT(timer->EMR,0);
-        // toggle MAT0 pin output
-        timer->EMR |= BITS(4,0x3);
         // EM0 is controlled by PWM
         SETBIT(timer->PWMC,0);
+        // state of MAT0 output, when start pwm, we set to HIGH
+        // toggle MAT0 pin output
+        timer->EMR = BITS(4,0x3) | 0x1;        
     }
     
     if( (pwmSelected&PWM1)==PWM1)
     {
         timer->MR1 = cycle;
+        SETBIT(timer->PWMC,1);
         SETBIT(timer->EMR,1);
         timer->EMR |= BITS(6,0x3);
-        SETBIT(timer->PWMC,1);
     }
     
     if( (pwmSelected&PWM2)==PWM2)
     {
         timer->MR2 = cycle;
+        SETBIT(timer->PWMC,2);
         SETBIT(timer->EMR,2);
         timer->EMR |= BITS(8,0x3);
-        SETBIT(timer->PWMC,2);
     }
 }
 
@@ -231,7 +230,7 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,8);
     }
     
-
+    
     pwm->outputs = pwmSelected;
     
     // select output pwm pin 
@@ -261,11 +260,9 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
     // MRx store the pwm duty cycle: time the MATx pin is high
     cycle = (widthPwm * (1000 - percentage)) / 1000;
     
-       
     // reset when MR3 match the timer counter
     SETBIT(pwm->timer->MCR,10);
-    
-    
+        
     setPwmConfig(pwm->timer,pwmSelected,cycle);
     
     // enable pwm0 and pwm3:
@@ -283,8 +280,12 @@ void enablePwm(Pwm *pwm, Bool start)
     if( start==False)
     {
         // disable timer
-        CLRBIT(timer->TCR,0);
+//        SETBIT(timer->MCR,11);
+        
+//        while( (timer->TCR & 0x1) != 0);
+            
         SETBIT(timer->TCR,1);
+        CLRBIT(timer->TCR,0);
     }
     else
     {

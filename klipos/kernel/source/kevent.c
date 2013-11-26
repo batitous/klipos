@@ -44,7 +44,7 @@ static volatile UInt32 kEventWrite;     /**< write index in kEvents */
 static KEvent kEvents[EVENT_MAX];       /**< stack of event */
 
 static SList kEventManagers;          /**< list of event callback */
-KThread kEventThread;                 /**< event thread manager */
+static KThread kEventThread;                 /**< event thread manager */
 static UInt8 kEventStack[EVENT_THREAD_STACK_SIZE];
 
 static UInt16 kEventLastAlarmId;      /**< Id for alarm event */
