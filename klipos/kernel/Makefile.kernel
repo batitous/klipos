@@ -9,7 +9,7 @@ ifeq ($(kernel),no)
     SRC_KERNEL = kiostream.c
 else
     # Default kernel source :
-    SRC_KERNEL += kernel.c kiostream.c klist.c klock.c ktimer.c main.c kchannel.c
+    SRC_KERNEL += kernel.c kiostream.c klist.c klock.c ktimer.c kmain.c kchannel.c
 
     # If event set to yes, then include the event manager :
     ifeq ($(kernelevent),yes)

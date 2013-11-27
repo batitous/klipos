@@ -11,7 +11,7 @@ void irqCallback(UInt32 gpioEvent, UInt32 gpioEdge)
     int cnt = getSystickCounter();
     int ms = (cnt * 10) + us / 1000;
     
-    printf("%3d irq %x e %x\r\n", ms , gpioEvent, gpioEdge);
+    printf("%3d.%4d irq %x e %x\r\n", ms, us - (us/1000) * 1000 , gpioEvent, gpioEdge);
 }
 
 int main(void)

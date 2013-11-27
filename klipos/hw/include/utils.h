@@ -56,11 +56,15 @@ extern "C" {
 extern void  waitSomeTimeInUs(UInt32  delay);
 
 
+// initialize the systick timer to fire up an interrupt at timeInUs
+// DONT USE THIS FUNCTION WITH KERNEL ENABLE !
 extern void initSystickTimer(UInt32 timeInUs);
 
-
+// get the number of interrupt fired up by the systick timer
 extern UInt32 getSystickCounter(void);
 
+// get the current microsecond value of the systick timer
+// this value is between [0 - time initialized in initSystickTimer].
 extern UInt32 getSysTickCurrentVal(void);
 
 

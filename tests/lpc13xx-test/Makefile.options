@@ -10,7 +10,7 @@ DEFINE =
 
 # Project source files:
 #SOURCE_PROJECT=usermain.c
-SOURCE_PROJECT=usermain2.c
+SOURCE_PROJECT=main.c
 
 # Include repertory : -I<repertory path>
 HEADER_PROJECT=

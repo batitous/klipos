@@ -25,7 +25,7 @@
 
 //----------------------------- private functions & variables
 
-volatile UInt32 counter;
+static volatile UInt32 counter;
 
 void SysTick_Handler(void)
 {
@@ -37,22 +37,9 @@ void SysTick_Handler(void)
 
 void initSystickTimer(UInt32 timeInUs)
 {
-    UInt32 ticks = GET_TICK_FROM_US(timeInUs);
-    
     counter = 0;
     
-    if ((ticks - 1) > SysTick_LOAD_RELOAD_Msk)  
-    {
-        return;
-    }
-    
-    SysTick->LOAD = ticks - 1;
-    NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);
-    SysTick->VAL = 0;
-    SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |
-                   SysTick_CTRL_TICKINT_Msk   |
-                   SysTick_CTRL_ENABLE_Msk;
-
+    SysTick_Config(GET_TICK_FROM_US(timeInUs));
 }
 
 UInt32 getSystickCounter(void)

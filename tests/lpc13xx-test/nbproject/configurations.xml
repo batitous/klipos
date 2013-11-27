@@ -126,10 +126,10 @@
           <in>kiostream.c</in>
           <in>klist.c</in>
           <in>klock.c</in>
+          <in>kmain.c</in>
           <in>kmemory.c</in>
           <in>kmemorystack.c</in>
           <in>ktimer.c</in>
-          <in>main.c</in>
           <in>slist.c</in>
         </df>
       </df>
@@ -140,8 +140,8 @@
       <df name="include">
       </df>
       <df name="source">
+        <in>main.c</in>
         <in>usermain.c</in>
-        <in>usermain2.c</in>
       </df>
     </df>
     <logicalFolder name="ExternalFiles"
