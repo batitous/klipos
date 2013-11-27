@@ -37,7 +37,7 @@ void SysTick_Handler(void)
 
 void initSystickTimer(UInt32 timeInUs)
 {
-    UInt32 ticks = (KERNEL_CPU_FREQ/1000)*timeInUs -1;
+    UInt32 ticks = GET_TICK_FROM_US(timeInUs);
     
     counter = 0;
     
@@ -58,4 +58,9 @@ void initSystickTimer(UInt32 timeInUs)
 UInt32 getSystickCounter(void)
 {
     return counter;
+}
+
+UInt32 getSysTickCurrentVal(void)
+{
+    return GET_US_FROM_TICK(SysTick->VAL);
 }

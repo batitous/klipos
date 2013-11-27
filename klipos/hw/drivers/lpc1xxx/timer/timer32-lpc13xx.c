@@ -61,7 +61,6 @@ void TIMER_32_1_IRQn_Handler(void)
 Bool initTimer32(TIMER timerSelected, UInt32 waitInUs)
 {
     LPC_TMR_TypeDef * timer;
-    UInt32 waitInTick;
     
     // IOCON_PIO0_1 CT32B0_MAT2 FUNC=0x2
     // IOCON_R_PIO0_11 CT32B0_MAT3 warning : AD0 FUNC=0x3
@@ -89,13 +88,8 @@ Bool initTimer32(TIMER timerSelected, UInt32 waitInUs)
         timer = LPC_TMR32B1;
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,10);
     }
-        
-    //todo 100us = (KERNEL_CPU_FREQ/100)*10 -1
-    //todo 10us  = (KERNEL_CPU_FREQ /100) -1
-    //todo 1us   = (KERNEL_CPU_FREQ /1000) -1
-    waitInTick = (KERNEL_CPU_FREQ / 1000) * waitInUs -1;
-    
-    timer->MR0 = waitInTick;
+            
+    timer->MR0 = GET_TICK_FROM_US(waitInUs);
     timer->TC = 0;
     
     // interrupt on MR0
@@ -120,7 +114,6 @@ Bool initTimer32(TIMER timerSelected, UInt32 waitInUs)
 
 void setTimer32(TIMER timerSelected, UInt32 waitInUs)
 {
-    UInt32 waitInTick;
     LPC_TMR_TypeDef * timer;
     
     if ( timerSelected==TIMER0)
@@ -133,10 +126,8 @@ void setTimer32(TIMER timerSelected, UInt32 waitInUs)
     }
     
     CLRBIT(timer->TCR,0);
-    
-    waitInTick = (KERNEL_CPU_FREQ / 1000) * waitInUs -1;
-    
-    timer->MR0 = waitInTick;
+        
+    timer->MR0 = GET_TICK_FROM_US(waitInUs);
     timer->TC = 0;
 }
 
@@ -191,7 +182,7 @@ void waitUsPrecise(TIMER timerSelected, UInt32 waitInUs)
     }
     
     timer->TCR = 0;
-    timer->MR3 = (KERNEL_CPU_FREQ / 1000) * waitInUs -1;
+    timer->MR3 = GET_TICK_FROM_US(waitInUs);
     
     timer->TC = 0;
     

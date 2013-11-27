@@ -43,7 +43,14 @@ extern "C" {
 // clear multiple bits of register
 #define CLRBITS(reg,mask)     reg &= ~(mask)
     
+    
+// get tick from time in microseconds
+#define GET_TICK_FROM_US(timeInUs) ((KERNEL_CPU_FREQ/1000)*(timeInUs) -1)
+    
+// get time in microseconds from ticks
+#define GET_US_FROM_TICK(ticks)    (((ticks+1)*1000) / KERNEL_CPU_FREQ)
 
+    
 // software delay : this functions don't use any timer or kernel code
 // DONT USE THIS FUNCTION FOR PRECISE DELAY !
 extern void  waitSomeTimeInUs(UInt32  delay);
@@ -54,6 +61,7 @@ extern void initSystickTimer(UInt32 timeInUs);
 
 extern UInt32 getSystickCounter(void);
 
+extern UInt32 getSysTickCurrentVal(void);
 
 
 #ifdef __cplusplus

@@ -297,7 +297,7 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
     
     // For 16 bits timer, when prescaler set to 0, pwm is between 1.1 kHz and 1 MHz
 
-    widthPwm = (KERNEL_CPU_FREQ / 1000) * widthInUs -1;
+    widthPwm = GET_TICK_FROM_US(widthInUs);
     
     // Set the width divider
     if (widthDivider!=0)
@@ -375,7 +375,7 @@ void setPwmWidth(Pwm *pwm, UInt32 widthInUs)
     //todo 10us  = (KERNEL_CPU_FREQ /100) -1
     //todo 1us   = (KERNEL_CPU_FREQ /1000) -1
     
-    widthPwm = (KERNEL_CPU_FREQ / 1000) * widthInUs -1;
+    widthPwm = GET_TICK_FROM_US(widthInUs);
    
     
     timer->TC = 0;

@@ -7,7 +7,11 @@ Pwm pwm1;
 
 void irqCallback(UInt32 gpioEvent, UInt32 gpioEdge)
 {
-    printf("%5d irq %x e %x\r\n", getSystickCounter(), gpioEvent, gpioEdge);
+    int us = getSysTickCurrentVal();
+    int cnt = getSystickCounter();
+    int ms = (cnt * 10) + us / 1000;
+    
+    printf("%3d irq %x e %x\r\n", ms , gpioEvent, gpioEdge);
 }
 
 int main(void)
@@ -18,7 +22,7 @@ int main(void)
     uart0 = initUart0();
     setPrintfInterface(sendByteToUart0);
 
-    initSystickTimer(1000);
+    initSystickTimer(10000);
     
     printf("Hello from test !\r\n");
     
