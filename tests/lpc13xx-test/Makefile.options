@@ -9,7 +9,8 @@ NAME = firmware
 DEFINE =
 
 # Project source files:
-SOURCE_PROJECT=usermain.c
+#SOURCE_PROJECT=usermain.c
+SOURCE_PROJECT=usermain2.c
 
 # Include repertory : -I<repertory path>
 HEADER_PROJECT=
@@ -25,9 +26,12 @@ mcu = lpc1313
 
 printf = yes
 
+kernel = no
+
 kernelevent = yes
 
-kernelmemory = yes
+kernelmemory = no
+
 kerneldebug = yes
 
 gpio = yes

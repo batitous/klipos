@@ -46,8 +46,13 @@ extern "C" {
 
 // software delay : this functions don't use any timer or kernel code
 // DONT USE THIS FUNCTION FOR PRECISE DELAY !
-extern void  waitUs(UInt32  delay);
+extern void  waitSomeTimeInUs(UInt32  delay);
 
+
+extern void initSystickTimer(UInt32 timeInUs);
+
+
+extern UInt32 getSystickCounter(void);
 
 
 

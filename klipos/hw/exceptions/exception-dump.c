@@ -66,7 +66,9 @@ void dumpFaultHandler(UInt32 * stack)
     // Auxiliary Fault Status
     printf("AFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED3C)) );
     
+#ifndef FIRMWARE_DONT_USE_KERNEL
     dumpKernel();
+#endif
     
     while(1);
     

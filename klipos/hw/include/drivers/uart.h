@@ -35,11 +35,11 @@ typedef void (*WaitCall)(void);
 
 typedef struct _uart_device_
 {
-    WaitCall     wait;
-    ReadByteCall readByte;
-    ReadCall     read;
-    WriteByteCall writeByte;
-    WriteCall    write;
+    WaitCall     wait;          /**< wait data from uart, warning: works only with kernel! */
+    ReadByteCall readByte;      /**< read one byte of data */
+    ReadCall     read;          /**< read a buffer from uart */
+    WriteByteCall writeByte;    /**< write a byte on uart */
+    WriteCall    write;         /**< write a buffer on uart */
 } Uart;
     
     
@@ -50,6 +50,21 @@ extern const Uart * initUart0(void);
 extern void sendByteToUart0(UInt8 byte);
 extern void sendBufferToUart0(UInt8 * Buffer,UInt32 Count);
 
+/** @brief Read a buffer of the specified lenght from the uart.
+ *
+ * If uart is empty:
+ *  --> return 0 
+ * 
+ * If uart have some data available but not the requested lenght
+ *  --> return the number of byte currently stored in the uart
+ *  --> BUT the data are not written into the buffer !
+ * 
+ * Else, write into the buffer the requested lenght's byte and return the lenght.
+ * 
+ * @param buffer        buffer where store the byte read from the uart
+ * @param len           number of bytes you want from the uart
+ * @return 0 if no bytes available, else number of bytes available in the stream
+ */
 extern UInt32 getBufferFromUart0(UInt8 * buffer, UInt32 len);
 extern bool getByteFromUart0(UInt8 *byte);
 

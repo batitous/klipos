@@ -62,6 +62,20 @@ UInt32 getGpioPortNumber(GPIO_PIN pin)
 
 //----------------------------- private functions
 
+UInt32 getIRQNumber(UInt32 reg)
+{
+    UInt32 i;
+    
+    for (i=0;i<31;i++)
+    {
+        if ( ((reg >> i)&0x1) != 0)
+        {
+            return i;
+        }
+    }
+    return 0;
+}
+
 LPC_GPIO_TypeDef * getGpioPort(GPIO_PIN pin)
 {
     // select io port

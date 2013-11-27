@@ -331,24 +331,24 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
     
 }
 
-void enablePwm(Pwm *pwm, Bool start)
+void enablePwm(Pwm *pwm)
 {
     LPC_TMR_TypeDef * timer = pwm->timer;
     
-    if( start==False)
-    {
-        // enable interrupt on match 
-        pwm_stopped = 0;
-        SETBIT(timer->MCR,9);
+    // enable timer and clear reset
+    CLRBIT(timer->TCR,1);
+    SETBIT(timer->TCR,0);
+}
+
+void disablePwm(Pwm *pwm)
+{
+    LPC_TMR_TypeDef * timer = pwm->timer;
+    
+    // enable interrupt on match 
+    pwm_stopped = 0;
+    SETBIT(timer->MCR,9);
         
-        while(pwm_stopped!=0);
-    }
-    else
-    {
-        // enable timer
-        CLRBIT(timer->TCR,1);
-        SETBIT(timer->TCR,0);
-    }
+    while(pwm_stopped!=0);
 }
 
 void setPwmDutyCycle(Pwm *pwm, UInt32 percentage)

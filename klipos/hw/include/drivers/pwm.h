@@ -83,9 +83,9 @@ extern void initPwm(Pwm *pwm, PWMTIMER timerType, PWMOUTPUT pwmSelected, UInt32 
 /** @brief Enable or Disable PWM.
  * 
  * @param pwm           Pwm object.
- * @param start         True to enalbe, False to disable.
  */
-extern void enablePwm(Pwm *pwm, Bool start);
+extern void enablePwm(Pwm *pwm);
+extern void disablePwm(Pwm *pwm);
 
 
 /** @brief Set PWM duty cycle.

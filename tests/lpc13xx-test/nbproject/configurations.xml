@@ -99,6 +99,7 @@
           <in>startup.c</in>
         </df>
         <df name="utils">
+          <in>systick.c</in>
           <in>time.c</in>
         </df>
       </df>
@@ -140,6 +141,7 @@
       </df>
       <df name="source">
         <in>usermain.c</in>
+        <in>usermain2.c</in>
       </df>
     </df>
     <logicalFolder name="ExternalFiles"

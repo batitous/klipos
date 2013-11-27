@@ -31,7 +31,12 @@ ifeq ($(gpio),yes)
 endif
 
 ifeq ($(gpioirq),yes)
-    SOURCE_KLIP += gpio-irq.c
+
+    ifeq ($(kernel),no)
+        
+    else
+        SOURCE_KLIP += gpio-irq.c
+    endif
     ifeq ($(mcu),lpc1311)
         SOURCE_KLIP += gpio-irq-lpc1311.c
     endif

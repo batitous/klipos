@@ -24,7 +24,7 @@
 #ifndef KLIPOS_KERNEL_IOSTREAM_H
 #define KLIPOS_KERNEL_IOSTREAM_H
 
-/** @brief Input/Output Stream object
+/** @brief Input/Output stream object
  */
 typedef struct _kernel_io_stream_
 {
@@ -39,33 +39,53 @@ typedef struct _kernel_io_stream_
 } KIOStream;
 
 
-/** @brief Create a new IO Stream object.
+/** @brief Create a new i/o stream.
  *
+ * @param stream    stream to be initialized, you have to allocate this pointer !
+ * @param buffer    stream's buffer, you have to allocate this pointer !
  * @param size      Size of buffer, MUST BE 8, 16, 32, 64 etc...
  */
 extern void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size);
 
-/** @brief Write a byte to an IO Stream object.
+/** @brief Write a byte to a stream.
  *
- * @param stream    IO Stream object.
+ * @param stream    i/o stream object.
  * @param data      Byte to write.
  */
 extern void writeByteToIOStream(KIOStream *stream, UInt8 data);
 
+/** @brief Read a buffer of the specified lenght from the stream.
+ *
+ * If stream is empty:
+ *  --> return 0 
+ * 
+ * If stream have some data available but not the requested lenght
+ *  --> return the number of byte currently stored in the i/o stream
+ *  --> BUT the data are not written into the buffer !
+ * 
+ * Else, write into the buffer the requested lenght's byte and return the lenght.
+ * 
+ * @param stream        i/o stream object
+ * @param buffer        buffer where store the byte read from the stream
+ * @param len           number of bytes you want from the stream
+ * @return 0 if no bytes available, else number of bytes available in the stream
+ */
 extern UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len);
 
-/** @brief Get one byte from an IO Stream object.
+/** @brief Get one byte from a stream.
  *
- * @param stream    IO Stream object.
+ * @param stream    i/o stream object.
  * @param data      Pointer to a byte where write the read's byte.
  * @return False if no byte, else True.
  */
 extern Bool readByteFromIOStream(KIOStream *stream, UInt8 *data);
 
 
-/** @brief Is data available from an IO Stream object ?
-  * @return True if data available, else False.
-  */
+/** @brief Is data available from a stream ?
+ * 
+ * @param stream    i/o stream object 
+ * @return True if data available, else False.
+ */
 extern Bool isDataAvailableFromIOStream(KIOStream *stream);
 
 
@@ -73,7 +93,7 @@ extern Bool isDataAvailableFromIOStream(KIOStream *stream);
  *
  * @warning Call this function only in an IRQ !
  *
- * @param stream    IO Stream object.
+ * @param stream    i/o stream object.
  */
 #ifndef FIRMWARE_DONT_USE_KERNEL
         extern void irqWakeUpTaskFromIOStream(KIOStream *stream);
@@ -81,9 +101,9 @@ extern Bool isDataAvailableFromIOStream(KIOStream *stream);
 #       define irqWakeUpTaskFromIOStream(stream)
 #endif
 
-/** @brief Wait data from an IO Stream object.
+/** @brief Wait data from a stream.
  *
- * @param stream    IO Stream object.
+ * @param stream    i/o stream object.
  */
 #ifndef FIRMWARE_DONT_USE_KERNEL
         extern void waitDataFromIOStream(KIOStream *stream);

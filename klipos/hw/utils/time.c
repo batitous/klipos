@@ -32,7 +32,7 @@
 #       define LOOP_DELAY       4
 #endif
 
-void  waitUs(UInt32  delay)
+void  waitSomeTimeInUs(UInt32  delay)
 {
     volatile  UInt32  i;
 

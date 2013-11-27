@@ -20,31 +20,42 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../../include/libs-klipos.h"
-
-//----------------------------- private functions
+#include "../include/libs-klipos.h"
 
 
-// Manage the input/output interrupt for the KEvent manager
-void keventGpioIrqCallback(UInt32 event, UInt32 edge)
+//----------------------------- private functions & variables
+
+volatile UInt32 counter;
+
+void SysTick_Handler(void)
 {
-    postEventFromIrq(KEVENT_GPIO_MASK | event, edge );
+    counter++;
 }
 
 
 //----------------------------- public functions
 
-void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback)
+void initSystickTimer(UInt32 timeInUs)
 {
-    if ( registerEvent( manager, KEVENT_GPIO_MASK | pin, callback, 0) == False )
+    UInt32 ticks = (KERNEL_CPU_FREQ/1000)*timeInUs -1;
+    
+    counter = 0;
+    
+    if ((ticks - 1) > SysTick_LOAD_RELOAD_Msk)  
     {
         return;
     }
     
-    setGpioIrqCallback(keventGpioIrqCallback);
-        
-    setGpioDirection(pin,GPIO_IN);
-    enableGpioIrq(pin,edge);
-    
+    SysTick->LOAD = ticks - 1;
+    NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);
+    SysTick->VAL = 0;
+    SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |
+                   SysTick_CTRL_TICKINT_Msk   |
+                   SysTick_CTRL_ENABLE_Msk;
+
 }
 
+UInt32 getSystickCounter(void)
+{
+    return counter;
+}

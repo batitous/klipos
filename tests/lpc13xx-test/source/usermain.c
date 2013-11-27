@@ -92,18 +92,18 @@ int usermain(void)
     
 //    SETBIT(LPC_GPIO0->DATA,10);
     
-    enablePwm(&pwm1, True);
+    enablePwm(&pwm1);
     waitUsPrecise(TIMER0,2);
     
 //    CLRBIT(LPC_GPIO0->DATA,10);
 //    SETBIT(LPC_GPIO0->DATA,10);
     
-    enablePwm(&pwm1, False);
+    disablePwm(&pwm1);
     
 //    CLRBIT(LPC_GPIO0->DATA,10);
     
     setPwmDutyCycle(&pwm1,800);
-    enablePwm(&pwm1, True);
+    enablePwm(&pwm1);
 //    SETBIT(LPC_GPIO0->DATA,10);
     
     while(1);

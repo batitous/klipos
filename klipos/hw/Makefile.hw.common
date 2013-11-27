@@ -14,7 +14,7 @@ SOURCE_PATH_KLIP += $(HW_PATH)core/cortex-m3 \
 
 
 # Common source files:
-SOURCE_KLIP += startup.c init.c core_cm3.c time.c exception.c
+SOURCE_KLIP += startup.c init.c core_cm3.c time.c systick.c exception.c
 
 ifeq ($(printf),yes)
     SOURCE_KLIP += printf.c
