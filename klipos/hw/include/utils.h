@@ -68,6 +68,35 @@ extern UInt32 getSystickCounter(void);
 extern UInt32 getSysTickCurrentVal(void);
 
 
+
+
+typedef void (*FsmCall)(void);
+
+typedef struct _fsm_
+{
+    Int32       current;
+    Int32       old;
+    Int32       init;
+    FsmCall     firstcall;
+    FsmCall     call;
+} Fsm;
+
+
+// set the finite state machine to the specific state
+extern void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall first);
+
+// initialize the finite state machine
+extern void initFsm(Fsm* fsm, Int32 state, FsmCall call, FsmCall first);
+
+// run the finite state machine
+extern void updateFsm(Fsm* fsm);
+
+// is the current state egual to this specific state ?
+extern bool isFsmInState(Fsm* fsm, Int32 state);
+
+// is the current state initialized ?
+extern bool isFsmStateInitialized(Fsm* fsm);
+
 #ifdef __cplusplus
  }
 #endif
