@@ -23,7 +23,7 @@ int main(void)
     setPrintfInterface(sendByteToUart0);
 
     initSystickTimer(10000);
-    
+        
     printf("Hello from test !\r\n");
     
     setGpioIrqCallback(irqCallback);

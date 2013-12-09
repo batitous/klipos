@@ -20,47 +20,33 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef LIBS_HW_H
-#define LIBS_HW_H
+#ifndef LIB_HW_EEPROM_H
+#define LIB_HW_EEPROM_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/** /!\ WARNING top 64 bytes of LPC1315's eeprom are reserved !
+ * 
+ * 
+ */
 
-#include "libs-default.h"
+extern Bool writeByteToEeprom(UInt32 addr, UInt8 dat);
 
 
-#include "../../kernel/include/kernel-klipos.h"
+extern Bool writeBufferToEeprom(UInt32 addr, UInt8* buffer, UInt32 size);
 
-#include "drivers/sleep.h"
-#include "drivers/uart.h"
-#include "drivers/gpio.h"
-#include "drivers/gpio-irq.h"
-#include "drivers/analog.h"
-#include "drivers/timer.h"
-#include "drivers/pwm.h"
-#include "drivers/i2c.h"
-#include "drivers/i2c-master.h"
-#include "drivers/i2c-soft.h"
-#include "drivers/iap.h"
-#include "drivers/eeprom.h"    
 
-/*
-#include "drivers/flash.h"
-#include "drivers/flash-sst25.h"
+extern Bool readByteFromEeprom(UInt32 addr, UInt8* dat);
 
-#include "drivers/spi.h"
 
-#include "drivers/power.h"
-#include "drivers/prs-sensor.h"
-#include "drivers/compass.h"
-#include "drivers/accelerometer.h"
-#include "drivers/magnetometer.h"
-#include "drivers/mem-protocol.h"
-#include "drivers/rgbled.h"
-#include "drivers/byc-board.h"
-  */  
+extern Bool readBufferFromEeprom(UInt32 addr, UInt8* buffer, UInt32 size);
+
+
+extern Bool eraseEeprom(void);
+
+
 
 #ifdef __cplusplus
  }
