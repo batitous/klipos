@@ -65,6 +65,7 @@ typedef struct _pwm_device_
 {
     LPC_TMR_TypeDef     *timer;
     PWMOUTPUT           outputs;
+    bool                enable;
 } Pwm;
 
 

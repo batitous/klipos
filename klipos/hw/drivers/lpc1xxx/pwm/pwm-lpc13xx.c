@@ -288,7 +288,7 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
         NVIC_EnableIRQ(TIMER_16_1_IRQn);
     }
     
-    
+    pwm->enable = false;
     pwm->outputs = pwmSelected;
     
     // select output pwm pin 
@@ -338,17 +338,24 @@ void enablePwm(Pwm *pwm)
     // enable timer and clear reset
     CLRBIT(timer->TCR,1);
     SETBIT(timer->TCR,0);
+    
+    pwm->enable = true;
 }
 
 void disablePwm(Pwm *pwm)
 {
     LPC_TMR_TypeDef * timer = pwm->timer;
     
-    // enable interrupt on match 
-    pwm_stopped = 0;
-    SETBIT(timer->MCR,9);
+    if (pwm->enable == true)
+    {
+        // enable interrupt on match 
+        pwm_stopped = 0;
+        SETBIT(timer->MCR,9);
         
-    while(pwm_stopped!=0);
+        while(pwm_stopped!=0);
+        
+        pwm->enable = false;
+    }
 }
 
 void setPwmDutyCycle(Pwm *pwm, UInt32 percentage)
