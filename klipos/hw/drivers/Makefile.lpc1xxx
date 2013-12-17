@@ -13,6 +13,7 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc1xxx/pwm \
                 $(HW_PATH)drivers/lpc1xxx/iap \
                 $(HW_PATH)drivers/lpc1xxx/eeprom \
+                $(HW_PATH)drivers/lpc1xxx/watchdog \
                 $(HW_PATH)drivers/external/compass \
                 $(HW_PATH)drivers/external/accelerometer \
                 $(HW_PATH)drivers/external/magnetometer \
@@ -77,4 +78,8 @@ endif
 
 ifeq ($(eeprom),yes)
     SOURCE_KLIP += eeprom.c iap.c
+endif
+
+ifeq ($(watchdog),yes)
+    SOURCE_KLIP += watchdog-lpc13xx.c
 endif

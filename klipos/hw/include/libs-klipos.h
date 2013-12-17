@@ -44,7 +44,8 @@ extern "C" {
 #include "drivers/i2c-master.h"
 #include "drivers/i2c-soft.h"
 #include "drivers/iap.h"
-#include "drivers/eeprom.h"    
+#include "drivers/eeprom.h"
+#include "drivers/watchdog.h"
 
 /*
 #include "drivers/flash.h"

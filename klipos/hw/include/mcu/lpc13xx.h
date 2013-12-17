@@ -617,7 +617,11 @@ typedef struct
   __IO uint32_t TC;
   __O  uint32_t FEED;
   __I  uint32_t TV;
+#if defined(MCU_IS_LPC1315)
+  __IO uint32_t CLKSEL;
+#else
   uint32_t RESERVED0;
+#endif
 __IO uint32_t WARNINT;				/*!< Offset: 0x014 Watchdog timer warning int. register (R/W) */
 __IO uint32_t WINDOW;				/*!< Offset: 0x018 Watchdog timer window value register (R/W) */
 
