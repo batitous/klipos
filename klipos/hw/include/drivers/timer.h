@@ -28,13 +28,20 @@ extern "C" {
 #endif
 
 
-typedef enum _timer_
+typedef enum _timer_enum_
 {
     TIMER0 = 0,
     TIMER1 = 1,
     TIMER2 = 2,
     TIMER3 = 3
 } TIMER;
+
+
+typedef struct _timer_
+{
+    LPC_TMR_TypeDef*    t;
+    bool                enable;
+} Timer;
 
 typedef void (*TimerIrqCallback)(void);
 
@@ -45,25 +52,25 @@ extern void setTimer1Callback(TimerIrqCallback c);
  * 
  * By default, the timer is disable, you have to enable manually the timer with enableTimer32
  * 
+ * @param timer
  * @param timerSelected         Timer
  * @param waitInUs              Time in microseconds
  * @return False if error
  */
-extern Bool initTimer32(TIMER timerSelected, UInt32 waitInUs);
+extern Bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs);
 
 /** Set the time of the specified timer
  * 
- * @param timerSelected
+ * @param timer
  * @param waitInUs              New time in microseconds
  */
-extern void setTimer32(TIMER timerSelected, UInt32 waitInUs);
+extern void setTimer32(Timer* timer, UInt32 waitInUs);
 
 /** Enable or disable a timer
  * 
- * @param timerSelected         Timer
- * @param enable                True to enable a timer, False to disable a timer
+ * @param timer
  */
-extern void enableTimer32(TIMER timerSelected, Bool enable);
+extern void enableTimer32(Timer* timer);
 
 
 /** Wait some time
