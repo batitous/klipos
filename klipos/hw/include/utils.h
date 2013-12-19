@@ -82,10 +82,12 @@ typedef struct _fsm_
 } Fsm;
 
 
-// set the finite state machine to the specific state
+// set the finite state machine to the specific state : 
+// use this function when you are inside a state of this fsm
 extern void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall first);
 
-// initialize the finite state machine
+// initialize the finite state machine :
+// use this functions when you are outside this fsm
 extern void initFsm(Fsm* fsm, Int32 state, FsmCall call, FsmCall first);
 
 // run the finite state machine

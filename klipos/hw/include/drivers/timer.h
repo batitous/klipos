@@ -40,7 +40,6 @@ typedef enum _timer_enum_
 typedef struct _timer_
 {
     LPC_TMR_TypeDef*    t;
-    bool                enable;
 } Timer;
 
 typedef void (*TimerIrqCallback)(void);
@@ -66,12 +65,17 @@ extern Bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs);
  */
 extern void setTimer32(Timer* timer, UInt32 waitInUs);
 
-/** Enable or disable a timer
+/** Enable the timer
  * 
  * @param timer
  */
 extern void enableTimer32(Timer* timer);
 
+/** Disable the timer
+ * 
+ * @param timer
+ */
+extern void disableTimer32(Timer* timer);
 
 /** Wait some time
  * 

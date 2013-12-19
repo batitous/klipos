@@ -89,7 +89,6 @@ Bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs)
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,10);
     }
     
-    timer->enable = false;
     timer->t = t;
     
     t->MR0 = GET_TICK_FROM_US(waitInUs);
@@ -127,20 +126,12 @@ void setTimer32(Timer* timer, UInt32 waitInUs)
 
 void enableTimer32(Timer* timer)
 {
-    if (timer->enable==false)
-    {
-        timer->enable = true;
-        SETBIT(timer->t->TCR,0);
-    }
+    SETBIT(timer->t->TCR,0);
 }
 
 void disableTimer32(Timer* timer)
 {
-    if (timer->enable==true)
-    {
-        timer->enable = false;
-        CLRBIT(timer->t->TCR,0);
-    }
+    CLRBIT(timer->t->TCR,0);
 }
 
 void setTimer0Callback(TimerIrqCallback c)
