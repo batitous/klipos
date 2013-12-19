@@ -81,5 +81,14 @@ ifeq ($(eeprom),yes)
 endif
 
 ifeq ($(watchdog),yes)
-    SOURCE_KLIP += watchdog-lpc13xx.c
+    ifeq ($(core),lpc13xx)
+        SOURCE_KLIP += watchdog-lpc13xx.c
+     endif
 endif
+
+ifeq ($(spi),yes)
+    ifeq ($(core),lpc13xx)
+        SOURCE_KLIP += spi-lpc13xx.c
+    endif
+endif
+

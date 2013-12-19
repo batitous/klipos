@@ -20,51 +20,26 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef LIBS_HW_H
-#define LIBS_HW_H
+#ifndef LIB_HW_SPI_H
+#define LIB_HW_SPI_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+extern void initSpi(void);
 
-#include "libs-default.h"
+extern UInt8 sendByteToSpi(UInt8 outgoing);
 
+extern void sendBufferToSpi(UInt8 *buffer, UInt32 size);
 
-#include "../../kernel/include/kernel-klipos.h"
+extern UInt8 getByteFromSpi(void);
 
-#include "drivers/sleep.h"
-#include "drivers/uart.h"
-#include "drivers/gpio.h"
-#include "drivers/gpio-irq.h"
-#include "drivers/analog.h"
-#include "drivers/timer.h"
-#include "drivers/pwm.h"
-#include "drivers/i2c.h"
-#include "drivers/i2c-master.h"
-#include "drivers/i2c-soft.h"
-#include "drivers/iap.h"
-#include "drivers/eeprom.h"
-#include "drivers/watchdog.h"
-#include "drivers/spi.h"
-    
-/*
-#include "drivers/flash.h"
-#include "drivers/flash-sst25.h"
+extern void getBufferFromSpi(UInt8 *buffer, UInt32 size);
 
-
-#include "drivers/power.h"
-#include "drivers/prs-sensor.h"
-#include "drivers/compass.h"
-#include "drivers/accelerometer.h"
-#include "drivers/magnetometer.h"
-#include "drivers/mem-protocol.h"
-#include "drivers/rgbled.h"
-#include "drivers/byc-board.h"
-  */  
 
 #ifdef __cplusplus
- }
+}
 #endif
 
 #endif
