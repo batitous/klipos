@@ -38,6 +38,7 @@
 #       define GPIOGET         gpio->PIN[portNumber]
 #       define GPIOSET         SETBIT(gpio->SET[portNumber],thepin);
 #       define GPIOCLR         SETBIT(gpio->CLR[portNumber],thepin);
+#       define GPIOTOGGLE      SETBIT(gpio->NOT[portNumber],thepin);
 
 UInt32 getGpioPortNumber(GPIO_PIN pin)
 {
@@ -260,3 +261,19 @@ UInt32 getGpioValue(GPIO_PIN pin)
     
     return (GPIOGET >> thepin) & 0x1;
 }
+
+#ifdef MCU_IS_LPC1315
+
+void toggleGpio(GPIO_PIN pin)
+{
+    LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
+
+    UInt32 portNumber = getGpioPortNumber(pin);
+
+    
+    UInt32 thepin = pin & 0xFFFF;
+    
+    GPIOTOGGLE
+}
+
+#endif

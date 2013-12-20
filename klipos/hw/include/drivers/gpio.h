@@ -92,6 +92,13 @@ extern void setGpioValue(GPIO_PIN pin, UInt32 bit);
  */
 extern UInt32 getGpioValue(GPIO_PIN pin);
  
+#ifdef MCU_IS_LPC1315
+/** @brief Toggle a GPIO pin
+ *
+ * @param pin   The pin to toggle
+ */
+extern void toggleGpio(GPIO_PIN pin);
+#endif
 
 #ifdef __cplusplus
  }
