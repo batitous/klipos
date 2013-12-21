@@ -20,35 +20,27 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef LIBS_HW_DEFAULT_H
-#define LIBS_HW_DEFAULT_H
+#ifndef LIB_HW_UART_H
+#define LIB_HW_UART_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "types.h"
-#include "core/bit-band.h"
     
-#ifdef MCU_IS_LPC17XX
-#include "mcu/lpc17xx.h"
-#endif
-    
-#ifdef MCU_IS_LPC13XX
-#include "mcu/lpc13xx.h"
-#endif
-    
-#ifdef MCU_IS_LPC8XX
-#include "mcu/lpc8xx.h"
-#endif
-    
-#include "libc.h"
-#include "math.h"
-#include "utils.h"
-#include "drivers/sleep.h"
+
+extern void initUart0(void);
+
+
+extern void sendByteToUart0(UInt8 byte);
+extern void sendBufferToUart0(UInt8 * Buffer,UInt32 Count);
+
+
+
+
 
 #ifdef __cplusplus
- }
+}
 #endif
 
 #endif

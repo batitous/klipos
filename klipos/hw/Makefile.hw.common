@@ -5,8 +5,7 @@ HEADER_KLIP +=-I$(HW_PATH)include/ \
             -I$(HW_PATH)include/mcu
 
 # Source path of common library:
-SOURCE_PATH_KLIP += $(HW_PATH)core/cortex-m3 \
-                    $(HW_PATH)exceptions \
+SOURCE_PATH_KLIP += $(HW_PATH)exceptions \
                     $(HW_PATH)mcu \
                     $(HW_PATH)utils \
                     $(HW_PATH)libc \
@@ -14,7 +13,7 @@ SOURCE_PATH_KLIP += $(HW_PATH)core/cortex-m3 \
 
 
 # Common source files:
-SOURCE_KLIP += startup.c init.c core_cm3.c time.c 
+SOURCE_KLIP += startup.c init.c 
 
 ifeq ($(exception),no)
 
