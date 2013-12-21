@@ -55,8 +55,14 @@ WEAK void IntDefaultHandler(void);
 //
 //*****************************************************************************
 
-#include "lpc13xx/isr-vector.h"
+#ifdef MCU_IS_LPC13XX
+#       include "lpc13xx/isr-vector.h"
+#endif
 
+
+#ifdef MCU_IS_LPC8XX
+#       include "lpc8xx/isr-vector.h"
+#endif
 
 //*****************************************************************************
 //
@@ -69,32 +75,18 @@ extern void (* const g_pfnVectors[])(void);
 __attribute__ ((section(".isr_vector")))
 void (* const g_pfnVectors[])(void) = {
 
-    // Core Level - CM3
-    
-    _pStackTop,                  /* Top of Stack                 */
-    Reset_Handler,               /* Reset Handler                */
-    NMI_Handler,                 /* NMI Handler                  */
-    HardFault_Handler,           /* Hard Fault Handler           */
-    MemManage_Handler,           /* MPU Fault Handler            */
-    BusFault_Handler,            /* Bus Fault Handler            */
-    UsageFault_Handler,          /* Usage Fault Handler          */
-    0,                           /* Checksum, see LPC1xxx manual */
-    0,                           /* Reserved                     */
-    0,                           /* Reserved                     */
-    0,                           /* Reserved                     */
-    SVC_Handler,                 /* SVCall Handler               */
-    DebugMon_Handler,            /* Debug Monitor Handler        */
-    0,                           /* Reserved                     */
-    PendSV_Handler,              /* PendSV Handler               */
-    SysTick_Handler,             /* SysTick Handler              */
-    
-    // Chip Level 
+
+#ifdef MCU_IS_LPC8XX
+#       include "lpc8xx/isr-vector-lpc8xx.c"
+#endif    
     
 #ifdef MCU_IS_LPC1311
+#       include "isr-vector-cm3.c"
 #       include "lpc13xx/isr-vector-lpc1311.c"
 #endif
     
 #ifdef MCU_IS_LPC1315
+#       include "isr-vector-cm3.c"
 #       include "lpc13xx/isr-vector-lpc1315.c"
 #endif
             

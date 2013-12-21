@@ -36,6 +36,17 @@ ifeq ($(mcu),lpc1347)
 endif
 
 
+#==== Use the LPC8xx MCU ====#
+ifeq ($(mcu),lpc8xx)
+    core = lpc8xx
+
+    DEFINE += -DMCU_IS_LPC8XX
+    DEFINE += -DKERNEL_CPU_FREQ=30000
+
+    HW_MAKE = $(KLIPOS_PATH)klipos/hw/Makefile.hw.lpc8xx
+endif
+
+
 #==== Use the LPC1311/13/42/43 MCU ====#
 ifeq ($(mcu),lpc1311)
     core = lpc13xx

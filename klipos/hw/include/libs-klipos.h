@@ -30,38 +30,30 @@ extern "C" {
 
 #include "libs-default.h"
 
-
+    
 #include "../../kernel/include/kernel-klipos.h"
 
 #include "drivers/sleep.h"
-#include "drivers/uart.h"
+
+#if !defined(MCU_IS_LPC8XX)
+#       include "drivers/uart.h"
+#       include "drivers/timer.h"
+#       include "drivers/pwm.h"
+#       include "drivers/i2c-soft.h"
+#else
+#       include "drivers/lpc8xx/uart.h"
+#endif 
+    
 #include "drivers/gpio.h"
 #include "drivers/gpio-irq.h"
 #include "drivers/analog.h"
-#include "drivers/timer.h"
-#include "drivers/pwm.h"
 #include "drivers/i2c.h"
 #include "drivers/i2c-master.h"
-#include "drivers/i2c-soft.h"
 #include "drivers/iap.h"
 #include "drivers/eeprom.h"
 #include "drivers/watchdog.h"
 #include "drivers/spi.h"
     
-/*
-#include "drivers/flash.h"
-#include "drivers/flash-sst25.h"
-
-
-#include "drivers/power.h"
-#include "drivers/prs-sensor.h"
-#include "drivers/compass.h"
-#include "drivers/accelerometer.h"
-#include "drivers/magnetometer.h"
-#include "drivers/mem-protocol.h"
-#include "drivers/rgbled.h"
-#include "drivers/byc-board.h"
-  */  
 
 #ifdef __cplusplus
  }

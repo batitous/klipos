@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="84">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df name="klipos" root="../../klipos">
+      <df name="hw">
+        <df name="core">
+          <df name="cortex-m0plus">
+          </df>
+          <df name="cortex-m3">
+            <in>core_cm3.c</in>
+          </df>
+        </df>
+        <df name="drivers">
+          <df name="external">
+          </df>
+          <df name="lpc1xxx">
+            <df name="analog">
+              <in>analog-lpc13xx.c</in>
+              <in>analog.c</in>
+            </df>
+            <df name="eeprom">
+              <in>eeprom.c</in>
+            </df>
+            <df name="gpio">
+              <in>gpio-irq-lpc1311.c</in>
+              <in>gpio-irq-lpc1315.c</in>
+              <in>gpio-irq.c</in>
+              <in>gpio.c</in>
+            </df>
+            <df name="i2c">
+              <in>i2c-master-common.h</in>
+              <in>i2c-master-lpc13xx.c</in>
+              <in>i2c-master-soft.c</in>
+              <in>i2c0-master.c</in>
+            </df>
+            <df name="iap">
+              <in>iap.c</in>
+            </df>
+            <df name="pwm">
+              <in>pwm-lpc13xx.c</in>
+            </df>
+            <df name="sleep">
+              <in>sleep-lpc13xx.c</in>
+              <in>sleep-lpc17xx.c</in>
+              <in>wakeup-lpc13xx.c</in>
+            </df>
+            <df name="spi">
+              <in>spi-lpc13xx.c</in>
+              <in>spi-lpc17xx.c</in>
+            </df>
+            <df name="timer">
+              <in>timer32-lpc13xx.c</in>
+            </df>
+            <df name="uart">
+              <in>uart0.c</in>
+            </df>
+            <df name="watchdog">
+              <in>watchdog-lpc13xx.c</in>
+            </df>
+          </df>
+          <df name="lpc8xx">
+            <in>gpio.c</in>
+            <in>uart.c</in>
+          </df>
+        </df>
+        <df name="exceptions">
+          <in>exception-dump.c</in>
+          <in>exception-dumplite.c</in>
+          <in>exception.c</in>
+        </df>
+        <df name="include">
+          <df name="core">
+            <in>bit-band.h</in>
+            <in>core_cm0plus.h</in>
+            <in>core_cm3.h</in>
+            <in>core_cmFunc.h</in>
+            <in>core_cmInstr.h</in>
+          </df>
+          <df name="drivers">
+            <df name="lpc8xx">
+              <in>uart.h</in>
+            </df>
+            <in>analog.h</in>
+            <in>eeprom.h</in>
+            <in>gpio-irq.h</in>
+            <in>gpio-pins.h</in>
+            <in>gpio.h</in>
+            <in>i2c-master.h</in>
+            <in>i2c-soft.h</in>
+            <in>i2c.h</in>
+            <in>iap.h</in>
+            <in>pwm.h</in>
+            <in>sleep.h</in>
+            <in>spi.h</in>
+            <in>timer.h</in>
+            <in>uart.h</in>
+            <in>watchdog.h</in>
+          </df>
+          <df name="mcu">
+            <in>lpc13xx.h</in>
+            <in>lpc17xx.h</in>
+            <in>lpc8xx.h</in>
+          </df>
+          <in>libc.h</in>
+          <in>libs-default.h</in>
+          <in>libs-klipos.h</in>
+          <in>math.h</in>
+          <in>types.h</in>
+          <in>utils.h</in>
+        </df>
+        <df name="libc">
+          <in>printf.c</in>
+        </df>
+        <df name="maths">
+        </df>
+        <df name="mcu">
+          <df name="lpc13xx">
+            <in>init.c</in>
+            <in>isr-vector-lpc1311.c</in>
+            <in>isr-vector-lpc1315.c</in>
+            <in>isr-vector.h</in>
+          </df>
+          <df name="lpc17xx">
+            <in>init.c</in>
+            <in>startup.S</in>
+          </df>
+          <df name="lpc8xx">
+            <in>init.c</in>
+            <in>isr-vector-lpc8xx.c</in>
+            <in>isr-vector.h</in>
+            <in>system_LPC8xx.h</in>
+          </df>
+          <in>isr-vector-cm3.c</in>
+          <in>startup.c</in>
+        </df>
+        <df name="utils">
+          <in>fsm.c</in>
+          <in>systick.c</in>
+          <in>time.c</in>
+        </df>
+      </df>
+      <df name="kernel">
+        <df name="include">
+          <in>kchannel.h</in>
+          <in>kernel-klipos.h</in>
+          <in>kernel-private.h</in>
+          <in>kernel.h</in>
+          <in>kevent.h</in>
+          <in>kiostream.h</in>
+          <in>klist.h</in>
+          <in>klock.h</in>
+          <in>kmemory.h</in>
+          <in>kmemorystack.h</in>
+          <in>kthread.h</in>
+          <in>ktimer.h</in>
+        </df>
+        <df name="source">
+          <in>debug.c</in>
+          <in>kchannel.c</in>
+          <in>kernel.c</in>
+          <in>kevent.c</in>
+          <in>kiostream.c</in>
+          <in>klist.c</in>
+          <in>klock.c</in>
+          <in>kmain.c</in>
+          <in>kmemory.c</in>
+          <in>kmemorystack.c</in>
+          <in>ktimer.c</in>
+          <in>slist.c</in>
+        </df>
+      </df>
+    </df>
+    <df name="lpc8xx-test" root=".">
+      <df name="build">
+      </df>
+      <df name="include">
+      </df>
+      <df name="source">
+        <in>main.c</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile.options</itemPath>
+      <itemPath>Makefile.toolchainconfig</itemPath>
+      <itemPath>include</itemPath>
+      <itemPath>source</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+    <Elem>../../klipos</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>build/firmware.elf</executablePath>
+          <cTool>
+            <incDir>
+              <pElem>.</pElem>
+            </incDir>
+          </cTool>
+        </makeTool>
+      </makefileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

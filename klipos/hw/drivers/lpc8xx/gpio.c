@@ -20,35 +20,50 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#ifndef LIBS_HW_DEFAULT_H
-#define LIBS_HW_DEFAULT_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "../../include/libs-klipos.h"
 
-#include "types.h"
-#include "core/bit-band.h"
-    
-#ifdef MCU_IS_LPC17XX
-#include "mcu/lpc17xx.h"
-#endif
-    
-#ifdef MCU_IS_LPC13XX
-#include "mcu/lpc13xx.h"
-#endif
-    
-#ifdef MCU_IS_LPC8XX
-#include "mcu/lpc8xx.h"
-#endif
-    
-#include "libc.h"
-#include "math.h"
-#include "utils.h"
-#include "drivers/sleep.h"
 
-#ifdef __cplusplus
- }
-#endif
+void initGpio(void)
+{
+    /* Enable AHB clock to the GPIO domain. */
+    LPC_SYSCON->SYSAHBCLKCTRL |=  (1 << 6);
+    LPC_SYSCON->PRESETCTRL    &= ~(1 << 10);
+    LPC_SYSCON->PRESETCTRL    |=  (1 << 10);
+}
 
-#endif
+void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
+{
+    if (dir==GPIO_IN)
+    {
+        CLRBIT(LPC_GPIO_PORT->DIR0, pin);
+    }
+    else
+    {
+        SETBIT(LPC_GPIO_PORT->DIR0, pin);
+        
+    }
+}
+
+UInt32 getGpioValue(GPIO_PIN pin)
+{
+   return (LPC_GPIO_PORT->PIN0 >> pin) & 0x1;
+}
+
+void setGpioValue(GPIO_PIN pin, UInt32 bit)
+{
+    if (bit==0)
+    {
+        LPC_GPIO_PORT->CLR0 = BIT(pin);
+    }
+    else
+    {
+        LPC_GPIO_PORT->SET0 = BIT(pin);
+    }
+}
+
+void toggleGpio(GPIO_PIN pin)
+{
+    LPC_GPIO_PORT->NOT0 = BIT(pin);
+}
+
