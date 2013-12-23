@@ -83,14 +83,14 @@ void sendBufferToSpi(UInt8 * buffer, UInt32 length)
     UInt32 i;
     for(i=0; i<length; i++)
     {
-        sendByteToSPI(buffer[i]);
+        sendByteToSpi(buffer[i]);
     }
 }
 
 
 UInt8 getByteFromSpi(void)
 {
-    return sendByteToSPI(0x00);
+    return sendByteToSpi(0x00);
 }
 
 void getBufferFromSpi(UInt8 * buffer, UInt32 size)
@@ -98,6 +98,6 @@ void getBufferFromSpi(UInt8 * buffer, UInt32 size)
     UInt32 i;
     for (i=0; i<size; i++)
     {
-        buffer[i] = getByteFromSPI();
+        buffer[i] = getByteFromSpi();
     }
 }
