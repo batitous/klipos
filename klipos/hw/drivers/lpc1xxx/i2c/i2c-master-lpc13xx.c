@@ -55,11 +55,11 @@ const I2cMaster * initI2c0(I2C_SPEED speed)
     switch(speed)
     {
     case I2C_400_KHZ:
-            reg = 125;
+            reg = 180;
             break;
     case I2C_100_KHZ:
     default:
-            reg = 500;
+            reg = 360;
             break;
     }
     
