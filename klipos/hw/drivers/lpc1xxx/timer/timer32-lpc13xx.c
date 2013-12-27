@@ -58,7 +58,7 @@ void TIMER_32_1_IRQn_Handler(void)
 
 //----------------------------- public functions
 
-Bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs)
+bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs)
 {
     LPC_TMR_TypeDef * t;
     
@@ -132,6 +132,16 @@ void enableTimer32(Timer* timer)
 void disableTimer32(Timer* timer)
 {
     CLRBIT(timer->t->TCR,0);
+}
+
+bool isTimer32Enable(Timer* timer)
+{
+    if ((timer->t->TCR & 0x1) != 0)
+    {
+        return true;
+    }
+    
+    return false;
 }
 
 void setTimer0Callback(TimerIrqCallback c)

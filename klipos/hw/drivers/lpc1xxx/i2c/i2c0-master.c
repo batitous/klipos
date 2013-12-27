@@ -76,7 +76,7 @@ UInt32 i2c0_start(void)
     UInt8 status;
 
     //start
-    I2C_I2CONSET |= 0x20;
+    I2C_I2CONSET = 0x20;
 
     while(1)
     {
