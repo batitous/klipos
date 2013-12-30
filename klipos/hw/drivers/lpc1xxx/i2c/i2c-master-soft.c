@@ -81,7 +81,7 @@ void i2c_soft_start(void)
 {
     SDA(0);
     SCL0();
-    waitUs(1);
+    waitSomeTimeInUs(1);
 }
 
 void i2c_soft_send_bit(UInt8 bit)
@@ -93,12 +93,12 @@ void i2c_soft_send_bit(UInt8 bit)
     // then SCL = 0
 
     SDA((bit&0x1));
-    waitUs(1);
+    waitSomeTimeInUs(1);
     SCL1();
-    waitUs(2);
+    waitSomeTimeInUs(2);
     
     SCL0();
-    waitUs(1);
+    waitSomeTimeInUs(1);
 }
 
 static UInt8 i2c_soft_receive_bit(void)
@@ -112,17 +112,17 @@ static UInt8 i2c_soft_receive_bit(void)
     UInt8 bit;
     
     SDA(1);
-    waitUs(1);
+    waitSomeTimeInUs(1);
     
     SCL1();
-    waitUs(1);
+    waitSomeTimeInUs(1);
     while( GET_SCL() == 0);
     
     bit = GET_SDA();
     
     SCL0();
     SDA_OUTPUT();
-    waitUs(1);
+    waitSomeTimeInUs(1);
     
     return bit;
 }
@@ -131,9 +131,9 @@ static UInt8 i2c_soft_receive_bit(void)
  void i2c_soft_stop(void)
 {
     SCL1();
-    waitUs(2);
+    waitSomeTimeInUs(2);
     SDA(1);
-    waitUs(1);
+    waitSomeTimeInUs(1);
 }
 
  UInt8 i2c_soft_send_byte(UInt8 byte)

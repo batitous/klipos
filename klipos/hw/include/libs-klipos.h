@@ -34,7 +34,8 @@ extern "C" {
 #include "../../kernel/include/kernel-klipos.h"
 
 #include "drivers/sleep.h"
-
+#include "drivers/i2c.h"
+    
 #if !defined(MCU_IS_LPC8XX)
 #       include "drivers/uart.h"
 #       include "drivers/timer.h"
@@ -47,7 +48,6 @@ extern "C" {
 #include "drivers/gpio.h"
 #include "drivers/gpio-irq.h"
 #include "drivers/analog.h"
-#include "drivers/i2c.h"
 #include "drivers/i2c-master.h"
 #include "drivers/iap.h"
 #include "drivers/eeprom.h"

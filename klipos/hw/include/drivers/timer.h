@@ -56,7 +56,7 @@ extern void setTimer1Callback(TimerIrqCallback c);
  * @param waitInUs              Time in microseconds
  * @return False if error
  */
-extern Bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs);
+extern bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs);
 
 /** Set the time of the specified timer
  * 
@@ -77,8 +77,16 @@ extern void enableTimer32(Timer* timer);
  */
 extern void disableTimer32(Timer* timer);
 
+/** Is the timer enable ?
+ * 
+ * @param timer
+ * @return True if timer enable
+ */
+extern bool isTimer32Enable(Timer* timer);
+
 /** Wait some time
  * 
+ * @param timerSelected
  * @param waitInUs      Time in microseconds
  */
 extern void waitUsPrecise(TIMER timerSelected, UInt32 waitInUs);

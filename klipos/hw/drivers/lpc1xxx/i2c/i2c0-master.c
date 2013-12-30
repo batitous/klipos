@@ -32,8 +32,8 @@ UInt32 private_i2c0_getStat(void)
     UInt32 cnt = I2C_CNT;
     while( (I2C_I2CONSET & 0x08) == 0)
     {
-        cnt--;
-        waitUs(1);
+       cnt--;
+       waitSomeTimeInUs(1);
        if(cnt==0)
        {
            return I2C_TIMEOUT;
@@ -52,7 +52,7 @@ UInt32 private_i2c0_send(UInt8 data)
     while( i2c0_write(data) == I2C_BUSY)
     {
         cnt--;
-        waitUs(1);
+        waitSomeTimeInUs(1);
         if(cnt==0)
         {
             return I2C_TIMEOUT;
@@ -76,12 +76,12 @@ UInt32 i2c0_start(void)
     UInt8 status;
 
     //start
-    I2C_I2CONSET |= 0x20;
+    I2C_I2CONSET = 0x20;
 
     while(1)
     {
         GET_I2C_STATUS();
-
+        
         //start transmitted
         if((status == 0x08) || (status == 0x10))
         {
@@ -120,7 +120,7 @@ void i2c0_stop(void)
     while((I2C_I2CONSET & 0x10) == 0x10)
     {
         cnt--;
-        waitUs(1);
+        waitSomeTimeInUs(1);
         if(cnt==0)
         {
             return;
@@ -181,7 +181,7 @@ void i2c0_write_wait(UInt8 data)
     while( i2c0_write(data) == I2C_BUSY)
     {
         cnt--;
-         waitUs(1);
+        waitSomeTimeInUs(1);
         if(cnt==0)
         {
             //DebugPrintf("i2c0_write_wait timeout\r\n");

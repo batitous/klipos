@@ -36,16 +36,17 @@ const I2cMaster * initI2c0(I2C_SPEED speed)
 {
     UInt32 reg;
     
+    // de-assert reset signal for i2c block
+    SETBIT(LPC_SYSCON->PRESETCTRL,1);
+    
+    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,5);
+    
     // set pinout as scl and sda 
     SETBIT(LPC_IOCON->PIO0_4,0);
     SETBIT(LPC_IOCON->PIO0_5,0);
-            
-    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,5);
     
-    // de-assert reset signal for i2c block
-    SETBIT(LPC_SYSCON->PRESETCTRL,1);
 
-    I2C_I2CONCLR = 0xFF;
+    I2C_I2CONCLR = 0x6C;
 
     // how to compute i2c clock bus :
     // i2c frequency = PCLKI2C / (I2C_SCLL + I2C_SCLH)
@@ -55,11 +56,11 @@ const I2cMaster * initI2c0(I2C_SPEED speed)
     switch(speed)
     {
     case I2C_400_KHZ:
-            reg = 125;
+            reg = 180;
             break;
     case I2C_100_KHZ:
     default:
-            reg = 500;
+            reg = 360;
             break;
     }
     

@@ -60,8 +60,6 @@ void initWatchdog(UInt32 timeInMs)
 
     Int32 t = (timeInMs * 256) / HZ_TO_MS(WATCHDOG_FREQ);
     
-    printf("t %d ms %d\n", t, HZ_TO_MS(WATCHDOG_FREQ));
-    
     if ( t < 0xFF)
     {
         t = 0xFF;
