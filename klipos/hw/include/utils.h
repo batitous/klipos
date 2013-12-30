@@ -27,7 +27,10 @@
 extern "C" {
 #endif
 
+#include "util-fsm.h"
+#include "util-time.h"
 
+    
 // set value at specified position
 #define BITS(position,value) 	((value)<<(position))
 
@@ -44,60 +47,8 @@ extern "C" {
 #define CLRBITS(reg,mask)     reg &= ~(mask)
     
     
-// get tick from time in microseconds
-#define GET_TICK_FROM_US(timeInUs) ((KERNEL_CPU_FREQ/1000)*(timeInUs) -1)
-    
-// get time in microseconds from ticks
-#define GET_US_FROM_TICK(ticks)    (((ticks+1)*1000) / KERNEL_CPU_FREQ)
 
     
-// software delay : this functions don't use any timer or kernel code
-// DONT USE THIS FUNCTION FOR PRECISE DELAY !
-extern void  waitSomeTimeInUs(UInt32  delay);
-
-
-// initialize the systick timer to fire up an interrupt at timeInUs
-// DONT USE THIS FUNCTION WITH KERNEL ENABLE !
-extern void initSystickTimer(UInt32 timeInUs);
-
-// get the number of interrupt fired up by the systick timer
-extern UInt32 getSystickCounter(void);
-
-// get the current microsecond value of the systick timer
-// this value is between [0 - time initialized in initSystickTimer].
-extern UInt32 getSysTickCurrentVal(void);
-
-
-
-
-typedef void (*FsmCall)(void);
-
-typedef struct _fsm_
-{
-    Int32       current;
-    Int32       old;
-    Int32       init;
-    FsmCall     firstcall;
-    FsmCall     call;
-} Fsm;
-
-
-// set the finite state machine to the specific state : 
-// use this function when you are inside a state of this fsm
-extern void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall first);
-
-// initialize the finite state machine :
-// use this functions when you are outside this fsm
-extern void initFsm(Fsm* fsm, Int32 state, FsmCall call, FsmCall first);
-
-// run the finite state machine
-extern void updateFsm(Fsm* fsm);
-
-// is the current state egual to this specific state ?
-extern bool isFsmInState(Fsm* fsm, Int32 state);
-
-// is the current state initialized ?
-extern bool isFsmStateInitialized(Fsm* fsm);
 
 #ifdef __cplusplus
  }

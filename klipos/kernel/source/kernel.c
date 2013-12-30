@@ -487,13 +487,13 @@ void startKernel(void)
     
     // call the software interrupt 1
     __asm __volatile__ (
-        "svc 1" /* cette putin d'instruction ne prend que des constantes en param√©tres */
+        "svc 1" /* cette putin d'instruction ne prend que des constantes en paramétres */
     );
 
     // when kernel start, we never reach this line !
-	while(1)
-	{
-	}
+    while(1)
+    {
+    }
 }
 
 void setTaskAsReady(KThread * thread)
