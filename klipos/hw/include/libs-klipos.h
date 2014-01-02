@@ -53,8 +53,9 @@ extern "C" {
 #include "drivers/eeprom.h"
 #include "drivers/watchdog.h"
 #include "drivers/spi.h"
-    
+#include "drivers/mem-protocol.h"
 
+    
 #ifdef __cplusplus
  }
 #endif

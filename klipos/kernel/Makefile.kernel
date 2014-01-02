@@ -11,6 +11,8 @@ else
     # Default kernel source :
     SRC_KERNEL += kernel.c kiostream.c klist.c ktimer.c kmain.c kchannel.c
 
+    klock = yes
+
     # If event set to yes, then include the event manager :
     ifeq ($(kernelevent),yes)
         SRC_KERNEL += slist.c kevent.c
