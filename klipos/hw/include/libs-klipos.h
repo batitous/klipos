@@ -50,6 +50,7 @@ extern "C" {
 #include "drivers/analog.h"
 #include "drivers/i2c-master.h"
 #include "drivers/iap.h"
+#include "drivers/flash.h"
 #include "drivers/eeprom.h"
 #include "drivers/watchdog.h"
 #include "drivers/spi.h"

@@ -12,6 +12,7 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc1xxx/timer \
                 $(HW_PATH)drivers/lpc1xxx/pwm \
                 $(HW_PATH)drivers/lpc1xxx/iap \
+                $(HW_PATH)drivers/lpc1xxx/flash \
                 $(HW_PATH)drivers/lpc1xxx/eeprom \
                 $(HW_PATH)drivers/lpc1xxx/watchdog \
                 $(HW_PATH)drivers/external/compass \
@@ -74,6 +75,10 @@ ifeq ($(timer),yes)
     ifeq ($(core),lpc13xx)
         SOURCE_KLIP += timer32-lpc13xx.c
     endif
+endif
+
+ifeq ($(flash),yes)
+    SOURCE_KLIP += flash.c iap.c
 endif
 
 ifeq ($(eeprom),yes)
