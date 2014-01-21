@@ -44,8 +44,11 @@ void initSpi(void)
     SETBIT(LPC_IOCON->PIO0_8,0);
     
     // SCK GPIO1_29
+#ifdef MCU_IS_LPC1315
     SETBIT(LPC_IOCON->PIO1_29,0);
-    
+#else
+    SETBIT(LPC_IOCON->PIO2_11,0);
+#endif
     
     LPC_SYSCON->SSP0CLKDIV = 1;
     

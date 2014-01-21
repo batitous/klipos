@@ -20,66 +20,42 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../include/libs-klipos.h"
+#ifndef LIB_HW_FLASH_H
+#define LIB_HW_FLASH_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
-void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall init)
-{
-    printf("setFsm: new %x old %x\r\n", newstate, fsm->current);
-    
-    fsm->current = newstate;
-    fsm->call = call;
-    fsm->initcall = init;
-}
 
-void initFsm(Fsm* fsm, Int32 state, FsmCall call, FsmCall init)
-{
-    setFsm(fsm, state, call, init);
-    
-    fsm->init = 1;
-    fsm->old = fsm->current;
-}
+/** Prepare a sector to be writable or erasable 
+ * 
+ * @param start_sector          Sector start number
+ * @param end_sector            Sector end number
+ * @return  False if error
+ */
+extern Bool iapPrepareSector(UInt32 start_sector,UInt32 end_sector);
 
-void updateFsm(Fsm* fsm)
-{
-    if (fsm->init == 1) 
-    {
-        if (fsm->initcall != 0)
-        {
-            fsm->initcall();
-        }
-        
-        fsm->init = 0;
-    }
-    
-    if (fsm->call != 0)
-    {
-        fsm->call();
-    }
-    
-    if (fsm->current != fsm->old)
-    {
-        fsm->init = 1;
-        fsm->old = fsm->current;
-    }
-}
+/** Write data to the specified address in flash memory.
+ * 
+ * @param flash_address         Memory's address where write the buffer
+ * @param buffer                Data's
+ * @param count                 Number of bytes to be written
+ * @return False if error
+ */
+extern Bool iapWriteBuffer(UInt32 flash_address, UInt32 * buffer, UInt32 count);
 
-bool isFsmInState(Fsm* fsm, Int32 state)
-{
-    if (fsm->current == state)
-    {
-        return true;
-    }
-    
-    return false;
-}
+/** Erase a (or multiple) sector of flash memory
+ * 
+ * @param start_sector          Sector start number 
+ * @param end_sector            Sector end number
+ * @return False if error
+ */
+extern Bool iapEraseSector(UInt32 start_sector,UInt32 end_sector);
 
-bool isFsmStateInitialized(Fsm* fsm)
-{
-    if (fsm->init == 0)
-    {
-        return true;
-    }
-    
-    return false;
-}
+#ifdef __cplusplus
+ }
+#endif
+
+#endif

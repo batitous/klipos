@@ -12,6 +12,7 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc1xxx/timer \
                 $(HW_PATH)drivers/lpc1xxx/pwm \
                 $(HW_PATH)drivers/lpc1xxx/iap \
+                $(HW_PATH)drivers/lpc1xxx/flash \
                 $(HW_PATH)drivers/lpc1xxx/eeprom \
                 $(HW_PATH)drivers/lpc1xxx/watchdog \
                 $(HW_PATH)drivers/external/compass \
@@ -76,6 +77,10 @@ ifeq ($(timer),yes)
     endif
 endif
 
+ifeq ($(flash),yes)
+    SOURCE_KLIP += flash.c iap.c
+endif
+
 ifeq ($(eeprom),yes)
     SOURCE_KLIP += eeprom.c iap.c
 endif
@@ -92,3 +97,6 @@ ifeq ($(spi),yes)
     endif
 endif
 
+ifeq ($(mem-protocol),yes)
+    SOURCE_KLIP += mem-protocol.c
+endif
