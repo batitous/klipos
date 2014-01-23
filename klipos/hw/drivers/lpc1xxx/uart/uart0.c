@@ -80,9 +80,9 @@ void setUartIoCon(void)
 
 #endif
 
-
-#define UART_BUFFER_SIZE    64
-
+#ifndef UART_BUFFER_SIZE
+#       define UART_BUFFER_SIZE    64
+#endif
 
 //--------------------- private variables:
 
