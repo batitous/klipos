@@ -34,3 +34,7 @@ endif
 ifeq ($(fsm),yes)
     SOURCE_KLIP += fsm.c
 endif
+
+ifeq ($(libc),yes)
+    SOURCE_KLIP += string.c
+endif
