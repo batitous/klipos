@@ -6,7 +6,10 @@
 ifeq ($(kernel),no)
     # If we dont want kernel, include only the kiostream object
     DEFINE += -DFIRMWARE_DONT_USE_KERNEL
-    SRC_KERNEL = kiostream.c
+
+    ifeq ($(uart),yes)
+        SRC_KERNEL = kiostream.c
+    endif
 else
     # Default kernel source :
     SRC_KERNEL += kernel.c kiostream.c klist.c ktimer.c kmain.c kchannel.c
