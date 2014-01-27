@@ -25,23 +25,23 @@
 
 //----------------------------- public functions
 
-Bool iapWriteBuffer(UInt32 flash_address, UInt32 * buffer, UInt32 count)
+Bool iapWriteBuffer(UInt32 flash_address, UInt32 bufferAddr, UInt32 count)
 {
     UInt32 iapParameter[5];
     UInt32 iapResult[5];
 
     //todo disable irq
-    __disable_irq();
+    //__disable_irq();
     
     iapParameter[0] = IAP_COPY_RAM_TO_FLASH;
     iapParameter[1] = flash_address;
-    iapParameter[2] = (UInt32)buffer;
+    iapParameter[2] = (UInt32)bufferAddr;
     iapParameter[3] = count;
     iapParameter[4] = IAP_CCLK;
     iapExecuteCommand(iapParameter,iapResult);
 
     //todo enable irq
-    __enable_irq();
+    //__enable_irq();
     
     if(iapResult[0] != IAP_SUCCESS)
     {

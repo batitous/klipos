@@ -44,7 +44,7 @@ extern Bool iapPrepareSector(UInt32 start_sector,UInt32 end_sector);
  * @param count                 Number of bytes to be written
  * @return False if error
  */
-extern Bool iapWriteBuffer(UInt32 flash_address, UInt32 * buffer, UInt32 count);
+extern Bool iapWriteBuffer(UInt32 flash_address, UInt32 bufferAddr, UInt32 count);
 
 /** Erase a (or multiple) sector of flash memory
  * 

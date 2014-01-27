@@ -57,7 +57,7 @@ typedef enum _iap_command_
  * @param param_tab
  * @param result_tab
  */
-extern void iapExecuteCommand(UInt32 *param_tab,UInt32 *result_tab);
+extern void iapExecuteCommand(UInt32 *param,UInt32 *result);
 
 
 

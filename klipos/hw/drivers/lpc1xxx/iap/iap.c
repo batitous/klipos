@@ -22,11 +22,10 @@
 */
 #include "../../../include/libs-klipos.h"
 
+typedef unsigned int (*IAP)(unsigned int[], unsigned int[]);
+static const IAP iap_entry = (IAP) IAP_ADDRESS;
 
-void iapExecuteCommand(UInt32 *param_tab,UInt32 *result_tab)
+void iapExecuteCommand(UInt32 *param,UInt32 *result)
 {
-    void (*iap)(unsigned [],unsigned []);
-
-    iap = (void (*)(unsigned [],unsigned []))IAP_ADDRESS;
-    iap(param_tab,result_tab);
+    iap_entry(param,result);
 }
