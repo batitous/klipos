@@ -193,3 +193,7 @@ void waitDataFromUart0(void)
     waitDataFromIOStream(&uartStream);
 }
 
+bool isDataAvailableOnUart0(void)
+{
+    return isDataAvailableFromIOStream(&uartStream);
+}
