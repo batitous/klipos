@@ -43,7 +43,7 @@ extern "C" {
 #endif
     
 #include "libc.h"
-#include "math.h"
+#include "math-integer.h"
 #include "utils.h"
 #include "drivers/sleep.h"
 
