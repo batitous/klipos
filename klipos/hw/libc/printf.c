@@ -88,13 +88,13 @@ unsigned int binToDecimalAscii(int bin,char *result)
 	return i;
 }
 
-void printFloat(float value)
+void printFloat(double value)
 {
     char string[32];
     int len;
     
     int first = (int)value;
-    float t = (value - (float)first) * 100000;
+    double t = (value - (double)first) * 100000.0;
     if (t<0)
         t= -t;
     
