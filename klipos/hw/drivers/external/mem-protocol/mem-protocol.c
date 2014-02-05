@@ -75,10 +75,12 @@ void updateMemoryModule(UInt8 *buffer, UInt8 size)
     UInt32 offset;
     UInt16 virtualAddr;
 
-    virtualAddr = ((buffer)[1]<<8)|((buffer)[0]);
+    virtualAddr = ((buffer)[0]<<8)|((buffer)[1]);
 
     mem = getMemoryModuleFromAddress(virtualAddr);
 
+//    printf("virtualAddr 0x%x size %d\r\n", virtualAddr, size);
+    
     if ( mem == 0 )
     {
         return;
@@ -87,7 +89,7 @@ void updateMemoryModule(UInt8 *buffer, UInt8 size)
     offset = virtualAddr - mem->id ;
     ptr     = mem->ptr + offset;
 
-    //debugPrintf("Addr 0x%x FoundId 0x%x Off %d MSiz %d Size %d\r\n", currentSlaveModAddr, mem->id, offset, mem->size, size );
+//    printf("Addr 0x%x FoundId 0x%x Off %d MemSize %d Size %d\r\n", virtualAddr, mem->id, offset, mem->size, size );
 
     if ( size == 2)
     {
