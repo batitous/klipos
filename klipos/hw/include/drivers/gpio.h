@@ -66,6 +66,16 @@ typedef enum _GPIO_DIR_
     GPIO_OUT = 1         /**< Digital pin is an Output */
 } GPIO_DIR ;
 
+/** @brief GPIO mode */
+typedef enum _GPIO_MODE_
+{
+    GPIO_MODE_INACTIVE  = 0,    /**< No pull up/down activated */
+    GPIO_MODE_PULL_DOWN = 0x1,  /**< Pull down activated */
+    GPIO_MODE_PULL_UP   = 0x2,  /**< Pull up activated */
+    GPIO_MODE_REPEATER  = 0x3   /**< Repeater mode */
+} GPIO_MODE;
+
+
 
 /** @brief Initialize the GPIO MCU hardware and GPIO IRQ
  */
@@ -98,6 +108,15 @@ extern UInt32 getGpioValue(GPIO_PIN pin);
  * @param pin   The pin to toggle
  */
 extern void toggleGpio(GPIO_PIN pin);
+
+/** @brief Set option on GPIO pin
+ * 
+ * @param pin           Pin to set
+ * @param hysteresis    Enable or disable the hysteresis
+ * @param inputInverted Inverse the input
+ * @param mode          Set mode (pullup, pulldown) to pin
+ */
+extern void setGpioOption(GPIO_PIN pin, bool hysteresis, bool inputInverted, GPIO_MODE mode);
 #endif
 
 #ifdef __cplusplus
