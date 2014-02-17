@@ -34,7 +34,7 @@ static volatile UInt8 pwm_stopped;
 
 void Timer_Handler(LPC_TMR_TypeDef *timer)
 {
-    // Acknoledge interrupt
+    // Acknowledge interrupt
     SETBIT(timer->IR,3);
     
     // Disable timer and reset counter
@@ -46,10 +46,12 @@ void Timer_Handler(LPC_TMR_TypeDef *timer)
     pwm_stopped = 1;
 }
 
+#ifndef TIMER16_1_USED // to manage IRQ timer16 : (
 void TIMER_16_0_IRQn_Handler(void)
 {
     Timer_Handler(LPC_TMR16B0);
 }
+#endif
 
 void TIMER_16_1_IRQn_Handler(void)
 {

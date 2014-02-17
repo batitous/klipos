@@ -32,7 +32,7 @@ extern "C" {
     
     
 // Get time in microseconds from ticks value
-#define GET_US_FROM_TICK(ticks)    (((ticks+1)*1000) / KERNEL_CPU_FREQ)
+#define GET_US_FROM_TICK(ticks)    (1+((ticks*1000) / KERNEL_CPU_FREQ))
     
     
 /** Wait some times
