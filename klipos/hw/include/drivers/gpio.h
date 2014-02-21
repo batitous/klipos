@@ -72,6 +72,7 @@ typedef enum _GPIO_MODE_
     GPIO_MODE_INACTIVE  = 0,    /**< No pull up/down activated */
     GPIO_MODE_PULL_DOWN = 0x1,  /**< Pull down activated */
     GPIO_MODE_PULL_UP   = 0x2,  /**< Pull up activated */
+    GPIO_MODE_DEFAULT   = 0x2, 
     GPIO_MODE_REPEATER  = 0x3   /**< Repeater mode */
 } GPIO_MODE;
 
