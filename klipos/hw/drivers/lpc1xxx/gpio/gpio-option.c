@@ -56,6 +56,9 @@ void setGpioOption(GPIO_PIN pin, bool hysteresis, bool inputInverted, GPIO_MODE 
     }
     
     
+    CLRBIT(*ioPin,3);
+    CLRBIT(*ioPin,4);
+    
     *ioPin |= BITS(3, mode);
     
 }

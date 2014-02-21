@@ -25,7 +25,7 @@
 
 void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall init)
 {
-    printf("setFsm: new 0x%x old 0x%x\r\n", newstate, fsm->current);
+//    printf("setFsm: new 0x%x old 0x%x\r\n", newstate, fsm->current);
     
     fsm->current = newstate;
     fsm->call = call;
