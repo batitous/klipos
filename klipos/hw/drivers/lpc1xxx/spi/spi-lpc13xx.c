@@ -45,7 +45,8 @@ void initSpi(void)
     
     // SCK GPIO1_29
 #ifdef MCU_IS_LPC1315
-    SETBIT(LPC_IOCON->PIO1_29,0);
+    //SETBIT(LPC_IOCON->PIO1_29,0); // bridge & drone prototype
+    SETBIT(LPC_IOCON->SWCLK_PIO0_10,1); // drone hardware v1.0
 #else
     SETBIT(LPC_IOCON->PIO2_11,0);
 #endif
