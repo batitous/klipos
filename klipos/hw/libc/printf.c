@@ -90,7 +90,7 @@ unsigned int binToDecimalAscii(int bin,char *result)
 
 void printFloat(double value)
 {
-    char string[32];
+    char string[48];
     int len;
     
     int first = (int)value;

@@ -58,6 +58,7 @@ void TIMER_16_1_IRQn_Handler(void)
     Timer_Handler(LPC_TMR16B1);
 }
 
+#ifndef TIMER32_USED // to manage IRQ timer32 : (
 void TIMER_32_0_IRQn_Handler(void)
 {
     Timer_Handler(LPC_TMR32B0);
@@ -67,6 +68,7 @@ void TIMER_32_1_IRQn_Handler(void)
 {
     Timer_Handler(LPC_TMR32B1);
 }
+#endif
 
 
 
@@ -348,7 +350,7 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
     // 1- when a match occurs in MR0, then MAT0 goes HIGH
     // 2- and timer get the MR3 value
     // 3- when timer reach 0, then MAT0 goes LOW and reloaded with MR0
-    //SETBIT(pwm->timer->PWMC,3); //wtf ??
+    SETBIT(pwm->timer->PWMC,3); //wtf ??
     
 }
 
@@ -393,6 +395,18 @@ void setPwmDutyCycle(Pwm *pwm, UInt32 percentage)
     setPwmCycle(timer, pwm->outputs,cycle);
 }
 
+void setPwmRawDutyCycle(Pwm *pwm, UInt32 raw)
+{
+    LPC_TMR_TypeDef * timer = pwm->timer;
+    UInt32 widthPwm;
+    UInt32 cycle;
+        
+    widthPwm = timer->MR3;
+
+    cycle = (widthPwm * (8192 - raw)) / 8192;
+    
+    setPwmCycle(timer, pwm->outputs,cycle);
+}
 
 void setPwmWidth(Pwm *pwm, UInt32 widthInUs)
 {
