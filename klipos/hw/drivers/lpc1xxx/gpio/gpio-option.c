@@ -20,66 +20,47 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../include/libs-klipos.h"
+#include "../../../include/libs-klipos.h"
+
+extern UInt32 getGpioPortNumber(GPIO_PIN pin);
 
 
-void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall init)
+void setGpioOption(GPIO_PIN pin, bool hysteresis, bool inputInverted, GPIO_MODE mode)
 {
-//    printf("setFsm: new 0x%x old 0x%x\r\n", newstate, fsm->current);
+    UInt32 thepin = pin & 0xFFFF;
     
-    fsm->current = newstate;
-    fsm->call = call;
-    fsm->initcall = init;
-}
-
-void initFsm(Fsm* fsm, Int32 state, FsmCall call, FsmCall init)
-{
-    setFsm(fsm, state, call, init);
+    volatile UInt32* ioPin = ((UInt32* ) LPC_IOCON_BASE ) + thepin*4;
     
-    fsm->init = 1;
-    fsm->old = fsm->current;
-}
-
-void updateFsm(Fsm* fsm)
-{
-    if (fsm->init == 1) 
+    if (pin >= GPIO1_0)
     {
-        if (fsm->initcall != 0)
-        {
-            fsm->initcall();
-        }
-        
-        fsm->init = 0;
+        ioPin = ((UInt32* )LPC_IOCON_BASE + 0x060) + thepin*4;
     }
     
-    if (fsm->call != 0)
+    if (hysteresis==true)
     {
-        fsm->call();
+        SETBIT(*ioPin,5);
+    }
+    else
+    {
+        CLRBIT(*ioPin,5);
     }
     
-    if (fsm->current != fsm->old)
+    
+    if (inputInverted==true)
     {
-        fsm->init = 1;
-        fsm->old = fsm->current;
+        SETBIT(*ioPin,6);
     }
+    else
+    {
+        CLRBIT(*ioPin,6);
+    }
+    
+    
+    CLRBIT(*ioPin,3);
+    CLRBIT(*ioPin,4);
+    
+    *ioPin |= BITS(3, mode);
+    
 }
 
-bool isFsmInState(Fsm* fsm, Int32 state)
-{
-    if (fsm->current == state)
-    {
-        return true;
-    }
-    
-    return false;
-}
 
-bool isFsmStateInitialized(Fsm* fsm)
-{
-    if (fsm->init == 0)
-    {
-        return true;
-    }
-    
-    return false;
-}

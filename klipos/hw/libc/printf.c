@@ -49,6 +49,69 @@ void setPrintfInterface(PrintfInterfaceCallback callback)
     printfInterfaceCallback = callback;
 }
 
+#ifdef FIRMWARE_USE_FLOAT_IN_PRINTF
+
+unsigned int binToDecimalAscii(int bin,char *result)
+{
+	int i=0;
+	char bCount, bPrinted;
+	unsigned int lTmp,lDigit;
+    
+	bPrinted = 0;
+	if(bin < 0)
+	{
+		bin = -bin;
+		result[i++]='-';
+	}
+    
+	lDigit = 1000000000L;
+	for(bCount = 0; bCount < 9; bCount++)
+	{
+		lTmp = (char)(bin/lDigit);
+		if(lTmp)
+		{
+			result[i++]=(char)(lTmp)+'0';
+			bPrinted = 1;
+		}
+		else if(bPrinted)
+		{
+			result[i++]=(char)lTmp+'0';
+		}
+		bin -= ((long)lTmp)*lDigit;
+		lDigit = lDigit/10;
+	}
+    
+	lTmp = (char)(bin/lDigit);
+    
+	result[i++]=(char)lTmp+'0';
+    
+	return i;
+}
+
+void printFloat(double value)
+{
+    char string[48];
+    int len;
+    
+    int first = (int)value;
+    double t = (value - (double)first) * 100000.0;
+    if (t<0)
+        t= -t;
+    
+    len = binToDecimalAscii(first, string);
+    string[len] = 0;
+    
+    xputs(string);
+    xputc('.');
+    
+    
+    len = binToDecimalAscii((int)t, string);
+    string[len] = 0;
+
+    xputs(string);
+}
+#endif
+
 void printf (
 	const char*	str,	// Pointer to the format string
 	...					// Optional arguments
@@ -57,8 +120,11 @@ void printf (
 	va_list arp;
 	unsigned int r, i, w, f;
 	unsigned long val;
-	char s[16], c, d;
+	char s[24], c, d;
 
+#ifdef FIRMWARE_USE_FLOAT_IN_PRINTF
+        double fval;
+#endif
 
 	va_start(arp, str);
 
@@ -96,6 +162,12 @@ void printf (
 			r = 10; break;
 		case 'X' :					// Hexdecimal
 			r = 16; break;
+#ifdef FIRMWARE_USE_FLOAT_IN_PRINTF
+                case 'F':
+                        fval = (double)va_arg(arp, double);
+                        printFloat(fval);
+                        continue;
+#endif
 		default:					// Unknown
 			xputc(c); continue;
 		}

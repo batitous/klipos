@@ -96,6 +96,7 @@ extern void disablePwm(Pwm *pwm);
  */
 extern void setPwmDutyCycle(Pwm *pwm, UInt32 percentage);
 
+extern void setPwmRawDutyCycle(Pwm *pwm, UInt32 raw);
 
 extern void setPwmWidth(Pwm *pwm, UInt32 widthInUs);
 

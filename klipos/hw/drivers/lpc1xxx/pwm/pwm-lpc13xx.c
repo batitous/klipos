@@ -34,7 +34,7 @@ static volatile UInt8 pwm_stopped;
 
 void Timer_Handler(LPC_TMR_TypeDef *timer)
 {
-    // Acknoledge interrupt
+    // Acknowledge interrupt
     SETBIT(timer->IR,3);
     
     // Disable timer and reset counter
@@ -46,17 +46,19 @@ void Timer_Handler(LPC_TMR_TypeDef *timer)
     pwm_stopped = 1;
 }
 
+#ifndef TIMER16_1_USED // to manage IRQ timer16 : (
 void TIMER_16_0_IRQn_Handler(void)
 {
     Timer_Handler(LPC_TMR16B0);
 }
+#endif
 
 void TIMER_16_1_IRQn_Handler(void)
 {
     Timer_Handler(LPC_TMR16B1);
 }
 
-/* TODO
+#ifndef TIMER32_USED // to manage IRQ timer32 : (
 void TIMER_32_0_IRQn_Handler(void)
 {
     Timer_Handler(LPC_TMR32B0);
@@ -65,7 +67,8 @@ void TIMER_32_0_IRQn_Handler(void)
 void TIMER_32_1_IRQn_Handler(void)
 {
     Timer_Handler(LPC_TMR32B1);
-}*/
+}
+#endif
 
 
 
@@ -84,6 +87,10 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
 
             // IOCON_PIO1_6 CT32B0_MAT0 warning: RXD FUNC=0x2
             //SETBIT(LPC_IOCON->PIO1_6,1);
+
+        #ifdef MCU_IS_LPC1315
+            SETBIT(LPC_IOCON->PIO1_24,0);
+        #endif      
         }
 
         if( (pwmSelected&PWM1)==PWM1)
@@ -104,28 +111,40 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
     {
         if( (pwmSelected&PWM0)==PWM0)
         {
-            // IOCON_R_PIO1_1 CT32B1_MAT0 warning : AD2 FUNC=0x3
         #ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->R_PIO1_1,0);
             SETBIT(LPC_IOCON->R_PIO1_1,1);
+        #endif
+
+        #ifdef MCU_IS_LPC1315
+            SETBIT(LPC_IOCON->TDO_PIO0_13,0);
+            SETBIT(LPC_IOCON->TDO_PIO0_13,1);
         #endif
         }
 
         if( (pwmSelected&PWM1)==PWM1)
         {
-            // IOCON_R_PIO1_2 CT32B1_MAT1 warning : AD3 FUNC=0x3
         #ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->R_PIO1_2,0);
             SETBIT(LPC_IOCON->R_PIO1_2,1);
+        #endif
+
+        #ifdef MCU_IS_LPC1315
+            SETBIT(LPC_IOCON->TRST_PIO0_14,0);
+            SETBIT(LPC_IOCON->TRST_PIO0_14,1);
         #endif
         }
 
         if( (pwmSelected&PWM2)==PWM2)
         {
-            // IOCON_SWDIO_PIO1_3 CT32B1_MAT2 warning : AD4 FUNC=0x3
         #ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->SWDIO_PIO1_3,0);
             SETBIT(LPC_IOCON->SWDIO_PIO1_3,1);
+        #endif
+
+        #ifdef MCU_IS_LPC1315
+            SETBIT(LPC_IOCON->SWDIO_PIO0_15,0);
+            SETBIT(LPC_IOCON->SWDIO_PIO0_15,1);
         #endif
         }
     }
@@ -134,7 +153,7 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
         if( (pwmSelected&PWM0)==PWM0)
         {
             // PIO0_8/MISO0/CT16B0_MAT0/ARM_TRACE_CLK
-            SETBIT(LPC_IOCON->PIO0_8,1);
+            //SETBIT(LPC_IOCON->PIO0_8,1);
 
             // ONLY LPC1315 : PIO1_13/DTR/ CT16B0_MAT0/TXD warning, doesn't exist on HVQFN33
 
@@ -150,9 +169,15 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
 
         if( (pwmSelected&PWM2)==PWM2)
         {
-            // SWCLK/PIO0_10/ SCK0/CT16B0_MAT2                
+            // SWCLK/PIO0_10/ SCK0/CT16B0_MAT2
+        #ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->SWCLK_PIO0_10,0);
             SETBIT(LPC_IOCON->SWCLK_PIO0_10,1);
+        #endif
+            
+       #ifdef MCU_IS_LPC1315
+            SETBIT(LPC_IOCON->PIO1_15,1);
+        #endif
 
         }
     }
@@ -181,9 +206,10 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
 
         #ifdef MCU_IS_LPC1315
             // PIO0_22/AD6/CT16B1_MAT1/MISO1
-            SETBIT(LPC_IOCON->PIO0_22,1);
+            //SETBIT(LPC_IOCON->PIO0_22,1);
 
             // PIO1_23/CT16B1_MAT1/SSEL1
+            SETBIT(LPC_IOCON->PIO1_23,0);
         #endif
         }
     }
@@ -256,20 +282,17 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
         pwm->timer = LPC_TMR32B0;
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,9);
   
-//TODO
-//        NVIC_SetPriority(TIMER_32_0_IRQn, 0x04);
-//        NVIC_EnableIRQ(TIMER_32_0_IRQn);
+        NVIC_SetPriority(TIMER_32_0_IRQn, 0x04);
+        NVIC_EnableIRQ(TIMER_32_0_IRQn);
     }
     else if (timerSelected == TIMER32_1)
     {
         pwm->timer = LPC_TMR32B1;
         SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,10);
   
-//TODO
-//        NVIC_SetPriority(TIMER_32_1_IRQn, 0x04);
-//        NVIC_EnableIRQ(TIMER_32_1_IRQn);
+        NVIC_SetPriority(TIMER_32_1_IRQn, 0x04);
+        NVIC_EnableIRQ(TIMER_32_1_IRQn);
     }
-
     // SYSAHBCLKCTRL bit7 1 = timer0 bit8 1 =timer1 (16 bits)
     else if( timerSelected == TIMER16_0)
     {
@@ -327,7 +350,7 @@ void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widt
     // 1- when a match occurs in MR0, then MAT0 goes HIGH
     // 2- and timer get the MR3 value
     // 3- when timer reach 0, then MAT0 goes LOW and reloaded with MR0
-    SETBIT(pwm->timer->PWMC,3);
+    SETBIT(pwm->timer->PWMC,3); //wtf ??
     
 }
 
@@ -372,6 +395,18 @@ void setPwmDutyCycle(Pwm *pwm, UInt32 percentage)
     setPwmCycle(timer, pwm->outputs,cycle);
 }
 
+void setPwmRawDutyCycle(Pwm *pwm, UInt32 raw)
+{
+    LPC_TMR_TypeDef * timer = pwm->timer;
+    UInt32 widthPwm;
+    UInt32 cycle;
+        
+    widthPwm = timer->MR3;
+
+    cycle = (widthPwm * (8192 - raw)) / 8192;
+    
+    setPwmCycle(timer, pwm->outputs,cycle);
+}
 
 void setPwmWidth(Pwm *pwm, UInt32 widthInUs)
 {

@@ -32,6 +32,10 @@ ifeq ($(gpio),yes)
     SOURCE_KLIP += gpio.c
 endif
 
+ifeq ($(gpio-option),yes)
+    SOURCE_KLIP += gpio-option.c    
+endif
+
 ifeq ($(gpioirq),yes)
 
     ifeq ($(kernel),no)
@@ -73,7 +77,8 @@ endif
 
 ifeq ($(timer),yes)
     ifeq ($(core),lpc13xx)
-        SOURCE_KLIP += timer32-lpc13xx.c
+        SOURCE_KLIP += timer32-lpc13xx.c timer16-lpc13xx.c
+        DEFINE += -DTIMER16_1_USED=1 -DTIMER32_USED=1
     endif
 endif
 

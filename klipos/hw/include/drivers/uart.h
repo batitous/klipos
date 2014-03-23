@@ -69,6 +69,7 @@ extern UInt32 getBufferFromUart0(UInt8 * buffer, UInt32 len);
 extern bool getByteFromUart0(UInt8 *byte);
 
 extern void waitDataFromUart0(void);
+extern bool isDataAvailableOnUart0(void);
 
 extern void powerOnUart0(void);
 extern void powerOffUart0(void);

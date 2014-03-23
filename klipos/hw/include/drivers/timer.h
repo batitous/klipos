@@ -92,6 +92,15 @@ extern bool isTimer32Enable(Timer* timer);
 extern void waitUsPrecise(TIMER timerSelected, UInt32 waitInUs);
 
 
+
+extern bool initTimer16(Timer* timer, TIMER timerSelected, UInt32 waitInUs);
+extern void setTimer16(Timer* timer, UInt32 waitInUs);
+extern void enableTimer16(Timer* timer);
+extern void disableTimer16(Timer* timer);
+extern bool isTimer16Enable(Timer* timer);
+extern void setTimer16_0Callback(TimerIrqCallback c);
+extern void setTimer16_1Callback(TimerIrqCallback c);
+
 #ifdef __cplusplus
  }
 #endif
