@@ -36,7 +36,10 @@
 
 #define EVENT_THREAD_CPU_TIME           10      /**< 1 ms is given to the event thread */
 #define EVENT_THREAD_PRIORITY           100     /**< high priority */
-#define EVENT_THREAD_STACK_SIZE         512     /**< size of event thread stack */
+
+#ifndef EVENT_THREAD_STACK_SIZE
+#       define EVENT_THREAD_STACK_SIZE  512     /**< size of event thread stack */
+#endif
 
 static UInt32 kEventRead;               /**< read index in kEvents */
 static volatile UInt32 kEventWrite;     /**< write index in kEvents */
