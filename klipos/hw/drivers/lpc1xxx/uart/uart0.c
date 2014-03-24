@@ -111,8 +111,11 @@ void UART0_IRQHandler(void)
         //Receive Data Available
         if(status==0x02)
         {
-            writeByteToIOStream(&uartStream,LPC_UART0->RBR);
-            irqWakeUpTaskFromIOStream(&uartStream);
+//            writeByteToIOStream(&uartStream,LPC_UART0->RBR);
+//            irqWakeUpTaskFromIOStream(&uartStream);
+            
+            extern void postEventToTask(UInt32 id, UInt32 data);
+            postEventToTask( 12345, (UInt32)LPC_UART0->RBR);
         }
     }
 }

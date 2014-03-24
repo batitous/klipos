@@ -8,7 +8,8 @@ ifeq ($(kernel),no)
     DEFINE += -DFIRMWARE_DONT_USE_KERNEL
 
     ifeq ($(uart0),yes)
-        SRC_KERNEL = kiostream.c
+# for testing purpose, add the klist file here
+        SRC_KERNEL = kiostream.c klist.c
     endif
 else
     # Default kernel source :

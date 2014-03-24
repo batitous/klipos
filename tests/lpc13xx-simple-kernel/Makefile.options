@@ -9,7 +9,7 @@ NAME = firmware
 DEFINE =
 
 # Project source files:
-SOURCE_PROJECT= main.c kqueue.c
+SOURCE_PROJECT= main.c kqueue.c ktask.c
 
 
 # Include repertory : -I<repertory path>
