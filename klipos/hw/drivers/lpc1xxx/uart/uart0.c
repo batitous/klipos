@@ -117,8 +117,8 @@ void UART0_IRQHandler(void)
             
 //            irqWakeUpTaskFromIOStream(&uartStream);
             
-            extern void postEventToTask(UInt32 id, UInt32 data);
-            postEventToTask( 12345, (UInt32)data);
+            extern void postEventToTaskWithId(UInt32 id, UInt32 data);
+            postEventToTaskWithId( 12345, (UInt32)data);
         }
     }
 }

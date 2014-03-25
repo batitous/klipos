@@ -35,7 +35,9 @@ extern bool scheduleTask(void);
 
 extern void executeIdleTask(void);
 
-extern void postEventToTask(UInt32 id, UInt32 data);
+extern void postEventToTaskWithId(UInt32 id, UInt32 data);
+
+extern void postEventToTask(KTask* task, UInt32 data);
 
 extern void initKernel(void);
 

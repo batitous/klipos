@@ -68,7 +68,12 @@ bool scheduleTask(void)
     return executed;
 }
 
-void postEventToTask(UInt32 id, UInt32 data)
+void postEventToTask(KTask* task, UInt32 data)
+{
+    writeToKQueue(&task->events, data);
+}
+
+void postEventToTaskWithId(UInt32 id, UInt32 data)
 {
     KTask* next = (KTask*)tasks.next;
 

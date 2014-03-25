@@ -17,8 +17,8 @@ typedef struct _ktime_
     KLink *     next;       /**< pointer to the next alarm */
     KLink *     prev;       /**< pointer to the previous alarm*/
 
-    UInt32      remaining;  /**< time remaining before alarm */
-    UInt32      reload;     /**< time to be reloaded */
+    Int32      remaining;  /**< time remaining before alarm */
+    Int32      reload;     /**< time to be reloaded */
 
     UInt16      id;         /**< alarm's id for event post/get, 0 if it's not an event */
 } KTime;

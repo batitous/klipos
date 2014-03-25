@@ -9,7 +9,7 @@
 KList timers;
 UInt32 timerId;
 KTime* currentTimer;
-UInt32 currentTime;
+Int32 currentTime;
 
 void debugTimer(void)
 {
@@ -25,36 +25,26 @@ void debugTimer(void)
 }
 
 #define SYSTICK_MAX     0xFFFFFF
+#define MAX_TIME_IN_US  233000
 
 void SysTick_Handler(void)
 {
     KTime* timer = (KTime*)timers.next;
-    
-    UInt32 nextTime = SYSTICK_MAX;
-    Int32 test;
+    Int32 nextTime = SYSTICK_MAX;
     
     while (timer != (KTime*)&timers)
     {
-        test = (Int32)timer->remaining - (Int32)currentTime;
-        if (test < 0)
-        {
-            printf("Test=%d\r\n", test);
-            test = 0;
-        }
-        
-        timer->remaining = test;
+        timer->remaining = timer->remaining - currentTime;
                 
         if (timer->remaining == 0)
         {
             timer->remaining = timer->reload;
-            postEventToTask(timer->id, 0);
+            postEventToTaskWithId(timer->id, 0);
         }
-        else
+        
+        if (timer->remaining > 0 && nextTime > timer->remaining)
         {
-            if (nextTime > timer->remaining)
-            {
-                nextTime = timer->remaining;
-            }
+            nextTime = timer->remaining;
         }
         
         timer = timer->next;
@@ -65,9 +55,9 @@ void SysTick_Handler(void)
     {
         currentTime = nextTime;
         
-        if (currentTime>233000)
+        if (currentTime>MAX_TIME_IN_US)
         {
-            currentTime = 233000;
+            currentTime = MAX_TIME_IN_US;
         }
         
         if (SysTick_Config( GET_TICK_FROM_US(currentTime))==1)
@@ -75,19 +65,6 @@ void SysTick_Handler(void)
             printf("SysTick_Config 1 err %d\r\n",currentTime);
         }
     }
-    /*else
-    {
-        printf("----\r\n");
-        debugTimer();
-        
-        timer = (KTime*)timers.next;
-        currentTime = timer->remaining;
-        
-        if (SysTick_Config( GET_TICK_FROM_US(currentTime))==1)
-        {
-            printf("SysTick_Config 2 err %d\r\n",currentTime);
-        }
-    }*/
     
 }
 
