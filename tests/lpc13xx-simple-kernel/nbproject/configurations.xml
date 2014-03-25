@@ -183,10 +183,12 @@
       <df name="include">
         <in>kqueue.h</in>
         <in>ktask.h</in>
+        <in>ktime.h</in>
       </df>
       <df name="source">
         <in>kqueue.c</in>
         <in>ktask.c</in>
+        <in>ktime.c</in>
         <in>main.c</in>
       </df>
     </df>
@@ -709,9 +711,13 @@
       </item>
       <item path="include/ktask.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/ktime.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="source/kqueue.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="source/ktask.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="source/ktime.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="source/main.c" ex="false" tool="0" flavor2="0">
       </item>

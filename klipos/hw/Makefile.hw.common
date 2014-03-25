@@ -23,7 +23,8 @@ else
 endif
 
 ifeq ($(kernel),no)
-    SOURCE_KLIP += systick.c
+# todo for simple kernel: no systick timer
+#    SOURCE_KLIP += systick.c
 endif
 
 ifeq ($(printf),yes)

@@ -21,10 +21,10 @@ typedef struct _ktask_
     KLink *     next;
     KLink *     prev;
     
-    UInt32      eventId;
-    UInt32      eventsBuffer[QUEUE_SIZE];
-    
     KQueue      events;
+    UInt32      eventsBuffer[QUEUE_SIZE];
+    UInt32      eventId;
+    
     KTaskCode   code;
     UInt8       priority;
 } KTask;

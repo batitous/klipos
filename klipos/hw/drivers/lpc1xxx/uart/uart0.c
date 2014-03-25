@@ -102,6 +102,7 @@ static const Uart uart0 = {
 void UART0_IRQHandler(void)
 {
     UInt32 status = LPC_UART0->IIR;
+    UInt8 data;
     
     //Check if interrupt is pending
     if( (status & 1)==0)
@@ -111,11 +112,13 @@ void UART0_IRQHandler(void)
         //Receive Data Available
         if(status==0x02)
         {
-//            writeByteToIOStream(&uartStream,LPC_UART0->RBR);
+            data = LPC_UART0->RBR;
+            writeByteToIOStream(&uartStream,data);
+            
 //            irqWakeUpTaskFromIOStream(&uartStream);
             
             extern void postEventToTask(UInt32 id, UInt32 data);
-            postEventToTask( 12345, (UInt32)LPC_UART0->RBR);
+            postEventToTask( 12345, (UInt32)data);
         }
     }
 }

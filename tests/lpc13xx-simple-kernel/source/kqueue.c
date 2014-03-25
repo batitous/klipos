@@ -14,12 +14,13 @@ void initKQueue(KQueue* queue, void* buffer, Int32 size)
 
 bool writeToKQueue(KQueue* queue, UInt32 data)
 {
-    if ( ((queue->tail+1) & (queue->size-1)) == ((queue->head) & (queue->size-1)) )
+    UInt32 size = queue->size-1;
+    if ( ((queue->tail+1) & (size)) == ((queue->head) & (size)) )
     {
         return false;
     }
   
-    queue->pending[queue->tail & (queue->size-1)] = data;
+    queue->pending[queue->tail & (size)] = data;
     queue->tail++;
     
     return true;
