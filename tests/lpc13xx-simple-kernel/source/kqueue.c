@@ -17,6 +17,7 @@ bool writeToKQueue(KQueue* queue, UInt32 data)
     UInt32 size = queue->size-1;
     if ( ((queue->tail+1) & (size)) == ((queue->head) & (size)) )
     {
+        printf("writeToKQueue failed!\r\n");
         return false;
     }
   
