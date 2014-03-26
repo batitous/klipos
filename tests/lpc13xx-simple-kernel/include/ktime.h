@@ -14,18 +14,16 @@ extern "C" {
 
 typedef struct _ktime_
 {
-    KLink *     next;       /**< pointer to the next alarm */
-    KLink *     prev;       /**< pointer to the previous alarm*/
-
-    Int32      remaining;  /**< time remaining before alarm */
-    Int32      reload;     /**< time to be reloaded */
-
-    UInt16      id;         /**< alarm's id for event post/get, 0 if it's not an event */
+    KLink*      next;       /**< pointer to the next alarm */
+    KLink*      prev;       /**< pointer to the previous alarm*/
+    Int32       remaining;  /**< time remaining before alarm */
+    Int32       reload;     /**< time to be reloaded */
+    KTask*      task;
 } KTime;
 
 extern void initKernelTimers(void);
 
-extern void initTimer(KTime* timer, UInt32 delayInUs);
+extern void initTimer(KTime* timer, UInt32 delayInUs, KTask* task);
 
 
 #ifdef	__cplusplus

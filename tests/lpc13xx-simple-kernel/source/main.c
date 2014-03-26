@@ -63,13 +63,13 @@ int main(void)
     
     initTask(&uartTask, uartTaskCode, 1, 12345);
 
-    initTimer(&t100, 100*1000);
-    initTimer(&t150, 150*1000);
-    initTimer(&t333, 333*1000);
-    
-    initTask(&t100Task, t100TaskCode, 1, t100.id);
-    initTask(&t150Task, t150TaskCode, 1, t150.id);
-    initTask(&t333Task, t333TaskCode, 1, t333.id);
+    initTask(&t100Task, t100TaskCode, 1, 0);
+    initTask(&t150Task, t150TaskCode, 1, 0);
+    initTask(&t333Task, t333TaskCode, 1, 0);
+
+    initTimer(&t100, 100*1000, &t100Task);
+    initTimer(&t150, 150*1000, &t150Task);
+    initTimer(&t333, 333*1000, &t333Task);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     

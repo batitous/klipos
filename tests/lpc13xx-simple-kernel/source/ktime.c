@@ -7,7 +7,6 @@
 
 
 KList timers;
-UInt32 timerId;
 KTime* currentTimer;
 Int32 currentTime;
 
@@ -15,11 +14,11 @@ void debugTimer(void)
 {
     KTime* next = (KTime*)timers.next;
     
-    printf("Current timer %d: remain %d reload %d\r\n", next->id, currentTimer->remaining, currentTimer->reload);
+    printf("Current timer %d: remain %d reload %d\r\n", next->task, currentTimer->remaining, currentTimer->reload);
     
     while (next != (KTime*)&timers)
     {
-        printf("Timer %d: remain %d reload %d\r\n", next->id, next->remaining, next->reload);
+        printf("Timer %d: remain %d reload %d\r\n", next->task, next->remaining, next->reload);
         next = next->next;
     }
 }
@@ -39,7 +38,7 @@ void SysTick_Handler(void)
         if (timer->remaining == 0)
         {
             timer->remaining = timer->reload;
-            postEventToTaskWithId(timer->id, 0);
+            postEventToTask(timer->task, 0);
         }
         
         if (timer->remaining > 0 && nextTime > timer->remaining)
@@ -95,20 +94,17 @@ void initKernelTimers(void)
 {
     initKList(&timers);
     
-    timerId = 1;
     currentTimer = 0;
     
 //    printf("SysTick_Config %d\r\n", SysTick_Config( GET_TICK_FROM_US(100000)) );
 }
 
 
-void initTimer(KTime* timer, UInt32 delayInUs)
+void initTimer(KTime* timer, UInt32 delayInUs, KTask* task)
 {
     timer->remaining = delayInUs;
     timer->reload = delayInUs;
-    timer->id = timerId;
-    
-    timerId++;
+    timer->task = task;
     
     insertTimerWithPriority(timer);
     
