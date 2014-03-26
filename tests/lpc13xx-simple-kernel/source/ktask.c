@@ -7,6 +7,9 @@
 KTask idleTask;
 KList tasks;
 
+//UInt8 currentPriority;
+//#define SET_PRIORITY(backup,prio)   backup = currentPriority; currentPriority = prio
+
 
 void insertTaskWithPriority( KTask * th)
 {
@@ -31,7 +34,7 @@ void insertTaskWithPriority( KTask * th)
     
 }
 
-void initTask(KTask* task, KTaskCode c, UInt8 prio, UInt32 eventId)
+void initTask(KTask* task, KTaskCode c, KPriority prio, UInt32 eventId)
 {
     task->code = c;
     task->priority = prio;
@@ -57,7 +60,7 @@ bool scheduleTask(void)
     {
         while ( readFromKQueue(&next->events, &tmp) != false)
         {
-//          printf("Scheduler: execute task prio %d (data = 0x%x %c %d)\n", next->priority,tmp, tmp, tmp);
+          printf("Scheduler: execute task prio %d (data = 0x%x %c %d)\n", next->priority,tmp, tmp, tmp);
             
             executed = true;
             next->code(tmp);
@@ -81,9 +84,7 @@ void postEventToTaskWithId(UInt32 id, UInt32 data)
     {
         if ( next->eventId == id)
         {
-            if (writeToKQueue(&next->events, data) == false )
-            {
-            }
+            writeToKQueue(&next->events, data);
         }
         
         next = next->next;
@@ -98,7 +99,9 @@ void idleCode(UInt32 event)
 void initKernel(void)
 {
     initKList(&tasks);
-    initTask(&idleTask, idleCode, 0, 0);
+    initTask(&idleTask, idleCode, PRIORIY_IDLE, 0);
+    
+//    currentPriority = PRIORIY_IDLE;
 }
 
 void executeIdleTask(void)

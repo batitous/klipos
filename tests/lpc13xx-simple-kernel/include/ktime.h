@@ -5,25 +5,25 @@
  * Created on 25 mars 2014, 10:06
  */
 
-#ifndef KTIME_H
-#define	KTIME_H
+#ifndef KTIMER_H
+#define	KTIMER_H
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-typedef struct _ktime_
+typedef struct _ktimer_
 {
-    KLink*      next;       /**< pointer to the next alarm */
-    KLink*      prev;       /**< pointer to the previous alarm*/
-    Int32       remaining;  /**< time remaining before alarm */
+    KLink*      next;       /**< pointer to the next timer */
+    KLink*      prev;       /**< pointer to the previous timer */
+    Int32       remaining;  /**< time remaining before fireup this timer */
     Int32       reload;     /**< time to be reloaded */
-    KTask*      task;
-} KTime;
+    KTask*      task;       /**< timer's task */
+} KTimer;
 
 extern void initKernelTimers(void);
 
-extern void initTimer(KTime* timer, UInt32 delayInUs, KTask* task);
+extern void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task);
 
 
 #ifdef	__cplusplus

@@ -7,16 +7,16 @@
 
 
 KList timers;
-KTime* currentTimer;
+KTimer* currentTimer;
 Int32 currentTime;
 
 void debugTimer(void)
 {
-    KTime* next = (KTime*)timers.next;
+    KTimer* next = (KTimer*)timers.next;
     
     printf("Current timer %d: remain %d reload %d\r\n", next->task, currentTimer->remaining, currentTimer->reload);
     
-    while (next != (KTime*)&timers)
+    while (next != (KTimer*)&timers)
     {
         printf("Timer %d: remain %d reload %d\r\n", next->task, next->remaining, next->reload);
         next = next->next;
@@ -28,17 +28,22 @@ void debugTimer(void)
 
 void SysTick_Handler(void)
 {
-    KTime* timer = (KTime*)timers.next;
+    KTimer* timer = (KTimer*)timers.next;
     Int32 nextTime = SYSTICK_MAX;
     
-    while (timer != (KTime*)&timers)
+    while (timer != (KTimer*)&timers)
     {
         timer->remaining = timer->remaining - currentTime;
-                
+
         if (timer->remaining == 0)
         {
             timer->remaining = timer->reload;
             postEventToTask(timer->task, 0);
+            
+            if (timer->task->priority == PRIORITY_HIGH_IRQ)
+            {
+                timer->task->code(0);
+            }
         }
         
         if (timer->remaining > 0 && nextTime > timer->remaining)
@@ -67,12 +72,12 @@ void SysTick_Handler(void)
     
 }
 
-void insertTimerWithPriority( KTime* timer)
+void insertTimerWithPriority( KTimer* timer)
 {
-    KTime * temp = (KTime *)timers.next;
-    KTime * p;
+    KTimer * temp = (KTimer *)timers.next;
+    KTimer * p;
     
-    while ( temp != (KTime *)&timers )
+    while ( temp != (KTimer *)&timers )
     {
         if ( timer->remaining <= temp->remaining )
         {
@@ -100,7 +105,7 @@ void initKernelTimers(void)
 }
 
 
-void initTimer(KTime* timer, UInt32 delayInUs, KTask* task)
+void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task)
 {
     timer->remaining = delayInUs;
     timer->reload = delayInUs;
@@ -108,7 +113,7 @@ void initTimer(KTime* timer, UInt32 delayInUs, KTask* task)
     
     insertTimerWithPriority(timer);
     
-    KTime* first = (KTime*)timers.next;
+    KTimer* first = (KTimer*)timers.next;
     if (currentTimer != first)
     {
         currentTimer = first;

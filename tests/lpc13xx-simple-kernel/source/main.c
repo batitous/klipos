@@ -32,9 +32,9 @@ void uartTaskCode(UInt32 event)
 }
 
 
-KTime t100;
-KTime t150;
-KTime t333;
+KTimer t100;
+KTimer t150;
+KTimer t333;
 
 void t100TaskCode(UInt32 event)
 {
@@ -61,11 +61,11 @@ int main(void)
     initKernel();
     initKernelTimers();
     
-    initTask(&uartTask, uartTaskCode, 1, 12345);
+    initTask(&uartTask, uartTaskCode, PRIORITY_LOW, 12345);
 
-    initTask(&t100Task, t100TaskCode, 1, 0);
-    initTask(&t150Task, t150TaskCode, 1, 0);
-    initTask(&t333Task, t333TaskCode, 1, 0);
+    initTask(&t100Task, t100TaskCode, PRIORITY_LOW, 0);
+    initTask(&t150Task, t150TaskCode, PRIORITY_HIGH_IRQ, 0);
+    initTask(&t333Task, t333TaskCode, PRIORITY_HIGH, 0);
 
     initTimer(&t100, 100*1000, &t100Task);
     initTimer(&t150, 150*1000, &t150Task);
