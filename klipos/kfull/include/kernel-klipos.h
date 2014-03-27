@@ -30,16 +30,12 @@ extern "C" {
 
 #include "../../hw/include/types.h"
     
-#include "klist.h"
+#include "../../kcommon/include/kcommon.h"
 #include "kernel.h"
 #include "kthread.h"
 #include "kevent.h"
-#include "kiostream.h"
 #include "kchannel.h"
-#include "klock.h"
 #include "ktimer.h"
-#include "kmemorystack.h"
-#include "kmemory.h"
 
 
 

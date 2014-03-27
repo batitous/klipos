@@ -30,9 +30,9 @@ klock = no
 printf = yes
 fsm = yes
 
-gpio = yes
-gpio-option = yes
-gpioirq = yes
+gpio = no
+gpio-option = no
+gpioirq = no
 
 uart0 = yes
 pwm = no
@@ -44,10 +44,11 @@ watchdog = no
 i2cmaster = no
 i2cmastersoft = no
 
-kernel = no
-kernelevent = no
-kernelmemory = no
-kerneldebug = no
+kmemory = no
+
+kfull-kernel = no
+kfull-event = no
+kfull-debug = no
 
 #### compiler defines ####
 

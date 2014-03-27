@@ -3,38 +3,24 @@
 
 
 
-ifeq ($(kernel),no)
+ifeq ($(kfull-kernel),no)
     # If we dont want kernel, include only the kiostream object
     DEFINE += -DFIRMWARE_DONT_USE_KERNEL
 
-    ifeq ($(uart0),yes)
-# for testing purpose, add the klist file here
-        SRC_KERNEL = kiostream.c klist.c
-    endif
 else
     # Default kernel source :
-    SRC_KERNEL += kernel.c kiostream.c klist.c ktimer.c kmain.c kchannel.c
-
-    klock = yes
+    SRC_KERNEL += kernel.c ktimer.c kmain.c kchannel.c
 
     # If event set to yes, then include the event manager :
-    ifeq ($(kernelevent),yes)
-        SRC_KERNEL += slist.c kevent.c
+    ifeq ($(kfull-event),yes)
+        SRC_KERNEL += kevent.c
         DEFINE += -DKERNEL_USE_KEVENT
     endif
 
-    ifeq ($(kerneldebug),yes)
+    ifeq ($(kfull-debug),yes)
         SRC_KERNEL += debug.c
         DEFINE += -DKERNEL_USE_DEBUG
     endif
-endif
-
-ifeq ($(klock),yes)
-    SRC_KERNEL += klock.c
-endif
-
-ifeq ($(kernelmemory),yes)
-    SRC_KERNEL += kmemory.c kmemorystack.c
 endif
 
 
