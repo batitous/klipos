@@ -16,7 +16,7 @@ include $(HW_PATH)/mcu/Makefile.lpc1xxx
 KCOMMON_PATH=$(KLIPOS_PATH)klipos/kcommon
 include $(KCOMMON_PATH)/Makefile.kcommon
 
-# Add kernel makefile
+# Add full kernel makefile
 KERNEL_PATH=$(KLIPOS_PATH)klipos/kfull
 include $(KERNEL_PATH)/Makefile.kfull
 

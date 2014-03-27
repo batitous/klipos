@@ -31,12 +31,15 @@ extern "C" {
 #include "../../hw/include/types.h"
     
 #include "../../kcommon/include/kcommon.h"
-#include "kernel.h"
-#include "kthread.h"
-#include "kevent.h"
-#include "kchannel.h"
-#include "ktimer.h"
 
+#include "kevent.h"
+    
+#ifndef FIRMWARE_DONT_USE_KERNEL
+#       include "kernel.h"
+#       include "kthread.h"
+#       include "kchannel.h"
+#       include "ktimer.h"
+#endif
 
 
 #ifdef __cplusplus
