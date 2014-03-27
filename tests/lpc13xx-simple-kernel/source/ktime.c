@@ -6,25 +6,17 @@
 #include "../include/ktime.h"
 
 
-KList timers;
-KTimer* currentTimer;
-Int32 currentTime;
-
-void debugTimer(void)
-{
-    KTimer* next = (KTimer*)timers.next;
-    
-    printf("Current timer %d: remain %d reload %d\r\n", next->task, currentTimer->remaining, currentTimer->reload);
-    
-    while (next != (KTimer*)&timers)
-    {
-        printf("Timer %d: remain %d reload %d\r\n", next->task, next->remaining, next->reload);
-        next = next->next;
-    }
-}
+//-------------------------- private variables
 
 #define SYSTICK_MAX     0xFFFFFF
 #define MAX_TIME_IN_US  233000
+
+
+static KList timers;
+static Int32 currentTime;
+
+
+//-------------------------- private functions
 
 void SysTick_Handler(void)
 {
@@ -38,11 +30,15 @@ void SysTick_Handler(void)
         if (timer->remaining == 0)
         {
             timer->remaining = timer->reload;
-            postEventToTask(timer->task, 0);
             
-            if (timer->task->priority == PRIORITY_HIGH_IRQ)
+            if (timer->task->priority == PRIORITY_VERY_HIGH)
             {
+                // if very high priority, execute immediatly the task
                 timer->task->code(0);
+            }
+            else
+            {
+                postEventToTask(timer->task, 0);
             }
         }
         
@@ -92,18 +88,17 @@ void insertTimerWithPriority( KTimer* timer)
     
     p->next = timer;
     temp->prev = timer;
-    
 }
+
+//-------------------------- public functions
+
 
 void initKernelTimers(void)
 {
     initKList(&timers);
     
-    currentTimer = 0;
-    
-//    printf("SysTick_Config %d\r\n", SysTick_Config( GET_TICK_FROM_US(100000)) );
+    currentTime = 0;
 }
-
 
 void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task)
 {
@@ -114,10 +109,9 @@ void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task)
     insertTimerWithPriority(timer);
     
     KTimer* first = (KTimer*)timers.next;
-    if (currentTimer != first)
+    if (currentTime != first->remaining)
     {
-        currentTimer = first;
-        currentTime = currentTimer->remaining;
+        currentTime = first->remaining;
         
         SysTick_Config( GET_TICK_FROM_US(currentTime));
     }

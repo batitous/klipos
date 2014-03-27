@@ -4,11 +4,13 @@
 #include "../include/kqueue.h"
 #include "../include/ktask.h"
 
-KTask idleTask;
-KList tasks;
+//-------------------------- private variables
 
-//UInt8 currentPriority;
-//#define SET_PRIORITY(backup,prio)   backup = currentPriority; currentPriority = prio
+
+static KList tasks;
+
+
+//-------------------------- private functions
 
 
 void insertTaskWithPriority( KTask * th)
@@ -34,21 +36,27 @@ void insertTaskWithPriority( KTask * th)
     
 }
 
+void idleTask(void)
+{
+    setMcuToDefaultSleep();
+}
+
+
+//-------------------------- public functions
+
+
 void initTask(KTask* task, KTaskCode c, KPriority prio, UInt32 eventId)
 {
     task->code = c;
     task->priority = prio;
     task->eventId = eventId;
     
-    initKQueue(&task->events, task->eventsBuffer, QUEUE_SIZE);
+    initKQueue(&task->events, task->eventsBuffer, TASK_QUEUE_SIZE);
     
-    if (task != &idleTask)
-    {
-        insertTaskWithPriority(task);
-    }
+    insertTaskWithPriority(task);
 }
 
-bool scheduleTask(void)
+void scheduleTask(void)
 {
     UInt32 tmp;
     
@@ -60,7 +68,7 @@ bool scheduleTask(void)
     {
         while ( readFromKQueue(&next->events, &tmp) != false)
         {
-          printf("Scheduler: execute task prio %d (data = 0x%x %c %d)\n", next->priority,tmp, tmp, tmp);
+//          printf("Scheduler: execute task prio %d (data = 0x%x %c %d)\n", next->priority,tmp, tmp, tmp);
             
             executed = true;
             next->code(tmp);
@@ -68,7 +76,11 @@ bool scheduleTask(void)
         next = next->next;
     }
     
-    return executed;
+    if (executed==false)
+    {
+        idleTask();
+    }
+
 }
 
 void postEventToTask(KTask* task, UInt32 data)
@@ -91,20 +103,7 @@ void postEventToTaskWithId(UInt32 id, UInt32 data)
     }
 }
 
-void idleCode(UInt32 event)
-{
-    
-}
-
 void initKernel(void)
 {
     initKList(&tasks);
-    initTask(&idleTask, idleCode, PRIORIY_IDLE, 0);
-    
-//    currentPriority = PRIORIY_IDLE;
-}
-
-void executeIdleTask(void)
-{
-    idleCode(0);
 }

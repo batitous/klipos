@@ -64,7 +64,7 @@ int main(void)
     initTask(&uartTask, uartTaskCode, PRIORITY_LOW, 12345);
 
     initTask(&t100Task, t100TaskCode, PRIORITY_LOW, 0);
-    initTask(&t150Task, t150TaskCode, PRIORITY_HIGH_IRQ, 0);
+    initTask(&t150Task, t150TaskCode, PRIORITY_VERY_HIGH, 0);
     initTask(&t333Task, t333TaskCode, PRIORITY_HIGH, 0);
 
     initTimer(&t100, 100*1000, &t100Task);
@@ -73,14 +73,9 @@ int main(void)
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     
-    debugTimer();
-    
     while(1)
     {
-        if (scheduleTask()==false)
-        {
-            executeIdleTask();
-        }
+        scheduleTask();
     }
     
     

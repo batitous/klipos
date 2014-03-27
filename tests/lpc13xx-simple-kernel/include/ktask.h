@@ -14,14 +14,14 @@ extern "C" {
 
 typedef void (*KTaskCode)(UInt32 dataEvent);
 
-#define QUEUE_SIZE  4
+#define TASK_QUEUE_SIZE  4
 
 typedef enum _priority_
 {
         PRIORIY_IDLE    = 0,
         PRIORITY_LOW    = 1,
         PRIORITY_HIGH   = 254,
-        PRIORITY_HIGH_IRQ = 255
+        PRIORITY_VERY_HIGH = 255        /**< task can be executed directly in IRQ */
 } KPriority;
 
 typedef struct _ktask_
@@ -30,7 +30,7 @@ typedef struct _ktask_
     KLink *     prev;
     
     KQueue      events;
-    UInt32      eventsBuffer[QUEUE_SIZE];
+    UInt32      eventsBuffer[TASK_QUEUE_SIZE];
     UInt32      eventId;
     
     KTaskCode   code;
@@ -39,9 +39,7 @@ typedef struct _ktask_
 
 extern void initTask(KTask* task, KTaskCode c, KPriority prio, UInt32 eventId);
 
-extern bool scheduleTask(void);
-
-extern void executeIdleTask(void);
+extern void scheduleTask(void);
 
 extern void postEventToTaskWithId(UInt32 id, UInt32 data);
 
