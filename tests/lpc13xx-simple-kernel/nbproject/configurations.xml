@@ -200,6 +200,8 @@
         <in>kernel-klipos.h</in>
       </df>
     </df>
+    <df root="../../klipos" name="2">
+    </df>
     <df root="." name="1">
       <df name="include">
         <in>kqueue.h</in>
@@ -213,6 +215,18 @@
         <in>main.c</in>
       </df>
     </df>
+    <df root="." name="3">
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile.options</itemPath>
+      <itemPath>Makefile.toolchainconfig</itemPath>
+      <itemPath>include</itemPath>
+      <itemPath>source</itemPath>
+    </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
                    projectFiles="false"
@@ -226,6 +240,8 @@
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
+    <Elem>.</Elem>
+    <Elem>../../klipos</Elem>
     <Elem>.</Elem>
     <Elem>../../klipos</Elem>
   </sourceRootList>
