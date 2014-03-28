@@ -34,7 +34,7 @@ extern "C" {
 
 #include "kevent.h"
     
-#ifndef FIRMWARE_DONT_USE_KERNEL
+#ifdef FIRMWARE_USE_FULL_KERNEL
 #       include "kernel.h"
 #       include "kthread.h"
 #       include "kchannel.h"

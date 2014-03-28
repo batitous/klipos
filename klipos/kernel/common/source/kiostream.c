@@ -22,19 +22,15 @@
 */
 #include "../../hw/include/libs-default.h"
 
-#include "../include/kmemory.h"
-#include "../include/klist.h"
-#include "../include/kthread.h"
-#include "../include/kevent.h"
-#include "../include/ktimer.h"
-#include "../include/kiostream.h"
+#include "../../full/include/kernel-klipos.h"
 
-#include "../include/kernel-private.h"
-
+#ifdef FIRMWARE_USE_FULL_KERNEL
+#       include "../../full/include/kernel-private.h"
+#endif
 
 void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
 {
-#ifndef FIRMWARE_DONT_USE_KERNEL
+#ifdef FIRMWARE_USE_FULL_KERNEL
     stream->receiver = 0;
 #endif
     stream->read = 0;
@@ -97,7 +93,7 @@ Bool isDataAvailableFromIOStream(KIOStream *stream)
     return False;
 }
 
-#ifndef FIRMWARE_DONT_USE_KERNEL
+#ifdef FIRMWARE_USE_FULL_KERNEL
 
 void irqWakeUpTaskFromIOStream(KIOStream *stream)
 {

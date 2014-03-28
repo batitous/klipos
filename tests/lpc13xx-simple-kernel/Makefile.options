@@ -46,9 +46,9 @@ i2cmastersoft = no
 
 kmemory = no
 
-kfull-kernel = no
-kfull-event = no
-kfull-debug = no
+kernel-full = no
+kernel-full-event = no
+kernel-full-debug = no
 
 #### compiler defines ####
 

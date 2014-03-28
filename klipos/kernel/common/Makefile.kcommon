@@ -4,11 +4,11 @@
 SRC_KCOMMON = klist.c kiostream.c 
 
 
-ifeq ($(kfull-event),yes)
+ifeq ($(kernel-full-event),yes)
     SRC_KCOMMON += slist.c
 endif
 
-ifeq ($(kfull-kernel),yes)
+ifeq ($(kernel-full-kernel),yes)
     klock = yes
 endif
 
