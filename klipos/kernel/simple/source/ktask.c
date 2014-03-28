@@ -33,6 +33,7 @@
 
 static KList tasks;
 
+extern void initKernelTimers(void);
 
 //-------------------------- private functions
 

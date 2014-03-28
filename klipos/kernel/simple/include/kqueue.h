@@ -27,18 +27,40 @@
 extern "C" {
 #endif
 
+/** @brief Queue object */
 typedef struct _kqueue_
 {
-    UInt32      head;
+    UInt32      head;   
     UInt32      tail;
     UInt32      size;
     UInt32*     pending;
 } KQueue;
 
+
+/** @brief Initialize a queue
+ * 
+ * @param queue         Pointer to an allocated queue
+ * @param buffer        Queue's buffer
+ * @param size          Size of buffer
+ */
 extern void initKQueue(KQueue* queue, void* buffer, Int32 size);
 
+
+/** Write a data to the queue
+ * 
+ * @param queue         Pointer the queue
+ * @param data          Data to write
+ * @return false if queue full
+ */
 extern bool writeToKQueue(KQueue* queue, UInt32 data);
 
+
+/** Read a data from a queue
+ * 
+ * @param queue         Pointer to the queue
+ * @param data          Pointer to the data
+ * @return false if queue empty, else true and data stores the queue's data.
+ */
 extern bool readFromKQueue(KQueue* queue, UInt32* data);
 
 

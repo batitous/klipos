@@ -27,6 +27,7 @@
 extern "C" {
 #endif
 
+/** @brief Timer object */
 typedef struct _ktimer_
 {
     KLink*      next;       /**< pointer to the next timer */
@@ -36,8 +37,14 @@ typedef struct _ktimer_
     KTask*      task;       /**< timer's task */
 } KTimer;
 
-extern void initKernelTimers(void);
 
+
+/** Initialize a timer for the task
+ * 
+ * @param timer         Pointer to an allocated timer
+ * @param delayInUs     Delay before time is fired up
+ * @param task          Timer wakeup this task
+ */
 extern void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task);
 
 

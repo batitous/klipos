@@ -31,6 +31,8 @@ typedef void (*KTaskCode)(UInt32 dataEvent);
 
 #define TASK_QUEUE_SIZE  8
 
+
+/** @brief Task's Priority */
 typedef enum _priority_
 {
         PRIORIY_IDLE    = 0,
@@ -39,6 +41,10 @@ typedef enum _priority_
         PRIORITY_VERY_HIGH = 255        /**< task can be executed directly in IRQ */
 } KPriority;
 
+
+/** @brief Task object
+ *
+ */
 typedef struct _ktask_
 {
     KLink *     next;           /**< next task in the list */
@@ -52,15 +58,40 @@ typedef struct _ktask_
     KPriority   priority;       /**< task's priority */
 } KTask;
 
+
+/** @brief Initialize the simple kernel */
+extern void initSimpleKernel(void);
+
+
+/** @brief Initialize a new task
+ * 
+ * @param task  The task
+ * @param c     Task's code
+ * @param prio  Task's priority
+ */
 extern void initTask(KTask* task, KTaskCode c, KPriority prio);
 
+
+/** @brief Launch the scheduler and execute any pending task */
 extern void scheduleTask(void);
 
+
+/** @brief Post an event
+ * 
+ * @param id    Event identifier
+ * @param data  Data's event
+ */
 extern void postEventToTaskWithId(UInt32 id, UInt32 data);
 
+
+/** Post an event to the specified task
+ * 
+ * @param task          Task   
+ * @param data          Event's data
+ * @return false if error (task null, event queue full), else true
+ */
 extern bool postEventToTask(KTask* task, UInt32 data);
 
-extern void initSimpleKernel(void);
 
 #ifdef	__cplusplus
 }
