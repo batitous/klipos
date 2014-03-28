@@ -85,7 +85,16 @@ void scheduleTask(void)
 
 void postEventToTask(KTask* task, UInt32 data)
 {
-    writeToKQueue(&task->events, data);
+    if (task->priority == PRIORITY_VERY_HIGH)
+    {
+        // if very high priority, execute immediatly the task
+        task->code(data);
+    }
+    else
+    {
+        // else, write into the task's queue
+        writeToKQueue(&task->events, data);
+    }
 }
 
 void postEventToTaskWithId(UInt32 id, UInt32 data)

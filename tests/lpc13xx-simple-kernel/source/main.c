@@ -1,9 +1,9 @@
 
 #include <libs-klipos.h>
 
-#include "../include/kqueue.h"
-#include "../include/ktask.h"
-#include "../include/ktime.h"
+//#include "../include/kqueue.h"
+//#include "../include/ktask.h"
+//#include "../include/ktime.h"
 
 KTask uartTask;
 KTask t100Task;

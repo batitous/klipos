@@ -28,7 +28,7 @@
  */
 typedef struct _kernel_io_stream_
 {
-#ifdef FIRMWARE_USE_FULL_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
     KThread *       receiver;   /**< receiver thread */
 #endif
     
@@ -95,7 +95,7 @@ extern Bool isDataAvailableFromIOStream(KIOStream *stream);
  *
  * @param stream    i/o stream object.
  */
-#ifdef FIRMWARE_USE_FULL_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
         extern void irqWakeUpTaskFromIOStream(KIOStream *stream);
 #else
 #       define irqWakeUpTaskFromIOStream(stream)
@@ -105,7 +105,7 @@ extern Bool isDataAvailableFromIOStream(KIOStream *stream);
  *
  * @param stream    i/o stream object.
  */
-#ifdef FIRMWARE_USE_FULL_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
         extern void waitDataFromIOStream(KIOStream *stream);
 #else
 #       define waitDataFromIOStream(stream)

@@ -10,11 +10,15 @@ HW_PATH=$(KLIPOS_PATH)klipos/hw/
 
 # Configure kernel or not option
 ifeq ($(kernel-full),no)
-    DEFINE += -DFIRMWARE_DONT_USE_KERNEL
+    ifeq ($(kernel-simple),no)
+        DEFINE += -DFIRMWARE_DONT_USE_KERNEL
+    endif
 endif
 
 ifeq ($(kernel-simple),no)
-    DEFINE += -DFIRMWARE_DONT_USE_KERNEL
+    ifeq ($(kernel-full),no)
+        DEFINE += -DFIRMWARE_DONT_USE_KERNEL
+    endif
 endif
 
 # Configure mcu core

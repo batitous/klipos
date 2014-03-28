@@ -31,7 +31,7 @@ extern "C" {
 #include "libs-default.h"
 
     
-#include "../../kernel/full/include/kernel-klipos.h"
+#include "../../kernel/kernel-klipos.h"
 
 #include "drivers/sleep.h"
 #include "drivers/i2c.h"

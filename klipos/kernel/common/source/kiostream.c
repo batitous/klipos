@@ -20,17 +20,17 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
 
-#include "../../full/include/kernel-klipos.h"
+#include "../../../hw/include/libs-default.h"
+#include "../../kernel-klipos.h"
 
-#ifdef FIRMWARE_USE_FULL_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
 #       include "../../full/include/kernel-private.h"
 #endif
 
 void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
 {
-#ifdef FIRMWARE_USE_FULL_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
     stream->receiver = 0;
 #endif
     stream->read = 0;
@@ -93,7 +93,7 @@ Bool isDataAvailableFromIOStream(KIOStream *stream)
     return False;
 }
 
-#ifdef FIRMWARE_USE_FULL_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
 
 void irqWakeUpTaskFromIOStream(KIOStream *stream)
 {

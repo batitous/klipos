@@ -9,7 +9,9 @@ NAME = firmware
 DEFINE =
 
 # Project source files:
-SOURCE_PROJECT= main.c kqueue.c ktask.c ktime.c
+SOURCE_PROJECT= main.c 
+
+#kqueue.c ktask.c ktime.c
 
 
 # Include repertory : -I<repertory path>
@@ -45,6 +47,8 @@ i2cmaster = no
 i2cmastersoft = no
 
 kmemory = no
+
+kernel-simple = yes
 
 kernel-full = no
 kernel-full-event = no

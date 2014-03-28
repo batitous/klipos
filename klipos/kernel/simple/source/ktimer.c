@@ -3,7 +3,7 @@
 
 #include "../include/kqueue.h"
 #include "../include/ktask.h"
-#include "../include/ktime.h"
+#include "../include/ktimer.h"
 
 
 //-------------------------- private variables
@@ -31,15 +31,7 @@ void SysTick_Handler(void)
         {
             timer->remaining = timer->reload;
             
-            if (timer->task->priority == PRIORITY_VERY_HIGH)
-            {
-                // if very high priority, execute immediatly the task
-                timer->task->code(0);
-            }
-            else
-            {
-                postEventToTask(timer->task, 0);
-            }
+            postEventToTask(timer->task, 0);
         }
         
         if (timer->remaining > 0 && nextTime > timer->remaining)

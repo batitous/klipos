@@ -20,10 +20,10 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
+#include "../../../hw/include/libs-default.h"
 
-#include "../include/kmemory.h"
-#include "../include/klist.h"
+#include "../../common/include/kmemory.h"
+#include "../../common/include/klist.h"
 #include "../include/kthread.h"
 #include "../include/kernel-private.h"
 #include "../include/kchannel.h"

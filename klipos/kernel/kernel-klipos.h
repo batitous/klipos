@@ -32,16 +32,22 @@ extern "C" {
     
 #include "../../kernel/common/include/kcommon.h"
 
-#include "kevent.h"
+#include "full/include/kevent.h"
     
-#ifdef FIRMWARE_USE_FULL_KERNEL
-#       include "kernel.h"
-#       include "kthread.h"
-#       include "kchannel.h"
-#       include "ktimer.h"
+#ifdef FIRMWARE_USE_KERNEL_FULL
+#       include "full/include/kernel.h"
+#       include "full/include/kthread.h"
+#       include "full/include/kchannel.h"
+#       include "full/include/ktimer.h"
 #endif
 
-
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+#       include "simple/include/kqueue.h"
+#       include "simple/include/ktask.h"
+#       include "simple/include/ktimer.h"
+#endif
+    
+    
 #ifdef __cplusplus
  }
 #endif

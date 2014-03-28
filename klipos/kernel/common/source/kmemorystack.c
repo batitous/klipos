@@ -20,8 +20,8 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
-#include "../include/kernel-klipos.h"
+#include "../../../hw/include/libs-default.h"
+#include "../include/kmemorystack.h"
 
 
 //-------------------------- debug
