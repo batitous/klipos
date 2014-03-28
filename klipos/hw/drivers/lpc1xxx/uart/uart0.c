@@ -96,6 +96,10 @@ static const Uart uart0 = {
     sendBufferToUart0 
 };
 
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+static KTask*   uartTask;
+#endif
+
 //--------------------- private functions:
 
 void UART0_IRQHandler(void)
@@ -119,7 +123,7 @@ void UART0_IRQHandler(void)
 #endif
             
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
-            postEventToTaskWithId( 12345, (UInt32)data);
+            postEventToTask(uartTask,(UInt32)data);
 #endif
             
         }
@@ -207,6 +211,15 @@ bool isDataAvailableOnUart0(void)
 void waitDataFromUart0(void)
 {
     waitDataFromIOStream(&uartStream);
+}
+
+#endif
+
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+
+void setTaskOnUart0(KTask* t)
+{
+    uartTask = t;
 }
 
 #endif

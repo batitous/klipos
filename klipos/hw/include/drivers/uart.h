@@ -70,6 +70,10 @@ extern bool getByteFromUart0(UInt8 *byte);
         extern void waitDataFromUart0(void);
 #endif
 
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+        extern void setTaskOnUart0(KTask* t);
+#endif
+        
 extern bool isDataAvailableOnUart0(void);
 
 extern void powerOnUart0(void);

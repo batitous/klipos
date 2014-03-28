@@ -149,34 +149,55 @@
         </df>
       </df>
       <df name="kernel">
-        <df name="include">
-          <in>kchannel.h</in>
-          <in>kernel-klipos.h</in>
-          <in>kernel-private.h</in>
-          <in>kernel.h</in>
-          <in>kevent.h</in>
-          <in>kiostream.h</in>
-          <in>klist.h</in>
-          <in>klock.h</in>
-          <in>kmemory.h</in>
-          <in>kmemorystack.h</in>
-          <in>kthread.h</in>
-          <in>ktimer.h</in>
+        <df name="common">
+          <df name="include">
+            <in>kcommon.h</in>
+            <in>kiostream.h</in>
+            <in>klist.h</in>
+            <in>klock.h</in>
+            <in>kmemory.h</in>
+            <in>kmemorystack.h</in>
+          </df>
+          <df name="source">
+            <in>kiostream.c</in>
+            <in>klist.c</in>
+            <in>klock.c</in>
+            <in>kmemory.c</in>
+            <in>kmemorystack.c</in>
+            <in>slist.c</in>
+          </df>
         </df>
-        <df name="source">
-          <in>debug.c</in>
-          <in>kchannel.c</in>
-          <in>kernel.c</in>
-          <in>kevent.c</in>
-          <in>kiostream.c</in>
-          <in>klist.c</in>
-          <in>klock.c</in>
-          <in>kmain.c</in>
-          <in>kmemory.c</in>
-          <in>kmemorystack.c</in>
-          <in>ktimer.c</in>
-          <in>slist.c</in>
+        <df name="full">
+          <df name="include">
+            <in>kchannel.h</in>
+            <in>kernel-private.h</in>
+            <in>kernel.h</in>
+            <in>kevent.h</in>
+            <in>kthread.h</in>
+            <in>ktimer.h</in>
+          </df>
+          <df name="source">
+            <in>debug.c</in>
+            <in>kchannel.c</in>
+            <in>kernel.c</in>
+            <in>kevent.c</in>
+            <in>kmain.c</in>
+            <in>ktimer.c</in>
+          </df>
         </df>
+        <df name="simple">
+          <df name="include">
+            <in>kqueue.h</in>
+            <in>ktask.h</in>
+            <in>ktimer.h</in>
+          </df>
+          <df name="source">
+            <in>kqueue.c</in>
+            <in>ktask.c</in>
+            <in>ktimer.c</in>
+          </df>
+        </df>
+        <in>kernel-klipos.h</in>
       </df>
     </df>
     <df root="." name="1">
@@ -602,110 +623,160 @@
       </item>
       <item path="../../klipos/hw/utils/time.c" ex="false" tool="0" flavor2="0">
       </item>
-      <item path="../../klipos/kernel/include/kchannel.h"
+      <item path="../../klipos/kernel/common/include/kcommon.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/include/kernel-klipos.h"
+      <item path="../../klipos/kernel/common/include/kiostream.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/include/kernel-private.h"
+      <item path="../../klipos/kernel/common/include/klist.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/include/kernel.h"
+      <item path="../../klipos/kernel/common/include/klock.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/include/kevent.h"
+      <item path="../../klipos/kernel/common/include/kmemory.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/include/kiostream.h"
+      <item path="../../klipos/kernel/common/include/kmemorystack.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/include/klist.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/include/klock.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/include/kmemory.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/include/kmemorystack.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/include/kthread.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/include/ktimer.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/source/debug.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/source/kchannel.c"
+      <item path="../../klipos/kernel/common/source/kiostream.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/source/kernel.c"
+      <item path="../../klipos/kernel/common/source/klist.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/source/kevent.c"
+      <item path="../../klipos/kernel/common/source/klock.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/source/kiostream.c"
+      <item path="../../klipos/kernel/common/source/kmemory.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/source/klist.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/source/klock.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/source/kmain.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="../../klipos/kernel/source/kmemory.c"
+      <item path="../../klipos/kernel/common/source/kmemorystack.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/source/kmemorystack.c"
+      <item path="../../klipos/kernel/common/source/slist.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/source/ktimer.c"
+      <item path="../../klipos/kernel/full/include/kchannel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kernel-private.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kernel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kevent.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kthread.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/ktimer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/debug.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="../../klipos/kernel/source/slist.c" ex="false" tool="0" flavor2="0">
+      <item path="../../klipos/kernel/full/source/kchannel.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/kernel.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/kevent.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/kmain.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/ktimer.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/kernel-klipos.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/include/kqueue.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/include/ktask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/include/ktimer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/source/kqueue.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/source/ktask.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/source/ktimer.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
       </item>
       <item path="include/kqueue.h" ex="false" tool="3" flavor2="0">
       </item>

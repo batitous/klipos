@@ -88,18 +88,19 @@ int main(void)
     t150Ok = false;
     setGpioDirection(GPIO0_9, GPIO_OUT);
     
-    initKernel();
-    initKernelTimers();
+    initSimpleKernel();
     
-    initTask(&uartTask, uartTaskCode, PRIORITY_LOW, 12345);
+    initTask(&uartTask, uartTaskCode, PRIORITY_LOW);
 
-    initTask(&t100Task, t100TaskCode, PRIORITY_LOW, 0);
-    initTask(&t150Task, t150TaskCode, PRIORITY_VERY_HIGH, 0);
-    initTask(&t333Task, t333TaskCode, PRIORITY_HIGH, 0);
+    initTask(&t100Task, t100TaskCode, PRIORITY_LOW);
+    initTask(&t150Task, t150TaskCode, PRIORITY_VERY_HIGH);
+    initTask(&t333Task, t333TaskCode, PRIORITY_HIGH);
 
-    initTimer(&t100, 100, &t100Task);
-    initTimer(&t150, 150, &t150Task);
-    initTimer(&t333, 333, &t333Task);
+    setTaskOnUart0(&uartTask);
+    
+    initTimer(&t100, 40, &t100Task);
+    initTimer(&t150, 20, &t150Task);
+    initTimer(&t333, 20, &t333Task);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     

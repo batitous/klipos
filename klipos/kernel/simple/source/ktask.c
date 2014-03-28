@@ -3,6 +3,7 @@
 
 #include "../include/kqueue.h"
 #include "../include/ktask.h"
+#include "../include/ktimer.h"
 
 //-------------------------- private variables
 
@@ -45,11 +46,11 @@ void idleTask(void)
 //-------------------------- public functions
 
 
-void initTask(KTask* task, KTaskCode c, KPriority prio, UInt32 eventId)
+void initTask(KTask* task, KTaskCode c, KPriority prio)
 {
     task->code = c;
     task->priority = prio;
-    task->eventId = eventId;
+    task->eventId = 0;
     
     initKQueue(&task->events, task->eventsBuffer, TASK_QUEUE_SIZE);
     
@@ -83,18 +84,23 @@ void scheduleTask(void)
 
 }
 
-void postEventToTask(KTask* task, UInt32 data)
+bool postEventToTask(KTask* task, UInt32 data)
 {
+    if (task==0)
+    {
+        return false;
+    }
+    
     if (task->priority == PRIORITY_VERY_HIGH)
     {
-        // if very high priority, execute immediatly the task
+        // execute immediatly the task if high priority
         task->code(data);
+        
+        return true;
     }
-    else
-    {
-        // else, write into the task's queue
-        writeToKQueue(&task->events, data);
-    }
+
+    // else, write into the task's queue
+    return writeToKQueue(&task->events, data);
 }
 
 void postEventToTaskWithId(UInt32 id, UInt32 data)
@@ -112,7 +118,8 @@ void postEventToTaskWithId(UInt32 id, UInt32 data)
     }
 }
 
-void initKernel(void)
+void initSimpleKernel(void)
 {
     initKList(&tasks);
+    initKernelTimers();
 }

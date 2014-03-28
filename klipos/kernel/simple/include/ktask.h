@@ -52,15 +52,15 @@ typedef struct _ktask_
     KPriority   priority;       /**< task's priority */
 } KTask;
 
-extern void initTask(KTask* task, KTaskCode c, KPriority prio, UInt32 eventId);
+extern void initTask(KTask* task, KTaskCode c, KPriority prio);
 
 extern void scheduleTask(void);
 
 extern void postEventToTaskWithId(UInt32 id, UInt32 data);
 
-extern void postEventToTask(KTask* task, UInt32 data);
+extern bool postEventToTask(KTask* task, UInt32 data);
 
-extern void initKernel(void);
+extern void initSimpleKernel(void);
 
 #ifdef	__cplusplus
 }
