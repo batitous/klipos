@@ -24,10 +24,6 @@
 #include "../../../hw/include/libs-default.h"
 #include "../../kernel-klipos.h"
 
-#ifdef FIRMWARE_USE_KERNEL_FULL
-#       include "../../full/include/kernel-private.h"
-#endif
-
 void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
 {
 #ifdef FIRMWARE_USE_KERNEL_FULL
@@ -92,28 +88,3 @@ Bool isDataAvailableFromIOStream(KIOStream *stream)
     
     return False;
 }
-
-#ifdef FIRMWARE_USE_KERNEL_FULL
-
-void irqWakeUpTaskFromIOStream(KIOStream *stream)
-{
-    KThread * th = stream->receiver;
-    
-    if(th!=0)
-    {
-        // a task is waiting, wakeup this task !
-        stream->receiver = 0;
-        irqSetTaskAsReady(th);
-    }
-}
-
-void waitDataFromIOStream(KIOStream *stream)
-{
-    if( stream->read==stream->write)
-    {
-        stream->receiver = (KThread *)currentTask;
-        setTaskAsBlocked();
-    }
-}
-
-#endif

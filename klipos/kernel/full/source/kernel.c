@@ -535,3 +535,23 @@ UInt32 getCurrentTimeOfKernel(void)
     return tickOfKernel;
 }
 
+void irqWakeUpTaskFromIOStream(KIOStream *stream)
+{
+    KThread * th = stream->receiver;
+    
+    if(th!=0)
+    {
+        // a task is waiting, wakeup this task !
+        stream->receiver = 0;
+        irqSetTaskAsReady(th);
+    }
+}
+
+void waitDataFromIOStream(KIOStream *stream)
+{
+    if( stream->read==stream->write)
+    {
+        stream->receiver = (KThread *)currentTask;
+        setTaskAsBlocked();
+    }
+}
