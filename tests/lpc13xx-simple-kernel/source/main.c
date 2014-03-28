@@ -1,14 +1,13 @@
 
 #include <libs-klipos.h>
 
-//#include "../include/kqueue.h"
-//#include "../include/ktask.h"
-//#include "../include/ktime.h"
 
 KTask uartTask;
 KTask t100Task;
 KTask t150Task;
 KTask t333Task;
+KTask gpioTask;
+
 
 void uartTaskCode(UInt32 event)
 {
@@ -29,6 +28,11 @@ void uartTaskCode(UInt32 event)
         printf("\r\n");
     }
     
+}
+
+void gpioTaskCode(UInt32 event)
+{
+    printf("IRQ event: %x\r\n", event);
 }
 
 
@@ -95,8 +99,11 @@ int main(void)
     initTask(&t100Task, t100TaskCode, PRIORITY_LOW);
     initTask(&t150Task, t150TaskCode, PRIORITY_VERY_HIGH);
     initTask(&t333Task, t333TaskCode, PRIORITY_HIGH);
-
+    initTask(&gpioTask, gpioTaskCode, PRIORITY_LOW);
+    
     setTaskOnUart0(&uartTask);
+    
+    enableGpioIrqOnTask(&gpioTask, GPIO0_1, GPIO_BOTH_EDGE);
     
     initTimer(&t100, 40, &t100Task);
     initTimer(&t150, 20, &t150Task);

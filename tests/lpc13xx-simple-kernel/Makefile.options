@@ -6,7 +6,7 @@
 NAME = firmware
 
 # Define: -D<symbol>
-DEFINE =
+DEFINE = -DSTACKSIZE=128
 
 # Project source files:
 SOURCE_PROJECT= main.c 
@@ -32,11 +32,12 @@ klock = no
 printf = yes
 fsm = yes
 
-gpio = yes
-gpio-option = no
-gpioirq = no
-
 uart0 = yes
+
+gpio = yes
+gpioirq = yes
+
+gpio-option = no
 pwm = no
 timer = no
 eeprom = no
