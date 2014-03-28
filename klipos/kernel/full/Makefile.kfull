@@ -6,6 +6,10 @@ ifeq ($(kernel-full), yes)
     # Default kernel source :
     SRC_KERNEL += kernel.c ktimer.c kmain.c kchannel.c
 
+    ifeq ($(gpioirq),yes)
+        SRC_KERNEL += gpio-irq.c
+    endif
+
     DEFINE += -DFIRMWARE_USE_KERNEL_FULL
 
     # If event set to yes, then include the event manager :

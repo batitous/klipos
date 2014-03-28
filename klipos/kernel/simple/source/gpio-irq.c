@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
  
- Copyright (c) 2013 Baptiste Burles, Christophe Casson, Sylvain Fay-Chatelard
+ Copyright (c) 2014 Baptiste Burles
  
  Permission is hereby granted, free of charge, to any person obtaining a copy of
  this software and associated documentation files (the "Software"), to deal in
@@ -20,31 +20,25 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../../include/libs-klipos.h"
+#include "../../../hw/include/libs-klipos.h"
 
-//----------------------------- private functions
+//-------------------------- private functions
 
 
-// Manage the input/output interrupt for the KEvent manager
-void keventGpioIrqCallback(UInt32 event, UInt32 edge)
+void gpioIrqCallback(UInt32 gpioEvent, UInt32 gpioEdge)
 {
-    postEventFromIrq(KEVENT_GPIO_MASK | event, edge );
+    postEventToTaskWithId(gpioEvent, gpioEdge);
 }
 
+//-------------------------- public functions
 
-//----------------------------- public functions
 
-void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback)
+void enableGpioIrqOnTask(KTask* task, GPIO_PIN pin, GPIO_EDGE edge)
 {
-    if ( registerEvent( manager, KEVENT_GPIO_MASK | pin, callback, 0) == False )
-    {
-        return;
-    }
+    setGpioIrqCallback(gpioIrqCallback);
     
-    setGpioIrqCallback(keventGpioIrqCallback);
-        
+    task->eventId = pin;
+    
     setGpioDirection(pin,GPIO_IN);
     enableGpioIrq(pin,edge);
-    
 }
-

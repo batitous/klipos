@@ -8,6 +8,10 @@ ifeq ($(kernel-simple), yes)
 
     DEFINE += -DFIRMWARE_USE_KERNEL_SIMPLE
 
+    ifeq ($(gpioirq),yes)
+        SRC_KSIMPLE += gpio-irq.c
+    endif
+
 endif
 
 
