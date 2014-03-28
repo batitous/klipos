@@ -27,6 +27,7 @@
 extern "C" {
 #endif
 
+#ifdef FIRMWARE_USE_KERNEL_FULL
 /** @brief Enable an Kernel event on a GPIO pin
  *
  * @param pin           Pin
@@ -34,14 +35,27 @@ extern "C" {
  * @param callback      event callback
  * @return
  */
-extern void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback);
+        extern void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback);
+#endif
 
-
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+/** @brief Enable a GPIO IRQ on the specified task
+ * 
+ * @param task          Task associated with the IRQ pin
+ * @param pin           The pin
+ * @param edge          Falling or Rising edge (only lpc13xx can have both on the same event!)
+ */
+        extern void enableGpioIrqOnTask(KTask* task, GPIO_PIN pin, GPIO_EDGE edge);
+#endif
+        
 /** @brief IRQ callback type */
 typedef void (*GpioIrqCallback)(UInt32 gpioEvent, UInt32 gpioEdge);
 
 
-// set the gpio irq callback
+/** @brief Set the GPIO IRQ callback
+ * 
+ * @param callback      Function to call when a GPIO IRQ comes.
+ */
 extern void setGpioIrqCallback(GpioIrqCallback callback);
 
 

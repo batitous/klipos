@@ -1,0 +1,22 @@
+# Makefile needs this symbol:
+# KERNEL_SIMPLE_PATH SOURCE_KLIP SOURCE_PATH_KLIP HEADER_KLIP
+
+SRC_KSIMPLE = 
+
+ifeq ($(kernel-simple), yes)
+    SRC_KSIMPLE += kqueue.c ktask.c ktimer.c
+
+    DEFINE += -DFIRMWARE_USE_KERNEL_SIMPLE
+
+    ifeq ($(gpioirq),yes)
+        SRC_KSIMPLE += gpio-irq.c
+    endif
+
+    SRC_PATH_KSIMPLE=$(KERNEL_SIMPLE_PATH)/source
+
+    # Add to the project the kernel source code
+    SOURCE_KLIP += $(SRC_KSIMPLE)
+    SOURCE_PATH_KLIP += $(SRC_PATH_KSIMPLE)
+    HEADER_KLIP += -I$(KERNEL_SIMPLE_PATH)/include
+
+endif

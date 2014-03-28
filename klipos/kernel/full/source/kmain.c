@@ -20,36 +20,27 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
 #include "../../hw/include/libs-default.h"
 
-#include "../include/klock.h"
+#include "../../kernel-klipos.h"
 
-Bool trylock(UInt32 * ressources)
+
+extern void usermain(void);
+
+int main(void)
 {
-    if( __LDREXW((uint32_t *)ressources) == 0)
-    {
-        if(__STREXW( 1, (uint32_t *)ressources) != 0)
-        {
-            return False;
-        }
-        else
-        {
-            // ressources is not used by another thread, we can use them !
-            return True;
-        }
-    }
-    else
-    {
-        return False;
-    }
+    
+    initKernel();
+    
+    usermain();
+
+    startKernel();
+
+    return 0;
 }
 
-void unlock(UInt32 * ressources)
-{
-    // clear the ressources for other thread
-    //__STREXW( 0, ressources);
 
-    *ressources = 0;
-}
+
 
 

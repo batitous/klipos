@@ -22,7 +22,6 @@
 */
 #include "../../hw/include/libs-default.h"
 
-#include "../include/kernel.h"
 
 #define BFAR    (*(volatile UInt32 *)(0xE000ED38))
 #define MMAR    (*(volatile UInt32 *)(0xE000ED34))
@@ -66,7 +65,10 @@ void dumpFaultHandler(UInt32 * stack)
     // Auxiliary Fault Status
     printf("AFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED3C)) );
     
-#ifndef FIRMWARE_DONT_USE_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
+
+#include "../../kernel/full/include/kernel.h"
+
     dumpKernel();
 #endif
     

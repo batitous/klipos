@@ -22,7 +22,7 @@
 */
 #include "../../hw/include/libs-default.h"
 
-#include "../../kernel/include/kernel.h"
+#include "../../../kernel/full/include/kernel.h"
 
 
 

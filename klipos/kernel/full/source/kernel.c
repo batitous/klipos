@@ -20,12 +20,13 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
+#include "../../../hw/include/libs-default.h"
 
-#include "../include/klist.h"
+#include "../../common/include/klist.h"
+#include "../../common/include/kmemory.h"
 #include "../include/kthread.h"
-#include "../include/kmemory.h"
 #include "../include/kernel.h"
+#include "../../common/include/kiostream.h"
 #include "../include/kernel-private.h"
 
 //-------------------------- private defines
@@ -535,3 +536,23 @@ UInt32 getCurrentTimeOfKernel(void)
     return tickOfKernel;
 }
 
+void irqWakeUpTaskFromIOStream(KIOStream *stream)
+{
+    KThread * th = stream->receiver;
+    
+    if(th!=0)
+    {
+        // a task is waiting, wakeup this task !
+        stream->receiver = 0;
+        irqSetTaskAsReady(th);
+    }
+}
+
+void waitDataFromIOStream(KIOStream *stream)
+{
+    if( stream->read==stream->write)
+    {
+        stream->receiver = (KThread *)currentTask;
+        setTaskAsBlocked();
+    }
+}

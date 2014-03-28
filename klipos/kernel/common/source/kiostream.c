@@ -20,21 +20,13 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
 
-#include "../include/kmemory.h"
-#include "../include/klist.h"
-#include "../include/kthread.h"
-#include "../include/kevent.h"
-#include "../include/ktimer.h"
-#include "../include/kiostream.h"
-
-#include "../include/kernel-private.h"
-
+#include "../../../hw/include/libs-default.h"
+#include "../../kernel-klipos.h"
 
 void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
 {
-#ifndef FIRMWARE_DONT_USE_KERNEL
+#ifdef FIRMWARE_USE_KERNEL_FULL
     stream->receiver = 0;
 #endif
     stream->read = 0;
@@ -96,28 +88,3 @@ Bool isDataAvailableFromIOStream(KIOStream *stream)
     
     return False;
 }
-
-#ifndef FIRMWARE_DONT_USE_KERNEL
-
-void irqWakeUpTaskFromIOStream(KIOStream *stream)
-{
-    KThread * th = stream->receiver;
-    
-    if(th!=0)
-    {
-        // a task is waiting, wakeup this task !
-        stream->receiver = 0;
-        irqSetTaskAsReady(th);
-    }
-}
-
-void waitDataFromIOStream(KIOStream *stream)
-{
-    if( stream->read==stream->write)
-    {
-        stream->receiver = (KThread *)currentTask;
-        setTaskAsBlocked();
-    }
-}
-
-#endif

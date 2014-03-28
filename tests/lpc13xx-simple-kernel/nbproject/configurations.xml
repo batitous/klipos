@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="90">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="../../klipos" name="0">
+      <df name="hw">
+        <df name="core">
+          <df name="cortex-m3">
+            <in>core_cm3.c</in>
+          </df>
+        </df>
+        <df name="drivers">
+          <df name="external">
+            <df name="mem-protocol">
+              <in>mem-protocol.c</in>
+            </df>
+          </df>
+          <df name="lpc1xxx">
+            <df name="analog">
+              <in>analog-lpc13xx.c</in>
+              <in>analog.c</in>
+            </df>
+            <df name="eeprom">
+              <in>eeprom.c</in>
+            </df>
+            <df name="flash">
+              <in>flash.c</in>
+            </df>
+            <df name="gpio">
+              <in>gpio-irq-lpc1311.c</in>
+              <in>gpio-irq-lpc1315.c</in>
+              <in>gpio-irq.c</in>
+              <in>gpio-option.c</in>
+              <in>gpio.c</in>
+            </df>
+            <df name="i2c">
+              <in>i2c-master-common.h</in>
+              <in>i2c-master-lpc13xx.c</in>
+              <in>i2c-master-soft.c</in>
+              <in>i2c0-master.c</in>
+            </df>
+            <df name="iap">
+              <in>iap.c</in>
+            </df>
+            <df name="pwm">
+              <in>pwm-lpc13xx.c</in>
+            </df>
+            <df name="sleep">
+              <in>sleep-lpc13xx.c</in>
+              <in>sleep-lpc17xx.c</in>
+              <in>wakeup-lpc13xx.c</in>
+            </df>
+            <df name="spi">
+              <in>spi-lpc13xx.c</in>
+              <in>spi-lpc17xx.c</in>
+            </df>
+            <df name="timer">
+              <in>timer16-lpc13xx.c</in>
+              <in>timer32-lpc13xx.c</in>
+            </df>
+            <df name="uart">
+              <in>uart0.c</in>
+            </df>
+            <df name="watchdog">
+              <in>watchdog-lpc13xx.c</in>
+            </df>
+          </df>
+          <df name="lpc8xx">
+            <in>gpio.c</in>
+            <in>uart.c</in>
+          </df>
+        </df>
+        <df name="exceptions">
+          <in>exception-dump.c</in>
+          <in>exception-dumplite.c</in>
+          <in>exception.c</in>
+        </df>
+        <df name="include">
+          <df name="core">
+            <in>bit-band.h</in>
+            <in>core_cm0plus.h</in>
+            <in>core_cm3.h</in>
+            <in>core_cmFunc.h</in>
+            <in>core_cmInstr.h</in>
+          </df>
+          <df name="drivers">
+            <df name="lpc8xx">
+              <in>uart.h</in>
+            </df>
+            <in>analog.h</in>
+            <in>eeprom.h</in>
+            <in>flash.h</in>
+            <in>gpio-irq.h</in>
+            <in>gpio-pins.h</in>
+            <in>gpio.h</in>
+            <in>i2c-master.h</in>
+            <in>i2c-soft.h</in>
+            <in>i2c.h</in>
+            <in>iap.h</in>
+            <in>mem-protocol.h</in>
+            <in>pwm.h</in>
+            <in>sleep.h</in>
+            <in>spi.h</in>
+            <in>timer.h</in>
+            <in>uart.h</in>
+            <in>watchdog.h</in>
+          </df>
+          <df name="mcu">
+            <in>lpc13xx.h</in>
+            <in>lpc17xx.h</in>
+            <in>lpc8xx.h</in>
+          </df>
+          <in>libc.h</in>
+          <in>libs-default.h</in>
+          <in>libs-klipos.h</in>
+          <in>math-integer.h</in>
+          <in>types.h</in>
+          <in>util-fsm.h</in>
+          <in>util-time.h</in>
+          <in>utils.h</in>
+        </df>
+        <df name="libc">
+          <in>printf.c</in>
+          <in>string.c</in>
+        </df>
+        <df name="mcu">
+          <df name="lpc13xx">
+            <in>init.c</in>
+            <in>isr-vector-lpc1311.c</in>
+            <in>isr-vector-lpc1315.c</in>
+            <in>isr-vector.h</in>
+          </df>
+          <df name="lpc17xx">
+            <in>init.c</in>
+            <in>startup.S</in>
+          </df>
+          <df name="lpc8xx">
+            <in>init.c</in>
+            <in>isr-vector-lpc8xx.c</in>
+            <in>isr-vector.h</in>
+            <in>system_LPC8xx.h</in>
+          </df>
+          <in>isr-vector-cm3.c</in>
+          <in>startup.c</in>
+        </df>
+        <df name="utils">
+          <in>fsm.c</in>
+          <in>systick.c</in>
+          <in>time.c</in>
+        </df>
+      </df>
+      <df name="kernel">
+        <df name="common">
+          <df name="include">
+            <in>kcommon.h</in>
+            <in>kiostream.h</in>
+            <in>klist.h</in>
+            <in>klock.h</in>
+            <in>kmemory.h</in>
+            <in>kmemorystack.h</in>
+          </df>
+          <df name="source">
+            <in>kiostream.c</in>
+            <in>klist.c</in>
+            <in>klock.c</in>
+            <in>kmemory.c</in>
+            <in>kmemorystack.c</in>
+            <in>slist.c</in>
+          </df>
+        </df>
+        <df name="full">
+          <df name="include">
+            <in>kchannel.h</in>
+            <in>kernel-private.h</in>
+            <in>kernel.h</in>
+            <in>kevent.h</in>
+            <in>kthread.h</in>
+            <in>ktimer.h</in>
+          </df>
+          <df name="source">
+            <in>debug.c</in>
+            <in>kchannel.c</in>
+            <in>kernel.c</in>
+            <in>kevent.c</in>
+            <in>kmain.c</in>
+            <in>ktimer.c</in>
+          </df>
+        </df>
+        <df name="simple">
+          <df name="include">
+            <in>kqueue.h</in>
+            <in>ktask.h</in>
+            <in>ktimer.h</in>
+          </df>
+          <df name="source">
+            <in>kqueue.c</in>
+            <in>ktask.c</in>
+            <in>ktimer.c</in>
+          </df>
+        </df>
+        <in>kernel-klipos.h</in>
+      </df>
+    </df>
+    <df root="." name="1">
+      <df name="include">
+        <in>kqueue.h</in>
+        <in>ktask.h</in>
+        <in>ktime.h</in>
+      </df>
+      <df name="source">
+        <in>kqueue.c</in>
+        <in>ktask.c</in>
+        <in>ktime.c</in>
+        <in>main.c</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+      <itemPath>Makefile.options</itemPath>
+      <itemPath>Makefile.toolchainconfig</itemPath>
+      <itemPath>include</itemPath>
+      <itemPath>source</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+    <Elem>../../klipos</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>build/firmware.elf</executablePath>
+          <cTool>
+            <incDir>
+              <pElem>.</pElem>
+            </incDir>
+          </cTool>
+        </makeTool>
+      </makefileType>
+      <item path="../../klipos/hw/core/cortex-m3/core_cm3.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/external/mem-protocol/mem-protocol.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/analog/analog-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/analog/analog.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/eeprom/eeprom.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/flash/flash.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/gpio/gpio-irq-lpc1311.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/gpio/gpio-irq-lpc1315.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/gpio/gpio-irq.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/gpio/gpio-option.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/gpio/gpio.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/i2c/i2c-master-common.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/i2c/i2c-master-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/i2c/i2c-master-soft.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/i2c/i2c0-master.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/iap/iap.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/pwm/pwm-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/sleep/sleep-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/sleep/sleep-lpc17xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/sleep/wakeup-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/spi/spi-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/spi/spi-lpc17xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/timer/timer16-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/timer/timer32-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/uart/uart0.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc1xxx/watchdog/watchdog-lpc13xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc8xx/gpio.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/drivers/lpc8xx/uart.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/exceptions/exception-dump.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/exceptions/exception-dumplite.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/exceptions/exception.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/core/bit-band.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/core/core_cm0plus.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/core/core_cm3.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/core/core_cmFunc.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/core/core_cmInstr.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/analog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/eeprom.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/flash.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/gpio-irq.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/gpio-pins.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/gpio.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/i2c-master.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/i2c-soft.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/i2c.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/iap.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/lpc8xx/uart.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/mem-protocol.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/pwm.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/sleep.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/spi.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/timer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/uart.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/drivers/watchdog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/libc.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/libs-default.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/libs-klipos.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/math-integer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/mcu/lpc13xx.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/mcu/lpc17xx.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/mcu/lpc8xx.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/util-fsm.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/util-time.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/include/utils.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/libc/printf.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/libc/string.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/isr-vector-cm3.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc13xx/init.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc13xx/isr-vector-lpc1311.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc13xx/isr-vector-lpc1315.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc13xx/isr-vector.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc17xx/init.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc17xx/startup.S"
+            ex="false"
+            tool="4"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc8xx/init.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc8xx/isr-vector-lpc8xx.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc8xx/isr-vector.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/lpc8xx/system_LPC8xx.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/hw/mcu/startup.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/utils/fsm.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/utils/systick.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/hw/utils/time.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/include/kcommon.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/include/kiostream.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/include/klist.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/include/klock.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/include/kmemory.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/include/kmemorystack.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/source/kiostream.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/source/klist.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/source/klock.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/source/kmemory.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/source/kmemorystack.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/common/source/slist.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kchannel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kernel-private.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kernel.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kevent.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/kthread.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/include/ktimer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/debug.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/kchannel.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/kernel.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/kevent.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/kmain.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/full/source/ktimer.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/kernel-klipos.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/include/kqueue.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/include/ktask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/include/ktimer.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/source/kqueue.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/source/ktask.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="../../klipos/kernel/simple/source/ktimer.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="include/kqueue.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ktask.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ktime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="source/kqueue.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="source/ktask.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="source/ktime.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="source/main.c" ex="false" tool="0" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

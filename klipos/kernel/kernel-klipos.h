@@ -19,28 +19,44 @@
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 */
+#ifndef KLIPOS_KERNEL_MAIN_H
+#define KLIPOS_KERNEL_MAIN_H
 
-#include "../../hw/include/libs-default.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "../include/kernel-klipos.h"
-
-
-extern void usermain(void);
-
-int main(void)
-{
+#include "../../hw/include/types.h"
     
-    initKernel();
     
-    usermain();
+#ifdef FIRMWARE_USE_KERNEL_FULL
+#       include "common/include/klist.h"
+#       include "common/include/klock.h"
+#       include "common/include/kmemory.h"
+#       include "common/include/kmemorystack.h"
+#       include "full/include/kernel.h"
+#       include "full/include/kthread.h"
+#       include "full/include/kchannel.h"
+#       include "full/include/kevent.h"
+#       include "full/include/ktimer.h"
+#       include "common/include/kiostream.h"
+#endif
 
-    startKernel();
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+#       include "common/include/kcommon.h"
+#       include "simple/include/kqueue.h"
+#       include "simple/include/ktask.h"
+#       include "simple/include/ktimer.h"
+#endif
+    
+#ifdef FIRMWARE_DONT_USE_KERNEL
+#       include "common/include/kcommon.h"
+#endif
 
-    return 0;
-}
+#ifdef __cplusplus
+ }
+#endif
 
-
-
-
-
+#endif

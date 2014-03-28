@@ -1,0 +1,34 @@
+# Makefile needs this symbol:
+# KERNEL_PATH SOURCE_KLIP SOURCE_PATH_KLIP HEADER_KLIP
+
+
+ifeq ($(kernel-full), yes)
+    # Default kernel source :
+    SRC_KERNEL += kernel.c ktimer.c kmain.c kchannel.c
+
+    ifeq ($(gpioirq),yes)
+        SRC_KERNEL += gpio-irq.c
+    endif
+
+    DEFINE += -DFIRMWARE_USE_KERNEL_FULL
+
+    # If event set to yes, then include the event manager :
+    ifeq ($(kernel-full-event),yes)
+        SRC_KERNEL += kevent.c
+        DEFINE += -DKERNEL_USE_KEVENT
+    endif
+
+    ifeq ($(kernel-full-debug),yes)
+        SRC_KERNEL += debug.c
+        DEFINE += -DKERNEL_USE_DEBUG
+    endif
+
+    SRC_PATH_KERNEL=$(KERNEL_PATH)/source
+
+    # Add to the project the kernel source code
+    SOURCE_KLIP += $(SRC_KERNEL)
+    SOURCE_PATH_KLIP += $(SRC_PATH_KERNEL)
+    HEADER_KLIP += -I$(KERNEL_PATH)/include
+
+endif
+

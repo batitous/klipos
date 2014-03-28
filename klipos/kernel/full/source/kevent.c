@@ -20,9 +20,9 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
+#include "../../../hw/include/libs-default.h"
 
-#include "../include/klist.h"
+#include "../../common/include/klist.h"
 #include "../include/kthread.h"
 #include "../include/kernel.h"
 #include "../include/kevent.h"

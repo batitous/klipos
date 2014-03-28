@@ -8,13 +8,36 @@ HEADER_KLIP =
 
 HW_PATH=$(KLIPOS_PATH)klipos/hw/
 
+# Configure kernel or not option
+ifeq ($(kernel-full),no)
+    ifeq ($(kernel-simple),no)
+        DEFINE += -DFIRMWARE_DONT_USE_KERNEL
+    endif
+endif
+
+ifeq ($(kernel-simple),no)
+    ifeq ($(kernel-full),no)
+        DEFINE += -DFIRMWARE_DONT_USE_KERNEL
+    endif
+endif
+
 # Configure mcu core
 include $(HW_PATH)/mcu/Makefile.lpc1xxx
 
 
-# Add kernel makefile
-KERNEL_PATH=$(KLIPOS_PATH)klipos/kernel
-include $(KERNEL_PATH)/Makefile.kernel
+# Add kernel common makefile
+KCOMMON_PATH=$(KLIPOS_PATH)klipos/kernel/common
+include $(KCOMMON_PATH)/Makefile.kcommon
+
+
+# Add simple kernel makefile
+KERNEL_SIMPLE_PATH=$(KLIPOS_PATH)klipos/kernel/simple
+include $(KERNEL_SIMPLE_PATH)/Makefile.ksimple
+
+
+# Add full kernel makefile
+KERNEL_PATH=$(KLIPOS_PATH)klipos/kernel/full
+include $(KERNEL_PATH)/Makefile.kfull
 
 # Add hardware makefile
 include $(HW_MAKE)

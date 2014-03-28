@@ -1,0 +1,29 @@
+# Makefile needs this symbol:
+# KERNEL_PATH SOURCE_KLIP SOURCE_PATH_KLIP HEADER_KLIP
+
+SRC_KCOMMON = klist.c kiostream.c 
+
+
+ifeq ($(kernel-full-event),yes)
+    SRC_KCOMMON += slist.c
+endif
+
+ifeq ($(kernel-full-kernel),yes)
+    klock = yes
+endif
+
+ifeq ($(klock),yes)
+    SRC_KCOMMON += klock.c
+endif
+
+ifeq ($(kmemory),yes)
+    SRC_KCOMMON += kmemory.c kmemorystack.c
+endif
+
+
+SRC_PATH_KCOMMON=$(KCOMMON_PATH)/source
+
+# Add to the project the kernel source code
+SOURCE_KLIP += $(SRC_KCOMMON)
+SOURCE_PATH_KLIP += $(SRC_PATH_KCOMMON)
+HEADER_KLIP += -I$(KCOMMON_PATH)/include

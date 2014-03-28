@@ -19,32 +19,37 @@
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 */
-#ifndef KLIPOS_KERNEL_MAIN_H
-#define KLIPOS_KERNEL_MAIN_H
+#include "../../../hw/include/libs-default.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "../include/klock.h"
 
-#include "../../hw/include/types.h"
-    
-#include "klist.h"
-#include "kernel.h"
-#include "kthread.h"
-#include "kevent.h"
-#include "kiostream.h"
-#include "kchannel.h"
-#include "klock.h"
-#include "ktimer.h"
-#include "kmemorystack.h"
-#include "kmemory.h"
+Bool trylock(UInt32 * ressources)
+{
+    if( __LDREXW((uint32_t *)ressources) == 0)
+    {
+        if(__STREXW( 1, (uint32_t *)ressources) != 0)
+        {
+            return False;
+        }
+        else
+        {
+            // ressources is not used by another thread, we can use them !
+            return True;
+        }
+    }
+    else
+    {
+        return False;
+    }
+}
+
+void unlock(UInt32 * ressources)
+{
+    // clear the ressources for other thread
+    //__STREXW( 0, ressources);
+
+    *ressources = 0;
+}
 
 
-
-#ifdef __cplusplus
- }
-#endif
-
-#endif

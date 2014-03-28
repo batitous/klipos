@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
  
- Copyright (c) 2013 Baptiste Burles, Christophe Casson, Sylvain Fay-Chatelard
+ Copyright (c) 2014 Baptiste Burles
  
  Permission is hereby granted, free of charge, to any person obtaining a copy of
  this software and associated documentation files (the "Software"), to deal in
@@ -19,32 +19,24 @@
  COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 */
-#include "../../../include/libs-klipos.h"
+#ifndef KLIPOS_KCOMMON_MAIN_H
+#define KLIPOS_KCOMMON_MAIN_H
 
-//----------------------------- private functions
-
-
-// Manage the input/output interrupt for the KEvent manager
-void keventGpioIrqCallback(UInt32 event, UInt32 edge)
-{
-    postEventFromIrq(KEVENT_GPIO_MASK | event, edge );
-}
-
-
-//----------------------------- public functions
-
-void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback)
-{
-    if ( registerEvent( manager, KEVENT_GPIO_MASK | pin, callback, 0) == False )
-    {
-        return;
-    }
+#ifdef __cplusplus
+extern "C" {
+#endif
     
-    setGpioIrqCallback(keventGpioIrqCallback);
-        
-    setGpioDirection(pin,GPIO_IN);
-    enableGpioIrq(pin,edge);
+#include "klist.h"
+#include "kiostream.h"
+#include "klock.h"
+#include "kmemory.h"
+#include "kmemorystack.h"
     
-}
+    
+#ifdef __cplusplus
+ }
+#endif
 
+#endif

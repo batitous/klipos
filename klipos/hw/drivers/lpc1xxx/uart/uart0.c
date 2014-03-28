@@ -90,18 +90,22 @@ static KIOStream uartStream;
 static UInt8 uartBuffer[UART_BUFFER_SIZE];
 
 static const Uart uart0 = { 
-    waitDataFromUart0,
     getByteFromUart0, 
     getBufferFromUart0, 
     sendByteToUart0, 
     sendBufferToUart0 
 };
 
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+static KTask*   uartTask;
+#endif
+
 //--------------------- private functions:
 
 void UART0_IRQHandler(void)
 {
     UInt32 status = LPC_UART0->IIR;
+    UInt8 data;
     
     //Check if interrupt is pending
     if( (status & 1)==0)
@@ -111,8 +115,17 @@ void UART0_IRQHandler(void)
         //Receive Data Available
         if(status==0x02)
         {
-            writeByteToIOStream(&uartStream,LPC_UART0->RBR);
+            data = LPC_UART0->RBR;
+            writeByteToIOStream(&uartStream,data);
+            
+#ifdef FIRMWARE_USE_KERNEL_FULL
             irqWakeUpTaskFromIOStream(&uartStream);
+#endif
+            
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+            postEventToTask(uartTask,(UInt32)data);
+#endif
+            
         }
     }
 }
@@ -188,12 +201,25 @@ bool getByteFromUart0(UInt8 *data)
     return readByteFromIOStream(&uartStream, data);
 }
 
+bool isDataAvailableOnUart0(void)
+{
+    return isDataAvailableFromIOStream(&uartStream);
+}
+
+#ifdef FIRMWARE_USE_KERNEL_FULL
+
 void waitDataFromUart0(void)
 {
     waitDataFromIOStream(&uartStream);
 }
 
-bool isDataAvailableOnUart0(void)
+#endif
+
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
+
+void setTaskOnUart0(KTask* t)
 {
-    return isDataAvailableFromIOStream(&uartStream);
+    uartTask = t;
 }
+
+#endif

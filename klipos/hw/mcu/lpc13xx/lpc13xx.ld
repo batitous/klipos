@@ -26,6 +26,7 @@ SECTIONS
 
     .data : AT (ADDR(.text) + SIZEOF(.text))
     {
+        KEEP(*(.stack))
         _data = .;
         *(vtable)
         *(.data*)

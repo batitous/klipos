@@ -20,45 +20,46 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
-#include "../include/kernel-klipos.h"
+#include "../../../hw/include/libs-default.h"
+
+#include "../../common/include/kmemory.h"
+#include "../../common/include/klist.h"
+#include "../include/kthread.h"
+#include "../include/kernel-private.h"
+#include "../include/kchannel.h"
 
 
-//-------------------------- debug
-
-//#define MEMSTACK_USE_DEBUG
-
-#ifdef MEMSTACK_USE_DEBUG
-#   define TRACE_MEMSTACK(str)	debugPrintf str
-#else
-#   define TRACE_MEMSTACK(str)
-#endif
-
-
-//-------------------------- public functions
-
-void initMemoryStack(KMemoryStack *stack, UInt8 *address, UInt32 size)
+void initChannel(KChannel *channel)
 {
-    stack->nextFreeAddress = address;
-    stack->lastAddress = stack->nextFreeAddress + size;
-    
-    TRACE_MEMSTACK(("memstack init at 0x%x size %d\r\n", address, size));
+    channel->empty = true;
+    channel->receiver = 0;
 }
 
-void * allocMemoryStack(KMemoryStack *stack, UInt32 size)
+void sendMessageToChannel(KChannel * channel, UInt32 message)
 {
-    UInt8 * currentStack = stack->nextFreeAddress;
-    
-    if( (stack->nextFreeAddress+size) <= stack->lastAddress)
+    KThread * th = channel->receiver;
+    channel->message = message;
+    channel->empty = False;
+
+    if (th!=0)
     {
-        stack->nextFreeAddress += size;
-     
-        TRACE_MEMSTACK(("memstack alloc at 0x%x size %d\r\n", currentStack,size));
-        
-        return (void *)currentStack;
+        channel->receiver = 0;
+        setTaskAsReady(th);
     }
-    
-    TRACE_MEMSTACK(("memstack full ! next 0x%x last 0x%x\r\n", stack->nextFreeAddress, stack->lastAddress));
-    
-    return 0;
 }
+
+UInt32 waitMessageFromChannel(KChannel * channel)
+{
+    // no data, then wait...
+    if ( channel->empty == true)
+    {
+        channel->receiver = (KThread *)currentTask;
+        setTaskAsBlocked();
+    }
+
+    channel->empty = True;
+
+    return channel->message;
+}
+
+

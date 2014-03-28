@@ -18,7 +18,7 @@
 #       define STACKSIZE 64
 #endif
 
-static unsigned int StackMem[STACKSIZE];
+static unsigned int StackMem[STACKSIZE] __attribute__ ((section(".stack")));
 #define _pStackTop ((void *)((unsigned int)StackMem + sizeof(StackMem)))
 
 //*****************************************************************************

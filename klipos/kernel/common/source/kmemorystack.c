@@ -20,37 +20,45 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../hw/include/libs-default.h"
+#include "../../../hw/include/libs-default.h"
+#include "../include/kmemorystack.h"
 
-#include "../include/klist.h"
+
+//-------------------------- debug
+
+//#define MEMSTACK_USE_DEBUG
+
+#ifdef MEMSTACK_USE_DEBUG
+#   define TRACE_MEMSTACK(str)	debugPrintf str
+#else
+#   define TRACE_MEMSTACK(str)
+#endif
 
 
-void initSList(SList *l)
+//-------------------------- public functions
+
+void initMemoryStack(KMemoryStack *stack, UInt8 *address, UInt32 size)
 {
-    l->next = 0;
-}
-
-void insertSNodeToStart(SList *l, SNode *node)
-{
-    node->next = (SNode *)l->next;
-    l->next = node;
-}
-
-void removeSNode(SList *l, SNode *node)
-{
-    SNode * temp = l->next;
-    SNode * previous = (SNode *)l;
+    stack->nextFreeAddress = address;
+    stack->lastAddress = stack->nextFreeAddress + size;
     
-    while(temp!=0)
+    TRACE_MEMSTACK(("memstack init at 0x%x size %d\r\n", address, size));
+}
+
+void * allocMemoryStack(KMemoryStack *stack, UInt32 size)
+{
+    UInt8 * currentStack = stack->nextFreeAddress;
+    
+    if( (stack->nextFreeAddress+size) <= stack->lastAddress)
     {
-        if(temp==node)
-        {
-            previous->next = node->next;
-            return;
-        }
+        stack->nextFreeAddress += size;
+     
+        TRACE_MEMSTACK(("memstack alloc at 0x%x size %d\r\n", currentStack,size));
         
-        previous = temp;
-        temp = temp->next;
+        return (void *)currentStack;
     }
     
+    TRACE_MEMSTACK(("memstack full ! next 0x%x last 0x%x\r\n", stack->nextFreeAddress, stack->lastAddress));
+    
+    return 0;
 }
