@@ -30,7 +30,7 @@ extern "C" {
 
 #include "../../hw/include/types.h"
     
-#include "../../kcommon/include/kcommon.h"
+#include "../../kernel/common/include/kcommon.h"
 
 #include "kevent.h"
     

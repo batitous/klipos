@@ -13,11 +13,11 @@ include $(HW_PATH)/mcu/Makefile.lpc1xxx
 
 
 # Add kernel common makefile
-KCOMMON_PATH=$(KLIPOS_PATH)klipos/kcommon
+KCOMMON_PATH=$(KLIPOS_PATH)klipos/kernel/common
 include $(KCOMMON_PATH)/Makefile.kcommon
 
 # Add full kernel makefile
-KERNEL_PATH=$(KLIPOS_PATH)klipos/kfull
+KERNEL_PATH=$(KLIPOS_PATH)klipos/kernel/full
 include $(KERNEL_PATH)/Makefile.kfull
 
 # Add hardware makefile
