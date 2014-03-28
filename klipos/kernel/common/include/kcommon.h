@@ -28,8 +28,8 @@
 extern "C" {
 #endif
     
-#include "kiostream.h"
 #include "klist.h"
+#include "kiostream.h"
 #include "klock.h"
 #include "kmemory.h"
 #include "kmemorystack.h"

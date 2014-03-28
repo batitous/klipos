@@ -26,6 +26,7 @@
 #include "../../common/include/kmemory.h"
 #include "../include/kthread.h"
 #include "../include/kernel.h"
+#include "../../common/include/kiostream.h"
 #include "../include/kernel-private.h"
 
 //-------------------------- private defines

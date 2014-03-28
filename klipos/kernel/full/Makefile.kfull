@@ -22,12 +22,13 @@ ifeq ($(kernel-full), yes)
         SRC_KERNEL += debug.c
         DEFINE += -DKERNEL_USE_DEBUG
     endif
+
+    SRC_PATH_KERNEL=$(KERNEL_PATH)/source
+
+    # Add to the project the kernel source code
+    SOURCE_KLIP += $(SRC_KERNEL)
+    SOURCE_PATH_KLIP += $(SRC_PATH_KERNEL)
+    HEADER_KLIP += -I$(KERNEL_PATH)/include
+
 endif
 
-
-SRC_PATH_KERNEL=$(KERNEL_PATH)/source
-
-# Add to the project the kernel source code
-SOURCE_KLIP += $(SRC_KERNEL)
-SOURCE_PATH_KLIP += $(SRC_PATH_KERNEL)
-HEADER_KLIP += -I$(KERNEL_PATH)/include

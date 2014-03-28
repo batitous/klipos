@@ -22,7 +22,7 @@ else
     SOURCE_KLIP += exception.c exception-dump.c
 endif
 
-ifeq ($(systick),no)
+ifeq ($(systick),yes)
     SOURCE_KLIP += systick.c
 endif
 

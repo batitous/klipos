@@ -23,7 +23,7 @@
 
 #include "../../hw/include/libs-default.h"
 
-#include "../include/kernel-klipos.h"
+#include "../../kernel-klipos.h"
 
 
 extern void usermain(void);

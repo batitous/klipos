@@ -12,12 +12,11 @@ ifeq ($(kernel-simple), yes)
         SRC_KSIMPLE += gpio-irq.c
     endif
 
+    SRC_PATH_KSIMPLE=$(KERNEL_SIMPLE_PATH)/source
+
+    # Add to the project the kernel source code
+    SOURCE_KLIP += $(SRC_KSIMPLE)
+    SOURCE_PATH_KLIP += $(SRC_PATH_KSIMPLE)
+    HEADER_KLIP += -I$(KERNEL_SIMPLE_PATH)/include
+
 endif
-
-
-SRC_PATH_KSIMPLE=$(KERNEL_SIMPLE_PATH)/source
-
-# Add to the project the kernel source code
-SOURCE_KLIP += $(SRC_KSIMPLE)
-SOURCE_PATH_KLIP += $(SRC_PATH_KSIMPLE)
-HEADER_KLIP += -I$(KERNEL_SIMPLE_PATH)/include
