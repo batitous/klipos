@@ -11,6 +11,7 @@
 #define SYSTICK_MAX     0xFFFFFF
 #define MAX_TIME_IN_US  233000
 
+#define SHORT_DEADLINE_IN_US  10
 
 static KList timers;
 static Int32 currentTime;
@@ -27,9 +28,9 @@ void SysTick_Handler(void)
     {
         timer->remaining = timer->remaining - currentTime;
 
-        if (timer->remaining == 0)
+        if (timer->remaining <= SHORT_DEADLINE_IN_US)
         {
-            timer->remaining = timer->reload;
+            timer->remaining = timer->reload + timer->remaining;
             
             postEventToTask(timer->task, 0);
         }

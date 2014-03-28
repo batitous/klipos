@@ -36,27 +36,57 @@ KTimer t100;
 KTimer t150;
 KTimer t333;
 
+bool t100Ok;
+bool t150Ok;
+
 void t100TaskCode(UInt32 event)
 {
-    printf("100\r\n");
+//    printf("100\r\n");
+    
+    if (t100Ok==false)
+    {
+        setGpioValue(GPIO1_31,0);
+        t100Ok = true;
+    }
+    else
+    {
+        setGpioValue(GPIO1_31,1);
+        t100Ok = false;
+    }
 }
 
 void t150TaskCode(UInt32 event)
 {
-    printf("150\r\n");
+    //printf("150\r\n");
+    if (t150Ok==false)
+    {
+        setGpioValue(GPIO0_9,0);
+        t150Ok = true;
+    }
+    else
+    {
+        setGpioValue(GPIO0_9,1);
+        t150Ok = false;
+    }
 }
 
 void t333TaskCode(UInt32 event)
 {
-    printf("333\r\n");
+    //printf("333\r\n");
 }
 
 
 int main(void)
 {
+    initGpio();
     initUart0();
     setPrintfInterface(sendByteToUart0);
     
+    t100Ok = false;
+    setGpioDirection(GPIO1_31, GPIO_OUT);
+    
+    t150Ok = false;
+    setGpioDirection(GPIO0_9, GPIO_OUT);
     
     initKernel();
     initKernelTimers();
@@ -67,9 +97,9 @@ int main(void)
     initTask(&t150Task, t150TaskCode, PRIORITY_VERY_HIGH, 0);
     initTask(&t333Task, t333TaskCode, PRIORITY_HIGH, 0);
 
-    initTimer(&t100, 100*1000, &t100Task);
-    initTimer(&t150, 150*1000, &t150Task);
-    initTimer(&t333, 333*1000, &t333Task);
+    initTimer(&t100, 100, &t100Task);
+    initTimer(&t150, 150, &t150Task);
+    initTimer(&t333, 333, &t333Task);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     

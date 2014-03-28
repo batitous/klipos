@@ -31,11 +31,9 @@ typedef bool (*ReadByteCall)(UInt8 *byte);
 typedef UInt32 (*ReadCall)(UInt8 *buffer, UInt32 size);
 typedef void (*WriteByteCall)(UInt8 byte);
 typedef void (*WriteCall)(UInt8 *buffer, UInt32 size);
-typedef void (*WaitCall)(void);
 
 typedef struct _uart_device_
 {
-    WaitCall     wait;          /**< wait data from uart, warning: works only with kernel! */
     ReadByteCall readByte;      /**< read one byte of data */
     ReadCall     read;          /**< read a buffer from uart */
     WriteByteCall writeByte;    /**< write a byte on uart */
@@ -68,7 +66,10 @@ extern void sendBufferToUart0(UInt8 * Buffer,UInt32 Count);
 extern UInt32 getBufferFromUart0(UInt8 * buffer, UInt32 len);
 extern bool getByteFromUart0(UInt8 *byte);
 
-extern void waitDataFromUart0(void);
+#ifdef FIRMWARE_USE_KERNEL_FULL
+        extern void waitDataFromUart0(void);
+#endif
+
 extern bool isDataAvailableOnUart0(void);
 
 extern void powerOnUart0(void);

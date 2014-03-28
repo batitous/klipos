@@ -32,7 +32,7 @@ klock = no
 printf = yes
 fsm = yes
 
-gpio = no
+gpio = yes
 gpio-option = no
 gpioirq = no
 

@@ -22,9 +22,8 @@ else
     SOURCE_KLIP += exception.c exception-dump.c
 endif
 
-ifeq ($(kernel),no)
-# todo for simple kernel: no systick timer
-#    SOURCE_KLIP += systick.c
+ifeq ($(systick),no)
+    SOURCE_KLIP += systick.c
 endif
 
 ifeq ($(printf),yes)

@@ -29,7 +29,7 @@ extern "C" {
 
 typedef void (*KTaskCode)(UInt32 dataEvent);
 
-#define TASK_QUEUE_SIZE  4
+#define TASK_QUEUE_SIZE  8
 
 typedef enum _priority_
 {

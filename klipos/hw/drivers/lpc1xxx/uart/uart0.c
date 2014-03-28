@@ -90,7 +90,6 @@ static KIOStream uartStream;
 static UInt8 uartBuffer[UART_BUFFER_SIZE];
 
 static const Uart uart0 = { 
-    waitDataFromUart0,
     getByteFromUart0, 
     getBufferFromUart0, 
     sendByteToUart0, 
@@ -115,10 +114,14 @@ void UART0_IRQHandler(void)
             data = LPC_UART0->RBR;
             writeByteToIOStream(&uartStream,data);
             
-//            irqWakeUpTaskFromIOStream(&uartStream);
+#ifdef FIRMWARE_USE_KERNEL_FULL
+            irqWakeUpTaskFromIOStream(&uartStream);
+#endif
             
-            extern void postEventToTaskWithId(UInt32 id, UInt32 data);
+#ifdef FIRMWARE_USE_KERNEL_SIMPLE
             postEventToTaskWithId( 12345, (UInt32)data);
+#endif
+            
         }
     }
 }
@@ -194,12 +197,16 @@ bool getByteFromUart0(UInt8 *data)
     return readByteFromIOStream(&uartStream, data);
 }
 
+bool isDataAvailableOnUart0(void)
+{
+    return isDataAvailableFromIOStream(&uartStream);
+}
+
+#ifdef FIRMWARE_USE_KERNEL_FULL
+
 void waitDataFromUart0(void)
 {
     waitDataFromIOStream(&uartStream);
 }
 
-bool isDataAvailableOnUart0(void)
-{
-    return isDataAvailableFromIOStream(&uartStream);
-}
+#endif
