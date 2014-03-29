@@ -200,9 +200,9 @@
         <in>kernel-klipos.h</in>
       </df>
     </df>
-    <df root="../../klipos" name="2">
+    <df root="../../klipos" name="1">
     </df>
-    <df root="." name="1">
+    <df root="." name="2">
       <df name="include">
         <in>kqueue.h</in>
         <in>ktask.h</in>
@@ -240,8 +240,6 @@
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
-    <Elem>.</Elem>
-    <Elem>../../klipos</Elem>
     <Elem>.</Elem>
     <Elem>../../klipos</Elem>
   </sourceRootList>

@@ -12,8 +12,6 @@
             <sourceRootList>
                 <sourceRootElem>.</sourceRootElem>
                 <sourceRootElem>../../klipos</sourceRootElem>
-                <sourceRootElem>.</sourceRootElem>
-                <sourceRootElem>../../klipos</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
