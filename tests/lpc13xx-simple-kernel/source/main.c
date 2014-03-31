@@ -105,9 +105,9 @@ int main(void)
     
     enableGpioIrqOnTask(&gpioTask, GPIO0_1, GPIO_BOTH_EDGE);
     
-    initTimer(&t100, 40, &t100Task);
-    initTimer(&t150, 20, &t150Task);
-    initTimer(&t333, 20, &t333Task);
+    initTimer(&t100, MS_TO_US(1200), &t100Task);
+    initTimer(&t150, SECOND_TO_US(1), &t150Task);
+    initTimer(&t333, MS_TO_US(1333), &t333Task);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     

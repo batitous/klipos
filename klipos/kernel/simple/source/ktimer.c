@@ -130,6 +130,11 @@ void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task)
     {
         currentTime = first->remaining;
         
+        if (currentTime>MAX_TIME_IN_US)
+        {
+            currentTime = MAX_TIME_IN_US;
+        }
+        
         SysTick_Config( GET_TICK_FROM_US(currentTime));
     }
     

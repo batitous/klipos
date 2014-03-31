@@ -33,9 +33,11 @@
 
 static KList tasks;
 
-extern void initKernelTimers(void);
 
 //-------------------------- private functions
+
+
+extern void initKernelTimers(void);
 
 
 void insertTaskWithPriority( KTask * th)

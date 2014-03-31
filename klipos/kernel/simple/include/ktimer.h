@@ -38,6 +38,8 @@ typedef struct _ktimer_
 } KTimer;
 
 
+#define MS_TO_US(timeInMs)              (timeInMs * 1000)
+#define SECOND_TO_US(timeInSecond)      (MS_TO_US(timeInSecond)*1000)
 
 /** Initialize a timer for the task
  * 
