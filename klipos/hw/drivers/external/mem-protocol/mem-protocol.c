@@ -21,7 +21,7 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "../../include/libs-klipos.h"
+#include "../../../include/libs-klipos.h"
 
 
 static uint32_t memoryModuleNumber;

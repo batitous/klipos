@@ -22,9 +22,7 @@
 */
 #include "../../hw/include/libs-default.h"
 
-#include "../include/klist.h"
-#include "../include/kthread.h"
-#include "../include/kernel.h"
+#include "../../kernel/kernel-klipos.h"
 
 extern volatile KThread * currentTask;
 
