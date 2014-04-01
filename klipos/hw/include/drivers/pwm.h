@@ -78,7 +78,7 @@ typedef struct _pwm_device_
  * @param widthDivider          Constant to divide your period (to lower PWM frequency)
  * @param percentage            Duty cycle (between 0% and 1000%).
  */
-extern void initPwm(Pwm *pwm, PWMTIMER timerType, PWMOUTPUT pwmSelected, UInt32 widthInUs, UInt32 widthDivider, UInt32 percentage);
+extern void initPwm(Pwm *pwm, PWMTIMER timerType, PWMOUTPUT pwmSelected, uint32_t widthInUs, uint32_t widthDivider, uint32_t percentage);
 
 
 /** @brief Enable or Disable PWM.
@@ -94,11 +94,11 @@ extern void disablePwm(Pwm *pwm);
  * @param pwm                   Pwm object.
  * @param percentage            Set duty cycle (between 0% and 1000%).
  */
-extern void setPwmDutyCycle(Pwm *pwm, UInt32 percentage);
+extern void setPwmDutyCycle(Pwm *pwm, uint32_t percentage);
 
-extern void setPwmRawDutyCycle(Pwm *pwm, UInt32 raw);
+extern void setPwmRawDutyCycle(Pwm *pwm, uint32_t raw);
 
-extern void setPwmWidth(Pwm *pwm, UInt32 widthInUs);
+extern void setPwmWidth(Pwm *pwm, uint32_t widthInUs);
 
 
 

@@ -27,8 +27,8 @@
 extern "C" {
 #endif
     
-typedef UInt32 (*ReadI2cCall)(UInt8 addr, UInt8 *buffer, UInt32 size);
-typedef UInt32 (*WriteI2cCall)(UInt8 addr, UInt8 *buffer, UInt32 size);
+typedef uint32_t (*ReadI2cCall)(uint8_t addr, uint8_t *buffer, uint32_t size);
+typedef uint32_t (*WriteI2cCall)(uint8_t addr, uint8_t *buffer, uint32_t size);
 
 typedef struct _i2c_master_
 {

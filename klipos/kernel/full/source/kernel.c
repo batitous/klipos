@@ -44,12 +44,12 @@ KList tasksBlocked;             /**< the tasks blocked */
 volatile KThread * currentTask; /**< current task in cpu */
 
 static KThread * irqTask;       /**< task requested by an interrupt */
-static UInt8 irqPriority;       /**< task priority requested by an interrupt */
+static uint8_t irqPriority;       /**< task priority requested by an interrupt */
 
 static KThread idleThread;    /**< pointer to the idle thread */
-static UInt8 idleStack[IDLE_STACK]; /**< idle stack */
+static uint8_t idleStack[IDLE_STACK]; /**< idle stack */
 
-volatile UInt32 tickOfKernel;  /**< Number of tick from the beginning */
+volatile uint32_t tickOfKernel;  /**< Number of tick from the beginning */
 
 //-------------------------- private functions
 
@@ -77,7 +77,7 @@ void kernelScheduler(void)
 #ifdef KERNEL_USE_DEBUG
     currentTask->cpuUsage++;
 
-    UInt32 size = currentTask->stack - currentTask->stackBegin;
+    uint32_t size = currentTask->stack - currentTask->stackBegin;
     if( size > currentTask->stackUsage)
     {
         currentTask->stackUsage = size;
@@ -143,9 +143,9 @@ void kernelService2(KThread * thread)
     // - move task to ready list
     // - if new task has a greater priority than the current, then switch
 
-    if(thread->isReady==False)
+    if(thread->isReady==false)
     {
-        thread->isReady = True;
+        thread->isReady = true;
         removeKNode((KNode *)thread);
         insertThreadToReady((KThread *)thread);
         
@@ -181,9 +181,9 @@ void kernelService3(KList * list)
     }
 
     // insert thread in the correct list
-    if(thread->isReady==True)
+    if(thread->isReady==true)
     {
-        thread->isReady = False;
+        thread->isReady = false;
         
         removeKNode((KNode *)thread);
         insertKNodeToEnd(list,(KNode *)thread);
@@ -198,9 +198,9 @@ void kernelSetTaskAsReady(KThread * thread )
     // - move task to ready list
     // - if task has greather priority than the current, then switch
 
-    if(thread->isReady==False)
+    if(thread->isReady==false)
     {
-        thread->isReady = True;
+        thread->isReady = true;
         
         removeKNode((KNode *)thread);
         insertThreadToReady(thread);
@@ -233,9 +233,9 @@ void irqSetTaskAsReady( KThread * thread)
     // - if task has greather priority than the current, then switch
     // we cant change task in the irq, we have to wait the next kernel scheduler tick
 
-    if(thread->isReady==False)
+    if(thread->isReady==false)
     {
-        thread->isReady = True;
+        thread->isReady = true;
         
         removeKNode((KNode *)thread);
         insertThreadToReady(thread);
@@ -411,9 +411,9 @@ void PendSV_Handler(void)
 
 //-------------------------- public functions
 
-void initThread( KThread *thread, void (*userCode)(void), UInt8 *stack, UInt32 stackSize, UInt8 cpuTime, UInt8 priority)
+void initThread( KThread *thread, void (*userCode)(void), uint8_t *stack, uint32_t stackSize, uint8_t cpuTime, uint8_t priority)
 {
-    thread->stack = (UInt32 *)stack;
+    thread->stack = (uint32_t *)stack;
     
 #ifdef KERNEL_USE_DEBUG
     thread->stackBegin = thread->stack;
@@ -434,9 +434,9 @@ void initThread( KThread *thread, void (*userCode)(void), UInt8 *stack, UInt32 s
 
     //todo when thread exit, set lr to something ????
 
-    *thread->stack = (UInt32)0x01000000; // xpsr register : T bit set to 1 for thumb mode
+    *thread->stack = (uint32_t)0x01000000; // xpsr register : T bit set to 1 for thumb mode
     thread->stack--;
-    *thread->stack = (UInt32)userCode; // Thread code
+    *thread->stack = (uint32_t)userCode; // Thread code
     thread->stack--;
     *thread->stack = 0 ; // Link Register
     thread->stack -= 5;  //R12 R3 R2 R1
@@ -447,7 +447,7 @@ void initThread( KThread *thread, void (*userCode)(void), UInt8 *stack, UInt32 s
     thread->quantum = thread->cpuRequest;
     thread->waiting = 0;
     thread->priority = priority;
-    thread->isReady = True;
+    thread->isReady = true;
     
 #ifdef KERNEL_USE_DEBUG
     thread->cpuUsage = 0;
@@ -471,7 +471,7 @@ void initKernel(void)
 void startKernel(void)
 {
     // unit : 10us
-    UInt32 tick = 10;
+    uint32_t tick = 10;
 
     // set Software / PendSV interrupt the same and lowest priority
     NVIC_SetPriority(SVCall_IRQn, 31);
@@ -505,7 +505,7 @@ void setTaskAsReady(KThread * thread)
     __asm __volatile__ (
         "mov r0, %0\r\n"
         "svc 2"
-        : : "r" ((UInt32)thread) );
+        : : "r" ((uint32_t)thread) );
 }
 
 void setTaskAsWaiting(void)
@@ -516,7 +516,7 @@ void setTaskAsWaiting(void)
     __asm __volatile__ (
         "mov r0, %0\r\n"
         "svc 3"
-        : : "r" ((UInt32)&tasksWaiting) );
+        : : "r" ((uint32_t)&tasksWaiting) );
 }
 
 
@@ -528,10 +528,10 @@ void setTaskAsBlocked(void)
     __asm __volatile__ (
         "mov r0, %0\r\n"
         "svc 3"
-        : : "r" ((UInt32)&tasksBlocked) );
+        : : "r" ((uint32_t)&tasksBlocked) );
 }
 
-UInt32 getCurrentTimeOfKernel(void)
+uint32_t getCurrentTimeOfKernel(void)
 {
     return tickOfKernel;
 }

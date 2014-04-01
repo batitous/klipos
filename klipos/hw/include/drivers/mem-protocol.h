@@ -29,7 +29,7 @@ extern "C" {
 
     
 /** Callback when we send data */
-typedef void (*MemProtocolSendCallback)(UInt16 address, UInt8 *ptr, UInt32 size);
+typedef void (*MemProtocolSendCallback)(uint16_t address, uint8_t *ptr, uint32_t size);
 
 
 /** Callback when we receive data */
@@ -38,9 +38,9 @@ typedef void (*MemProtocolUpdateCallback)(void);
 
 typedef struct _mem_modules_
 {
-	UInt16                    id;     /**< Module identifier */
-	UInt16                    size;   /**< Size of module */
-	UInt8 *                   ptr;	  /**< Address of module */
+	uint16_t                    id;     /**< Module identifier */
+	uint16_t                    size;   /**< Size of module */
+	uint8_t *                   ptr;	  /**< Address of module */
 	MemProtocolUpdateCallback update; /**< Code for update module */
 } MemoryModule;
 
@@ -50,7 +50,7 @@ typedef struct _mem_modules_
  * @param number        Number of modules
  * @param func          Pointer to the sender function
  */
-extern void initMemoryModule(UInt32 number, MemProtocolSendCallback send);
+extern void initMemoryModule(uint32_t number, MemProtocolSendCallback send);
 
 
 /** @brief Add a module to the memory protocol.
@@ -60,7 +60,7 @@ extern void initMemoryModule(UInt32 number, MemProtocolSendCallback send);
  * @param objectSize    Size of your object
  * @param update        Function for update your object after receiving data
  */
-extern void addMemoryModule(UInt16 virtualAddr, UInt8 * objectAddr, UInt32 objectSize, MemProtocolUpdateCallback update);
+extern void addMemoryModule(uint16_t virtualAddr, uint8_t * objectAddr, uint32_t objectSize, MemProtocolUpdateCallback update);
 
 
 /** @brief Get a module from an address 
@@ -68,7 +68,7 @@ extern void addMemoryModule(UInt16 virtualAddr, UInt8 * objectAddr, UInt32 objec
  * @param address       Virtual address of the module
  * @return Pointer to a valid memory module or 0 if error.
  */
-extern MemoryModule * getMemoryModuleFromAddress(UInt16 address);
+extern MemoryModule * getMemoryModuleFromAddress(uint16_t address);
 
 
 /** @brief Update the memory module.
@@ -84,7 +84,7 @@ extern MemoryModule * getMemoryModuleFromAddress(UInt16 address);
  * @param buffer        Pointer to a buffer that contains memory data.
  * @param size          Size of buffer.
  */
-extern void updateMemoryModule(UInt8 *buffer, UInt8 size);
+extern void updateMemoryModule(uint8_t *buffer, uint8_t size);
 
 
     

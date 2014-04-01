@@ -34,7 +34,7 @@ static const I2cMaster i2c0Master =
 
 const I2cMaster * initI2c0(I2C_SPEED speed)
 {
-    UInt32 reg;
+    uint32_t reg;
     
     // de-assert reset signal for i2c block
     SETBIT(LPC_SYSCON->PRESETCTRL,1);

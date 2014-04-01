@@ -25,7 +25,7 @@
 
 //----------------------------- private functions & variables
 
-static volatile UInt32 counter;
+static volatile uint32_t counter;
 
 void SysTick_Handler(void)
 {
@@ -35,19 +35,19 @@ void SysTick_Handler(void)
 
 //----------------------------- public functions
 
-void initSystickTimer(UInt32 timeInUs)
+void initSystickTimer(uint32_t timeInUs)
 {
     counter = 0;
     
     SysTick_Config(GET_TICK_FROM_US(timeInUs));
 }
 
-UInt32 getSystickCounter(void)
+uint32_t getSystickCounter(void)
 {
     return counter;
 }
 
-UInt32 getSysTickCurrentVal(void)
+uint32_t getSysTickCurrentVal(void)
 {
     return GET_US_FROM_TICK(SysTick->VAL);
 }

@@ -24,14 +24,14 @@
 #include "../../include/libs-klipos.h"
 
 
-static UInt32 memoryModuleNumber;
-static UInt32 memoryModuleIndex;
+static uint32_t memoryModuleNumber;
+static uint32_t memoryModuleIndex;
 static MemoryModule * memoryModules;
 
 MemProtocolSendCallback sendFromModuleToMaster;
 
 
-void initMemoryModule(UInt32 number, MemProtocolSendCallback func)
+void initMemoryModule(uint32_t number, MemProtocolSendCallback func)
 {
     memoryModuleIndex = 0;
     memoryModuleNumber = number;
@@ -39,7 +39,7 @@ void initMemoryModule(UInt32 number, MemProtocolSendCallback func)
     sendFromModuleToMaster = func;
 }
 
-void addMemoryModule(UInt16 virtualAddr, UInt8 * objectAddr, UInt32 objectSize, MemProtocolUpdateCallback update )
+void addMemoryModule(uint16_t virtualAddr, uint8_t * objectAddr, uint32_t objectSize, MemProtocolUpdateCallback update )
 {
     memoryModules[memoryModuleIndex].id = virtualAddr;
     memoryModules[memoryModuleIndex].size = objectSize;
@@ -49,9 +49,9 @@ void addMemoryModule(UInt16 virtualAddr, UInt8 * objectAddr, UInt32 objectSize, 
     memoryModuleIndex++;
 }
 
-MemoryModule * getMemoryModuleFromAddress(UInt16 address)
+MemoryModule * getMemoryModuleFromAddress(uint16_t address)
 {
-    UInt32 i;
+    uint32_t i;
     MemoryModule * mem;
 
     for(i=0; i<memoryModuleNumber; i++)
@@ -67,13 +67,13 @@ MemoryModule * getMemoryModuleFromAddress(UInt16 address)
 }
 
 
-void updateMemoryModule(UInt8 *buffer, UInt8 size)
+void updateMemoryModule(uint8_t *buffer, uint8_t size)
 {
-    UInt32 i ;
+    uint32_t i ;
     MemoryModule * mem;
-    UInt8* ptr;
-    UInt32 offset;
-    UInt16 virtualAddr;
+    uint8_t* ptr;
+    uint32_t offset;
+    uint16_t virtualAddr;
 
     virtualAddr = ((buffer)[0]<<8)|((buffer)[1]);
 
@@ -101,7 +101,7 @@ void updateMemoryModule(UInt8 *buffer, UInt8 size)
     {    
         
         // Copy data to memory
-        for (i=0; i < (UInt32)(size-2) && i < mem->size ;i++)
+        for (i=0; i < (uint32_t)(size-2) && i < mem->size ;i++)
         {
             ptr[i] = buffer[i+2];
         }

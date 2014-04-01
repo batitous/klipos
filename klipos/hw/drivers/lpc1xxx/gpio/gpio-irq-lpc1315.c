@@ -23,7 +23,7 @@
 #include "../../../include/libs-klipos.h"
 
 extern LPC_GPIO_TypeDef * getGpioPort(GPIO_PIN pin);
-extern UInt32 getGpioPortNumber(GPIO_PIN pin);
+extern uint32_t getGpioPortNumber(GPIO_PIN pin);
 
 //----------------------------- private object
 
@@ -32,15 +32,15 @@ extern UInt32 getGpioPortNumber(GPIO_PIN pin);
 void defaultIrqCallback();
 
 static GpioIrqCallback gpioIrqCallback = defaultIrqCallback;
-static UInt32 pinIrqFree = 0;
+static uint32_t pinIrqFree = 0;
 static GPIO_PIN pinIrq[PIN_IRQ_MAX];
 
 
 //----------------------------- private functions
 
-static UInt32 getIndexFromGpio(GPIO_PIN pin)
+static uint32_t getIndexFromGpio(GPIO_PIN pin)
 {
-    UInt32 i;
+    uint32_t i;
     
     for (i=0;i<PIN_IRQ_MAX;i++)
     {
@@ -54,15 +54,15 @@ static UInt32 getIndexFromGpio(GPIO_PIN pin)
     return 0;
 }
 
-void defaultIrqCallback(UInt32 gpioIrqEvent, UInt32 gpioIrqEdge)
+void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge)
 {
     gpioIrqEvent = 0;
     gpioIrqEdge = 0;
 }
 
-void PIN_IRQ_Handler(UInt32 irqSlot)
+void PIN_IRQ_Handler(uint32_t irqSlot)
 {
-    UInt32 edge = 0;
+    uint32_t edge = 0;
     GPIO_PIN pin = pinIrq[irqSlot];
     
     if ( ((LPC_GPIO_PIN_INT->RISE>>irqSlot) & 0x1)!=0 )
@@ -132,8 +132,8 @@ void setGpioIrqCallback(GpioIrqCallback callback)
 
 void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
 {
-    UInt32 thepin = pin & 0xFFFF;
-    UInt32 portNumber = getGpioPortNumber(pin);
+    uint32_t thepin = pin & 0xFFFF;
+    uint32_t portNumber = getGpioPortNumber(pin);
     
     if (pinIrqFree>=PIN_IRQ_MAX)
     {
@@ -183,7 +183,7 @@ void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
 
 void disableGpioIrq(GPIO_PIN pin)
 {
-    UInt32 irqIndex = getIndexFromGpio(pin);
+    uint32_t irqIndex = getIndexFromGpio(pin);
     
     SETBIT(LPC_GPIO_PIN_INT->CIENF, irqIndex);
     SETBIT(LPC_GPIO_PIN_INT->CIENR, irqIndex);

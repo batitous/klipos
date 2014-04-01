@@ -27,10 +27,10 @@
 extern "C" {
 #endif
 
-typedef bool (*ReadByteCall)(UInt8 *byte);
-typedef UInt32 (*ReadCall)(UInt8 *buffer, UInt32 size);
-typedef void (*WriteByteCall)(UInt8 byte);
-typedef void (*WriteCall)(UInt8 *buffer, UInt32 size);
+typedef bool (*ReadByteCall)(uint8_t *byte);
+typedef uint32_t (*ReadCall)(uint8_t *buffer, uint32_t size);
+typedef void (*WriteByteCall)(uint8_t byte);
+typedef void (*WriteCall)(uint8_t *buffer, uint32_t size);
 
 typedef struct _uart_device_
 {
@@ -45,8 +45,8 @@ typedef struct _uart_device_
 extern const Uart * initUart0(void);
 
 
-extern void sendByteToUart0(UInt8 byte);
-extern void sendBufferToUart0(UInt8 * Buffer,UInt32 Count);
+extern void sendByteToUart0(uint8_t byte);
+extern void sendBufferToUart0(uint8_t * Buffer,uint32_t Count);
 
 /** @brief Read a buffer of the specified lenght from the uart.
  *
@@ -63,8 +63,8 @@ extern void sendBufferToUart0(UInt8 * Buffer,UInt32 Count);
  * @param len           number of bytes you want from the uart
  * @return 0 if no bytes available, else number of bytes available in the stream
  */
-extern UInt32 getBufferFromUart0(UInt8 * buffer, UInt32 len);
-extern bool getByteFromUart0(UInt8 *byte);
+extern uint32_t getBufferFromUart0(uint8_t * buffer, uint32_t len);
+extern bool getByteFromUart0(uint8_t *byte);
 
 #ifdef FIRMWARE_USE_KERNEL_FULL
         extern void waitDataFromUart0(void);

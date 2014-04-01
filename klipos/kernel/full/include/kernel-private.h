@@ -63,6 +63,6 @@ extern KList tasksWaiting;
 extern KList tasksBlocked;
 extern KList tasksReady;
 extern volatile KThread * currentTask;
-extern volatile UInt32 tickOfKernel;
+extern volatile uint32_t tickOfKernel;
 
 #endif

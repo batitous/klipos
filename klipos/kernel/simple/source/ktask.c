@@ -85,7 +85,7 @@ void initTask(KTask* task, KTaskCode c, KPriority prio)
 
 void scheduleTask(void)
 {
-    UInt32 tmp;
+    uint32_t tmp;
     
     bool executed = false;
     
@@ -110,7 +110,7 @@ void scheduleTask(void)
 
 }
 
-bool postEventToTask(KTask* task, UInt32 data)
+bool postEventToTask(KTask* task, uint32_t data)
 {
     if (task==0)
     {
@@ -129,7 +129,7 @@ bool postEventToTask(KTask* task, UInt32 data)
     return writeToKQueue(&task->events, data);
 }
 
-void postEventToTaskWithId(UInt32 id, UInt32 data)
+void postEventToTaskWithId(uint32_t id, uint32_t data)
 {
     KTask* task = (KTask*)tasks.next;
 

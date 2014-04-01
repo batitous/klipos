@@ -22,14 +22,14 @@
 */
 #include "i2c-master-common.h"
 
-UInt32 i2c0_write(UInt8 data);
+uint32_t i2c0_write(uint8_t data);
 
 
 #define I2C_CNT         65536
 
-UInt32 private_i2c0_getStat(void)
+uint32_t private_i2c0_getStat(void)
 {
-    UInt32 cnt = I2C_CNT;
+    uint32_t cnt = I2C_CNT;
     while( (I2C_I2CONSET & 0x08) == 0)
     {
        cnt--;
@@ -46,9 +46,9 @@ UInt32 private_i2c0_getStat(void)
                             status = I2C_I2STAT
 
 
-UInt32 private_i2c0_send(UInt8 data)
+uint32_t private_i2c0_send(uint8_t data)
 {
-    UInt32 cnt = I2C_CNT;
+    uint32_t cnt = I2C_CNT;
     while( i2c0_write(data) == I2C_BUSY)
     {
         cnt--;
@@ -69,11 +69,11 @@ UInt32 private_i2c0_send(UInt8 data)
 #define SEND_ACK()			I2C_I2CONSET |= 0x04; /*AA=1*/ I2C_I2CONCLR = 0x08 /*clear SI flag*/
 #define SEND_NACK()			I2C_I2CONCLR = 0x04; I2C_I2CONCLR = 0x08   /*clear SI flag*/
 
-UInt32 i2c0_start(void)
+uint32_t i2c0_start(void)
 {
-//    UInt32 cnt;
-    UInt32 result;
-    UInt8 status;
+//    uint32_t cnt;
+    uint32_t result;
+    uint8_t status;
 
     //start
     I2C_I2CONSET = 0x20;
@@ -111,7 +111,7 @@ UInt32 i2c0_start(void)
 
 void i2c0_stop(void)
 {
-    UInt32 cnt = I2C_CNT;
+    uint32_t cnt = I2C_CNT;
 
     I2C_I2CONSET |= 0x10;  //STO = 1, set stop flag
     I2C_I2CONCLR = 0x08;   //clear SI flag
@@ -128,7 +128,7 @@ void i2c0_stop(void)
     }
 }
 
-UInt32 i2c0_write(UInt8 data)
+uint32_t i2c0_write(uint8_t data)
 {
     //check if I2C Data register can be accessed
     if((I2C_I2CONSET & 0x08) != 0)    //if SI = 1
@@ -146,9 +146,9 @@ UInt32 i2c0_write(UInt8 data)
 
 }
 
-UInt32 i2c0_wait_after_write(void)
+uint32_t i2c0_wait_after_write(void)
 {
-    UInt8 status;
+    uint8_t status;
 
     //DebugPrintf("i2c0_wait_after_write\r\n");
     //wait until data transmitted
@@ -175,9 +175,9 @@ UInt32 i2c0_wait_after_write(void)
     }
 }
 
-void i2c0_write_wait(UInt8 data)
+void i2c0_write_wait(uint8_t data)
 {
-    UInt32 cnt = I2C_CNT;
+    uint32_t cnt = I2C_CNT;
     while( i2c0_write(data) == I2C_BUSY)
     {
         cnt--;
@@ -192,7 +192,7 @@ void i2c0_write_wait(UInt8 data)
     i2c0_wait_after_write();
 }
 
-UInt32 i2c0_read(UInt8 *data)
+uint32_t i2c0_read(uint8_t *data)
 {
     //check if I2C Data register can be accessed
     if((I2C_I2CONSET & 0x08) != 0)    //SI = 1
@@ -209,9 +209,9 @@ UInt32 i2c0_read(UInt8 *data)
 }
 
 
-UInt32 sendBufferToI2c0(UInt8 addr, UInt8 *buffer, UInt32 len)
+uint32_t sendBufferToI2c0(uint8_t addr, uint8_t *buffer, uint32_t len)
 {
-    UInt32 i;
+    uint32_t i;
     //send start condition
     if(i2c0_start()!=I2C_OK)
     {
@@ -234,11 +234,11 @@ UInt32 sendBufferToI2c0(UInt8 addr, UInt8 *buffer, UInt32 len)
     return I2C_OK;
 }
 
-UInt32 getBufferFromI2c0(UInt8 addr, UInt8 *buffer, UInt32 len)
+uint32_t getBufferFromI2c0(uint8_t addr, uint8_t *buffer, uint32_t len)
 {
-    UInt32 i;
-    UInt8 status;
-    UInt8 *ptr;
+    uint32_t i;
+    uint8_t status;
+    uint8_t *ptr;
 
     ptr = buffer;
     if( i2c0_start()!=I2C_OK)

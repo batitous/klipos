@@ -40,7 +40,7 @@
 #       define GPIOCLR         SETBIT(gpio->CLR[portNumber],thepin);
 #       define GPIOTOGGLE      SETBIT(gpio->NOT[portNumber],thepin);
 
-UInt32 getGpioPortNumber(GPIO_PIN pin)
+uint32_t getGpioPortNumber(GPIO_PIN pin)
 {
     if( (pin & 0xFFFF0000) == GPIO_PORT1)
     {
@@ -63,9 +63,9 @@ UInt32 getGpioPortNumber(GPIO_PIN pin)
 
 //----------------------------- private functions
 
-UInt32 getIRQNumber(UInt32 reg)
+uint32_t getIRQNumber(uint32_t reg)
 {
-    UInt32 i;
+    uint32_t i;
     
     for (i=0;i<31;i++)
     {
@@ -135,10 +135,10 @@ void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
     LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
     
 #ifdef MCU_IS_LPC1315
-    UInt32 portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = getGpioPortNumber(pin);
 #endif
     
-    UInt32 thepin = pin & 0xFFFF;
+    uint32_t thepin = pin & 0xFFFF;
     
     if(gpio==0)
     {
@@ -219,15 +219,15 @@ void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
 #endif
 }
 
-void setGpioValue(GPIO_PIN pin, UInt32 bit)
+void setGpioValue(GPIO_PIN pin, uint32_t bit)
 {
     LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
     
 #ifdef MCU_IS_LPC1315
-    UInt32 portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = getGpioPortNumber(pin);
 #endif
     
-    UInt32 thepin = pin & 0xFFFF;
+    uint32_t thepin = pin & 0xFFFF;
     
     if(gpio==0)
     {
@@ -244,15 +244,15 @@ void setGpioValue(GPIO_PIN pin, UInt32 bit)
     }
 }
 
-UInt32 getGpioValue(GPIO_PIN pin)
+uint32_t getGpioValue(GPIO_PIN pin)
 {
     LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
     
 #ifdef MCU_IS_LPC1315
-    UInt32 portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = getGpioPortNumber(pin);
 #endif
     
-    UInt32 thepin = pin & 0xFFFF;
+    uint32_t thepin = pin & 0xFFFF;
     
     if(gpio==0)
     {
@@ -268,10 +268,10 @@ void toggleGpio(GPIO_PIN pin)
 {
     LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
 
-    UInt32 portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = getGpioPortNumber(pin);
 
     
-    UInt32 thepin = pin & 0xFFFF;
+    uint32_t thepin = pin & 0xFFFF;
     
     GPIOTOGGLE
 }

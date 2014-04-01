@@ -25,17 +25,17 @@
 
 //----------------------------- public functions
 
-Bool iapWriteBuffer(UInt32 flash_address, UInt32 bufferAddr, UInt32 count)
+bool iapWriteBuffer(uint32_t flash_address, uint32_t bufferAddr, uint32_t count)
 {
-    UInt32 iapParameter[5];
-    UInt32 iapResult[5];
+    uint32_t iapParameter[5];
+    uint32_t iapResult[5];
 
     //todo disable irq
     //__disable_irq();
     
     iapParameter[0] = IAP_COPY_RAM_TO_FLASH;
     iapParameter[1] = flash_address;
-    iapParameter[2] = (UInt32)bufferAddr;
+    iapParameter[2] = (uint32_t)bufferAddr;
     iapParameter[3] = count;
     iapParameter[4] = IAP_CCLK;
     iapExecuteCommand(iapParameter,iapResult);
@@ -45,15 +45,15 @@ Bool iapWriteBuffer(UInt32 flash_address, UInt32 bufferAddr, UInt32 count)
     
     if(iapResult[0] != IAP_SUCCESS)
     {
-        return False;
+        return false;
     }
-    return True;
+    return true;
 }
 
-Bool iapEraseSector(UInt32 start_sector,UInt32 end_sector)
+bool iapEraseSector(uint32_t start_sector,uint32_t end_sector)
 {
-    UInt32 iapParameter[5];
-    UInt32 iapResult[5];
+    uint32_t iapParameter[5];
+    uint32_t iapResult[5];
     
     iapParameter[0] = IAP_ERASE_SECTOR;
     iapParameter[1] = start_sector;
@@ -63,15 +63,15 @@ Bool iapEraseSector(UInt32 start_sector,UInt32 end_sector)
     
     if(iapResult[0] != IAP_SUCCESS)
     {
-        return False;
+        return false;
     }
-    return True;
+    return true;
 }
 
-Bool iapPrepareSector(UInt32 start_sector,UInt32 end_sector)
+bool iapPrepareSector(uint32_t start_sector,uint32_t end_sector)
 {
-    UInt32 iapParameter[5];
-    UInt32 iapResult[5];
+    uint32_t iapParameter[5];
+    uint32_t iapResult[5];
     
     iapParameter[0] = IAP_PREPARE_SECTOR_FOR_WRITE;
     iapParameter[1] = start_sector;
@@ -81,7 +81,7 @@ Bool iapPrepareSector(UInt32 start_sector,UInt32 end_sector)
     
     if(iapResult[0] != IAP_SUCCESS)
     {
-        return False;
+        return false;
     }
-    return True;
+    return true;
 }

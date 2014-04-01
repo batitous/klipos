@@ -38,17 +38,17 @@ typedef struct _kernel_thread_
 {
     KLink *     next;       /**< pointer to the next thread */
     KLink *     prev;       /**< pointer to the previous thread */
-    UInt32 *    stack;      /**< thread stack */
-    UInt32      waiting;    /**< remaining time to wait for this thread */
-    UInt8       quantum;    /**< current quantum of task's scheduler */
-    UInt8       cpuRequest; /**< cpu time */
-    UInt8       priority;   /**< priority */
-    UInt8       isReady;    /**< is this thread in the ready task list ? */
+    uint32_t *    stack;      /**< thread stack */
+    uint32_t      waiting;    /**< remaining time to wait for this thread */
+    uint8_t       quantum;    /**< current quantum of task's scheduler */
+    uint8_t       cpuRequest; /**< cpu time */
+    uint8_t       priority;   /**< priority */
+    uint8_t       isReady;    /**< is this thread in the ready task list ? */
     
 #ifdef KERNEL_USE_DEBUG
-    UInt32      cpuUsage;   /**< cpu used by the thread */
-    UInt32 *    stackBegin; /**< address of stack */
-    UInt32      stackUsage; /**< stack used by thread */
+    uint32_t      cpuUsage;   /**< cpu used by the thread */
+    uint32_t *    stackBegin; /**< address of stack */
+    uint32_t      stackUsage; /**< stack used by thread */
 #endif
     
 } KThread;
@@ -62,7 +62,7 @@ typedef struct _kernel_thread_
  * @param priority      Thread priority.
  * @return
  */
-extern void initThread( KThread *thread, void (*userCode)(void), UInt8 *stack, UInt32 stackSize, UInt8 cpuTime, UInt8 priority);
+extern void initThread( KThread *thread, void (*userCode)(void), uint8_t *stack, uint32_t stackSize, uint8_t cpuTime, uint8_t priority);
 
 
 #endif

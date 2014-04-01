@@ -24,27 +24,27 @@
 
 #include "../include/klock.h"
 
-Bool trylock(UInt32 * ressources)
+bool trylock(uint32_t * ressources)
 {
     if( __LDREXW((uint32_t *)ressources) == 0)
     {
         if(__STREXW( 1, (uint32_t *)ressources) != 0)
         {
-            return False;
+            return false;
         }
         else
         {
             // ressources is not used by another thread, we can use them !
-            return True;
+            return true;
         }
     }
     else
     {
-        return False;
+        return false;
     }
 }
 
-void unlock(UInt32 * ressources)
+void unlock(uint32_t * ressources)
 {
     // clear the ressources for other thread
     //__STREXW( 0, ressources);

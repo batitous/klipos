@@ -24,7 +24,7 @@
 #include "../../../hw/include/libs-default.h"
 #include "../../kernel-klipos.h"
 
-void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
+void initIOStream(KIOStream *stream, uint8_t *buffer, uint32_t size)
 {
 #ifdef FIRMWARE_USE_KERNEL_FULL
     stream->receiver = 0;
@@ -35,15 +35,15 @@ void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size)
     stream->size = size;
 }
 
-void writeByteToIOStream(KIOStream *stream, UInt8 data)
+void writeByteToIOStream(KIOStream *stream, uint8_t data)
 {
     stream->buffer[stream->write & (stream->size-1)] = data;
     stream->write++;
 }
 
-UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len)
+uint32_t readBufferFromIOStream(KIOStream *stream, uint8_t *buffer, uint32_t len)
 {
-    UInt32 counter, i, size, read;
+    uint32_t counter, i, size, read;
     
     read = stream->read;
     size = stream->write;
@@ -52,7 +52,7 @@ UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len)
         return 0;
     }
     
-    if ( (UInt32)(size-read) < len )
+    if ( (uint32_t)(size-read) < len )
     {
         return (size-read);
     }
@@ -67,24 +67,24 @@ UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len)
     return counter;
 }
 
-Bool readByteFromIOStream(KIOStream *stream, UInt8 *data)
+bool readByteFromIOStream(KIOStream *stream, uint8_t *data)
 {
     if(stream->read!=stream->write)
     {
         *data = stream->buffer[stream->read & (stream->size-1)];
         stream->read++;
-        return True;
+        return true;
     }
 
-    return False;
+    return false;
 }
 
-Bool isDataAvailableFromIOStream(KIOStream *stream)
+bool isDataAvailableFromIOStream(KIOStream *stream)
 {
     if(stream->read!=stream->write)
     {
-        return True;
+        return true;
     }
     
-    return False;
+    return false;
 }

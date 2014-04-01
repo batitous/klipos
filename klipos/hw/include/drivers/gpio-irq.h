@@ -49,7 +49,7 @@ extern "C" {
 #endif
         
 /** @brief IRQ callback type */
-typedef void (*GpioIrqCallback)(UInt32 gpioEvent, UInt32 gpioEdge);
+typedef void (*GpioIrqCallback)(uint32_t gpioEvent, uint32_t gpioEdge);
 
 
 /** @brief Set the GPIO IRQ callback

@@ -23,13 +23,13 @@
 #include "../../hw/include/libs-default.h"
 
 
-#define BFAR    (*(volatile UInt32 *)(0xE000ED38))
-#define MMAR    (*(volatile UInt32 *)(0xE000ED34))
-#define MMSR    (*(volatile UInt32 *)(0xE000ED28))
+#define BFAR    (*(volatile uint32_t *)(0xE000ED38))
+#define MMAR    (*(volatile uint32_t *)(0xE000ED34))
+#define MMSR    (*(volatile uint32_t *)(0xE000ED28))
 
-void dumpFaultHandler(UInt32 * stack)
+void dumpFaultHandler(uint32_t * stack)
 {
-    UInt32 r0,r1,r2,r3,r12,lr,pc,psr;
+    uint32_t r0,r1,r2,r3,r12,lr,pc,psr;
     
     r0 = stack[0];
     r1 = stack[1];
@@ -59,11 +59,11 @@ void dumpFaultHandler(UInt32 * stack)
     // MemManage Fault Status
     printf("MMSR = %x\r\n", MMSR  );
     // Hard Fault Status
-    printf("HSFR = %x\r\n", (*(volatile UInt32 *)(0xE000ED2C)) );
+    printf("HSFR = %x\r\n", (*(volatile uint32_t *)(0xE000ED2C)) );
     // Debug Fault Status
-    printf("DFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED30)) );
+    printf("DFSR = %x\r\n", (*(volatile uint32_t *)(0xE000ED30)) );
     // Auxiliary Fault Status
-    printf("AFSR = %x\r\n", (*(volatile UInt32 *)(0xE000ED3C)) );
+    printf("AFSR = %x\r\n", (*(volatile uint32_t *)(0xE000ED3C)) );
     
 #ifdef FIRMWARE_USE_KERNEL_FULL
 

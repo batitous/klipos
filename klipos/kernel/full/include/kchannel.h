@@ -30,7 +30,7 @@
 typedef struct _kernel_channel_
 {
     KThread *   receiver;   /**< the receiver's thread */
-    UInt32      message;    /**< the message */
+    uint32_t      message;    /**< the message */
     bool        empty;      /**< channel empty or not ? */
 } KChannel;
 
@@ -44,13 +44,13 @@ extern void initChannel(KChannel *channel);
  * @param channel   A correct channel object.
  * @param message   A message.
  */
-extern void sendMessageToChannel(KChannel * channel, UInt32 message);
+extern void sendMessageToChannel(KChannel * channel, uint32_t message);
 
 /** @brief Wait a message from a channel object.
  *
  * @param channel       A correct channel object.
  * @return Message.
  */
-extern UInt32 waitMessageFromChannel(KChannel * channel);
+extern uint32_t waitMessageFromChannel(KChannel * channel);
 
 #endif

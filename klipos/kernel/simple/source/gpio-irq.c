@@ -25,7 +25,7 @@
 //-------------------------- private functions
 
 
-void gpioIrqCallback(UInt32 gpioEvent, UInt32 gpioEdge)
+void gpioIrqCallback(uint32_t gpioEvent, uint32_t gpioEdge)
 {
     postEventToTaskWithId(gpioEvent, gpioEdge);
 }

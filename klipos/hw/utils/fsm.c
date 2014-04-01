@@ -23,7 +23,7 @@
 #include "../include/libs-klipos.h"
 
 
-void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall init)
+void setFsm(Fsm* fsm, int32_t newstate, FsmCall call, FsmCall init)
 {
 //    printf("setFsm: new 0x%x old 0x%x\r\n", newstate, fsm->current);
     
@@ -32,7 +32,7 @@ void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall init)
     fsm->initcall = init;
 }
 
-void initFsm(Fsm* fsm, Int32 state, FsmCall call, FsmCall init)
+void initFsm(Fsm* fsm, int32_t state, FsmCall call, FsmCall init)
 {
     setFsm(fsm, state, call, init);
     
@@ -64,7 +64,7 @@ void updateFsm(Fsm* fsm)
     }
 }
 
-bool isFsmInState(Fsm* fsm, Int32 state)
+bool isFsmInState(Fsm* fsm, int32_t state)
 {
     if (fsm->current == state)
     {

@@ -46,9 +46,9 @@ typedef enum _i2c_speed
 
 extern const I2cMaster * initI2c0(I2C_SPEED speed);
 
-extern UInt32 sendBufferToI2c0(UInt8 addr, UInt8 *buffer, UInt32 len);
+extern uint32_t sendBufferToI2c0(uint8_t addr, uint8_t *buffer, uint32_t len);
 
-extern UInt32 getBufferFromI2c0(UInt8 addr, UInt8 *buffer, UInt32 len);
+extern uint32_t getBufferFromI2c0(uint8_t addr, uint8_t *buffer, uint32_t len);
 
 
 #ifdef __cplusplus

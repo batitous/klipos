@@ -84,7 +84,7 @@ void i2c_soft_start(void)
     waitSomeTimeInUs(1);
 }
 
-void i2c_soft_send_bit(UInt8 bit)
+void i2c_soft_send_bit(uint8_t bit)
 {
     // set bit on SDA
     // NOP
@@ -101,7 +101,7 @@ void i2c_soft_send_bit(UInt8 bit)
     waitSomeTimeInUs(1);
 }
 
-static UInt8 i2c_soft_receive_bit(void)
+static uint8_t i2c_soft_receive_bit(void)
 {
     // SDA = 1
     // SCL = 1
@@ -109,7 +109,7 @@ static UInt8 i2c_soft_receive_bit(void)
     // bit = SDA
     // SCL = 0
     
-    UInt8 bit;
+    uint8_t bit;
     
     SDA(1);
     waitSomeTimeInUs(1);
@@ -136,7 +136,7 @@ static UInt8 i2c_soft_receive_bit(void)
     waitSomeTimeInUs(1);
 }
 
- UInt8 i2c_soft_send_byte(UInt8 byte)
+ uint8_t i2c_soft_send_byte(uint8_t byte)
 {    
     // send byte :
     i2c_soft_send_bit(byte>>7);
@@ -152,10 +152,10 @@ static UInt8 i2c_soft_receive_bit(void)
     return i2c_soft_receive_bit();
 }
 
- UInt8 i2c_soft_receive_byte(UInt8 ack)
+ uint8_t i2c_soft_receive_byte(uint8_t ack)
 {
-    UInt8 bit;
-    UInt8 byte;
+    uint8_t bit;
+    uint8_t byte;
     
     bit = i2c_soft_receive_bit();
     byte = bit << 7;
@@ -199,9 +199,9 @@ const I2cMaster * initI2cSoft(LPC_GPIO_TypeDef *port, int sda, int scl)
     return &i2cSoftMaster;
 }
 
-UInt32 sendBufferToI2cSoft(UInt8 addr, UInt8 *buffer, UInt32 len)
+uint32_t sendBufferToI2cSoft(uint8_t addr, uint8_t *buffer, uint32_t len)
 {
-    UInt32 i;
+    uint32_t i;
     
     i2c_soft_start();
     
@@ -217,9 +217,9 @@ UInt32 sendBufferToI2cSoft(UInt8 addr, UInt8 *buffer, UInt32 len)
     return 0;
 }
 
-UInt32 getBufferFromI2cSoft(UInt8 addr, UInt8 *buffer, UInt32 len)
+uint32_t getBufferFromI2cSoft(uint8_t addr, uint8_t *buffer, uint32_t len)
 {
-    UInt32 i;
+    uint32_t i;
     
     i2c_soft_start();
     

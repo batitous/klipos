@@ -33,9 +33,9 @@ extern "C" {
 #define TABLE_SPACING_Q15	0x80
 
 /** @brief A IntQ15 is a number between -1.00 and 0.99 */
-typedef Int16   IntQ15;
+typedef int16_t   IntQ15;
     
-typedef Int16   RadianQ15;
+typedef int16_t   RadianQ15;
 
 
 /** @brief Get degree value from radian.
@@ -43,7 +43,7 @@ typedef Int16   RadianQ15;
  * @param radian        A Q15 value in radian
  * @return Degree value (between 0 and 360) from the radian value.
  */
-extern Int16 getDegreeFromRadian(IntQ15 radian);
+extern int16_t getDegreeFromRadian(IntQ15 radian);
 
 
 /** @brief Get radian value from degree value.
@@ -51,7 +51,7 @@ extern Int16 getDegreeFromRadian(IntQ15 radian);
  * @param degree        A degree value.
  * @return A radian value
  */
-extern RadianQ15 getRadianQ15FromDegree(Int16 degree);
+extern RadianQ15 getRadianQ15FromDegree(int16_t degree);
 
 
 /** @brief Fast approximation to the trigonometric cosine function for Q15 data. 
@@ -82,7 +82,7 @@ extern IntQ15 getSinFromRadianQ15(RadianQ15 x);
  * @param adjacent      Y
  * @return Q15 value.
  */
-extern IntQ15 getCosFromXY(Int16 opposed, Int16 adjacent );
+extern IntQ15 getCosFromXY(int16_t opposed, int16_t adjacent );
 
 
 /** @brief Get sine from opposed and adjacent axis.
@@ -93,7 +93,7 @@ extern IntQ15 getCosFromXY(Int16 opposed, Int16 adjacent );
  * @param adjacent      Y
  * @return Q15 value.
  */
-extern IntQ15 getSinFromXY(Int16 opposed, Int16 adjacent);
+extern IntQ15 getSinFromXY(int16_t opposed, int16_t adjacent);
 
 
 /** Get Atan
@@ -102,7 +102,7 @@ extern IntQ15 getSinFromXY(Int16 opposed, Int16 adjacent);
  * @param ix
  * @return degrees times 100 (0.0 to 90.0 degrees)
  */
-extern Int16 getAtan(Int16 iy, Int16 ix);
+extern int16_t getAtan(int16_t iy, int16_t ix);
 
 /** Get Atan2
  * 
@@ -110,13 +110,13 @@ extern Int16 getAtan(Int16 iy, Int16 ix);
  * @param ix
  * @return degrees times 100 (0.0 to 90.0 degrees)
  */
-extern Int16 getAtan2(Int16 iy, Int16 ix) ;
+extern int16_t getAtan2(int16_t iy, int16_t ix) ;
 
 
-extern UInt32 getSqrt(UInt32 x);
+extern uint32_t getSqrt(uint32_t x);
 
 
-extern Int32 iTrig(Int32 ix, Int32 iy); 
+extern int32_t iTrig(int32_t ix, int32_t iy); 
 
 #ifdef __cplusplus
  }

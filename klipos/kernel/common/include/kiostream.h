@@ -32,10 +32,10 @@ typedef struct _kernel_io_stream_
     KThread *       receiver;   /**< receiver thread */
 #endif
     
-    UInt8 *         buffer;     /**< input/output buffer */
-    UInt16          read;       /**< read index */
-    UInt16          write;      /**< write index */
-    UInt16          size;       /**< buffer size */
+    uint8_t *         buffer;     /**< input/output buffer */
+    uint16_t          read;       /**< read index */
+    uint16_t          write;      /**< write index */
+    uint16_t          size;       /**< buffer size */
 } KIOStream;
 
 
@@ -45,14 +45,14 @@ typedef struct _kernel_io_stream_
  * @param buffer    stream's buffer, you have to allocate this pointer !
  * @param size      Size of buffer, MUST BE 8, 16, 32, 64 etc...
  */
-extern void initIOStream(KIOStream *stream, UInt8 *buffer, UInt32 size);
+extern void initIOStream(KIOStream *stream, uint8_t *buffer, uint32_t size);
 
 /** @brief Write a byte to a stream.
  *
  * @param stream    i/o stream object.
  * @param data      Byte to write.
  */
-extern void writeByteToIOStream(KIOStream *stream, UInt8 data);
+extern void writeByteToIOStream(KIOStream *stream, uint8_t data);
 
 /** @brief Read a buffer of the specified lenght from the stream.
  *
@@ -70,23 +70,23 @@ extern void writeByteToIOStream(KIOStream *stream, UInt8 data);
  * @param len           number of bytes you want from the stream
  * @return 0 if no bytes available, else number of bytes available in the stream
  */
-extern UInt32 readBufferFromIOStream(KIOStream *stream, UInt8 *buffer, UInt32 len);
+extern uint32_t readBufferFromIOStream(KIOStream *stream, uint8_t *buffer, uint32_t len);
 
 /** @brief Get one byte from a stream.
  *
  * @param stream    i/o stream object.
  * @param data      Pointer to a byte where write the read's byte.
- * @return False if no byte, else True.
+ * @return false if no byte, else true.
  */
-extern Bool readByteFromIOStream(KIOStream *stream, UInt8 *data);
+extern bool readByteFromIOStream(KIOStream *stream, uint8_t *data);
 
 
 /** @brief Is data available from a stream ?
  * 
  * @param stream    i/o stream object 
- * @return True if data available, else False.
+ * @return true if data available, else false.
  */
-extern Bool isDataAvailableFromIOStream(KIOStream *stream);
+extern bool isDataAvailableFromIOStream(KIOStream *stream);
 
 
 /** @brief Wake up a task inside an IRQ.

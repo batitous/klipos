@@ -30,9 +30,9 @@ extern "C" {
 // you have to initialize yourself the sda/scl pin (remove pull-up) !
 extern const I2cMaster * initI2cSoft(LPC_GPIO_TypeDef *port, int sda, int scl);
 
-extern UInt32 sendBufferToI2cSoft(UInt8 addr, UInt8 *buffer, UInt32 len);
+extern uint32_t sendBufferToI2cSoft(uint8_t addr, uint8_t *buffer, uint32_t len);
 
-extern UInt32 getBufferFromI2cSoft(UInt8 addr, UInt8 *buffer, UInt32 len);
+extern uint32_t getBufferFromI2cSoft(uint8_t addr, uint8_t *buffer, uint32_t len);
 
     
 #ifdef __cplusplus

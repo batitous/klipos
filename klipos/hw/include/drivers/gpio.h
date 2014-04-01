@@ -94,14 +94,14 @@ extern void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir);
  * @param pin   GPIO to set
  * @param bit   value
  */
-extern void setGpioValue(GPIO_PIN pin, UInt32 bit);
+extern void setGpioValue(GPIO_PIN pin, uint32_t bit);
 
 /** @brief Get value of a GPIO
  *
  * @param pin   GPIO to get
  * @return Value of the pin (0 or 1)
  */
-extern UInt32 getGpioValue(GPIO_PIN pin);
+extern uint32_t getGpioValue(GPIO_PIN pin);
  
 #ifdef MCU_IS_LPC1315
 /** @brief Toggle a GPIO pin

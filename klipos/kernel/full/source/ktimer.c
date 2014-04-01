@@ -32,7 +32,7 @@
 
 //-------------------------- private definitions
 
-extern void _postKEvent(UInt32 id, UInt32 message);
+extern void _postKEvent(uint32_t id, uint32_t message);
 
 //-------------------------- private menbers
 
@@ -110,18 +110,18 @@ void manageKTimer(void)
 
 //-------------------------- public functions
 
-void wait100Us(UInt32 delay)
+void wait100Us(uint32_t delay)
 {
     currentTask->waiting = delay;
     setTaskAsWaiting();
 }
 
-void waitMs(UInt32 delay)
+void waitMs(uint32_t delay)
 {
     wait100Us(delay*10);
 }
 
-void initAlarm(KAlarm *alarm, UInt32 delay)
+void initAlarm(KAlarm *alarm, uint32_t delay)
 {
     alarm->remaining = 0;
     alarm->reload = delay * 10;
@@ -131,7 +131,7 @@ void initAlarm(KAlarm *alarm, UInt32 delay)
     insertKNodeToEnd(&alarms,(KNode *)alarm);
 }
 
-void setDelayOfAlarm(KAlarm * alarm, UInt32 delay)
+void setDelayOfAlarm(KAlarm * alarm, uint32_t delay)
 {
     alarm->reload = delay * 10;
 }

@@ -38,10 +38,10 @@ extern "C" {
 #define BIT(position) 		(1<<(position))
 
 // set 1 into register at position
-#define SETBIT(reg,position)    reg |= (1<<((UInt32)position))
+#define SETBIT(reg,position)    reg |= (1<<((uint32_t)position))
 
 // clear one bit of register at position
-#define CLRBIT(reg,position)  reg &= ~(1<<((UInt32)position))
+#define CLRBIT(reg,position)  reg &= ~(1<<((uint32_t)position))
 
 // clear multiple bits of register
 #define CLRBITS(reg,mask)     reg &= ~(mask)

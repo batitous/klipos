@@ -9,13 +9,13 @@ KTask t333Task;
 KTask gpioTask;
 
 
-void uartTaskCode(UInt32 event)
+void uartTaskCode(uint32_t event)
 {
-//    printf("Receive: %c\r\n", (Int8)event);
+//    printf("Receive: %c\r\n", (int8_t)event);
     
-    UInt32 i;
-    UInt8 buffer[4];
-    UInt32 lenReceived;
+    uint32_t i;
+    uint8_t buffer[4];
+    uint32_t lenReceived;
     
     lenReceived = getBufferFromUart0(buffer,4);
     if (lenReceived == 4)
@@ -30,7 +30,7 @@ void uartTaskCode(UInt32 event)
     
 }
 
-void gpioTaskCode(UInt32 event)
+void gpioTaskCode(uint32_t event)
 {
     printf("IRQ event: %x\r\n", event);
 }
@@ -43,7 +43,7 @@ KTimer t333;
 bool t100Ok;
 bool t150Ok;
 
-void t100TaskCode(UInt32 event)
+void t100TaskCode(uint32_t event)
 {
 //    printf("100\r\n");
     
@@ -59,7 +59,7 @@ void t100TaskCode(UInt32 event)
     }
 }
 
-void t150TaskCode(UInt32 event)
+void t150TaskCode(uint32_t event)
 {
     //printf("150\r\n");
     if (t150Ok==false)
@@ -74,7 +74,7 @@ void t150TaskCode(UInt32 event)
     }
 }
 
-void t333TaskCode(UInt32 event)
+void t333TaskCode(uint32_t event)
 {
     //printf("333\r\n");
 }

@@ -35,11 +35,11 @@ void initChannel(KChannel *channel)
     channel->receiver = 0;
 }
 
-void sendMessageToChannel(KChannel * channel, UInt32 message)
+void sendMessageToChannel(KChannel * channel, uint32_t message)
 {
     KThread * th = channel->receiver;
     channel->message = message;
-    channel->empty = False;
+    channel->empty = false;
 
     if (th!=0)
     {
@@ -48,7 +48,7 @@ void sendMessageToChannel(KChannel * channel, UInt32 message)
     }
 }
 
-UInt32 waitMessageFromChannel(KChannel * channel)
+uint32_t waitMessageFromChannel(KChannel * channel)
 {
     // no data, then wait...
     if ( channel->empty == true)
@@ -57,7 +57,7 @@ UInt32 waitMessageFromChannel(KChannel * channel)
         setTaskAsBlocked();
     }
 
-    channel->empty = True;
+    channel->empty = true;
 
     return channel->message;
 }

@@ -30,10 +30,10 @@ extern "C" {
 /** @brief Queue object */
 typedef struct _kqueue_
 {
-    UInt32      head;   
-    UInt32      tail;
-    UInt32      size;
-    UInt32*     pending;
+    uint32_t      head;   
+    uint32_t      tail;
+    uint32_t      size;
+    uint32_t*     pending;
 } KQueue;
 
 
@@ -43,7 +43,7 @@ typedef struct _kqueue_
  * @param buffer        Queue's buffer
  * @param size          Size of buffer
  */
-extern void initKQueue(KQueue* queue, void* buffer, Int32 size);
+extern void initKQueue(KQueue* queue, void* buffer, int32_t size);
 
 
 /** Write a data to the queue
@@ -52,7 +52,7 @@ extern void initKQueue(KQueue* queue, void* buffer, Int32 size);
  * @param data          Data to write
  * @return false if queue full
  */
-extern bool writeToKQueue(KQueue* queue, UInt32 data);
+extern bool writeToKQueue(KQueue* queue, uint32_t data);
 
 
 /** Read a data from a queue
@@ -61,7 +61,7 @@ extern bool writeToKQueue(KQueue* queue, UInt32 data);
  * @param data          Pointer to the data
  * @return false if queue empty, else true and data stores the queue's data.
  */
-extern bool readFromKQueue(KQueue* queue, UInt32* data);
+extern bool readFromKQueue(KQueue* queue, uint32_t* data);
 
 
 

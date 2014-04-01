@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-typedef void (*KTaskCode)(UInt32 dataEvent);
+typedef void (*KTaskCode)(uint32_t dataEvent);
 
 #define TASK_QUEUE_SIZE  8
 
@@ -51,8 +51,8 @@ typedef struct _ktask_
     KLink *     prev;           /**< previous task in the list */
     
     KQueue      events;         /**< queue event of this task */
-    UInt32      eventsBuffer[TASK_QUEUE_SIZE]; /**< event's buffer */
-    UInt32      eventId;        /**< event identifier */
+    uint32_t      eventsBuffer[TASK_QUEUE_SIZE]; /**< event's buffer */
+    uint32_t      eventId;        /**< event identifier */
     
     KTaskCode   code;           /**< task's code */
     KPriority   priority;       /**< task's priority */
@@ -81,7 +81,7 @@ extern void scheduleTask(void);
  * @param id    Event identifier
  * @param data  Data's event
  */
-extern void postEventToTaskWithId(UInt32 id, UInt32 data);
+extern void postEventToTaskWithId(uint32_t id, uint32_t data);
 
 
 /** Post an event to the specified task
@@ -90,7 +90,7 @@ extern void postEventToTaskWithId(UInt32 id, UInt32 data);
  * @param data          Event's data
  * @return false if error (task null, event queue full), else true
  */
-extern bool postEventToTask(KTask* task, UInt32 data);
+extern bool postEventToTask(KTask* task, uint32_t data);
 
 
 #ifdef	__cplusplus

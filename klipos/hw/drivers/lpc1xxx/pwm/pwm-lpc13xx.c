@@ -26,7 +26,7 @@
 //-------------------------- private variables:
 
 
-static volatile UInt8 pwm_stopped;
+static volatile uint8_t pwm_stopped;
 
 
 //-------------------------- private functions:
@@ -217,7 +217,7 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
     
 }
 
-void setPwmConfig(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, UInt32 cycle)
+void setPwmConfig(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, uint32_t cycle)
 {
     if( (pwmSelected&PWM0)==PWM0)
     {
@@ -247,7 +247,7 @@ void setPwmConfig(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, UInt32 cycle)
     }
 }
 
-void setPwmCycle(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, UInt32 cycle)
+void setPwmCycle(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, uint32_t cycle)
 {
     if( (pwmSelected&PWM0)==PWM0)
     {
@@ -271,9 +271,9 @@ void setPwmCycle(LPC_TMR_TypeDef * timer, PWMOUTPUT pwmSelected, UInt32 cycle)
 //-------------------------- public functions:
 
 
-void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, UInt32 widthInUs, UInt32 widthDivider, UInt32 percentage)
+void initPwm(Pwm *pwm, PWMTIMER timerSelected,PWMOUTPUT pwmSelected, uint32_t widthInUs, uint32_t widthDivider, uint32_t percentage)
 {
-    UInt32 widthPwm, cycle;
+    uint32_t widthPwm, cycle;
     
     // power on timer module
     // SYSAHBCLKCTRL bit9 1 = timer0 bit10 1 =timer1 (32 bits)
@@ -381,11 +381,11 @@ void disablePwm(Pwm *pwm)
     }
 }
 
-void setPwmDutyCycle(Pwm *pwm, UInt32 percentage)
+void setPwmDutyCycle(Pwm *pwm, uint32_t percentage)
 {
     LPC_TMR_TypeDef * timer = pwm->timer;
-    UInt32 widthPwm;
-    UInt32 cycle;
+    uint32_t widthPwm;
+    uint32_t cycle;
         
     widthPwm = timer->MR3;
 
@@ -395,11 +395,11 @@ void setPwmDutyCycle(Pwm *pwm, UInt32 percentage)
     setPwmCycle(timer, pwm->outputs,cycle);
 }
 
-void setPwmRawDutyCycle(Pwm *pwm, UInt32 raw)
+void setPwmRawDutyCycle(Pwm *pwm, uint32_t raw)
 {
     LPC_TMR_TypeDef * timer = pwm->timer;
-    UInt32 widthPwm;
-    UInt32 cycle;
+    uint32_t widthPwm;
+    uint32_t cycle;
         
     widthPwm = timer->MR3;
 
@@ -408,10 +408,10 @@ void setPwmRawDutyCycle(Pwm *pwm, UInt32 raw)
     setPwmCycle(timer, pwm->outputs,cycle);
 }
 
-void setPwmWidth(Pwm *pwm, UInt32 widthInUs)
+void setPwmWidth(Pwm *pwm, uint32_t widthInUs)
 {
     LPC_TMR_TypeDef * timer = pwm->timer;
-    UInt32 widthPwm;
+    uint32_t widthPwm;
            
     //todo 100us = (KERNEL_CPU_FREQ/100)*10 -1
     //todo 10us  = (KERNEL_CPU_FREQ /100) -1

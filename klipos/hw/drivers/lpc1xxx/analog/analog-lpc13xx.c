@@ -49,7 +49,7 @@
 
 //----------------------------- public functions
 
-void initAnalog(UInt32 analogChannel)
+void initAnalog(uint32_t analogChannel)
 {
     //bit0 to bit2 : pin configuration  
     //bit7 : ADMODE set to 0

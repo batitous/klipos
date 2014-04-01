@@ -42,7 +42,7 @@ extern "C" {
  * 
  * @param delay
  */
-extern void  waitSomeTimeInUs(UInt32  delay);
+extern void  waitSomeTimeInUs(uint32_t  delay);
 
 
 /** Initialize the systick timer to fire up an interrupt at timeInUs
@@ -51,20 +51,20 @@ extern void  waitSomeTimeInUs(UInt32  delay);
  * 
  * @param timeInUs
  */
-extern void initSystickTimer(UInt32 timeInUs);
+extern void initSystickTimer(uint32_t timeInUs);
 
  
 /** Get the number of interrupt fired up by the systick timer
  *
  * @return Number of interrupt fired up.
  */
-extern UInt32 getSystickCounter(void);
+extern uint32_t getSystickCounter(void);
 
 /** Get the current value in microseconds of the systick timer
  * 
  * @return This value is between [0 - time initialized in initSystickTimer].
  */
-extern UInt32 getSysTickCurrentVal(void);
+extern uint32_t getSysTickCurrentVal(void);
 
 
 

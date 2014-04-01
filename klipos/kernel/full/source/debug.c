@@ -31,8 +31,8 @@
 
 void dumpKernel(void)
 {
-//    UInt32 total = 0;
-    UInt32 percent = 0;
+//    uint32_t total = 0;
+    uint32_t percent = 0;
     KThread * thread = (KThread *)(tasksReady.next);
 
     printf("[%6d][ Dump Kernel State: current thread %x ]\r\n", tickOfKernel, currentTask);

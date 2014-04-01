@@ -57,7 +57,7 @@ void TIMER_16_0_IRQn_Handler(void)
 
 //----------------------------- public functions
 
-bool initTimer16(Timer* timer, TIMER timerSelected, UInt32 waitInUs)
+bool initTimer16(Timer* timer, TIMER timerSelected, uint32_t waitInUs)
 {
     LPC_TMR_TypeDef * t;
     
@@ -96,10 +96,10 @@ bool initTimer16(Timer* timer, TIMER timerSelected, UInt32 waitInUs)
         NVIC_EnableIRQ(TIMER_16_1_IRQn);
     }
     
-    return True;
+    return true;
 }
 
-void setTimer16(Timer* timer, UInt32 waitInUs)
+void setTimer16(Timer* timer, uint32_t waitInUs)
 {
     LPC_TMR_TypeDef * t = timer->t;
         

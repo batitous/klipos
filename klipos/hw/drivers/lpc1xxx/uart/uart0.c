@@ -87,7 +87,7 @@ void setUartIoCon(void)
 //--------------------- private variables:
 
 static KIOStream uartStream;
-static UInt8 uartBuffer[UART_BUFFER_SIZE];
+static uint8_t uartBuffer[UART_BUFFER_SIZE];
 
 static const Uart uart0 = { 
     getByteFromUart0, 
@@ -104,8 +104,8 @@ static KTask*   uartTask;
 
 void UART0_IRQHandler(void)
 {
-    UInt32 status = LPC_UART0->IIR;
-    UInt8 data;
+    uint32_t status = LPC_UART0->IIR;
+    uint8_t data;
     
     //Check if interrupt is pending
     if( (status & 1)==0)
@@ -123,7 +123,7 @@ void UART0_IRQHandler(void)
 #endif
             
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
-            postEventToTask(uartTask,(UInt32)data);
+            postEventToTask(uartTask,(uint32_t)data);
 #endif
             
         }
@@ -171,7 +171,7 @@ const Uart * initUart0(void)
     return &uart0;
 }
 
-void sendByteToUart0(UInt8 byte)
+void sendByteToUart0(uint8_t byte)
 {
 	while( (LPC_UART0->LSR & BIT(5) ) ==0 );
     
@@ -181,9 +181,9 @@ void sendByteToUart0(UInt8 byte)
 	LPC_UART0->THR=byte;
 }
 
-void sendBufferToUart0(UInt8 * Buffer,UInt32 Count)
+void sendBufferToUart0(uint8_t * Buffer,uint32_t Count)
 {
-    UInt32 i;
+    uint32_t i;
     
     for(i=0;i<Count;i++)
     {
@@ -191,12 +191,12 @@ void sendBufferToUart0(UInt8 * Buffer,UInt32 Count)
     }
 }
 
-UInt32 getBufferFromUart0(UInt8 * buffer, UInt32 len)
+uint32_t getBufferFromUart0(uint8_t * buffer, uint32_t len)
 {
     return readBufferFromIOStream(&uartStream, buffer, len);
 }
 
-bool getByteFromUart0(UInt8 *data)
+bool getByteFromUart0(uint8_t *data)
 {
     return readByteFromIOStream(&uartStream, data);
 }

@@ -29,13 +29,13 @@ extern "C" {
 
 extern void initSpi(void);
 
-extern UInt8 sendByteToSpi(UInt8 outgoing);
+extern uint8_t sendByteToSpi(uint8_t outgoing);
 
-extern void sendBufferToSpi(UInt8 *buffer, UInt32 size);
+extern void sendBufferToSpi(uint8_t *buffer, uint32_t size);
 
-extern UInt8 getByteFromSpi(void);
+extern uint8_t getByteFromSpi(void);
 
-extern void getBufferFromSpi(UInt8 *buffer, UInt32 size);
+extern void getBufferFromSpi(uint8_t *buffer, uint32_t size);
 
 
 #ifdef __cplusplus

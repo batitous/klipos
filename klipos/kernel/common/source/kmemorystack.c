@@ -37,7 +37,7 @@
 
 //-------------------------- public functions
 
-void initMemoryStack(KMemoryStack *stack, UInt8 *address, UInt32 size)
+void initMemoryStack(KMemoryStack *stack, uint8_t *address, uint32_t size)
 {
     stack->nextFreeAddress = address;
     stack->lastAddress = stack->nextFreeAddress + size;
@@ -45,9 +45,9 @@ void initMemoryStack(KMemoryStack *stack, UInt8 *address, UInt32 size)
     TRACE_MEMSTACK(("memstack init at 0x%x size %d\r\n", address, size));
 }
 
-void * allocMemoryStack(KMemoryStack *stack, UInt32 size)
+void * allocMemoryStack(KMemoryStack *stack, uint32_t size)
 {
-    UInt8 * currentStack = stack->nextFreeAddress;
+    uint8_t * currentStack = stack->nextFreeAddress;
     
     if( (stack->nextFreeAddress+size) <= stack->lastAddress)
     {

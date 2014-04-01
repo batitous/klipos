@@ -32,8 +32,8 @@ extern "C" {
 extern void initUart0(void);
 
 
-extern void sendByteToUart0(UInt8 byte);
-extern void sendBufferToUart0(UInt8 * Buffer,UInt32 Count);
+extern void sendByteToUart0(uint8_t byte);
+extern void sendBufferToUart0(uint8_t * Buffer,uint32_t Count);
 
 
 

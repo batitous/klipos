@@ -47,10 +47,10 @@
 //----------------------------- public functions
 
 
-UInt16 getAnalog(ANALOG_CHANNEL channel)
+uint16_t getAnalog(ANALOG_CHANNEL channel)
 {
-	UInt16 result;
-	UInt32 temp;
+	uint16_t result;
+	uint32_t temp;
 
 	// clear previous channel
         CLRBITS(ANA_CR, 0xFF);

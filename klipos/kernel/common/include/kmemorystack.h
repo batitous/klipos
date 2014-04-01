@@ -32,13 +32,13 @@
 
 typedef struct _k_memory_stack_
 {
-    UInt8 * nextFreeAddress;
-    UInt8 * lastAddress;
+    uint8_t * nextFreeAddress;
+    uint8_t * lastAddress;
 } KMemoryStack;
 
-extern void initMemoryStack(KMemoryStack *stack, UInt8 *address, UInt32 size);
+extern void initMemoryStack(KMemoryStack *stack, uint8_t *address, uint32_t size);
 
-extern void * allocMemoryStack(KMemoryStack *stack, UInt32 size);
+extern void * allocMemoryStack(KMemoryStack *stack, uint32_t size);
 
 
 #endif

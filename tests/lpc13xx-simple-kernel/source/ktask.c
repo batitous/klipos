@@ -45,7 +45,7 @@ void idleTask(void)
 //-------------------------- public functions
 
 
-void initTask(KTask* task, KTaskCode c, KPriority prio, UInt32 eventId)
+void initTask(KTask* task, KTaskCode c, KPriority prio, uint32_t eventId)
 {
     task->code = c;
     task->priority = prio;
@@ -58,7 +58,7 @@ void initTask(KTask* task, KTaskCode c, KPriority prio, UInt32 eventId)
 
 void scheduleTask(void)
 {
-    UInt32 tmp;
+    uint32_t tmp;
     
     bool executed = false;
     
@@ -83,12 +83,12 @@ void scheduleTask(void)
 
 }
 
-void postEventToTask(KTask* task, UInt32 data)
+void postEventToTask(KTask* task, uint32_t data)
 {
     writeToKQueue(&task->events, data);
 }
 
-void postEventToTaskWithId(UInt32 id, UInt32 data)
+void postEventToTaskWithId(uint32_t id, uint32_t data)
 {
     KTask* next = (KTask*)tasks.next;
 

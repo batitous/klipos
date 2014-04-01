@@ -28,9 +28,9 @@
 /** @brief An event */
 typedef struct _k_event_
 {
-    UInt32          time;       /**< time when event posted */
-    UInt32          id;         /**< identifier of event */
-    UInt32          message;    /**< message (optionnal) */
+    uint32_t          time;       /**< time when event posted */
+    uint32_t          id;         /**< identifier of event */
+    uint32_t          message;    /**< message (optionnal) */
 } KEvent;
 
 
@@ -42,9 +42,9 @@ typedef void (*KEventCallback)(KEvent * node);
 typedef struct _k_event_manager_
 {
     KLink *             next;   /**< next event registered */
-    UInt32              id;     /**< id of event */
+    uint32_t              id;     /**< id of event */
     KEventCallback      callback; /**< user callback code */
-    UInt32              data;   /**< specific data for user callback */
+    uint32_t              data;   /**< specific data for user callback */
 } KEventManager;
 
 
@@ -63,21 +63,21 @@ extern void initEventManager(void);
  * @param id
  * @param user
  * @param userData
- * @return True if success
+ * @return true if success
  */
-extern Bool registerEvent(KEventManager *manager, UInt32 id, KEventCallback user, UInt32 userData);
+extern bool registerEvent(KEventManager *manager, uint32_t id, KEventCallback user, uint32_t userData);
 
 /** @brief Post an event
  * 
  * @param id
  * @param message
  */
-extern void postEvent(UInt32 id, UInt32 message);
+extern void postEvent(uint32_t id, uint32_t message);
 
 /** @brief Post event from an IRQ routine 
  * @param id
  * @param message
  */
-extern void postEventFromIrq(UInt32 id, UInt32 message);
+extern void postEventFromIrq(uint32_t id, uint32_t message);
 
 #endif

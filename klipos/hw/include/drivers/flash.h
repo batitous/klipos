@@ -33,26 +33,26 @@ extern "C" {
  * 
  * @param start_sector          Sector start number
  * @param end_sector            Sector end number
- * @return  False if error
+ * @return  false if error
  */
-extern Bool iapPrepareSector(UInt32 start_sector,UInt32 end_sector);
+extern bool iapPrepareSector(uint32_t start_sector,uint32_t end_sector);
 
 /** Write data to the specified address in flash memory.
  * 
  * @param flash_address         Memory's address where write the buffer
  * @param buffer                Data's
  * @param count                 Number of bytes to be written
- * @return False if error
+ * @return false if error
  */
-extern Bool iapWriteBuffer(UInt32 flash_address, UInt32 bufferAddr, UInt32 count);
+extern bool iapWriteBuffer(uint32_t flash_address, uint32_t bufferAddr, uint32_t count);
 
 /** Erase a (or multiple) sector of flash memory
  * 
  * @param start_sector          Sector start number 
  * @param end_sector            Sector end number
- * @return False if error
+ * @return false if error
  */
-extern Bool iapEraseSector(UInt32 start_sector,UInt32 end_sector);
+extern bool iapEraseSector(uint32_t start_sector,uint32_t end_sector);
 
 #ifdef __cplusplus
  }

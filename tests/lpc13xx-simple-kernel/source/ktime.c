@@ -13,7 +13,7 @@
 
 
 static KList timers;
-static Int32 currentTime;
+static int32_t currentTime;
 
 
 //-------------------------- private functions
@@ -21,7 +21,7 @@ static Int32 currentTime;
 void SysTick_Handler(void)
 {
     KTimer* timer = (KTimer*)timers.next;
-    Int32 nextTime = SYSTICK_MAX;
+    int32_t nextTime = SYSTICK_MAX;
     
     while (timer != (KTimer*)&timers)
     {
@@ -100,7 +100,7 @@ void initKernelTimers(void)
     currentTime = 0;
 }
 
-void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task)
+void initTimer(KTimer* timer, uint32_t delayInUs, KTask* task)
 {
     timer->remaining = delayInUs;
     timer->reload = delayInUs;

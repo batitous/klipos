@@ -4,7 +4,7 @@
 #include "../include/kqueue.h"
 
 
-void initKQueue(KQueue* queue, void* buffer, Int32 size)
+void initKQueue(KQueue* queue, void* buffer, int32_t size)
 {
     queue->head = 0;
     queue->tail = 0;
@@ -12,9 +12,9 @@ void initKQueue(KQueue* queue, void* buffer, Int32 size)
     queue->pending = buffer;
 }
 
-bool writeToKQueue(KQueue* queue, UInt32 data)
+bool writeToKQueue(KQueue* queue, uint32_t data)
 {
-    UInt32 size = queue->size-1;
+    uint32_t size = queue->size-1;
     if ( ((queue->tail+1) & (size)) == ((queue->head) & (size)) )
     {
         printf("writeToKQueue failed!\r\n");
@@ -27,7 +27,7 @@ bool writeToKQueue(KQueue* queue, UInt32 data)
     return true;
 }
 
-bool readFromKQueue(KQueue* queue, UInt32* data)
+bool readFromKQueue(KQueue* queue, uint32_t* data)
 {
     if (queue->head == queue->tail)
     {

@@ -31,9 +31,9 @@ typedef struct _kalarm_
     KLink *     next;       /**< pointer to the next alarm */
     KLink *     prev;       /**< pointer to the previous alarm*/
     KThread *   thread;     /**< thread that receive this alarm */
-    UInt32      remaining;  /**< time remaining before alarm */
-    UInt32      reload;     /**< time to be reloaded */
-    UInt16      id;         /**< alarm's id for event post/get, 0 if it's not an event */
+    uint32_t      remaining;  /**< time remaining before alarm */
+    uint32_t      reload;     /**< time to be reloaded */
+    uint16_t      id;         /**< alarm's id for event post/get, 0 if it's not an event */
 } KAlarm;
 
 
@@ -42,7 +42,7 @@ typedef struct _kalarm_
  * @param delay     in ms
  * @param A new alarm object.
  */
-extern void initAlarm(KAlarm *alarm, UInt32 delay);
+extern void initAlarm(KAlarm *alarm, uint32_t delay);
 
 /** @brief Start the alarm.
  *
@@ -61,13 +61,13 @@ extern void waitAlarm(KAlarm * alarm);
  *
  * @param delay     Delay to wait in ms, between 1 and 6500.
  */
-extern void waitMs(UInt32 delay);
+extern void waitMs(uint32_t delay);
 
-extern void wait100Us(UInt32 delay);
+extern void wait100Us(uint32_t delay);
 
-extern void setDelayOfAlarm(KAlarm * alarm, UInt32 delay);
+extern void setDelayOfAlarm(KAlarm * alarm, uint32_t delay);
 
 //WARNING Alarm is not started !
-extern void enableEventOnAlarm(KAlarm *alarm, KEventManager *manager, KEventCallback callback, UInt32 dataForCallback);
+extern void enableEventOnAlarm(KAlarm *alarm, KEventManager *manager, KEventCallback callback, uint32_t dataForCallback);
 
 #endif

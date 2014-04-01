@@ -41,20 +41,20 @@
 #       define EVENT_THREAD_STACK_SIZE  512     /**< size of event thread stack */
 #endif
 
-static UInt32 kEventRead;               /**< read index in kEvents */
-static volatile UInt32 kEventWrite;     /**< write index in kEvents */
+static uint32_t kEventRead;               /**< read index in kEvents */
+static volatile uint32_t kEventWrite;     /**< write index in kEvents */
 
 static KEvent kEvents[EVENT_MAX];       /**< stack of event */
 
 static SList kEventManagers;          /**< list of event callback */
 static KThread kEventThread;                 /**< event thread manager */
-static UInt8 kEventStack[EVENT_THREAD_STACK_SIZE];
+static uint8_t kEventStack[EVENT_THREAD_STACK_SIZE];
 
-static UInt16 kEventLastAlarmId;      /**< Id for alarm event */
+static uint16_t kEventLastAlarmId;      /**< Id for alarm event */
 
 //-------------------------- private functions:
 
-KEventManager * getEventRegister(UInt32 id)
+KEventManager * getEventRegister(uint32_t id)
 {
     KEventManager * temp = (KEventManager *)kEventManagers.next;
 
@@ -72,7 +72,7 @@ KEventManager * getEventRegister(UInt32 id)
 
 void kEventThreadManager(void)
 {
-    UInt32 size,i;
+    uint32_t size,i;
     KEventManager * manager = kEventManagers.next;
     KEvent * e;
     
@@ -120,9 +120,9 @@ void kEventThreadManager(void)
     }
 }
 
-void _postKEvent(UInt32 id, UInt32 message)
+void _postKEvent(uint32_t id, uint32_t message)
 {
-    UInt32 tmp = kEventWrite & (EVENT_MAX-1);
+    uint32_t tmp = kEventWrite & (EVENT_MAX-1);
     
     kEvents[tmp].id = id;
     kEvents[tmp].message = message;
@@ -135,7 +135,7 @@ void _postKEvent(UInt32 id, UInt32 message)
 
 void initEventManager(void)
 {
-    UInt32 i;
+    uint32_t i;
     
     kEventLastAlarmId = 1;
     
@@ -156,13 +156,13 @@ void initEventManager(void)
        
 }
 
-Bool registerEvent(KEventManager *manager, UInt32 id, KEventCallback user, UInt32 userData)
+bool registerEvent(KEventManager *manager, uint32_t id, KEventCallback user, uint32_t userData)
 {
     if( getEventRegister(id) != 0)
     {
         // event already exist !
         //todo add user callback in the event callback list
-        return False;
+        return false;
     }
     
     manager->id = id;
@@ -171,22 +171,22 @@ Bool registerEvent(KEventManager *manager, UInt32 id, KEventCallback user, UInt3
  
     insertSNodeToStart(&kEventManagers,(KLink *)manager);
     
-    return True;
+    return true;
 }
 
-void postEvent(UInt32 id, UInt32 message)
+void postEvent(uint32_t id, uint32_t message)
 {
     _postKEvent(id,message);
     setTaskAsReady(&kEventThread);
 }
 
-void postEventFromIrq(UInt32 id, UInt32 message)
+void postEventFromIrq(uint32_t id, uint32_t message)
 {
     _postKEvent(id,message);
     irqSetTaskAsReady(&kEventThread);
 }
 
-void enableEventOnAlarm(KAlarm *alarm, KEventManager *manager, KEventCallback callback, UInt32 dataForCallback)
+void enableEventOnAlarm(KAlarm *alarm, KEventManager *manager, KEventCallback callback, uint32_t dataForCallback)
 {
     alarm->thread = &kEventThread;
     alarm->id = kEventLastAlarmId;

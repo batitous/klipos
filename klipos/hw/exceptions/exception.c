@@ -61,10 +61,10 @@ void HardFault_Handler(void)
 #ifdef FIRMWARE_USE_DEBUG
     // this exception has the highest priority (whitout the reset and nmi) :
     // in most fault case, we are in this exception
-    UInt32 reg;
-    UInt32 * r;
+    uint32_t reg;
+    uint32_t * r;
 
-    extern void dumpFaultHandler(UInt32 * stack);
+    extern void dumpFaultHandler(uint32_t * stack);
     
     // get correct stack : process stack or main stack
     __asm __volatile__ (
@@ -80,7 +80,7 @@ void HardFault_Handler(void)
 
     
     // dump stack :
-    r = (UInt32 *)reg;
+    r = (uint32_t *)reg;
     dumpFaultHandler(r);
     
 

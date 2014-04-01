@@ -56,7 +56,7 @@
  *
  */
 
-void * memcpy(void *pDestination, const void *pSource, UInt32 num)
+void * memcpy(void *pDestination, const void *pSource, uint32_t num)
 {
     unsigned char *pByteDestination;
     unsigned char *pByteSource;
@@ -86,7 +86,7 @@ void * memcpy(void *pDestination, const void *pSource, UInt32 num)
     return pDestination;
 }
 
-void * memset(void *pBuffer, int value, UInt32 num)
+void * memset(void *pBuffer, int value, uint32_t num)
 {
     unsigned char *pByteDestination;
     unsigned int  *pAlignedDestination = (unsigned int *) pBuffer;
@@ -109,11 +109,11 @@ void * memset(void *pBuffer, int value, UInt32 num)
     return pBuffer;
 }
 
-Int32 memcmp(const void *av, const void *bv, UInt32 len)
+int32_t memcmp(const void *av, const void *bv, uint32_t len)
 {
   const unsigned char *a = av;
   const unsigned char *b = bv;
-  UInt32 i;
+  uint32_t i;
 
   for (i=0; i<len; i++) 
   {
@@ -135,9 +135,9 @@ char * strcpy(char *dest, const char *source)
 }
 
 
-UInt32 strlen(const char *string)
+uint32_t strlen(const char *string)
 {
-    UInt32 length = 0;
+    uint32_t length = 0;
 
     while(*string++ != 0)
     {
@@ -147,7 +147,7 @@ UInt32 strlen(const char *string)
     return length;
 }
 
-Int32 strncmp(const Int8 *pString1, const Int8 *pString2, UInt32 count)
+int32_t strncmp(const int8_t *pString1, const int8_t *pString2, uint32_t count)
 {
     int r;
 
@@ -169,9 +169,9 @@ Int32 strncmp(const Int8 *pString1, const Int8 *pString2, UInt32 count)
     return 0;
 }
 
-Int8 * strncpy(Int8 *pDestination, const Int8 *pSource, UInt32 count)
+int8_t * strncpy(int8_t *pDestination, const int8_t *pSource, uint32_t count)
 {
-    char *pSaveDest = pDestination;
+    char *pSaveDest = (char *)pDestination;
 
     while (count) 
     {
@@ -184,13 +184,13 @@ Int8 * strncpy(Int8 *pDestination, const Int8 *pSource, UInt32 count)
         pSource++;
         count--;
     }
-    return pSaveDest;
+    return (int8_t *)pSaveDest;
 }
 
 // Following code is based on the BSD licensed code released by UoC 
 // Copyright (c) 1988 Regents of the University of California
 
-Int32 strcmp(const Int8 *s1, const Int8 *s2)
+int32_t strcmp(const int8_t *s1, const int8_t *s2)
 {
   while (*s1 == *s2++)
     if (*s1++ == 0)

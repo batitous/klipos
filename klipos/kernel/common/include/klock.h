@@ -28,19 +28,19 @@
 
 /** @brief Try to lock a ressource (and lock it if success).
  *
- * If True is returned, then you get the ressource and you MUST unlock after using it!
+ * If true is returned, then you get the ressource and you MUST unlock after using it!
  *
  * @param ressources        Pointer to a ressource (integer).
- * @return False if try failed, else True.
+ * @return false if try failed, else true.
  */
-extern Bool trylock(UInt32 * ressource);
+extern bool trylock(uint32_t * ressource);
 
 
 /** @brief Unlock a ressource.
  *
  * @param ressources        Pointer to a locked ressources.
  */
-extern void unlock(UInt32 * ressource);
+extern void unlock(uint32_t * ressource);
 
 
 #endif

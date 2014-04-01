@@ -45,12 +45,12 @@ void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
     }
 }
 
-UInt32 getGpioValue(GPIO_PIN pin)
+uint32_t getGpioValue(GPIO_PIN pin)
 {
    return (LPC_GPIO_PORT->PIN0 >> pin) & 0x1;
 }
 
-void setGpioValue(GPIO_PIN pin, UInt32 bit)
+void setGpioValue(GPIO_PIN pin, uint32_t bit)
 {
     if (bit==0)
     {

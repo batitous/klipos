@@ -33,7 +33,7 @@
 //this code is called at cpu reset: don't call it directly!
 void initLowLevelCpu(void)
 {
-    UInt32 i;
+    uint32_t i;
 
     // Power on I/O
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,16);

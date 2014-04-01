@@ -24,51 +24,51 @@
 
 //--------------------- private functions:
 
-static Bool executeEepromCommand(UInt32 command, UInt32 addr, UInt8 * buffer, UInt32 size)
+static bool executeEepromCommand(uint32_t command, uint32_t addr, uint8_t * buffer, uint32_t size)
 {
-    UInt32 param[5];
-    UInt32 result[4];
+    uint32_t param[5];
+    uint32_t result[4];
     
     param[0] = command;
     param[1] = addr;
-    param[2] = (UInt32)buffer;
+    param[2] = (uint32_t)buffer;
     param[3] = size;
     param[4] = IAP_CCLK;
     iapExecuteCommand(param,result);
     
     if(result[0] != IAP_SUCCESS)
     {
-        return False;
+        return false;
     }
     
-    return True;
+    return true;
 }
 
 //--------------------- public functions:
 
-Bool readByteFromEeprom(UInt32 addr, UInt8* data)
+bool readByteFromEeprom(uint32_t addr, uint8_t* data)
 {
     return executeEepromCommand(IAP_READ_EEPROM,addr,data,1);
 }
 
-Bool readBufferFromEeprom(UInt32 addr, UInt8* buffer, UInt32 size)
+bool readBufferFromEeprom(uint32_t addr, uint8_t* buffer, uint32_t size)
 {
     return executeEepromCommand(IAP_READ_EEPROM,addr,buffer,size);
 }
 
 
-Bool writeByteToEeprom(UInt32 addr, UInt8 data)
+bool writeByteToEeprom(uint32_t addr, uint8_t data)
 {
     return executeEepromCommand(IAP_WRITE_EEPROM,addr,&data,1);
 }
 
-Bool writeBufferToEeprom(UInt32 addr, UInt8* buffer, UInt32 size)
+bool writeBufferToEeprom(uint32_t addr, uint8_t* buffer, uint32_t size)
 {
     return executeEepromCommand(IAP_WRITE_EEPROM,addr,buffer,size);
 }
 
-Bool eraseEeprom()
+bool eraseEeprom()
 {
-    return False;
+    return false;
 }
 

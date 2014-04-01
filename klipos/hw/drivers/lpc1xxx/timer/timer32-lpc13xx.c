@@ -58,7 +58,7 @@ void TIMER_32_1_IRQn_Handler(void)
 
 //----------------------------- public functions
 
-bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs)
+bool initTimer32(Timer* timer, TIMER timerSelected, uint32_t waitInUs)
 {
     LPC_TMR_TypeDef * t;
     
@@ -111,10 +111,10 @@ bool initTimer32(Timer* timer, TIMER timerSelected, UInt32 waitInUs)
         NVIC_EnableIRQ(TIMER_32_1_IRQn);
     }
     
-    return True;
+    return true;
 }
 
-void setTimer32(Timer* timer, UInt32 waitInUs)
+void setTimer32(Timer* timer, uint32_t waitInUs)
 {
     LPC_TMR_TypeDef * t = timer->t;
         
@@ -156,7 +156,7 @@ void setTimer1Callback(TimerIrqCallback c)
 
 
 // it has been tested, ok !
-void waitUsPrecise(TIMER timerSelected, UInt32 waitInUs)
+void waitUsPrecise(TIMER timerSelected, uint32_t waitInUs)
 {
     LPC_TMR_TypeDef * timer;
     

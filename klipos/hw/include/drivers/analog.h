@@ -41,9 +41,9 @@ typedef enum ANALOG_CHANNEL_
 } ANALOG_CHANNEL ;
 
 
-extern void initAnalog(UInt32 analogChannel);
+extern void initAnalog(uint32_t analogChannel);
 
-extern UInt16 getAnalog(ANALOG_CHANNEL channel);
+extern uint16_t getAnalog(ANALOG_CHANNEL channel);
 
 
 #ifdef __cplusplus

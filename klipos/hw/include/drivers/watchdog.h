@@ -33,7 +33,7 @@ extern "C" {
  * 
  * @param timeInMs      Time in milliseconds before microcontroller reset.
  */
-extern void initWatchdog(UInt32 timeInMs);
+extern void initWatchdog(uint32_t timeInMs);
     
 
 /** Feed the dog.

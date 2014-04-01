@@ -28,12 +28,12 @@
 
 extern volatile KThread * currentTask;
 
-void dumpFaultHandler(UInt32 * stack)
+void dumpFaultHandler(uint32_t * stack)
 {
-    UInt32 r0,r1,r2,r3,r12,lr,pc,psr;
+    uint32_t r0,r1,r2,r3,r12,lr,pc,psr;
     
-    UInt8 string[8];
-    UInt32 i;
+    uint8_t string[8];
+    uint32_t i;
     
     r0 = stack[0];
     r1 = stack[1];

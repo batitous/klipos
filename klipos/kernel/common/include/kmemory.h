@@ -27,8 +27,8 @@
 /** @brief Memory link object */
 typedef struct _kernel_link_memory_
 {
-    UInt16 prev;        /**< previous block of memory */
-    UInt16 next;        /**< next block of memory */
+    uint16_t prev;        /**< previous block of memory */
+    uint16_t next;        /**< next block of memory */
 } KMemory;
 
 
@@ -38,13 +38,13 @@ typedef struct _kernel_link_memory_
  * @param sizeInByte            Maximum value: 131068 bytes (127Kbytes)
  * @return 
  */
-extern KMemory * initMemory(const UInt8 * mem, UInt32 sizeInByte);
+extern KMemory * initMemory(const uint8_t * mem, uint32_t sizeInByte);
 
-extern UInt32 getMemoryAvailable(KMemory * mem);
+extern uint32_t getMemoryAvailable(KMemory * mem);
 
-extern void * allocMemory(KMemory * mem, UInt32 sizeInBytes);
+extern void * allocMemory(KMemory * mem, uint32_t sizeInBytes);
 
-extern void freeMemory(KMemory * mem, UInt8 * ptr);
+extern void freeMemory(KMemory * mem, uint8_t * ptr);
 
 
 

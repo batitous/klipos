@@ -80,9 +80,9 @@ void initSpi(void)
 
 
 
-UInt8 sendByteToSpi(UInt8 outgoing)
+uint8_t sendByteToSpi(uint8_t outgoing)
 {
-    UInt8 incoming;
+    uint8_t incoming;
     
     LPC_SPIF->SPDR = outgoing;
     
@@ -94,9 +94,9 @@ UInt8 sendByteToSpi(UInt8 outgoing)
 }
 
 
-void sendBufferToSpi(UInt8 * buffer, UInt32 length)
+void sendBufferToSpi(uint8_t * buffer, uint32_t length)
 {
-    UInt32 i;
+    uint32_t i;
     for(i=0; i<length; i++)
     {
         sendByteToSPI(buffer[i]);
@@ -104,14 +104,14 @@ void sendBufferToSpi(UInt8 * buffer, UInt32 length)
 }
 
 
-UInt8 getByteFromSpi(void)
+uint8_t getByteFromSpi(void)
 {
     return sendByteToSPI(0x00);
 }
 
-void getBufferFromSpi(UInt8 * buffer, UInt32 size)
+void getBufferFromSpi(uint8_t * buffer, uint32_t size)
 {
-    UInt32 i;
+    uint32_t i;
     for (i=0; i<size; i++)
     {
         buffer[i] = getByteFromSPI();

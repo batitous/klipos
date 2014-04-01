@@ -24,14 +24,14 @@
 
 #include <stdarg.h>
 
-void defaultPrintfInterface(UInt8 c)
+void defaultPrintfInterface(uint8_t c)
 {
     c = 0;
 }
 
 static PrintfInterfaceCallback printfInterfaceCallback = &defaultPrintfInterface;
 
-void xputc(UInt8 c)
+void xputc(uint8_t c)
 {
     printfInterfaceCallback(c);
 }

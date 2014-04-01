@@ -26,7 +26,7 @@
 
 
 // Manage the input/output interrupt for the KEvent manager
-void keventGpioIrqCallback(UInt32 event, UInt32 edge)
+void keventGpioIrqCallback(uint32_t event, uint32_t edge)
 {
     postEventFromIrq(KEVENT_GPIO_MASK | event, edge );
 }
@@ -36,7 +36,7 @@ void keventGpioIrqCallback(UInt32 event, UInt32 edge)
 
 void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback)
 {
-    if ( registerEvent( manager, KEVENT_GPIO_MASK | pin, callback, 0) == False )
+    if ( registerEvent( manager, KEVENT_GPIO_MASK | pin, callback, 0) == false )
     {
         return;
     }

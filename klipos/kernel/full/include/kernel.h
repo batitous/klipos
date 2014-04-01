@@ -36,7 +36,7 @@ extern void startKernel(void);
  *
  * @return Number of tick from the beginning.
  */
-extern UInt32 getCurrentTimeOfKernel(void);
+extern uint32_t getCurrentTimeOfKernel(void);
 
 
 

@@ -63,7 +63,7 @@
 //-------------------------- private functions
 
 
-UInt32 getSizeOfBlock(const KMemory * block, const KMemory * previous)
+uint32_t getSizeOfBlock(const KMemory * block, const KMemory * previous)
 {
     if(previous!=0)
     {
@@ -76,7 +76,7 @@ UInt32 getSizeOfBlock(const KMemory * block, const KMemory * previous)
 //-------------------------- public functions
 
 
-KMemory * initMemory(const UInt8 * mem, UInt32 sizeInByte)
+KMemory * initMemory(const uint8_t * mem, uint32_t sizeInByte)
 {
     KMemory * start;
     KMemory * end;
@@ -105,17 +105,17 @@ KMemory * initMemory(const UInt8 * mem, UInt32 sizeInByte)
     return start;
 }
 
-void * allocMemory(KMemory * mem, UInt32 sizeInBytes)
+void * allocMemory(KMemory * mem, uint32_t sizeInBytes)
 {
-    UInt32 size;
+    uint32_t size;
     KMemory * p = mem;
     KMemory * prev = 0;
     KMemory * next;
     
-    UInt16 allocatedIndex;
+    uint16_t allocatedIndex;
     KMemory * allocated;
     
-    UInt32 want = GET_UNIT(sizeInBytes);
+    uint32_t want = GET_UNIT(sizeInBytes);
     
 //    TRACE_MEM(("allocmemory want %d units of memory (user want %d bytes)\r\n", want, sizeInBytes));
     
@@ -135,7 +135,7 @@ void * allocMemory(KMemory * mem, UInt32 sizeInBytes)
                 
                 TRACE_MEM(("alloc %4d bytes at 0x%x\r\n", sizeInBytes,p));
                 
-                return (UInt8 *)(p+1);
+                return (uint8_t *)(p+1);
             }
             else if( size > want)
             {
@@ -158,7 +158,7 @@ void * allocMemory(KMemory * mem, UInt32 sizeInBytes)
                 
                 TRACE_MEM(("alloc %4d bytes at 0x%x (block %4d with %4d units)\r\n", sizeInBytes,allocated,allocatedIndex, want));
                 
-                return (UInt8 *)(allocated+1);
+                return (uint8_t *)(allocated+1);
             }
         }
         
@@ -172,13 +172,13 @@ void * allocMemory(KMemory * mem, UInt32 sizeInBytes)
     return 0;
 }
 
-void freeMemory(KMemory * mem, UInt8 * ptr)
+void freeMemory(KMemory * mem, uint8_t * ptr)
 {
     KMemory * p = (KMemory *)(ptr-4);
     KMemory * prev;
     KMemory * next;
     KMemory * next2;
-    UInt16 pprev;
+    uint16_t pprev;
     
     SET_FREE(p->prev);
     
@@ -218,11 +218,11 @@ void freeMemory(KMemory * mem, UInt8 * ptr)
 
 #ifdef USE_MEMORY_TRACE
 
-UInt32 getMemoryAvailable(KMemory * mem)
+uint32_t getMemoryAvailable(KMemory * mem)
 {
     KMemory * p = mem;
     KMemory * prev = 0;
-    UInt32 count = 0;
+    uint32_t count = 0;
     
     while(p->next != 0)
     {

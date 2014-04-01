@@ -24,7 +24,7 @@
 
 extern LPC_GPIO_TypeDef * getGpioPort(GPIO_PIN pin);
 
-extern UInt32 getIRQNumber(UInt32 reg);
+extern uint32_t getIRQNumber(uint32_t reg);
 
 //----------------------------- private object
 
@@ -35,15 +35,15 @@ static GpioIrqCallback gpioIrqCallback = defaultIrqCallback;
 
 //----------------------------- private functions
 
-void defaultIrqCallback(UInt32 gpioIrqEvent, UInt32 gpioIrqEdge)
+void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge)
 {
     gpioIrqEvent = 0;
     gpioIrqEdge = 0;
 }
 
-UInt32 getEventFromGpio(LPC_GPIO_TypeDef * gpio, UInt32 * edge)
+uint32_t getEventFromGpio(LPC_GPIO_TypeDef * gpio, uint32_t * edge)
 {
-    UInt32 thepin = getIRQNumber(gpio->MIS);
+    uint32_t thepin = getIRQNumber(gpio->MIS);
         
     //if( ((gpio->RIS >> thepin)&0x1)!=0)
     if( ((gpio->DATA >> thepin)&0x1)!=0)
@@ -65,10 +65,10 @@ UInt32 getEventFromGpio(LPC_GPIO_TypeDef * gpio, UInt32 * edge)
     return thepin;
 }
 
-void IRQ_Handler(UInt32 eventPort, LPC_GPIO_TypeDef * gpio)
+void IRQ_Handler(uint32_t eventPort, LPC_GPIO_TypeDef * gpio)
 {
-    UInt32 edge = 0;
-    UInt32 event = getEventFromGpio(gpio, &edge) | eventPort;
+    uint32_t edge = 0;
+    uint32_t event = getEventFromGpio(gpio, &edge) | eventPort;
 
     gpioIrqCallback(event,edge);
     
@@ -105,7 +105,7 @@ void setGpioIrqCallback(GpioIrqCallback callback)
 void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
 {
     LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
-    UInt32 thepin = pin & 0xFFFF;
+    uint32_t thepin = pin & 0xFFFF;
     
 
     if(edge==GPIO_BOTH_EDGE)
@@ -156,7 +156,7 @@ void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
 void disableGpioIrq(GPIO_PIN pin)
 {
     LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
-    UInt32 thepin = pin & 0xFFFF;
+    uint32_t thepin = pin & 0xFFFF;
     
     // disable IRQ
     CLRBIT(gpio->IE,thepin);

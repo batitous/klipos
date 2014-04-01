@@ -34,9 +34,9 @@ typedef void (*FsmCall)(void);
 /** @brief Finite state machine object */
 typedef struct _fsm_
 {
-    Int32       current;        /**< current state */
-    Int32       old;            /**< old state (used to detect initialization) */
-    Int32       init;           /**< initialization flag */
+    int32_t       current;        /**< current state */
+    int32_t       old;            /**< old state (used to detect initialization) */
+    int32_t       init;           /**< initialization flag */
     FsmCall     initcall;       /**< state's initialization code */
     FsmCall     call;           /**< state's code */
 } Fsm;
@@ -51,7 +51,7 @@ typedef struct _fsm_
  * @param call          State function
  * @param first         State initialization function
  */
-extern void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall init);
+extern void setFsm(Fsm* fsm, int32_t newstate, FsmCall call, FsmCall init);
 
 
 /** Initialize the finite state machine
@@ -63,7 +63,7 @@ extern void setFsm(Fsm* fsm, Int32 newstate, FsmCall call, FsmCall init);
  * @param call          State function
  * @param first         State initialization function
  */
-extern void initFsm(Fsm* fsm, Int32 state, FsmCall call, FsmCall init);
+extern void initFsm(Fsm* fsm, int32_t state, FsmCall call, FsmCall init);
 
 
 /** Run the finite state machine
@@ -77,15 +77,15 @@ extern void updateFsm(Fsm* fsm);
  * 
  * @param fsm           The FSM object
  * @param state         State to test
- * @return True if we are in the state, else false
+ * @return true if we are in the state, else false
  */
-extern bool isFsmInState(Fsm* fsm, Int32 state);
+extern bool isFsmInState(Fsm* fsm, int32_t state);
 
 
 /** Is the current state initialized ?
  * 
  * @param fsm           The FSM object
- * @return True if the current state is initialized, else false
+ * @return true if the current state is initialized, else false
  */
 extern bool isFsmStateInitialized(Fsm* fsm);
 

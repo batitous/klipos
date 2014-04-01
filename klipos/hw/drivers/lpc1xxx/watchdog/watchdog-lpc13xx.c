@@ -39,7 +39,7 @@
 //-------------------------- public functions:
 
 
-void initWatchdog(UInt32 timeInMs)
+void initWatchdog(uint32_t timeInMs)
 {
     //todo for lpc1342 check this registers :
     // WDTCLKSEL 
@@ -58,7 +58,7 @@ void initWatchdog(UInt32 timeInMs)
     // select watchdog oscillator as clock source
     SETBIT(LPC_WDT->CLKSEL,0);
 
-    Int32 t = (timeInMs * 256) / HZ_TO_MS(WATCHDOG_FREQ);
+    int32_t t = (timeInMs * 256) / HZ_TO_MS(WATCHDOG_FREQ);
     
     if ( t < 0xFF)
     {

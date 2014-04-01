@@ -81,13 +81,13 @@ void initUart0(void)
     LPC_USART0->CFG |= UART_ENABLE;
 }
 
-void sendByteToUart0(UInt8 data)
+void sendByteToUart0(uint8_t data)
 {
     while (!(LPC_USART0->STAT & UART_STATUS_TXRDY));
     LPC_USART0->TXDATA = data;
 }
 
-void sendBufferToUart0(UInt8* buffer, UInt32 length)
+void sendBufferToUart0(uint8_t* buffer, uint32_t length)
 {
     while (length != 0)
     {

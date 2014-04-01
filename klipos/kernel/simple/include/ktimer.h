@@ -32,8 +32,8 @@ typedef struct _ktimer_
 {
     KLink*      next;       /**< pointer to the next timer */
     KLink*      prev;       /**< pointer to the previous timer */
-    Int32       remaining;  /**< time remaining before fireup this timer */
-    Int32       reload;     /**< time to be reloaded */
+    int32_t       remaining;  /**< time remaining before fireup this timer */
+    int32_t       reload;     /**< time to be reloaded */
     KTask*      task;       /**< timer's task */
 } KTimer;
 
@@ -47,7 +47,7 @@ typedef struct _ktimer_
  * @param delayInUs     Delay before time is fired up
  * @param task          Timer wakeup this task
  */
-extern void initTimer(KTimer* timer, UInt32 delayInUs, KTask* task);
+extern void initTimer(KTimer* timer, uint32_t delayInUs, KTask* task);
 
 
 #ifdef	__cplusplus
