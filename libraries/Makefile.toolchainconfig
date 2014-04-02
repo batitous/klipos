@@ -1,0 +1,15 @@
+# Where are the gcc-arm-cortex tools?
+TOOLS_PATH=/opt/arm-cs-tools/bin/
+
+HEX=$(TOOLS_PATH)arm-eabi-objcopy
+GCC=$(TOOLS_PATH)arm-eabi-gcc
+ASM=$(TOOLS_PATH)arm-eabi-as
+SIZE=$(TOOLS_PATH)arm-eabi-size
+DISASM=$(TOOLS_PATH)arm-eabi-objdump
+AR=$(TOOLS_PATH)arm-eabi-ar
+
+OPENOCD=$(KLIPOS_TOOLS)/openocd-mac/
+FTDI=$(KLIPOS_TOOLS)/lpc21isp
+
+CRC=$(KLIPOS_TOOLS)/crc
+USB=$(KLIPOS_TOOLS)/writebintousb.sh
