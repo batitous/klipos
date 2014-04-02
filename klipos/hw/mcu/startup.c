@@ -77,17 +77,17 @@ void (* const g_pfnVectors[])(void) = {
 
 
 #ifdef MCU_IS_LPC8XX
-#       include "lpc8xx/isr-vector-lpc8xx.c"
+#       include "lpc8xx/isr-vector-lpc8xx.h"
 #endif    
     
 #ifdef MCU_IS_LPC1311
-#       include "isr-vector-cm3.c"
-#       include "lpc13xx/isr-vector-lpc1311.c"
+#       include "isr-vector-cm3.h"
+#       include "lpc13xx/isr-vector-lpc1311.h"
 #endif
     
 #ifdef MCU_IS_LPC1315
-#       include "isr-vector-cm3.c"
-#       include "lpc13xx/isr-vector-lpc1315.c"
+#       include "isr-vector-cm3.h"
+#       include "lpc13xx/isr-vector-lpc1315.h"
 #endif
             
             
