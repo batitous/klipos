@@ -112,7 +112,7 @@ void printFloat(double value)
 }
 #endif
 
-void printf (
+int printf (
 	const char*	str,	// Pointer to the format string
 	...					// Optional arguments
 )
@@ -201,4 +201,6 @@ void printf (
 	}
 
 	va_end(arp);
+        
+        return 0;
 }

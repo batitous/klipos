@@ -65,7 +65,7 @@ typedef void (*PrintfInterfaceCallback)(uint8_t data);
 
 extern void setPrintfInterface(PrintfInterfaceCallback callback);
 
-extern void printf(const char *format, ...);
+extern int printf(const char *format, ...);
 
 #else
 #       define  printf(...)

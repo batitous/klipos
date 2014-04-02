@@ -79,12 +79,14 @@ bool readByteFromIOStream(KIOStream *stream, uint8_t *data)
     return false;
 }
 
-bool isDataAvailableFromIOStream(KIOStream *stream)
+uint32_t getByteAvailableFromIOStream(KIOStream *stream)
 {
-    if(stream->read!=stream->write)
+    uint32_t read = stream->read;
+    uint32_t size = stream->write;
+    if (size == read)
     {
-        return true;
+        return 0;
     }
     
-    return false;
+    return (size-read);
 }

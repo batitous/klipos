@@ -93,7 +93,8 @@ static const Uart uart0 = {
     getByteFromUart0, 
     getBufferFromUart0, 
     sendByteToUart0, 
-    sendBufferToUart0 
+    sendBufferToUart0,
+    getByteAvailableOnUart0
 };
 
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
@@ -201,9 +202,9 @@ bool getByteFromUart0(uint8_t *data)
     return readByteFromIOStream(&uartStream, data);
 }
 
-bool isDataAvailableOnUart0(void)
+uint32_t getByteAvailableOnUart0(void)
 {
-    return isDataAvailableFromIOStream(&uartStream);
+    return getByteAvailableFromIOStream(&uartStream);
 }
 
 #ifdef FIRMWARE_USE_KERNEL_FULL

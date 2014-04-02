@@ -31,6 +31,7 @@ typedef bool (*ReadByteCall)(uint8_t *byte);
 typedef uint32_t (*ReadCall)(uint8_t *buffer, uint32_t size);
 typedef void (*WriteByteCall)(uint8_t byte);
 typedef void (*WriteCall)(uint8_t *buffer, uint32_t size);
+typedef uint32_t (*IsByteAvailableCall)(void);
 
 typedef struct _uart_device_
 {
@@ -38,6 +39,7 @@ typedef struct _uart_device_
     ReadCall     read;          /**< read a buffer from uart */
     WriteByteCall writeByte;    /**< write a byte on uart */
     WriteCall    write;         /**< write a buffer on uart */
+    IsByteAvailableCall isAvailable;
 } Uart;
     
     
@@ -74,7 +76,7 @@ extern bool getByteFromUart0(uint8_t *byte);
         extern void setTaskOnUart0(KTask* t);
 #endif
         
-extern bool isDataAvailableOnUart0(void);
+extern uint32_t getByteAvailableOnUart0(void);
 
 extern void powerOnUart0(void);
 extern void powerOffUart0(void);

@@ -81,12 +81,12 @@ extern uint32_t readBufferFromIOStream(KIOStream *stream, uint8_t *buffer, uint3
 extern bool readByteFromIOStream(KIOStream *stream, uint8_t *data);
 
 
-/** @brief Is data available from a stream ?
+/** @brief Get byte number available from stream
  * 
  * @param stream    i/o stream object 
  * @return true if data available, else false.
  */
-extern bool isDataAvailableFromIOStream(KIOStream *stream);
+extern uint32_t getByteAvailableFromIOStream(KIOStream *stream);
 
 
 /** @brief Wake up a task inside an IRQ.
