@@ -445,8 +445,8 @@ typedef struct
 typedef struct {                            
   union {
     struct {
-      __IO uint8_t B0[32];                       /*!< (@ 0x50000000) Byte pin registers port 0; pins PIO0_0 to PIO0_31 */
-      __IO uint8_t B1[32];                       /*!< (@ 0x50000020) Byte pin registers port 1 */
+      __IO uint8_t _B0[32];                       /*!< (@ 0x50000000) Byte pin registers port 0; pins PIO0_0 to PIO0_31 */
+      __IO uint8_t _B1[32];                       /*!< (@ 0x50000020) Byte pin registers port 1 */
     };
     __IO uint8_t B[64];                       /*!< (@ 0x50000000) Byte pin registers port 0/1 */
   };
