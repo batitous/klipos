@@ -34,7 +34,7 @@ extern void * memcpy(void *pDestination, const void *pSource, size_t size);
 
 extern void * memset(void *pBuffer, int value, size_t size);
 
-extern int32_t memcmp(const void *pBuffer1, const void *pBuffer2, size_t size);
+extern int memcmp(const void* pBuffer1, const void* pBuffer2, size_t size);
 
 extern size_t strlen(const char *string);
 

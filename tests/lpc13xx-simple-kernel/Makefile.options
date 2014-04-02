@@ -27,6 +27,7 @@ KLIPOS_PATH=../../
 mcu = lpc1317
 
 exception = yes
+libc = yes
 
 klock = no
 printf = yes

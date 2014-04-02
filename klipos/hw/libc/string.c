@@ -56,7 +56,7 @@
  *
  */
 
-void * memcpy(void *pDestination, const void *pSource, uint32_t num)
+void * memcpy(void *pDestination, const void *pSource, size_t num)
 {
     unsigned char *pByteDestination;
     unsigned char *pByteSource;
@@ -86,7 +86,7 @@ void * memcpy(void *pDestination, const void *pSource, uint32_t num)
     return pDestination;
 }
 
-void * memset(void *pBuffer, int value, uint32_t num)
+void * memset(void *pBuffer, int value, size_t num)
 {
     unsigned char *pByteDestination;
     unsigned int  *pAlignedDestination = (unsigned int *) pBuffer;
@@ -109,7 +109,7 @@ void * memset(void *pBuffer, int value, uint32_t num)
     return pBuffer;
 }
 
-int32_t memcmp(const void *av, const void *bv, uint32_t len)
+int memcmp(const void *av, const void *bv, size_t len)
 {
   const unsigned char *a = av;
   const unsigned char *b = bv;
@@ -135,7 +135,7 @@ char * strcpy(char *dest, const char *source)
 }
 
 
-uint32_t strlen(const char *string)
+size_t strlen(const char *string)
 {
     uint32_t length = 0;
 
@@ -147,7 +147,7 @@ uint32_t strlen(const char *string)
     return length;
 }
 
-int32_t strncmp(const int8_t *pString1, const int8_t *pString2, uint32_t count)
+int strncmp(const char *pString1, const char *pString2, size_t count)
 {
     int r;
 
@@ -169,7 +169,7 @@ int32_t strncmp(const int8_t *pString1, const int8_t *pString2, uint32_t count)
     return 0;
 }
 
-int8_t * strncpy(int8_t *pDestination, const int8_t *pSource, uint32_t count)
+char * strncpy(char *pDestination, const char *pSource, size_t count)
 {
     char *pSaveDest = (char *)pDestination;
 
@@ -184,13 +184,13 @@ int8_t * strncpy(int8_t *pDestination, const int8_t *pSource, uint32_t count)
         pSource++;
         count--;
     }
-    return (int8_t *)pSaveDest;
+    return pSaveDest;
 }
 
 // Following code is based on the BSD licensed code released by UoC 
 // Copyright (c) 1988 Regents of the University of California
 
-int32_t strcmp(const int8_t *s1, const int8_t *s2)
+int strcmp(const char *s1, const char *s2)
 {
   while (*s1 == *s2++)
     if (*s1++ == 0)
