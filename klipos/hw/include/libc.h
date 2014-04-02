@@ -30,28 +30,28 @@ extern "C" {
 // libc function
 
 
-extern void * memcpy(void *pDestination, const void *pSource, uint32_t size);
+extern void * memcpy(void *pDestination, const void *pSource, size_t size);
 
-extern void * memset(void *pBuffer, int value, uint32_t size);
+extern void * memset(void *pBuffer, int value, size_t size);
 
-extern int32_t memcmp(const void *pBuffer1, const void *pBuffer2, uint32_t size);
+extern int32_t memcmp(const void *pBuffer1, const void *pBuffer2, size_t size);
 
-extern uint32_t strlen(const char *string);
+extern size_t strlen(const char *string);
 
 
 /* Return 0 if equals
  *  Return >0 if 1st string > 2nd string
  *  Return <0 if 1st string < 2nd string
  */
-extern int32_t strncmp(const int8_t *pString1, const int8_t *pString2, uint32_t count);
+extern int strncmp(const char* pString1, const char* pString2, size_t count);
 
-extern int32_t strcmp(const int8_t *pString1, const int8_t *pString2);
+extern int strcmp(const char* pString1, const char* pString2);
 
 
 /* 
  * Copy 'count' byte of pSource into pDestination
  */
-extern int8_t * strncpy(int8_t *pDestination, const int8_t *pSource, uint32_t count);
+char* strncpy(char* pDestination, const char* pSource, size_t count);
 
 extern char * strcpy(char *dest, const char *source);
 

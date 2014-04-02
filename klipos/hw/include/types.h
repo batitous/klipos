@@ -30,6 +30,10 @@ extern "C" {
 
 #include <stdint.h>
 
+#ifndef size_t
+        typedef unsigned int size_t;
+#endif
+    
 #ifndef __bool_true_false_are_defined
 #define __bool_true_false_are_defined 1
     
