@@ -2,14 +2,12 @@
 # HW_PATH SOURCE_KLIP SOURCE_PATH_KLIP HEADER_KLIP
 
 
-SOURCE_PATH_KLIP += $(HW_PATH)mcu/lpc13xx \
-                    $(HW_PATH)core/cortex-m3
+SOURCE_PATH_KLIP += $(HW_PATH)mcu/lpc13xx 
 
 # Include the common source code:
 include $(HW_PATH)/Makefile.hw.common
 
 SOURCE_KLIP += time.c 
-# core_cm3.c
 
 # Include the drivers source code:
 include $(HW_PATH)drivers/Makefile.lpc1xxx
