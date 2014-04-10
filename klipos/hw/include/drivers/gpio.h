@@ -35,11 +35,14 @@ typedef enum _GPIO_PORT_
         GPIO_PORT0=0x00000,     /**< gpio port 0 */
         GPIO_PORT1=0x10000,     /**< gpio port 1 */
         GPIO_PORT2=0x20000,     /**< gpio port 2 */
-        GPIO_PORT3=0x40000,     /**< gpio port 3 */
+        GPIO_PORT3=0x30000,     /**< gpio port 3 */
 #ifdef MCU_IS_LPC17XX
-        GPIO_PORT4=0x80000      /**< gpio port 4 */
+        GPIO_PORT4=0x40000      /**< gpio port 4 */
 #endif
 } GPIO_PORT;
+
+#define GET_GPIO_PORT_NUMBER(pin)  (((pin) & 0xFFFF0000)>>16)
+
 
 /** @brief GPIO Edge sense */
 typedef enum _GPIO_EDGE_

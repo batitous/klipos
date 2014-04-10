@@ -30,7 +30,6 @@
 #       define GPIOGET         gpio->DATA
 #       define GPIOSET         SETBIT(gpio->DATA,thepin);
 #       define GPIOCLR         CLRBIT(gpio->DATA,thepin);
-#       define getGpioPortNumber(pin) 0
 #endif
 
 #ifdef MCU_IS_LPC1315
@@ -39,17 +38,6 @@
 #       define GPIOSET         SETBIT(gpio->SET[portNumber],thepin);
 #       define GPIOCLR         SETBIT(gpio->CLR[portNumber],thepin);
 #       define GPIOTOGGLE      SETBIT(gpio->NOT[portNumber],thepin);
-
-uint32_t getGpioPortNumber(GPIO_PIN pin)
-{
-    if( (pin & 0xFFFF0000) == GPIO_PORT1)
-    {
-        return 1;
-    }
-    
-    return 0;
-}
-
 #endif
 
 
@@ -58,7 +46,6 @@ uint32_t getGpioPortNumber(GPIO_PIN pin)
 #       define GPIOGET         gpio->FIOPIN
 #       define GPIOSET         SETBIT(gpio->FIOSET,thepin);
 #       define GPIOCLR         SETBIT(gpio->FIOCLR,thepin);
-#       define getGpioPortNumber(pin) 0
 #endif
 
 //----------------------------- private functions
@@ -77,42 +64,25 @@ uint32_t getIRQNumber(uint32_t reg)
     return 0;
 }
 
-LPC_GPIO_TypeDef * getGpioPort(GPIO_PIN pin)
+static const LPC_GPIO_TypeDef * lpcGpioArray[] =
 {
-    // select io port
-    switch(pin & 0xFFFF0000)
-    {
-        case GPIO_PORT0:
-            return LPC_GPIO0;
-            break;
-        case GPIO_PORT1:
-            return LPC_GPIO1;
-            break;
-            
+    LPC_GPIO0,
+    LPC_GPIO1
 #ifdef MCU_IS_LPC1311
-        case GPIO_PORT2:
-            return LPC_GPIO2;
-            break;
-        case GPIO_PORT3:
-            return LPC_GPIO3;
-        break;
+            ,
+    LPC_GPIO2,
+    LPC_GPIO3
 #endif
-        
+
 #ifdef MCU_IS_LPC17XX
-        case GPIO_PORT2:
-            return LPC_GPIO2;
-            break;
-        case GPIO_PORT3:
-            return LPC_GPIO3;
-        break;
-        case GPIO_PORT4:
-            return LPC_GPIO4;
-            break;
+             ,
+    LPC_GPIO2,
+    LPC_GPIO3,
+    LPC_GPIO4
 #endif
-        default:
-            return 0;
-    }
-}
+};
+
+#define GET_LPC_GPIO_PORT(pin)      (LPC_GPIO_TypeDef *)lpcGpioArray[((pin) & 0xFFFF0000)>>16]
 
 //----------------------------- public functions
 
@@ -132,19 +102,14 @@ void initGpio(void)
 
 void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
 {
-    LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
+    LPC_GPIO_TypeDef * gpio = GET_LPC_GPIO_PORT(pin);
     
 #ifdef MCU_IS_LPC1315
-    uint32_t portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = GET_GPIO_PORT_NUMBER(pin);
 #endif
     
     uint32_t thepin = pin & 0xFFFF;
-    
-    if(gpio==0)
-    {
-        return;
-    }
-    
+        
     if(dir==GPIO_OUT)
     {
         SETBIT(GPIODIR,thepin);
@@ -221,18 +186,13 @@ void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
 
 void setGpioValue(GPIO_PIN pin, uint32_t bit)
 {
-    LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
+    LPC_GPIO_TypeDef * gpio = GET_LPC_GPIO_PORT(pin);
     
 #ifdef MCU_IS_LPC1315
-    uint32_t portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = GET_GPIO_PORT_NUMBER(pin);
 #endif
     
     uint32_t thepin = pin & 0xFFFF;
-    
-    if(gpio==0)
-    {
-        return;
-    }
     
     if(bit!=0)
     {
@@ -246,19 +206,14 @@ void setGpioValue(GPIO_PIN pin, uint32_t bit)
 
 uint32_t getGpioValue(GPIO_PIN pin)
 {
-    LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
+    LPC_GPIO_TypeDef * gpio = GET_LPC_GPIO_PORT(pin);
     
 #ifdef MCU_IS_LPC1315
-    uint32_t portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = GET_GPIO_PORT_NUMBER(pin);
 #endif
     
     uint32_t thepin = pin & 0xFFFF;
-    
-    if(gpio==0)
-    {
-        return 0;
-    }
-    
+        
     return (GPIOGET >> thepin) & 0x1;
 }
 
@@ -266,9 +221,9 @@ uint32_t getGpioValue(GPIO_PIN pin)
 
 void toggleGpio(GPIO_PIN pin)
 {
-    LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
+    LPC_GPIO_TypeDef * gpio = GET_LPC_GPIO_PORT(pin);
 
-    uint32_t portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = GET_GPIO_PORT_NUMBER(pin);
 
     
     uint32_t thepin = pin & 0xFFFF;

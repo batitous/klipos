@@ -22,8 +22,6 @@
 */
 #include "../../../include/libs-klipos.h"
 
-extern LPC_GPIO_TypeDef * getGpioPort(GPIO_PIN pin);
-extern uint32_t getGpioPortNumber(GPIO_PIN pin);
 
 //----------------------------- private object
 
@@ -133,7 +131,7 @@ void setGpioIrqCallback(GpioIrqCallback callback)
 void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
 {
     uint32_t thepin = pin & 0xFFFF;
-    uint32_t portNumber = getGpioPortNumber(pin);
+    uint32_t portNumber = GET_GPIO_PORT_NUMBER(pin);
     
     if (pinIrqFree>=PIN_IRQ_MAX)
     {

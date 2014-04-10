@@ -38,7 +38,7 @@ uart0 = yes
 gpio = yes
 gpioirq = yes
 
-gpio-option = no
+gpio-option = yes
 pwm = no
 timer = no
 eeprom = no

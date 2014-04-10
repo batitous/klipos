@@ -22,8 +22,6 @@
 */
 #include "../../../include/libs-klipos.h"
 
-extern uint32_t getGpioPortNumber(GPIO_PIN pin);
-
 
 void setGpioOption(GPIO_PIN pin, GPIO_MODE mode, bool hysteresis, bool inputInverted)
 {
