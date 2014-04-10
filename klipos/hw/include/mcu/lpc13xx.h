@@ -44,7 +44,7 @@ typedef enum IRQn
   SysTick_IRQn                  = -1,       /*!< 15 Cortex-M3 System Tick Interrupt               */
 
 /******  LPC13xx Specific Interrupt Numbers *******************************************************/
-#ifdef MCU_IS_LPC1311
+#if defined(MCU_IS_LPC1311)
   WAKEUP0_IRQn                  = 0,        /*!< PIO0_0 All I/O pins can be used as wakeup source.       */
   WAKEUP1_IRQn                  = 1,        /*!< PIO0_1 There are 40 pins in total for LPC17xx           */
   WAKEUP2_IRQn                  = 2,        // PIO0 2
@@ -275,7 +275,7 @@ typedef struct {			/*!< SYSCTL Structure */
 
 
 /*------------- Pin Connect Block (IOCON) --------------------------------*/
-#ifdef MCU_IS_LPC1315
+#if defined(MCU_IS_LPC1315)
 
 typedef struct {                            /*!< (@ 0x40044000) IOCONFIG Structure     */
   __IO uint32_t RESET_PIO0_0;               /*!< (@ 0x40044000) I/O configuration for pin RESET/PIO0_0 */
@@ -308,12 +308,15 @@ typedef struct {                            /*!< (@ 0x40044000) IOCONFIG Structu
   __IO uint32_t PIO1_3;      
   __IO uint32_t PIO1_4;                 /*!< Offset: 0x070 */
   __IO uint32_t PIO1_5;                     /*!< (@ 0x40044074) I/O configuration for pin PIO1_5/CT32B1_CAP1 */
+  uint32_t RESERVED0[1];
   __IO uint32_t PIO1_6;     
   __IO uint32_t PIO1_7;       
   __IO uint32_t PIO1_8;                 /*!< Offset: 0x080 */
+  uint32_t RESERVED1[1];
   __IO uint32_t PIO1_9;        
   __IO uint32_t PIO1_10;        
-  __IO uint32_t PIO1_11;       
+  __IO uint32_t PIO1_11;
+  uint32_t RESERVED3[1];
   __IO uint32_t PIO1_12;                /*!< Offset: 0x090 */
   __IO uint32_t PIO1_13;                    /*!< (@ 0x40044094) I/O configuration for pin PIO1_13/DTR/CT16B0_MAT0/TXD */
   __IO uint32_t PIO1_14;                    /*!< (@ 0x40044098) I/O configuration for pin PIO1_14/DSR/CT16B0_MAT1/RXD */
@@ -332,6 +335,7 @@ typedef struct {                            /*!< (@ 0x40044000) IOCONFIG Structu
   __IO uint32_t PIO1_27;                    /*!< (@ 0x400440CC) I/O configuration for pin PIO1_27/CT32B0_MAT3/ TXD */
   __IO uint32_t PIO1_28;                    /*!< (@ 0x400440D0) I/O configuration for pin PIO1_28/CT32B0_CAP0/ SCLK */
   __IO uint32_t PIO1_29;                    /*!< (@ 0x400440D4) I/O configuration for pin PIO1_29/SCK0/ CT32B0_CAP1 */
+  uint32_t RESERVED4[1];
   __IO uint32_t PIO1_30;
   __IO uint32_t PIO1_31;                    /*!< (@ 0x400440DC) I/O configuration for pin PIO1_31 */
 } LPC_IOCON_TypeDef;
@@ -440,7 +444,7 @@ typedef struct
 
 /*------------- General Purpose Input/Output (GPIO) --------------------------*/
 
-#ifdef MCU_IS_LPC1315
+#if defined(MCU_IS_LPC1315)
 
 typedef struct {                            
   union {
@@ -694,7 +698,7 @@ typedef struct
 #define LPC_CT32B1_BASE       (LPC_APB0_BASE + 0x18000)
 #define LPC_ADC_BASE          (LPC_APB0_BASE + 0x1C000)
 
-#ifdef MCU_IS_LPC1315
+#if defined(MCU_IS_LPC1315)
 #       define LPC_USB_BASE          (LPC_APB0_BASE + 0x80000)
 #else
 #       define LPC_USB_BASE          (LPC_APB0_BASE + 0x20000)
@@ -712,7 +716,7 @@ typedef struct
 #define LPC_GPIO_BASE         (LPC_AHB_BASE  + 0x00000)
 #define LPC_GPIO0_BASE        (LPC_AHB_BASE  + 0x00000)
 
-#ifdef MCU_IS_LPC1311
+#if defined(MCU_IS_LPC1311)
 #       define LPC_GPIO1_BASE        (LPC_AHB_BASE  + 0x10000)
 #       define LPC_GPIO2_BASE        (LPC_AHB_BASE  + 0x20000)
 #       define LPC_GPIO3_BASE        (LPC_AHB_BASE  + 0x30000)
@@ -738,7 +742,7 @@ typedef struct
 #define LPC_SYSCON            ((LPC_SYSCON_TypeDef *) LPC_SYSCON_BASE)
 #define LPC_USB               ((LPC_USB_TypeDef    *) LPC_USB_BASE   )
 
-#ifdef MCU_IS_LPC1315
+#if defined(MCU_IS_LPC1315)
 #       define LPC_GPIO_PIN_INT_BASE     0x4004C000
 #       define LPC_GPIO_GROUP_INT0_BASE  0x4005C000
 #       define LPC_GPIO_GROUP_INT1_BASE  0x40060000

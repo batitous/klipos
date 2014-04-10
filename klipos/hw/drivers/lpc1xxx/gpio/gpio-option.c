@@ -25,15 +25,15 @@
 extern uint32_t getGpioPortNumber(GPIO_PIN pin);
 
 
-void setGpioOption(GPIO_PIN pin, bool hysteresis, bool inputInverted, GPIO_MODE mode)
+void setGpioOption(GPIO_PIN pin, GPIO_MODE mode, bool hysteresis, bool inputInverted)
 {
     uint32_t thepin = pin & 0xFFFF;
     
-    volatile uint32_t* ioPin = ((uint32_t* ) LPC_IOCON_BASE ) + thepin*4;
-    
+    volatile uint32_t* ioPin = (uint32_t* )(LPC_IOCON_BASE  + thepin*4);
+
     if (pin >= GPIO1_0)
     {
-        ioPin = ((uint32_t* )LPC_IOCON_BASE + 0x060) + thepin*4;
+        ioPin = (uint32_t* )(LPC_IOCON_BASE + 0x060 + thepin*4);
     }
     
     if (hysteresis==true)
