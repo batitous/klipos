@@ -2,6 +2,7 @@
 #include <libs-klipos.h>
 
 #include "../include/usb.h"
+#include "../include/cdc_vcom.h"
 
 #define LED     GPIO0_7
 #define BUTTON  GPIO0_1 
@@ -37,9 +38,17 @@ void gpioTaskCode(uint32_t event)
     printf("IRQ Button: %x\r\n", event);    
 }
 
+bool usbConnected = false;
+
 void ledTaskCode(uint32_t event)
 {
     toggleGpio(LED);
+    
+    if ((vcom_connected() != 0) && (usbConnected == false)) 
+        {
+            vcom_write("Hello World!!\r\n", 15);
+            usbConnected = true;
+        }
 }
 
 int main(void)
@@ -64,7 +73,8 @@ int main(void)
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     
-    initUsb();
+    initUsbHardware();
+    initUsbCdcStack();
     
     printf("USB Initialized !\r\n");
     

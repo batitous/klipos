@@ -13,7 +13,9 @@ extern "C" {
 #endif
 
 
-extern void initUsb(void);
+extern void initUsbHardware(void);
+
+extern void initUsbCdcStack(void);
 
 #ifdef	__cplusplus
 }
