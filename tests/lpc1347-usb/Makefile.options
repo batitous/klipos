@@ -1,0 +1,90 @@
+#########################################################
+##              Projet configuration file              ##
+#########################################################
+
+# Executable name:
+NAME = firmware
+
+# Define: -D<symbol>
+DEFINE = -DSTACKSIZE=128
+
+# Project source files:
+SOURCE_PROJECT= main.c 
+
+#kqueue.c ktask.c ktime.c
+
+
+# Include repertory : -I<repertory path>
+HEADER_PROJECT=
+
+# Path to project source code
+SOURCE_PATH_PROJECT=./source
+
+# Path to Klipos project directory:
+KLIPOS_PATH=../../
+
+
+mcu = lpc1347
+
+exception = yes
+libc = yes
+
+klock = no
+printf = yes
+fsm = yes
+
+uart0 = yes
+
+gpio = yes
+gpioirq = yes
+
+gpio-option = yes
+pwm = no
+timer = no
+eeprom = no
+analog = no
+watchdog = no
+
+i2cmaster = no
+i2cmastersoft = no
+
+kmemory = no
+
+kernel-simple = yes
+
+kernel-full = no
+kernel-full-event = no
+kernel-full-debug = no
+
+#### compiler defines ####
+
+# compiler optimization:
+OPTIMIZE=-Os
+
+#compiler options (CFLAGS):
+COMPILER_OPTION	=$(OPTIMIZE)
+COMPILER_OPTION += -Wall
+COMPILER_OPTION += -Wextra
+COMPILER_OPTION += -mthumb
+COMPILER_OPTION += -mcpu=cortex-m3
+COMPILER_OPTION	+= -mtune=cortex-m3
+COMPILER_OPTION	+= -march=armv7-m
+COMPILER_OPTION += -ffunction-sections
+COMPILER_OPTION	+= -fdata-sections
+COMPILER_OPTION += -fno-builtin
+
+# Activate debug for jtag :
+# COMPILER_OPTION += -ggdb 
+
+#linker options (LDFLAGS):
+LINKER_OPTION =-T$(HW_LINKER_FILE)
+LINKER_OPTION += -nostartfiles
+LINKER_OPTION += -Wl,-Map=$(BUILD_PATH)/main.map,--cref,-nostdlib
+LINKER_OPTION += -static
+LINKER_OPTION += -mcpu=cortex-m3
+LINKER_OPTION += -mthumb
+LINKER_OPTION += -lc
+LINKER_OPTION += -lgcc
+LINKER_OPTION += -lm
+
+

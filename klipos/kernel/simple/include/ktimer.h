@@ -32,8 +32,8 @@ typedef struct _ktimer_
 {
     KLink*      next;       /**< pointer to the next timer */
     KLink*      prev;       /**< pointer to the previous timer */
-    int32_t       remaining;  /**< time remaining before fireup this timer */
-    int32_t       reload;     /**< time to be reloaded */
+    int32_t     remaining;  /**< time remaining before fireup this timer */
+    int32_t     reload;     /**< time to be reloaded */
     KTask*      task;       /**< timer's task */
 } KTimer;
 
