@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_dfuuser.h 331 2012-08-09 18:54:34Z usb10131                   $
+* $Id:: mw_usbd_dfuuser.h 202 2011-06-12 21:50:01Z usb06052                   $
 *
 * Project: USB device ROM Stack
 *
@@ -25,9 +25,13 @@
 #ifndef __DFUUSER_H__
 #define __DFUUSER_H__
 
-#include "usbd.h"
-#include "usbd_dfu.h"
-#include "usbd_core.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "mw_usbd.h"
+#include "mw_usbd_dfu.h"
+#include "mw_usbd_core.h"
 
 /** \file
  *  \brief Device Firmware Upgrade (DFU) API structures and function prototypes.
@@ -117,13 +121,7 @@ typedef struct USBD_DFU_INIT_PARAM
   *                       is used to implement zero-copy buffers. See \ref USBD_ZeroCopy
   *                       for more details on zero-copy concept.
   *  \param[in] length  Amount of data copied to destination buffer.
-  *  \return Returns 
-  *                 - DFU_STATUS_ values defined in mw_usbd_dfu.h to return error conditions. 
-  *                 - 0 if there is no more data to be read. Stack will send EOF frame and set 
-  *                     DFU state-machine to dfuIdle state.
-  *                 - length of the data copied, should be greater than or equal to 16. If the data copied
-  *                   is less than DFU \em wTransferSize the stack will send EOF frame and 
-  *                   goes to dfuIdle state.
+  *  \return Returns DFU_STATUS_ values defined in mw_usbd_dfu.h. 
   *                                             
   */
   uint32_t (*DFU_Read)( uint32_t block_num, uint8_t** dst, uint32_t length);
@@ -132,7 +130,7 @@ typedef struct USBD_DFU_INIT_PARAM
   *  DFU done callback function.
   *
   *  This function is provided by the application software. This function gets called 
-  *  after firmware download completes.
+  *  after download is finished.
   *  
   *  \return Nothing. 
   *                                             
@@ -143,7 +141,7 @@ typedef struct USBD_DFU_INIT_PARAM
   *  DFU detach callback function.
   *
   *  This function is provided by the application software. This function gets called 
-  *  after USB_REQ_DFU_DETACH is received. Applications which set USB_DFU_WILL_DETACH
+  *  after USB_REQ_DFU_DETACH is recieved. Applications which set USB_DFU_WILL_DETACH
   *  bit in DFU descriptor should define this function. As part of this function
   *  application can call Connect() routine to disconnect and then connect back with 
   *  host. For application which rely on WinUSB based host application should use this
@@ -158,7 +156,7 @@ typedef struct USBD_DFU_INIT_PARAM
   void (*DFU_Detach)(USBD_HANDLE_T hUsb);
 
   /** 
-  *  Optional user override-able function to replace the default DFU class handler.
+  *  Optional user overridable function to replace the default DFU class handler.
   *
   *  The application software could override the default EP0 class handler with their
   *  own by providing the handler function address as this data member of the parameter
@@ -212,7 +210,7 @@ typedef struct USBD_DFU_API
    *  \return Returns \ref ErrorCode_t type to indicate success or error condition.
    *          \retval LPC_OK On success
    *          \retval ERR_USBD_BAD_MEM_BUF  Memory buffer passed is not 4-byte aligned or smaller than required. 
-   *          \retval ERR_API_INVALID_PARAM2 Either DFU_Write() or DFU_Done() or DFU_Read() call-backs are not defined.
+   *          \retval ERR_API_INVALID_PARAM2 Either DFU_Write() or DFU_Done() or DFU_Read() callbacks are not defined. 
    *          \retval ERR_USBD_BAD_DESC  
    *            - USB_DFU_DESCRIPTOR_TYPE is not defined immediately after 
    *              interface descriptor.
@@ -266,5 +264,9 @@ extern ErrorCode_t mwDFU_init(USBD_HANDLE_T hUsb, USBD_DFU_INIT_PARAM_T* param, 
 /** @endcond */
 
 /** @endcond */
+
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __DFUUSER_H__ */

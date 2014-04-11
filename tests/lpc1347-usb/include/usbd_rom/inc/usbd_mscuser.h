@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_mscuser.h 577 2012-11-20 01:42:04Z usb10131                   $
+* $Id:: mw_usbd_mscuser.h 202 2011-06-12 21:50:01Z usb06052                   $
 *
 * Project: USB device ROM Stack
 *
@@ -24,11 +24,15 @@
 #ifndef __MSCUSER_H__
 #define __MSCUSER_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "error.h"
-#include "usbd.h"
-#include "usbd_msc.h"
-#include "usbd_core.h"
-#include "app_usbd_cfg.h"
+#include "mw_usbd.h"
+#include "mw_usbd_msc.h"
+#include "mw_usbd_core.h"
+#include "../app_usbd_cfg.h"
 
 /** \file
  *  \brief Mass Storage Class (MSC) API structures and function prototypes.
@@ -48,7 +52,7 @@
  *  Devices using the USB MSC Class.
  */
 
-/** \brief Mass Storage class function driver initialization parameter data structure.
+/** \brief Mass Storage class function driver initilization parameter data structure.
  *  \ingroup USBD_MSC
  *
  *  \details  This data structure is used to pass initialization parameters to the 
@@ -66,7 +70,7 @@ typedef struct USBD_MSC_INIT_PARAM
   uint32_t mem_size;  /**< The size of memory buffer which stack can use. 
                       \note The \em mem_size should be greater than the size 
                       returned by USBD_MSC_API::GetMemSize() routine.*/
-  /* mass storage params */
+  /* mass storage paramas */
   uint8_t*  InquiryStr; /**< Pointer to the 28 character string. This string is 
                         sent in response to the SCSI Inquiry command. \note The data 
                         pointed by the pointer should be of global scope. 
@@ -78,7 +82,6 @@ typedef struct USBD_MSC_INIT_PARAM
   * array (\em high_speed_desc) passed to Init() through \ref USB_CORE_DESCS_T 
   * structure. The stack assumes both HS and FS use same BULK endpoints. 
   */
-
   uint8_t* intf_desc;
   /* user defined functions */
 
@@ -96,7 +99,7 @@ typedef struct USBD_MSC_INIT_PARAM
   *  \return Nothing. 
   *                                             
   */
-  void (*MSC_Write)( uint32_t offset, uint8_t** src, uint32_t length, uint32_t high_offset); 
+  void (*MSC_Write)( uint32_t offset, uint8_t** src, uint32_t length); 
  /** 
   *  MSC Read callback function.
   *
@@ -109,7 +112,7 @@ typedef struct USBD_MSC_INIT_PARAM
   *          extra copy of buffer before writing/reading data from USB hardware FIFO. Hence the 
   *          parameter is pointer to a pointer containing address buffer (<em>uint8_t** dst</em>). 
   *          So that the user application can update the buffer pointer instead of copying data to 
-  *          address pointed by the parameter. /note The updated buffer address should be accessible
+  *          address pointed by the parameter. /note The updated buffer address should be accessable 
   *          by USB DMA master. If user doesn't want to use zero-copy model, then the user should copy
   *          data to the address pointed by the passed buffer pointer parameter and shouldn't change 
   *          the address value. See \ref USBD_ZeroCopy for more details on zero-copy concept.
@@ -117,7 +120,7 @@ typedef struct USBD_MSC_INIT_PARAM
   *  \return Nothing. 
   *                                             
   */
-  void (*MSC_Read)( uint32_t offset, uint8_t** dst, uint32_t length, uint32_t high_offset);
+  void (*MSC_Read)( uint32_t offset, uint8_t** dst, uint32_t length);
  /** 
   *  MSC Verify callback function.
   *
@@ -130,17 +133,17 @@ typedef struct USBD_MSC_INIT_PARAM
   *  \param[in] length  Number of bytes to verify.
   *  \return Returns \ref ErrorCode_t type to indicate success or error condition.
   *          \retval LPC_OK If data in the buffer matches the data at destination
-  *          \retval ERR_FAILED  At least one byte is different.
+  *          \retval ERR_FAILED  Atleast one byte is different. 
   *                                             
   */
-  ErrorCode_t (*MSC_Verify)( uint32_t offset, uint8_t buf[], uint32_t length, uint32_t high_offset);
+  ErrorCode_t (*MSC_Verify)( uint32_t offset, uint8_t buf[], uint32_t length);
   /** 
   *  Optional callback function to optimize MSC_Write buffer transfer.
   *
   *  This function is provided by the application software. This function gets called 
   *  when host sends SCSI_WRITE10/SCSI_WRITE12 command. The callback function should 
   *  update the \em buff_adr pointer so that the stack transfers the data directly
-  *  to the target buffer. /note The updated buffer address should be accessible
+  *  to the target buffer. /note The updated buffer address should be accessable 
   *  by USB DMA master. If user doesn't want to use zero-copy model, then the user 
   *  should not update the buffer pointer. See \ref USBD_ZeroCopy for more details
   *  on zero-copy concept.
@@ -151,10 +154,10 @@ typedef struct USBD_MSC_INIT_PARAM
   *  \return Nothing. 
   *                                             
   */
-  void (*MSC_GetWriteBuf)( uint32_t offset, uint8_t** buff_adr, uint32_t length, uint32_t high_offset); 
+  void (*MSC_GetWriteBuf)( uint32_t offset, uint8_t** buff_adr, uint32_t length); 
 
   /** 
-  *  Optional user override-able function to replace the default MSC class handler.
+  *  Optional user overridable function to replace the default MSC class handler.
   *
   *  The application software could override the default EP0 class handler with their
   *  own by providing the handler function address as this data member of the parameter
@@ -174,8 +177,6 @@ typedef struct USBD_MSC_INIT_PARAM
   */
   ErrorCode_t (*MSC_Ep0_Hdlr) (USBD_HANDLE_T hUsb, void* data, uint32_t event);
 
-  uint64_t  MemorySize64;
-  
 } USBD_MSC_INIT_PARAM_T;
 
 /** \brief MSC class API functions structure.
@@ -202,7 +203,7 @@ typedef struct USBD_MSC_API
   /** \fn ErrorCode_t init(USBD_HANDLE_T hUsb, USBD_MSC_INIT_PARAM_T* param)
    *  Function to initialize MSC function driver module.
    * 
-   *  This function is called by application layer to initialize MSC function driver module.
+   *  This fuction is called by application layer to initialize MSC function driver module. 
    *
    *  \param[in] hUsb Handle to the USB device stack. 
    *  \param[in, out] param Structure containing MSC function driver module initialization parameters.
@@ -234,7 +235,7 @@ typedef struct _MSC_CTRL_T
 
   USB_CORE_CTRL_T*  pUsbCtrl;
   
-  uint64_t Offset;                  /* R/W Offset */
+  uint32_t Offset;                  /* R/W Offset */
   uint32_t Length;                  /* R/W Length */
   uint32_t BulkLen;                 /* Bulk In/Out Length */
   uint8_t* rx_buf;
@@ -248,13 +249,13 @@ typedef struct _MSC_CTRL_T
   uint8_t*  InquiryStr;
   uint32_t  BlockCount;
   uint32_t  BlockSize;
-  uint64_t  MemorySize;
+  uint32_t  MemorySize;
   /* user defined functions */
-  void (*MSC_Write)( uint32_t offset, uint8_t** src, uint32_t length, uint32_t high_offset); 
-  void (*MSC_Read)( uint32_t offset, uint8_t** dst, uint32_t length, uint32_t high_offset);
-  ErrorCode_t (*MSC_Verify)( uint32_t offset, uint8_t src[], uint32_t length, uint32_t high_offset);
+  void (*MSC_Write)( uint32_t offset, uint8_t** src, uint32_t length); 
+  void (*MSC_Read)( uint32_t offset, uint8_t** dst, uint32_t length);
+  ErrorCode_t (*MSC_Verify)( uint32_t offset, uint8_t src[], uint32_t length);
   /* optional call back for MSC_Write optimization */
-  void (*MSC_GetWriteBuf)( uint32_t offset, uint8_t** buff_adr, uint32_t length, uint32_t high_offset); 
+  void (*MSC_GetWriteBuf)( uint32_t offset, uint8_t** buff_adr, uint32_t length); 
 
 
 }USB_MSC_CTRL_T;
@@ -266,5 +267,8 @@ extern ErrorCode_t mwMSC_init(USBD_HANDLE_T hUsb, USBD_MSC_INIT_PARAM_T* param);
 
 /** @endcond */
 
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __MSCUSER_H__ */

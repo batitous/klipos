@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_desc.h 165 2011-04-14 17:41:11Z usb10131                      $
+* $Id:: mw_usbd_desc.h 197 2011-06-12 20:22:41Z usb06052                      $
 *
 * Project: USB device ROM Stack
 *
@@ -25,7 +25,11 @@
 #ifndef __USBDESC_H__
 #define __USBDESC_H__
 
-#include "usbd.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "mw_usbd.h"
 
 #define WBVAL(x) ((x) & 0xFF),(((x) >> 8) & 0xFF)
 #define B3VAL(x) ((x) & 0xFF),(((x) >> 8) & 0xFF),(((x) >> 16) & 0xFF)
@@ -37,12 +41,15 @@
 #define USB_DEVICE_QUALI_SIZE       (sizeof(USB_DEVICE_QUALIFIER_DESCRIPTOR))
 #define USB_OTHER_SPEED_CONF_SIZE   (sizeof(USB_OTHER_SPEED_CONFIGURATION))
 
-//#define HID_DESC_SIZE               (sizeof(HID_DESCRIPTOR))
-//#define HID_REPORT_DESC_SIZE        (sizeof(HID_ReportDescriptor))
+#define HID_DESC_SIZE               (sizeof(HID_DESCRIPTOR))
+#define HID_REPORT_DESC_SIZE        (sizeof(HID_ReportDescriptor))
 
 extern const uint8_t  HID_ReportDescriptor[];
 extern const uint16_t HID_ReportDescSize;
 extern const uint16_t HID_DescOffset;
 
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __USBDESC_H__ */

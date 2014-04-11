@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd.h 575 2012-11-20 01:35:56Z usb10131                           $
+* $Id:: mw_usbd.h 197 2011-06-12 20:22:41Z usb06052                           $
 *
 * Project: USB device ROM Stack
 *
@@ -21,9 +21,12 @@
 * warranty that such application will be suitable for the specified
 * use without further testing or modification.
 **********************************************************************/
+#ifndef __USB_H__
+#define __USB_H__
 
-#ifndef __USBD_H__
-#define __USBD_H__
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /** \file
  *  \brief Common definitions and declarations for the USB stack.
@@ -33,8 +36,7 @@
  *  @{
  */
 
-//baptiste
-//#include "lpc_types.h"
+#include <stdint.h>
 
 #if defined(__GNUC__)
 /* As per http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax,
@@ -51,27 +53,11 @@ So use POST_PACK immediately after struct keyword
 */
 #define PRE_PACK
 #define POST_PACK	__attribute__((__packed__))
-#define ALIGNED(n)      __attribute__((aligned (n)))
-
+#define ALIGNED(n)  __attribute__((aligned (n)))
 #elif defined(__arm)
 #define PRE_PACK	__packed
 #define POST_PACK
-#define ALIGNED(n)      __align(n)
-
-#elif defined(__ICCARM__)
-#define PRE_PACK                __packed
-#define POST_PACK
-#define PRAGMA_ALIGN_4096       _Pragma("data_alignment=4096")
-#define PRAGMA_ALIGN_2048       _Pragma("data_alignment=2048")
-#define PRAGMA_ALIGN_256        _Pragma("data_alignment=256")
-#define PRAGMA_ALIGN_128        _Pragma("data_alignment=128")
-#define PRAGMA_ALIGN_64         _Pragma("data_alignment=64")
-#define PRAGMA_ALIGN_48         _Pragma("data_alignment=48")
-#define PRAGMA_ALIGN_32         _Pragma("data_alignment=32")
-#define PRAGMA_ALIGN_4          _Pragma("data_alignment=4")
-#define ALIGNED(n)              PRAGMA_ALIGN_##n
-
-#pragma diag_suppress=Pe021
+#define ALIGNED(n)  __align(n)
 #endif
 
 /** Structure to pack lower and upper byte to form 16 bit word. */
@@ -130,9 +116,9 @@ typedef union __WORD_BYTE WORD_BYTE;
 /** Structure to define 8 bit USB request.*/
 PRE_PACK struct POST_PACK _BM_T
 {
-  uint8_t Recipient :  5; /**< Recipient type. */
+  uint8_t Recipient :  5; /**< Recipeint type. */
   uint8_t Type      :  2; /**< Request type.  */
-  uint8_t Dir       :  1; /**< Direction type. */
+  uint8_t Dir       :  1; /**< Directtion type. */
 };
 /** Structure to define 8 bit USB request.*/
 typedef struct _BM_T BM_T;
@@ -409,7 +395,7 @@ PRE_PACK struct POST_PACK _USB_DEVICE_DESCRIPTOR
   uint16_t bcdDevice; /**< Device release number in binary-coded decimal. */
   uint8_t  iManufacturer; /**< Index of string descriptor describing manufacturer. */
   uint8_t  iProduct; /**< Index of string descriptor describing product. */
-  uint8_t  iSerialNumber; /**< Index of string descriptor describing the deviceï¿½s 
+  uint8_t  iSerialNumber; /**< Index of string descriptor describing the device’s 
                           serial number.
                           */
   uint8_t  bNumConfigurations; /**< Number of possible configurations. */
@@ -488,35 +474,10 @@ PRE_PACK struct POST_PACK _USB_CONFIGURATION_DESCRIPTOR
                       no longer support. The USB System Software
                       may determine the cause of the failure by
                       checking the status and noting the loss of the
-                      deviceï¿½s power source.*/
+                      device’s power source.*/
 } ;
 /** USB Standard Configuration Descriptor */
 typedef struct _USB_CONFIGURATION_DESCRIPTOR USB_CONFIGURATION_DESCRIPTOR;
-
-/** USB Standard Interface Association Descriptor */
-PRE_PACK struct POST_PACK _USB_IAD_DESCRIPTOR
-{
-  uint8_t  bLength; /**< Size of this descriptor in bytes*/
-  uint8_t  bDescriptorType; /**< INTERFACE ASSOCIATION Descriptor Type*/
-  uint8_t  bFirstInterface; /**< Interface number of the first interface that is
-                            associated with this function.*/
-  uint8_t  bInterfaceCount; /**< Number of contiguous interfaces that are
-                            associated with this function. */
-  uint8_t  bFunctionClass; /**< Class code (assigned by USB-IF). \n
-                            A value of zero is not allowed in this descriptor.
-                            If this field is FFH, the function class is vendorspecific.
-                            All other values are reserved for assignment by
-                            the USB-IF.*/
-  uint8_t  bFunctionSubClass; /**< Subclass code (assigned by USB-IF). \n
-                            If the bFunctionClass field is not set to FFH all
-                            values are reserved for assignment by the USBIF.*/
-  uint8_t  bFunctionProtocol; /**< Protocol code (assigned by the USB). \n
-                                These codes are qualified by the values of the
-                                bFunctionClass and bFunctionSubClass fields.*/
-  uint8_t  iFunction; /**< Index of string descriptor describing this function.*/
-} ;
-/** USB Standard Interface Association Descriptor */
-typedef struct _USB_IAD_DESCRIPTOR USB_IAD_DESCRIPTOR;
 
 /** USB Standard Interface Descriptor */
 PRE_PACK struct POST_PACK _USB_INTERFACE_DESCRIPTOR
@@ -580,7 +541,7 @@ PRE_PACK struct POST_PACK _USB_ENDPOINT_DESCRIPTOR
                             Bit 7: Direction, ignored for control endpoints
                             0 = OUT endpoint
                             1 = IN endpoint.  \n \sa USBD_ENDPOINT_ADR_Type*/
-  uint8_t  bmAttributes; /**< This field describes the endpointï¿½s attributes when it is
+  uint8_t  bmAttributes; /**< This field describes the endpoint’s attributes when it is
                           configured using the bConfigurationValue. \n
                           Bits 1..0: Transfer Type
                           \li 00 = Control
@@ -627,7 +588,7 @@ PRE_PACK struct POST_PACK _USB_ENDPOINT_DESCRIPTOR
   uint8_t  bInterval; /**< Interval for polling endpoint for data transfers.
                       Expressed in frames or microframes depending on the
                       device operating speed (i.e., either 1 millisecond or
-                      125 ï¿½s units). 
+                      125 µs units). 
                       \li For full-/high-speed isochronous endpoints, this value
                       must be in the range from 1 to 16. The bInterval value
                       is used as the exponent for a \f$ 2^(bInterval-1) \f$ value; e.g., a
@@ -689,17 +650,10 @@ typedef struct _USB_OTHER_SPEED_CONFIGURATION USB_OTHER_SPEED_CONFIGURATION;
  */
 typedef void* USBD_HANDLE_T;
 
-#define WBVAL(x) ((x) & 0xFF),(((x) >> 8) & 0xFF)
-#define B3VAL(x) ((x) & 0xFF),(((x) >> 8) & 0xFF),(((x) >> 16) & 0xFF)
-
-#define USB_DEVICE_DESC_SIZE        (sizeof(USB_DEVICE_DESCRIPTOR))
-#define USB_CONFIGURATION_DESC_SIZE (sizeof(USB_CONFIGURATION_DESCRIPTOR))
-#define USB_INTERFACE_DESC_SIZE     (sizeof(USB_INTERFACE_DESCRIPTOR))
-#define USB_INTERFACE_ASSOC_DESC_SIZE   (sizeof(USB_IAD_DESCRIPTOR))
-#define USB_ENDPOINT_DESC_SIZE      (sizeof(USB_ENDPOINT_DESCRIPTOR))
-#define USB_DEVICE_QUALI_SIZE       (sizeof(USB_DEVICE_QUALIFIER_DESCRIPTOR))
-#define USB_OTHER_SPEED_CONF_SIZE   (sizeof(USB_OTHER_SPEED_CONFIGURATION))
-
 /** @}*/
 
-#endif  /* __USBD_H__ */
+#ifdef __cplusplus
+}
+#endif 
+
+#endif  /* __USB_H__ */

@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_msc.h 331 2012-08-09 18:54:34Z usb10131                       $
+* $Id:: mw_usbd_msc.h 197 2011-06-12 20:22:41Z usb06052                       $
 *
 * Project: USB device ROM Stack
 *
@@ -25,10 +25,14 @@
 #ifndef __MSC_H__
 #define __MSC_H__
 
-#include "usbd.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "mw_usbd.h"
 
 /** \file
- *  \brief Mass Storage class (MSC) descriptors.
+ *  \brief Mass Storage calss (MSC) descriptors.
  *
  *  Definition of MSC class descriptors and their bit defines.
  *
@@ -115,5 +119,8 @@ typedef struct _MSC_CSW MSC_CSW;
 #define SCSI_MODE_SELECT10              0x55
 #define SCSI_MODE_SENSE10               0x5A
 
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __MSC_H__ */

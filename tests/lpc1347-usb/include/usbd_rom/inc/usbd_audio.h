@@ -24,6 +24,9 @@
 #ifndef __AUDIO_H__
 #define __AUDIO_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* Audio Interface Subclass Codes */
 #define AUDIO_SUBCLASS_UNDEFINED                0x00
@@ -372,6 +375,10 @@
 #define AUDIO_TERMINAL_RADIO_TRANSMITTER        0x0711
 #define AUDIO_TERMINAL_MULTI_TRACK_RECORDER     0x0712
 #define AUDIO_TERMINAL_SYNTHESIZER              0x0713
+
+#ifdef __cplusplus
+}
+#endif 
 
 
 #endif  /* __AUDIO_H__ */

@@ -113,6 +113,11 @@ static ErrorCode_t VCOM_SetLineCode(USBD_HANDLE_T hCDC, CDC_LINE_CODING *line_co
 	return LPC_OK;
 }
 
+static ErrorCode_t CDC_SendBreak(USBD_HANDLE_T hCDC, uint16_t mstime)
+{
+  return LPC_OK;
+}
+
 /*****************************************************************************
  * Public functions
  ****************************************************************************/
@@ -132,7 +137,8 @@ ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT
     cdc_param.cif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_COMMUNICATION_INTERFACE_CLASS);
     cdc_param.dif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_DATA_INTERFACE_CLASS);
     cdc_param.SetLineCode = VCOM_SetLineCode;
-
+    cdc_param.SendBreak = CDC_SendBreak;
+    
     ret = g_pUsbApi->cdc->init(hUsb, &cdc_param, &g_vCOM.hCdc);
 
     if (ret == LPC_OK) 
@@ -142,16 +148,17 @@ ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT
         cdc_param.mem_base += VCOM_RX_BUF_SZ;
         cdc_param.mem_size -= VCOM_RX_BUF_SZ;
 
-        /* register endpoint interrupt handler */
+        // register endpoint interrupt handler 
         ep_indx = (((USB_CDC_IN_EP & 0x0F) << 1) + 1);
         ret = g_pUsbApi->core->RegisterEpHandler(hUsb, ep_indx, VCOM_bulk_in_hdlr, &g_vCOM);
         if (ret == LPC_OK) 
         {
-            /* register endpoint interrupt handler */
+            // register endpoint interrupt handler 
             ep_indx = ((USB_CDC_OUT_EP & 0x0F) << 1);
             ret = g_pUsbApi->core->RegisterEpHandler(hUsb, ep_indx, VCOM_bulk_out_hdlr, &g_vCOM);
 
         }
+    
         /* update mem_base and size variables for cascading calls. */
         pUsbParam->mem_base = cdc_param.mem_base;
         pUsbParam->mem_size = cdc_param.mem_size;

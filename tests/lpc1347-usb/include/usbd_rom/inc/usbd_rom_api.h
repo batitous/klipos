@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_rom_api.h 331 2012-08-09 18:54:34Z usb10131                   $
+* $Id:: mw_usbd_rom_api.h 197 2011-06-12 20:22:41Z usb06052                   $
 *
 * Project: USB device ROM Stack
 *
@@ -23,6 +23,11 @@
 **********************************************************************/
 #ifndef __MW_USBD_ROM_API_H
 #define __MW_USBD_ROM_API_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** \file
  *  \brief ROM API for USB device stack.
  *
@@ -31,13 +36,14 @@
  */
 
 #include "error.h"
-#include "usbd.h"
-#include "usbd_hw.h"
-#include "usbd_core.h"
-#include "usbd_mscuser.h"
-#include "usbd_dfuuser.h"
-#include "usbd_hiduser.h"
-#include "usbd_cdcuser.h"
+#include "mw_usbd.h"
+#include "mw_usbd_hw.h"
+#include "mw_usbd_desc.h"
+#include "mw_usbd_core.h"
+#include "mw_usbd_mscuser.h"
+#include "mw_usbd_dfuuser.h"
+#include "mw_usbd_hiduser.h"
+#include "mw_usbd_cdcuser.h"
 
 /** \brief Main USBD API functions structure.
  *  \ingroup Group_USBD
@@ -71,7 +77,7 @@ typedef struct USBD_API
   const uint32_t* reserved6; /**< Reserved for future function driver module.
                            */
   const uint32_t version; /**< Version identifier of USB ROM stack. The version is
-                          defined as 0x0CHDMhCC where each nibble represents version
+                          defined as 0x0CHDMhCC where each nibble represnts version 
                           number of the corresponding component.
                           CC -  7:0  - 8bit core version number
                            h - 11:8  - 4bit hardware interface version number
@@ -84,11 +90,11 @@ typedef struct USBD_API
 
 } USBD_API_T;
 
-/* Applications using USBD ROM API should define this instance. The pointer should be assigned a value computed based on chip definitions. */ 
-extern const USBD_API_T* g_pUsbApi;
+extern const  USBD_API_T usb_api;
 
-//baptiste
-//#define USBD_API g_pUsbApi
+#ifdef __cplusplus
+}
+#endif 
 
 #endif /*__MW_USBD_ROM_API_H*/
 

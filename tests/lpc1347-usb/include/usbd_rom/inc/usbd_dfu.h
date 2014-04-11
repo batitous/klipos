@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_dfu.h 331 2012-08-09 18:54:34Z usb10131                       $
+* $Id:: mw_usbd_dfu.h 216 2011-07-13 21:52:14Z usb06052                       $
 *
 * Project: USB device ROM Stack
 *
@@ -24,10 +24,14 @@
 #ifndef __MW_USBD_DFU_H__
 #define __MW_USBD_DFU_H__
 
-#include "usbd.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "mw_usbd.h"
 
 /** \file
- *  \brief Device Firmware Upgrade (DFU) class descriptors.
+ *  \brief Device Firmware Upgrade (DFU) calss descriptors.
  *
  *  Definition of DFU class descriptors and their bit defines.
  *
@@ -115,6 +119,10 @@ typedef struct _DFU_STATUS DFU_STATUS_T;
 
 #define DFU_FUNC_DESC_SIZE    sizeof(USB_DFU_FUNC_DESCRIPTOR)
 #define DFU_GET_STATUS_SIZE   0x6 
+
+#ifdef __cplusplus
+}
+#endif 
 
 
 #endif  /* __MW_USBD_DFU_H__ */

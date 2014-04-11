@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_hiduser.h 331 2012-08-09 18:54:34Z usb10131                   $
+* $Id:: mw_usbd_hiduser.h 202 2011-06-12 21:50:01Z usb06052                   $
 *
 * Project: USB device ROM Stack
 *
@@ -25,9 +25,13 @@
 #ifndef __HIDUSER_H__
 #define __HIDUSER_H__
 
-#include "usbd.h"
-#include "usbd_hid.h"
-#include "usbd_core.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "mw_usbd.h"
+#include "mw_usbd_hid.h"
+#include "mw_usbd_core.h"
 
 /** \file
  *  \brief Human Interface Device (HID) API structures and function prototypes.
@@ -54,8 +58,8 @@
  *  parameter structure \ref USBD_HID_INIT_PARAM. This structure contains
  *  details of a report type supported by the application. An application
  *  can support multiple report types as a single HID device. The application
- *  should define this report type data structure per report it supports and
- *  the array of report types to USBD_HID_API::init() through \ref USBD_HID_INIT_PARAM
+ *  should define this report type data struture per report it supports and
+ *  the array of reoprt types to USBD_HID_API::init() through \ref USBD_HID_INIT_PARAM
  *  structure. 
  *
  *  \note All descriptor pointers assigned in this structure should be on 4 byte
@@ -111,7 +115,7 @@ typedef struct USBD_HID_INIT_PARAM
                                  data structure (\ref USB_HID_REPORT_T). The number
                                  of elements in the array should be same a \em max_reports
                                  value. The stack uses this array to respond to 
-                                 requests received for various HID report descriptor
+                                 requests recieved for various HID report descriptor
                                  information. \note This array should be of global scope.
                                  */
 
@@ -130,7 +134,7 @@ typedef struct USBD_HID_INIT_PARAM
   *   
   *  
   *  \param[in] hHid Handle to HID function driver. 
-  *  \param[in] pSetup Pointer to setup packet received from host.
+  *  \param[in] pSetup Pointer to setup packet recived from host. 
   *  \param[in, out] pBuffer  Pointer to a pointer of data buffer containing report data. 
   *                       Pointer-to-pointer is used to implement zero-copy buffers. 
   *                       See \ref USBD_ZeroCopy for more details on zero-copy concept.
@@ -155,7 +159,7 @@ typedef struct USBD_HID_INIT_PARAM
   *  report zero).
   *  
   *  \param[in] hHid Handle to HID function driver. 
-  *  \param[in] pSetup Pointer to setup packet received from host.
+  *  \param[in] pSetup Pointer to setup packet recived from host. 
   *  \param[in, out] pBuffer  Pointer to a pointer of data buffer containing report data. 
   *                       Pointer-to-pointer is used to implement zero-copy buffers. 
   *                       See \ref USBD_ZeroCopy for more details on zero-copy concept.
@@ -188,9 +192,9 @@ typedef struct USBD_HID_INIT_PARAM
   *  \n
   *  
   *  \param[in] hHid Handle to HID function driver. 
-  *  \param[in] pSetup Pointer to setup packet received from host.
+  *  \param[in] pSetup Pointer to setup packet recived from host. 
   *  \param[in] pBuf Pointer to a pointer of data buffer containing physical descriptor 
-  *                   data. If the physical descriptor is in USB accessible memory area
+  *                   data. If the physical descriptor is in USB accessable memory area
   *                   application could just update the pointer or else it should copy 
   *                   the descriptor to the address pointed by this pointer.
   *  \param[in] length  Amount of data copied to destination buffer or descriptor length.
@@ -217,7 +221,7 @@ typedef struct USBD_HID_INIT_PARAM
   *  \n
   *  
   *  \param[in] hHid Handle to HID function driver. 
-  *  \param[in] pSetup Pointer to setup packet received from host.
+  *  \param[in] pSetup Pointer to setup packet recived from host. 
   *  \param[in] idleTime  Idle time to be set for the specified report.
   *  \return The call back should returns \ref ErrorCode_t type to indicate success or error condition.
   *          \retval LPC_OK On success.
@@ -238,7 +242,7 @@ typedef struct USBD_HID_INIT_PARAM
   *  \n
   *  
   *  \param[in] hHid Handle to HID function driver. 
-  *  \param[in] pSetup Pointer to setup packet received from host.
+  *  \param[in] pSetup Pointer to setup packet recived from host. 
   *  \param[in] protocol  Protocol mode. 
   *                       0 = Boot Protocol
   *                       1 = Report Protocol
@@ -255,7 +259,7 @@ typedef struct USBD_HID_INIT_PARAM
   *
   *  The application software could provide Interrupt IN endpoint event handler. 
   *  Application which send reports to host on interrupt endpoint should provide
-  *  an endpoint event handler through this data member. This data member is
+  *  an endpoint event handler through this data member. This data memeber is 
   *  ignored if the interface descriptor \em intf_desc doesn't have any IN interrupt 
   *  endpoint descriptor associated. 
   *  \n
@@ -274,8 +278,8 @@ typedef struct USBD_HID_INIT_PARAM
   *  Optional Interrupt OUT endpoint event handler.
   *
   *  The application software could provide Interrupt OUT endpoint event handler. 
-  *  Application which receives reports from host on interrupt endpoint should provide
-  *  an endpoint event handler through this data member. This data member is
+  *  Application which recieves reports from host on interrupt endpoint should provide
+  *  an endpoint event handler through this data member. This data memeber is 
   *  ignored if the interface descriptor \em intf_desc doesn't have any OUT interrupt 
   *  endpoint descriptor associated. 
   *  \n
@@ -291,9 +295,9 @@ typedef struct USBD_HID_INIT_PARAM
   */
   ErrorCode_t (*HID_EpOut_Hdlr) (USBD_HANDLE_T hUsb, void* data, uint32_t event);
 
-  /* user override-able function */
+  /* user overridable function */
   /** 
-  *  Optional user override-able function to replace the default HID_GetReportDesc handler.
+  *  Optional user overridable function to replace the default HID_GetReportDesc handler.
   *
   *  The application software could override the default HID_GetReportDesc handler with their
   *  own by providing the handler function address as this data member of the parameter
@@ -314,7 +318,7 @@ typedef struct USBD_HID_INIT_PARAM
   */
   ErrorCode_t (*HID_GetReportDesc)(USBD_HANDLE_T hHid, USB_SETUP_PACKET* pSetup, uint8_t** pBuf, uint16_t* length);
   /** 
-  *  Optional user override-able function to replace the default HID class handler.
+  *  Optional user overridable function to replace the default HID class handler.
   *
   *  The application software could override the default EP0 class handler with their
   *  own by providing the handler function address as this data member of the parameter
@@ -417,5 +421,9 @@ extern ErrorCode_t mwHID_init(USBD_HANDLE_T hUsb, USBD_HID_INIT_PARAM_T* param);
 /** @endcond */
 
 /** @endcond */
+
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __HIDUSER_H__ */

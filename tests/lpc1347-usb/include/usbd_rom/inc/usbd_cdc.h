@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_cdc.h 165 2011-04-14 17:41:11Z usb10131                       $
+* $Id:: mw_usbd_cdc.h 197 2011-06-12 20:22:41Z usb06052                       $
 *
 * Project: USB device ROM Stack
 *
@@ -24,7 +24,11 @@
 #ifndef __CDC_H
 #define __CDC_H
 
-#include "usbd.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "mw_usbd.h"
 
 /*----------------------------------------------------------------------------
  *      Definitions  based on usbcdc11.pdf (www.usb.org)
@@ -244,6 +248,10 @@ typedef struct _CDC_LINE_CODING CDC_LINE_CODING;
 /* Data sent on the notification endpoint must follow this header. */
 /* see  USB_SETUP_PACKET in file usb.h */
 typedef USB_SETUP_PACKET CDC_NOTIFICATION_HEADER;
+
+#ifdef __cplusplus
+}
+#endif 
 
 #endif /* __CDC_H */
 

@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id: mw_usbd_hid.h.rca 1.2 Tue Nov  1 11:45:07 2011 nlv09221 Experimental $
+* $Id:: mw_usbd_hid.h 202 2011-06-12 21:50:01Z usb06052                       $
 *
 * Project: USB device ROM Stack
 *
@@ -24,7 +24,11 @@
 #ifndef __HID_H__
 #define __HID_H__
 
-#include "usbd.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "mw_usbd.h"
 
 /** \file
  *  \brief Common definitions and declarations for the library USB HID Class driver.
@@ -90,7 +94,6 @@ PRE_PACK struct POST_PACK _HID_DESCRIPTOR {
 /** HID class-specific HID Descriptor. */
 typedef struct _HID_DESCRIPTOR HID_DESCRIPTOR;
 
-#define HID_DESC_SIZE   sizeof(HID_DESCRIPTOR)
 
 /** HID Request Codes  
  * @{ 
@@ -426,5 +429,9 @@ typedef struct _HID_DESCRIPTOR HID_DESCRIPTOR;
 /** @} */
 
 /** @} */
+
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __HID_H__ */

@@ -1,5 +1,5 @@
 /***********************************************************************
-* $Id:: mw_usbd_hw.h 331 2012-08-09 18:54:34Z usb10131                        $
+* $Id:: mw_usbd_hw.h 202 2011-06-12 21:50:01Z usb06052                        $
 *
 * Project: USB device ROM Stack
 *
@@ -24,9 +24,13 @@
 #ifndef __USBHW_H__
 #define __USBHW_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "error.h"
-#include "usbd.h"
-#include "usbd_core.h"
+#include "mw_usbd.h"
+#include "mw_usbd_core.h"
 
 /** \file
  *  \brief USB Hardware Function prototypes.
@@ -77,7 +81,7 @@ typedef struct USBD_HW_API
   /** \fn uint32_t GetMemSize(USBD_API_INIT_PARAM_T* param)
    *  Function to determine the memory required by the USB device stack's DCD and core layers.
    * 
-   *  This function is called by application layer before calling pUsbApi->hw->Init(), to allocate memory used
+   *  This fuction is called by application layer before calling pUsbApi->hw->Init(), to allocate memory used 
    *  by DCD and core layers. The application should allocate the memory which is accessible by USB
    *  controller/DMA controller. 
    *  \note Some memory areas are not accessible by all bus masters.
@@ -95,8 +99,6 @@ typedef struct USBD_HW_API
    *  be passed to the rest of the functions.  
    *
    *  \param[in,out] phUsb Pointer to the USB device stack handle of type USBD_HANDLE_T. 
-   *  \param[in]  pDesc Structure containing pointers to various descriptor arrays needed by the stack.
-   *                    These descriptors are reported to USB host as part of enumerations process.
    *  \param[in]  param Structure containing USB device stack initialization parameters.
    *  \return Returns \ref ErrorCode_t type to indicate success or error condition.
    *          \retval LPC_OK(0) On success
@@ -148,7 +150,7 @@ typedef struct USBD_HW_API
   /** \fn void ForceFullSpeed(USBD_HANDLE_T hUsb, uint32_t cfg)
    *  Function to force high speed USB device to operate in full speed mode.
    *
-   *  This function is useful for testing the behavior of current device when connected
+   *  This function is useful for testing the behaviour of current device when connected
    *  to a full speed only hosts.
    *  
    *  \param[in] hUsb Handle to the USB device stack. 
@@ -159,7 +161,7 @@ typedef struct USBD_HW_API
   void  (*ForceFullSpeed )(USBD_HANDLE_T hUsb, uint32_t cfg);
   
   /** \fn void WakeUpCfg(USBD_HANDLE_T hUsb, uint32_t cfg)
-   *  Function to configure USB device controller to wake-up host on remote events.
+   *  Function to configure USB device controller to wakeup host on remote events.
    *
    *  This function is called by application layer to configure the USB device controller 
    *  to wakeup on remote events. It is recommended to call this function from users's 
@@ -228,9 +230,9 @@ typedef struct USBD_HW_API
   void  (*ConfigEP)(USBD_HANDLE_T hUsb, USB_ENDPOINT_DESCRIPTOR *pEPD);
 
   /** \fn void DirCtrlEP(USBD_HANDLE_T hUsb, uint32_t dir)
-   *  Function to set direction for USB control endpoint EP0.
+   *  Function to set firection for USB control endpoint EP0.
    *
-   *  This function is called automatically by the stack on need basis.
+   *  This function is called automatically by the stack on need bassis. 
    *  This interface is provided to users to invoke this function in other scenarios which are not 
    *  handle by current stack. In most user applications this function is not called directly.
    *  Also this function can be used by users who are selectively modifying the USB device stack's 
@@ -282,7 +284,7 @@ typedef struct USBD_HW_API
   /** \fn void SetStallEP(USBD_HANDLE_T hUsb, uint32_t EPNum)
    *  Function to STALL selected USB endpoint.
    *
-   *  Generates STALL signaling for requested endpoint.
+   *  Generates STALL signalling for requested endpoint.
    *  
    *  \param[in] hUsb Handle to the USB device stack. 
    *  \param[in] EPNum  Endpoint number as per USB specification. 
@@ -395,22 +397,23 @@ typedef struct USBD_HW_API
    */
   void  (*WakeUp)(USBD_HANDLE_T hUsb);
 
-  /** \fn void EnableEvent(USBD_HANDLE_T hUsb, uint32_t EPNum, uint32_t event_type, uint32_t enable)
+  /** \fn void EnableEP(USBD_HANDLE_T hUsb, uint32_t EPNum)
    *  Function to enable/disable selected USB event.
    *
    *  This function enables interrupts on selected endpoint.
    *  
    *  \param[in] hUsb Handle to the USB device stack. 
-   *  \param[in] EPNum  Endpoint number corresponding to the event.
+   *  \param[in] EPNum  Endpoint number corresponding to the eventas per USB specification. 
    *                    ie. An EP1_IN is represented by 0x81 number. For device events 
    *                    set this param to 0x0. 
-   *  \param[in] event_type  Type of endpoint event. See \ref USBD_EVENT_T for more details.
+   *  \param[in] event  Type of endpoint event. See \ref USBD_EVENT_T for more details.
    *  \param[in] enable  1 - enable event, 0 - disable event.
    *  \return Returns \ref ErrorCode_t type to indicate success or error condition.
    *          \retval LPC_OK(0) - On success
    *          \retval ERR_USBD_INVALID_REQ(0x00040001) - Invalid event type.
    */
-  ErrorCode_t  (*EnableEvent)(USBD_HANDLE_T hUsb, uint32_t EPNum, uint32_t event_type, uint32_t enable);
+  ErrorCode_t  (*EnableEvent)(USBD_HANDLE_T hUsb, uint32_t EPNum, uint32_t event_type, 
+    uint32_t enable);
 
 } USBD_HW_API_T;
 
@@ -444,7 +447,7 @@ extern uint32_t hwUSB_ReadReqEP(USBD_HANDLE_T hUsb, uint32_t EPNum, uint8_t *pDa
 extern uint32_t hwUSB_ReadSetupPkt(USBD_HANDLE_T hUsb, uint32_t, uint32_t *);
 extern uint32_t hwUSB_WriteEP(USBD_HANDLE_T hUsb, uint32_t EPNum, uint8_t *pData, uint32_t cnt);
 
-/* generate resume signaling on the bus */
+/* generate resume signalling on the bus */
 extern void  hwUSB_WakeUp(USBD_HANDLE_T hUsb);
 extern ErrorCode_t  hwUSB_EnableEvent(USBD_HANDLE_T hUsb, uint32_t EPNum, uint32_t event_type, uint32_t enable);
 /* TODO implement following routines
@@ -453,5 +456,8 @@ extern ErrorCode_t  hwUSB_EnableEvent(USBD_HANDLE_T hUsb, uint32_t EPNum, uint32
 
 /** @endcond */
 
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __USBHW_H__ */

@@ -1,10 +1,10 @@
 /***********************************************************************
-* $Id:: mw_usbd_core.h 331 2012-08-09 18:54:34Z usb10131                      $
+* $Id:: mw_usbd_core.h 202 2011-06-12 21:50:01Z usb06052                      $
 *
 * Project: USB device ROM Stack
 *
 * Description:
-*     USB core controller structure definitions and function prototypes.
+*     USB core controller structure defnitions and function prototypes.
 *
 ***********************************************************************
 *   Copyright(C) 2011, NXP Semiconductor
@@ -24,9 +24,13 @@
 #ifndef __MW_USBD_CORE_H__
 #define __MW_USBD_CORE_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "error.h"
-#include "usbd.h"
-#include <app_usbd_cfg.h>
+#include "mw_usbd.h"
+#include "../app_usbd_cfg.h"
 
 /** \file
  *  \brief ROM API for USB device stack.
@@ -110,7 +114,7 @@ typedef ErrorCode_t (*USB_EP_HANDLER_T)(USBD_HANDLE_T hUsb, void* data, uint32_t
  *  \brief USB descriptors data structure.
  *  \ingroup USBD_Core
  *
- *  \details  This structure is used as part of USB device stack initialization
+ *  \details  This structure is used as part of USB device stack initialisation 
  *  parameter structure \ref USBD_API_INIT_PARAM_T. This structure contains
  *  pointers to various descriptor arrays needed by the stack. These descriptors
  *  are reported to USB host as part of enumerations process.
@@ -136,7 +140,7 @@ typedef struct _USB_CORE_DESCS_T
                              */
 } USB_CORE_DESCS_T;
 
-/** \brief USB device stack initialization parameter data structure.
+/** \brief USB device stack initilization parameter data structure.
  *  \ingroup USBD_Core
  *
  *  \details  This data structure is used to pass initialization parameters to the 
@@ -207,19 +211,19 @@ typedef struct USBD_API_INIT_PARAM
 	 */  
   USB_CB_T USB_SOF_Event;
 
-  /** Event for remote wake-up configuration, when enabled. This event fires when the USB host
+  /** Event for remote wakeup configururation, when enabled. This event fires when the USB host
 	 *  request the device to configure itself for remote wake-up capability. The USB host sends
-   *  this request to device which report remote wake-up capable in their device descriptors,
+   *  this request to device which report remote wakeup capable in their device descriptors,
    *  before going to low-power state. The application layer should implement this callback if
-   *  they have any special on board circuit to trigger remote wake up event. Also application
-   *  can use this callback to differentiate the following SUSPEND event is caused by cable plug-out
-   *  or host SUSPEND request. The device can wake-up host only after receiving this callback and
-   *  remote wake-up feature is enabled by host. To signal remote wake-up the device has to generate
+   *  they have any special on board circuit to trigerr remote wake up event. Also application
+   *  can use this callback to differntiate the following SUSPEND event is caused by cable plug-out
+   *  or host SUSPEND request. The device can wakeup host only after reciving this callback and
+   *  remote wakeup feature is enabled by host. To signal remote wakeup the device has to generate
    *  resume signaling on bus by calling usapi.hw->WakeUp() routine.
 	 *
 	 *  \n\n
    *  \param[in] hUsb Handle to the USB device stack. 
-   *  \param[in] param1 When 0 - Clear the wake-up configuration, 1 - Enable the wake-up configuration.
+   *  \param[in] param1 When 0 - Clear the wakeup configuration, 1 - Enable the wake-up configuration. 
    *  \return The call back should return \ref ErrorCode_t type to indicate success or error condition.
 	 */  
   USB_PARAM_CB_T USB_WakeUpCfg;
@@ -271,7 +275,7 @@ typedef struct USBD_API_INIT_PARAM
    */
  USB_CB_T USB_Feature_Event;
 
-  /* cache and MMU translation functions */
+  /* cache and mmu translation functions */
   /** Reserved parameter for future use. should be set to zero. */
   uint32_t (* virt_to_phys)(void* vaddr);
   /** Reserved parameter for future use. should be set to zero. */
@@ -300,7 +304,7 @@ typedef struct USBD_CORE_API
   *  The stack calls all the registered class handlers on any EP0 event before going through default 
   *  handling of the event. This gives the class handlers to implement class specific request handlers
   *  and also to override the default stack handling for a particular event targeted to the interface.
-  *  Check \ref USB_EP_HANDLER_T for more details on how the callback function should be implemented. Also
+  *  Check USB_EP_HANDLER_T for more details on how the callback function should be implemented. Also
   *  application layer could use this function to register EP0 handler which responds to vendor specific 
   *  requests.
   *  
@@ -318,23 +322,19 @@ typedef struct USBD_CORE_API
  /** \fn ErrorCode_t RegisterEpHandler(USBD_HANDLE_T hUsb, uint32_t ep_index, USB_EP_HANDLER_T pfn, void* data)
   *  Function to register interrupt/event handler for the requested endpoint with USB device stack.
   *
-  *  The application layer uses this function to register the endpoint event handler. 
-  *  The stack calls all the registered endpoint handlers when 
-  *  - USB_EVT_OUT or USB_EVT_OUT_NAK events happen for OUT endpoint.  
-  *  - USB_EVT_IN or USB_EVT_IN_NAK events happen for IN endpoint.
+  *  The application layer uses this function to register the custom class's EP0 handler. 
+  *  The stack calls all the registered class handlers on any EP0 event before going through default 
+  *  handling of the event. This gives the class handlers to implement class specific request handlers
+  *  and also to override the default stack handling for a particular event targeted to the interface.
   *  Check USB_EP_HANDLER_T for more details on how the callback function should be implemented.
-  *  \note By default endpoint _NAK events are not enabled. Application should call \ref USBD_HW_API_T::EnableEvent
-  *  for the corresponding endpoint.
   *  
   *  \param[in] hUsb Handle to the USB device stack. 
-  *  \param[in] ep_index  Endpoint index. Computed as 
-  *                       - For OUT endpoints = 2 * endpoint number eg. for EP2_OUT it is 4.
-  *                       - For IN endopoints = (2 * endpoint number) + 1 eg. for EP2_IN it is 5.
-  *  \param[in] pfn  Endpoint event handler function.
+  *  \param[in] ep_index  Class specific EP0 handler function.
+  *  \param[in] pfn  Class specific EP0 handler function.
   *  \param[in] data Pointer to the data which will be passed when callback function is called by the stack. 
   *  \return Returns \ref ErrorCode_t type to indicate success or error condition.
   *          \retval LPC_OK On success
-  *          \retval ERR_API_INVALID_PARAM2  ep_index is outside the boundary ( < 2 * USBD_API_INIT_PARAM_T::max_num_ep). 
+  *          \retval ERR_USBD_TOO_MANY_CLASS_HDLR(0x0004000c)  Too many endpoint handlers. 
   *                                             
   */
   ErrorCode_t (*RegisterEpHandler)(USBD_HANDLE_T hUsb, uint32_t ep_index, USB_EP_HANDLER_T pfn, void* data);
@@ -362,7 +362,7 @@ typedef struct USBD_CORE_API
    *
    *  This function is called by USB stack and the application layer to 
    *  set the EP0 state machine in data_in state. This function will write
-   *  the data present in EP0Data buffer to EP0 FIFO for transmission to host.
+   *  the data present in EP0Data buffer to EP0 FIFO for tranmission to host. 
    *  \n
    *  \note This interface is provided to users to invoke this function in other 
    *  scenarios which are not handle by current stack. In most user applications 
@@ -432,7 +432,7 @@ typedef struct USBD_CORE_API
    *  Function to set EP0 state machine in stall state.
    *
    *  This function is called by USB stack and the application layer to 
-   *  generate STALL signaling on EP0 endpoint. This function will also
+   *  generate STALL signalling on EP0 endpoint. This function will also 
    *  reset the EP0Data buffer. 
    *  \n
    *  \note This interface is provided to users to invoke this function in other 
@@ -474,7 +474,7 @@ typedef struct _USB_EP_DATA
 /* USB core controller data structure */
 struct _USB_CORE_CTRL_T
 {
-  /* override-able function pointers ~ c++ style virtual functions*/
+  /* overridable function pointers ~ c++ style virtual functions*/
   USB_CB_T USB_EvtSetupHandler;
   USB_CB_T USB_EvtOutHandler;
   USB_PARAM_CB_T USB_ReqVendor;
@@ -500,7 +500,7 @@ struct _USB_CORE_CTRL_T
   USB_CB_T USB_Interface_Event;
   USB_CB_T USB_Feature_Event;
 
-  /* cache and MMU translation functions */
+  /* cache and mmu translation functions */
   uint32_t (* virt_to_phys)(void* vaddr);
   void (* cache_flush)(uint32_t* start_adr, uint32_t* end_adr);
 
@@ -549,15 +549,9 @@ extern void mwUSB_InitCore(USB_CORE_CTRL_T* pCtrl, USB_CORE_DESCS_T* pdescr, USB
 extern void mwUSB_ResetCore(USBD_HANDLE_T hUsb);
 
 /* inline functions */
-static __INLINE void USB_SetSpeedMode(USB_CORE_CTRL_T* pCtrl, uint8_t mode)
+static __inline void USB_SetSpeedMode(USB_CORE_CTRL_T* pCtrl, uint8_t mode)
 {
-    pCtrl->device_speed = mode;   
-}
-
-static __INLINE bool USB_IsConfigured(USBD_HANDLE_T hUsb)
-{
-    USB_CORE_CTRL_T* pCtrl = (USB_CORE_CTRL_T*) hUsb;
-    return (bool) (pCtrl->config_value != 0);   
+  pCtrl->device_speed = mode;
 }
 
 /** @cond  DIRECT_API */
@@ -581,5 +575,9 @@ extern void mwUSB_StallEp0(USBD_HANDLE_T hUsb);
 /** @endcond */
 
 /** @endcond */
+
+#ifdef __cplusplus
+}
+#endif 
 
 #endif  /* __MW_USBD_CORE_H__ */
