@@ -656,6 +656,28 @@ typedef struct
 
 
 /*------------- Universal Serial Bus (USB) -----------------------------------*/
+
+#if defined(MCU_IS_LPC1315)
+
+typedef struct {				/*!< (@ 0x40080000) USB Structure */
+    __IO uint32_t DEVCMDSTAT;	/*!< (@ 0x40080000) USB Device Command/Status register */
+    __IO uint32_t INFO;			/*!< (@ 0x40080004) USB Info register */
+    __IO uint32_t EPLISTSTART;	/*!< (@ 0x40080008) USB EP Command/Status List start address */
+    __IO uint32_t DATABUFSTART;	/*!< (@ 0x4008000C) USB Data buffer start address */
+    __IO uint32_t LPM;			/*!< (@ 0x40080010) Link Power Management register */
+    __IO uint32_t EPSKIP;		/*!< (@ 0x40080014) USB Endpoint skip */
+    __IO uint32_t EPINUSE;		/*!< (@ 0x40080018) USB Endpoint Buffer in use */
+    __IO uint32_t EPBUFCFG;		/*!< (@ 0x4008001C) USB Endpoint Buffer Configuration register */
+    __IO uint32_t INTSTAT;		/*!< (@ 0x40080020) USB interrupt status register */
+    __IO uint32_t INTEN;		/*!< (@ 0x40080024) USB interrupt enable register */
+    __IO uint32_t INTSETSTAT;	/*!< (@ 0x40080028) USB set interrupt status register */
+    __IO uint32_t INTROUTING;	/*!< (@ 0x4008002C) USB interrupt routing register */
+    __I  uint32_t RESERVED0[1];
+    __I  uint32_t EPTOGGLE;		/*!< (@ 0x40080034) USB Endpoint toggle register */
+} LPC_USB_TypeDef;
+
+#else
+
 typedef struct
 {
   __I  uint32_t DevIntSt;            /* USB Device Interrupt Registers     */
@@ -673,6 +695,8 @@ typedef struct
   __IO uint32_t Ctrl;
   __O  uint32_t DevFIQSel;
 } LPC_USB_TypeDef;
+
+#endif
 
 #if defined ( __CC_ARM   )
 #pragma no_anon_unions

@@ -9,13 +9,11 @@ NAME = firmware
 DEFINE = -DSTACKSIZE=128
 
 # Project source files:
-SOURCE_PROJECT= main.c 
-
-#kqueue.c ktask.c ktime.c
+SOURCE_PROJECT= main.c usb.c cdc_desc.c cdc_uart.c
 
 
 # Include repertory : -I<repertory path>
-HEADER_PROJECT=
+HEADER_PROJECT=-I./include/usbd_rom/inc -I./include
 
 # Path to project source code
 SOURCE_PATH_PROJECT=./source

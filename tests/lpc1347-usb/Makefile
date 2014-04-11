@@ -22,6 +22,7 @@ include $(KLIPOS_PATH)/klipos/Makefile.klipos
 
 SOURCE += $(SOURCE_PROJECT)
 SOURCE_PATH += $(SOURCE_PATH_PROJECT) 
+INCLUDE += $(HEADER_PROJECT)
 
 BUILD_PATH=./build
 

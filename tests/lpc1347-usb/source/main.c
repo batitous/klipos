@@ -1,7 +1,10 @@
 
 #include <libs-klipos.h>
 
+#include "../include/usb.h"
+
 #define LED     GPIO0_7
+#define BUTTON  GPIO0_1 
 
 KTask uartTask;
 KTask gpioTask;
@@ -31,7 +34,7 @@ void uartTaskCode(uint32_t event)
 
 void gpioTaskCode(uint32_t event)
 {
-    printf("IRQ event: %x\r\n", event);    
+    printf("IRQ Button: %x\r\n", event);    
 }
 
 void ledTaskCode(uint32_t event)
@@ -53,12 +56,17 @@ int main(void)
     setTaskOnUart0(&uartTask);
     
     initTask(&gpioTask, gpioTaskCode, PRIORITY_LOW);
-    enableGpioIrqOnTask(&gpioTask, GPIO0_1, GPIO_BOTH_EDGE);
+    enableGpioIrqOnTask(&gpioTask, BUTTON, GPIO_BOTH_EDGE);
+    setGpioOption(BUTTON, GPIO_MODE_INACTIVE, true, false);
     
     initTask(&ledTask, ledTaskCode, PRIORITY_LOW);
     initTimer(&ledTimer, MS_TO_US(500), &ledTask);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
+    
+    initUsb();
+    
+    printf("USB Initialized !\r\n");
     
     while(1)
     {
