@@ -70,7 +70,7 @@ static ErrorCode_t VCOM_bulk_out_hdlr(USBD_HANDLE_T hUsb, void *data, uint32_t e
     switch (event) 
     {
     case USB_EVT_OUT:
-        pVcom->rx_count = USBD_API->hw->ReadEP(hUsb, USB_CDC_OUT_EP, pVcom->rx_buff);
+        pVcom->rx_count = g_pUsbApi->hw->ReadEP(hUsb, USB_CDC_OUT_EP, pVcom->rx_buff);
         if (pVcom->rx_flags & VCOM_RX_BUF_QUEUED) 
         {
             pVcom->rx_flags &= ~VCOM_RX_BUF_QUEUED;
@@ -90,7 +90,7 @@ static ErrorCode_t VCOM_bulk_out_hdlr(USBD_HANDLE_T hUsb, void *data, uint32_t e
         /* queue free buffer for RX */
         if ((pVcom->rx_flags & (VCOM_RX_BUF_FULL | VCOM_RX_BUF_QUEUED)) == 0) 
         {
-            USBD_API->hw->ReadReqEP(hUsb, USB_CDC_OUT_EP, pVcom->rx_buff, VCOM_RX_BUF_SZ);
+            g_pUsbApi->hw->ReadReqEP(hUsb, USB_CDC_OUT_EP, pVcom->rx_buff, VCOM_RX_BUF_SZ);
             pVcom->rx_flags |= VCOM_RX_BUF_QUEUED;
         }
         break;
@@ -117,7 +117,6 @@ static ErrorCode_t VCOM_SetLineCode(USBD_HANDLE_T hCDC, CDC_LINE_CODING *line_co
  * Public functions
  ****************************************************************************/
 
-extern USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass);
 
 /* Virtual com port init routine */
 ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT_PARAM_T *pUsbParam)
@@ -134,7 +133,7 @@ ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT
     cdc_param.dif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_DATA_INTERFACE_CLASS);
     cdc_param.SetLineCode = VCOM_SetLineCode;
 
-    ret = USBD_API->cdc->init(hUsb, &cdc_param, &g_vCOM.hCdc);
+    ret = g_pUsbApi->cdc->init(hUsb, &cdc_param, &g_vCOM.hCdc);
 
     if (ret == LPC_OK) 
     {
@@ -145,12 +144,12 @@ ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT
 
         /* register endpoint interrupt handler */
         ep_indx = (((USB_CDC_IN_EP & 0x0F) << 1) + 1);
-        ret = USBD_API->core->RegisterEpHandler(hUsb, ep_indx, VCOM_bulk_in_hdlr, &g_vCOM);
+        ret = g_pUsbApi->core->RegisterEpHandler(hUsb, ep_indx, VCOM_bulk_in_hdlr, &g_vCOM);
         if (ret == LPC_OK) 
         {
             /* register endpoint interrupt handler */
             ep_indx = ((USB_CDC_OUT_EP & 0x0F) << 1);
-            ret = USBD_API->core->RegisterEpHandler(hUsb, ep_indx, VCOM_bulk_out_hdlr, &g_vCOM);
+            ret = g_pUsbApi->core->RegisterEpHandler(hUsb, ep_indx, VCOM_bulk_out_hdlr, &g_vCOM);
 
         }
         /* update mem_base and size variables for cascading calls. */
@@ -200,7 +199,7 @@ ErrorCode_t vcom_read_req(uint8_t *pBuf, uint32_t len)
     /* enter critical section */
     NVIC_DisableIRQ(USB_IRQn);
     /* if not queue the request and return 0 bytes */
-    USBD_API->hw->ReadReqEP(pVcom->hUsb, USB_CDC_OUT_EP, pBuf, len);
+    g_pUsbApi->hw->ReadReqEP(pVcom->hUsb, USB_CDC_OUT_EP, pBuf, len);
     /* exit critical section */
     NVIC_EnableIRQ(USB_IRQn);
     pVcom->rx_flags |= VCOM_RX_DB_QUEUED;
@@ -235,7 +234,7 @@ uint32_t vcom_write(uint8_t *pBuf, uint32_t len)
 
         /* enter critical section */
         NVIC_DisableIRQ(USB_IRQn);
-        ret = USBD_API->hw->WriteEP(pVcom->hUsb, USB_CDC_IN_EP, pBuf, len);
+        ret = g_pUsbApi->hw->WriteEP(pVcom->hUsb, USB_CDC_IN_EP, pBuf, len);
         /* exit critical section */
         NVIC_EnableIRQ(USB_IRQn);
     }

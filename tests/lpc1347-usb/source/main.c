@@ -44,11 +44,11 @@ void ledTaskCode(uint32_t event)
 {
     toggleGpio(LED);
     
-    if ((vcom_connected() != 0) && (usbConnected == false)) 
-        {
-            vcom_write("Hello World!!\r\n", 15);
-            usbConnected = true;
-        }
+    if ((vcom_connected() != 0) && (usbConnected == false))
+    {
+        vcom_write("Hello World!!\r\n", 15);
+        usbConnected = true;
+    }
 }
 
 int main(void)
@@ -58,6 +58,8 @@ int main(void)
     setPrintfInterface(sendByteToUart0);
     
     setGpioDirection(LED, GPIO_OUT);
+    
+    initUsbHardware();
     
     initSimpleKernel();
     
@@ -73,7 +75,6 @@ int main(void)
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     
-    initUsbHardware();
     initUsbCdcStack();
     
     printf("USB Initialized !\r\n");

@@ -2,7 +2,8 @@
 #include <libs-klipos.h>
 
 #include "../include/romapi_13xx.h"
-#include <usbd_rom_api.h>
+
+#include "../include/usbd_rom/inc/usbd_rom_api.h"
 
 
 #define LPC_ROM_API_BASE_LOC      0x1FFF1FF8
@@ -12,9 +13,11 @@
 
 
 static USBD_HANDLE_T g_hUsb;
+
 const  USBD_API_T *g_pUsbApi;
 
 extern ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT_PARAM_T *pUsbParam);
+
 
 void USB_IRQn_Handler(void)
 {
@@ -34,27 +37,27 @@ void USB_IRQn_Handler(void)
         addr[2] &= ~(BIT(29));	/* clear EP0_IN stall */
     }
 
-    USBD_API->hw->ISR(g_hUsb);
+    g_pUsbApi->hw->ISR(g_hUsb);
 }
 
 void initUsbHardware(void)
 {
     
+    SETBIT(LPC_IOCON->PIO0_3, 0);
+    SETBIT(LPC_IOCON->PIO0_6, 0);
+    
     // power on usb and usb ram
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,14);
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,27);
     
-    SETBIT(LPC_IOCON->PIO0_3, 1);
-    SETBIT(LPC_IOCON->PIO0_6, 1);
-  
-     // power up usb PHY and PLL
+    // power up usb PHY and PLL
     CLRBIT(LPC_SYSCON->PDRUNCFG,10);
     CLRBIT(LPC_SYSCON->PDRUNCFG,8);
     
-    LPC_SYSCON->USBPLLCLKSEL  = 1; // select system osc
-    LPC_SYSCON->USBPLLCTRL    = 0x23; //
+    LPC_SYSCON->USBPLLCLKSEL  = 1; // select system osc  
+    LPC_SYSCON->USBPLLCTRL = 0x23; //(3 & 0x1F) | ((1 & 0x3) << 5);
     
-    while (!(LPC_SYSCON->USBPLLSTAT   & 0x01));     // Wait Until PLL Locked
+    while (!(LPC_SYSCON->USBPLLSTAT & 0x01));     // Wait Until PLL Locked
     
     LPC_SYSCON->USBCLKSEL     = 0; // select usb pll out
     LPC_SYSCON->USBCLKDIV     = 1; 
@@ -97,7 +100,7 @@ void initUsbCdcStack(void)
     desc.device_qualifier = 0;
 
     /* USB Initialization */
-    ret = USBD_API->hw->Init(&g_hUsb, &desc, &usb_param);
+    ret = g_pUsbApi->hw->Init(&g_hUsb, &desc, &usb_param);
     if (ret == LPC_OK)
     {
         /*	WORKAROUND for artf32219 ROM driver BUG:
@@ -109,12 +112,13 @@ void initUsbCdcStack(void)
 
         /* Init VCOM interface */
         ret = vcom_init(g_hUsb, &desc, &usb_param);
+        
         if (ret == LPC_OK) 
         {
             /*  enable USB interrupts */
             NVIC_EnableIRQ(USB_IRQn);
             /* now connect */
-            USBD_API->hw->Connect(g_hUsb, 1);
+            g_pUsbApi->hw->Connect(g_hUsb, 1);
         }
     }
 }
@@ -122,28 +126,30 @@ void initUsbCdcStack(void)
 /* Find the address of interface descriptor for given class type. */
 USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass)
 {
-	USB_COMMON_DESCRIPTOR *pD;
-	USB_INTERFACE_DESCRIPTOR *pIntfDesc = 0;
-	uint32_t next_desc_adr;
+    USB_COMMON_DESCRIPTOR *pD;
+    USB_INTERFACE_DESCRIPTOR *pIntfDesc = 0;
+    uint32_t next_desc_adr;
 
-	pD = (USB_COMMON_DESCRIPTOR *) pDesc;
-	next_desc_adr = (uint32_t) pDesc;
+    pD = (USB_COMMON_DESCRIPTOR *) pDesc;
+    next_desc_adr = (uint32_t) pDesc;
 
-	while (pD->bLength) {
-		/* is it interface descriptor */
-		if (pD->bDescriptorType == USB_INTERFACE_DESCRIPTOR_TYPE) {
+    while (pD->bLength) 
+    {
+        /* is it interface descriptor */
+        if (pD->bDescriptorType == USB_INTERFACE_DESCRIPTOR_TYPE) 
+        {
+            pIntfDesc = (USB_INTERFACE_DESCRIPTOR *) pD;
+            /* did we find the right interface descriptor */
+            if (pIntfDesc->bInterfaceClass == intfClass) 
+            {
+                break;
+            }
+        }
+        pIntfDesc = 0;
+        next_desc_adr = (uint32_t) pD + pD->bLength;
+        pD = (USB_COMMON_DESCRIPTOR *) next_desc_adr;
+    }
 
-			pIntfDesc = (USB_INTERFACE_DESCRIPTOR *) pD;
-			/* did we find the right interface descriptor */
-			if (pIntfDesc->bInterfaceClass == intfClass) {
-				break;
-			}
-		}
-		pIntfDesc = 0;
-		next_desc_adr = (uint32_t) pD + pD->bLength;
-		pD = (USB_COMMON_DESCRIPTOR *) next_desc_adr;
-	}
-
-	return pIntfDesc;
+    return pIntfDesc;
 }
 

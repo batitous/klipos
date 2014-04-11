@@ -86,7 +86,9 @@ typedef struct USBD_API
 
 /* Applications using USBD ROM API should define this instance. The pointer should be assigned a value computed based on chip definitions. */ 
 extern const USBD_API_T* g_pUsbApi;
-#define USBD_API g_pUsbApi
+
+//baptiste
+//#define USBD_API g_pUsbApi
 
 #endif /*__MW_USBD_ROM_API_H*/
 
