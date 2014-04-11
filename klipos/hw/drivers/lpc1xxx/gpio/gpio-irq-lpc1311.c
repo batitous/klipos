@@ -102,7 +102,7 @@ void setGpioIrqCallback(GpioIrqCallback callback)
 }
 
 
-void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
+void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge)
 {
     LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
     uint32_t thepin = pin & 0xFFFF;

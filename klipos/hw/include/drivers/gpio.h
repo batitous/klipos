@@ -44,22 +44,28 @@ typedef enum _GPIO_PORT_
 #define GET_GPIO_PORT_NUMBER(pin)  (((pin) & 0xFFFF0000)>>16)
 
 
-/** @brief GPIO Edge sense */
-typedef enum _GPIO_EDGE_
+/** @brief GPIO IRQ Type */
+typedef enum _GPIO_IRQ_TYPE_
 {
-    GPIO_NO_EDGE        = 0x000000,
-    GPIO_FALLING_EDGE   = 0x100000,     /**< fall */
-    GPIO_RISING_EDGE    = 0x200000,     /**< rise */
+    GPIO_NO_EDGE        = 0x0000000,
+    GPIO_FALLING_EDGE   = 0x0100000,     /**< fall */
+    GPIO_RISING_EDGE    = 0x0200000,     /**< rise */
 #ifdef MCU_IS_LPC13XX
-    GPIO_BOTH_EDGE      = 0x400000      /**< fall and rise */
+    GPIO_BOTH_EDGE      = 0x0400000      /**< fall and rise */
 #endif
-} GPIO_EDGE;
+            
+//#ifdef MCU_IS_LPC1315
+//     ,GPIO_LOW_LEVEL     = 0x0800000,   /**< low */
+//     GPIO_HIGH_LEVEL     = 0x1000000   /**< high */
+//#endif
+
+} GPIO_IRQ_TYPE;
 
 /** @brief Mask on GPIO Pin and Port */
 #define GPIO_MASK       0x0FFFFF
 
-/** @brief Mask on GPIO Edge */
-#define GPIO_EDGE_MASK  0xF00000
+/** @brief Mask on GPIO IRQ Type */
+#define GPIO_TYPE_IRQ_MASK  0x1F00000
 
 
 /** @brief GPIO direction */

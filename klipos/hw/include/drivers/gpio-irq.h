@@ -35,7 +35,7 @@ extern "C" {
  * @param callback      event callback
  * @return
  */
-        extern void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback);
+        extern void enableEventOnGpio(GPIO_PIN pin, GPIO_IRQ_TYPE edge, KEventManager *manager, KEventCallback callback);
 #endif
 
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
@@ -45,7 +45,7 @@ extern "C" {
  * @param pin           The pin
  * @param edge          Falling or Rising edge (only lpc13xx can have both on the same event!)
  */
-        extern void enableGpioIrqOnTask(KTask* task, GPIO_PIN pin, GPIO_EDGE edge);
+        extern void enableGpioIrqOnTask(KTask* task, GPIO_PIN pin, GPIO_IRQ_TYPE edge);
 #endif
         
 /** @brief IRQ callback type */
@@ -63,7 +63,7 @@ extern void setGpioIrqCallback(GpioIrqCallback callback);
 // Use in 2 cases:
 // - you have previously disable irq
 // - you want manage your own irq without event, you have to set your own gpio irq callback !
-extern void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge);
+extern void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge);
 
 
 // disable only the irq, the event object is not deactivated !
@@ -73,7 +73,7 @@ extern void disableGpioIrq(GPIO_PIN pin);
 #endif
 
 #ifdef MCU_IS_LPC17XX
-extern void disableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge);
+extern void disableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge);
 #endif
 
 

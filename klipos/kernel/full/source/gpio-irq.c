@@ -34,7 +34,7 @@ void keventGpioIrqCallback(uint32_t event, uint32_t edge)
 
 //----------------------------- public functions
 
-void enableEventOnGpio(GPIO_PIN pin, GPIO_EDGE edge, KEventManager *manager, KEventCallback callback)
+void enableEventOnGpio(GPIO_PIN pin, GPIO_IRQ_TYPE edge, KEventManager *manager, KEventCallback callback)
 {
     if ( registerEvent( manager, KEVENT_GPIO_MASK | pin, callback, 0) == false )
     {

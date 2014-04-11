@@ -33,7 +33,7 @@ void gpioIrqCallback(uint32_t gpioEvent, uint32_t gpioEdge)
 //-------------------------- public functions
 
 
-void enableGpioIrqOnTask(KTask* task, GPIO_PIN pin, GPIO_EDGE edge)
+void enableGpioIrqOnTask(KTask* task, GPIO_PIN pin, GPIO_IRQ_TYPE edge)
 {
     setGpioIrqCallback(gpioIrqCallback);
     

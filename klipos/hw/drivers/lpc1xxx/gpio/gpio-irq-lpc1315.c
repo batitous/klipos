@@ -74,7 +74,7 @@ void PIN_IRQ_Handler(uint32_t irqSlot)
     
     gpioIrqCallback(pin,edge);
     
-    
+
     // clear falling/rising detection for this pin
     SETBIT(LPC_GPIO_PIN_INT->IST,irqSlot);
 }
@@ -128,7 +128,7 @@ void setGpioIrqCallback(GpioIrqCallback callback)
 }
 
 
-void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
+void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE type)
 {
     uint32_t thepin = pin & 0xFFFF;
     uint32_t portNumber = GET_GPIO_PORT_NUMBER(pin);
@@ -148,28 +148,35 @@ void enableGpioIrq(GPIO_PIN pin, GPIO_EDGE edge)
     LPC_SYSCON->PINTSEL[pinIrqFree] = BITS(5,portNumber) | thepin;
     
     
-    // select gpio irq as edge sensitive
-    CLRBIT(LPC_GPIO_PIN_INT->ISEL,pinIrqFree);
-    
-    if (edge==GPIO_BOTH_EDGE)
+    if (type==GPIO_BOTH_EDGE)
     {
-        // todo dont work ?
-        // test : can't see the falling/rising edge in irq
+        CLRBIT(LPC_GPIO_PIN_INT->ISEL,pinIrqFree);
         SETBIT(LPC_GPIO_PIN_INT->IENR,pinIrqFree);
         SETBIT(LPC_GPIO_PIN_INT->IENF,pinIrqFree);
     }
-    else
+    else if (type==GPIO_FALLING_EDGE)
     {
-        if (edge==GPIO_FALLING_EDGE)
-        {
-            SETBIT(LPC_GPIO_PIN_INT->IENF,pinIrqFree);
-        }
-        else
-        {
-            SETBIT(LPC_GPIO_PIN_INT->IENR,pinIrqFree);
-        }
+        CLRBIT(LPC_GPIO_PIN_INT->ISEL,pinIrqFree);
+        SETBIT(LPC_GPIO_PIN_INT->IENF,pinIrqFree);
+    } 
+    else if (type==GPIO_RISING_EDGE)
+    {
+        CLRBIT(LPC_GPIO_PIN_INT->ISEL,pinIrqFree);
+        SETBIT(LPC_GPIO_PIN_INT->IENR,pinIrqFree);
     }
-    
+/*    else if (type==GPIO_LOW_LEVEL)
+    {
+        SETBIT(LPC_GPIO_PIN_INT->ISEL,pinIrqFree);
+        SETBIT(LPC_GPIO_PIN_INT->IENR,pinIrqFree);
+        CLRBIT(LPC_GPIO_PIN_INT->IENF,pinIrqFree);
+    }
+    else if (type==GPIO_HIGH_LEVEL)
+    {
+        SETBIT(LPC_GPIO_PIN_INT->ISEL,pinIrqFree);
+        SETBIT(LPC_GPIO_PIN_INT->IENR,pinIrqFree);
+        SETBIT(LPC_GPIO_PIN_INT->IENF,pinIrqFree);
+    }
+*/    
     // save the user gpio pin
     pinIrq[pinIrqFree] = pin;
     
@@ -183,9 +190,17 @@ void disableGpioIrq(GPIO_PIN pin)
 {
     uint32_t irqIndex = getIndexFromGpio(pin);
     
-    SETBIT(LPC_GPIO_PIN_INT->CIENF, irqIndex);
-    SETBIT(LPC_GPIO_PIN_INT->CIENR, irqIndex);
-    
+    if ( ((LPC_GPIO_PIN_INT->ISEL >> irqIndex) & 0x1) == 0)
+    {
+        //edge
+        SETBIT(LPC_GPIO_PIN_INT->CIENF, irqIndex);
+        SETBIT(LPC_GPIO_PIN_INT->CIENR, irqIndex);
+    }
+    else
+    {
+        //level
+        SETBIT(LPC_GPIO_PIN_INT->CIENR, irqIndex);
+    }
 }
 
 

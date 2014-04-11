@@ -32,7 +32,7 @@ void uartTaskCode(uint32_t event)
 
 void gpioTaskCode(uint32_t event)
 {
-    printf("IRQ event: %x\r\n", event);
+    printf("IRQ event: %x\r\n", event);    
 }
 
 
@@ -104,6 +104,8 @@ int main(void)
     setTaskOnUart0(&uartTask);
     
     enableGpioIrqOnTask(&gpioTask, GPIO0_1, GPIO_BOTH_EDGE);
+    
+    sendByteToUart0('1');
     
     initTimer(&t100, MS_TO_US(1200), &t100Task);
     initTimer(&t150, SECOND_TO_US(1), &t150Task);
