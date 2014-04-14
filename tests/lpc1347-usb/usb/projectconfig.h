@@ -12,7 +12,8 @@
 extern "C" {
 #endif
 
-
+#include <libs-klipos.h>
+    
 #define CFG_MCU_FAMILY_LPC13UXX
 #define CFG_ENABLE_USB
     
@@ -25,6 +26,8 @@ extern "C" {
 #define CFG_USB_CDC
 #define CFG_USB
     
+#define ASSERT_MESSAGE(i,a,d)
+#define ASSERT(a,e)
     
 #ifdef	__cplusplus
 }

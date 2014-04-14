@@ -39,8 +39,6 @@
 /**************************************************************************/
 #include <string.h>
 #include "usbd.h"
-#include "core/fifo/fifo.h"
-#include "core/delay/delay.h"
 
 #ifdef CFG_USB_CDC
 
@@ -50,15 +48,14 @@ static USBD_HANDLE_T g_hCdc;
 static CDC_LINE_CODING line_coding;
 static bool isConnected = false;             /* ToDo: Consider work-around */
 
-#if defined CFG_MCU_FAMILY_LPC11UXX
-  FIFO_DEF(ff_cdc_tx, CDC_BUFFER_SIZE, uint8_t, false, USB_IRQn);
-  FIFO_DEF(ff_cdc_rx, CDC_BUFFER_SIZE, uint8_t, true , USB_IRQn);
-#elif defined CFG_MCU_FAMILY_LPC13UXX
-  FIFO_DEF(ff_cdc_tx, CDC_BUFFER_SIZE, uint8_t, false, USB_IRQ_IRQn);
-  FIFO_DEF(ff_cdc_rx, CDC_BUFFER_SIZE, uint8_t, true , USB_IRQ_IRQn);
-#else
-    #error __FILE__ No MCU defined
-#endif
+
+static uint8_t cdc_tx_buffer[CDC_BUFFER_SIZE];
+static uint8_t cdc_rx_buffer[CDC_BUFFER_SIZE];
+
+static KIOStream       cdc_rx;
+static KIOStream       cdc_tx;
+  
+
 
 void usb_cdc_recv_isr(void) ALIAS(usb_cdc_recv_isr_default);
 /**************************************************************************/
@@ -96,19 +93,9 @@ bool usb_cdc_isConnected(void)
 /**************************************************************************/
 bool usb_cdc_putc(uint8_t c)
 {
-  uint32_t start_time = delayGetSecondsActive();
-
-  while ( !fifo_write(&ff_cdc_tx, &c) ) /* TODO: blocking until fifo is available */
-  {
-    if(delayGetSecondsActive() - start_time > 2)
-    {
-      isConnected = false;
-      fifo_clear(&ff_cdc_tx);
-      return false;
-    }
-  }
-
-  return true;
+    writeByteToIOStream(&cdc_tx, c);
+  
+    return true;
 }
 
 /**************************************************************************/
@@ -143,7 +130,7 @@ bool usb_cdc_getc(uint8_t *c)
 {
   ASSERT(c, false); /* Make sure pointer isn't NULL */
 
-  return fifo_read(&ff_cdc_rx, c);
+  return readByteFromIOStream(&cdc_tx, c);
 }
 
 /**************************************************************************/
@@ -214,7 +201,15 @@ uint16_t usb_cdc_recv(uint8_t* buffer, uint16_t max)
 {
   ASSERT(buffer && max, 0);
 
-  return fifo_readArray(&ff_cdc_rx, buffer, max);
+  uint32_t n = readBufferFromIOStream(&cdc_rx, buffer, max);
+  
+  if (n==0)
+      return 0;
+  
+  if (n!= max)
+      return 0;
+  
+  return n;
 }
 
 // ROM driver bug: cannot hook this to CIC_GetRequest
@@ -258,9 +253,12 @@ ErrorCode_t CDC_BulkIn_Hdlr(USBD_HANDLE_T hUsb, void* data, uint32_t event)
     uint8_t buffer[CDC_DATA_EP_MAXPACKET_SIZE];
     uint16_t count;
 
-    count = fifo_readArray(&ff_cdc_tx, buffer, CDC_DATA_EP_MAXPACKET_SIZE);
-    USBD_API->hw->WriteEP(hUsb, CDC_DATA_EP_IN, buffer, count); // write data to EP
-
+    count = readBufferFromIOStream(&cdc_tx, buffer, CDC_DATA_EP_MAXPACKET_SIZE);
+    if (count == CDC_DATA_EP_MAXPACKET_SIZE)
+    {
+        USBD_API->hw->WriteEP(hUsb, CDC_DATA_EP_IN, buffer, count); // write data to EP
+    }
+    
     isConnected = true;
   }
 
@@ -282,7 +280,8 @@ ErrorCode_t CDC_BulkOut_Hdlr(USBD_HANDLE_T hUsb, void* data, uint32_t event)
     count = USBD_API->hw->ReadEP(hUsb, CDC_DATA_EP_OUT, buffer);
     for (i=0; i<count; i++)
     {
-      fifo_write(&ff_cdc_rx, buffer+i);
+        writeByteToIOStream(&cdc_rx, buffer[i]);
+      //fifo_write(&ff_cdc_rx, buffer+i);
     }
 
     isConnected = true;
@@ -317,6 +316,9 @@ ErrorCode_t usb_cdc_init(USBD_HANDLE_T hUsb, USB_INTERFACE_DESCRIPTOR const *con
     // .CDC_BulkOUT_Hdlr = CDC_BulkOut_Hdlr,
   };
 
+  initIOStream(&cdc_rx, cdc_rx_buffer, CDC_BUFFER_SIZE);
+  initIOStream(&cdc_tx, cdc_tx_buffer, CDC_BUFFER_SIZE);
+  
   ASSERT (pControlIntfDesc && pDataIntfDesc, ERR_FAILED);
 
   /* register Bulk IN & OUT endpoint interrupt handler */
@@ -348,8 +350,8 @@ ErrorCode_t usb_cdc_configured(USBD_HANDLE_T hUsb)
 
   isConnected = true;
 
-  fifo_clear(&ff_cdc_tx);
-  fifo_clear(&ff_cdc_rx);
+//  fifo_clear(&ff_cdc_tx);
+//  fifo_clear(&ff_cdc_rx);
 
   return LPC_OK;
 }

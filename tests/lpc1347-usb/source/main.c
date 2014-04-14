@@ -1,7 +1,8 @@
 
 #include <libs-klipos.h>
 
-#include "../usb/app_usbd_cfg.h"
+#include "../usb/usbd.h"
+#include "../usb/usb_cdc.h"
 
 #define LED     GPIO0_7
 #define BUTTON  GPIO0_1 
@@ -43,7 +44,14 @@ void ledTaskCode(uint32_t event)
 {
     toggleGpio(LED);
     
-
+    if (usb_isConfigured())
+    {
+      uint8_t cdc_char;
+      if( usb_cdc_getc(&cdc_char)==true )
+      {
+          usb_cdc_putc(cdc_char);
+      }
+    }
 }
 
 int main(void)
@@ -53,8 +61,6 @@ int main(void)
     setPrintfInterface(sendByteToUart0);
     
     setGpioDirection(LED, GPIO_OUT);
-    
-    usb_init();
     
     initSimpleKernel();
     
@@ -70,6 +76,7 @@ int main(void)
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     
+    usb_init();
     
     printf("USB Initialized !\r\n");
     

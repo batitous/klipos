@@ -42,7 +42,7 @@ extern "C" {
 
 #include "projectconfig.h"
 #include "romdriver/mw_usbd_rom_api.h"
-#include "../power_api.h"
+#include "power_api.h"
 #include "descriptors.h"
 
 #ifdef CFG_USB_HID
@@ -72,7 +72,7 @@ extern USBD_HANDLE_T g_hUsb;
         do{\
           ErrorCode_t status = (sts);\
           if (LPC_OK != status) {\
-            _PRINTF("Assert: '%s' at line %d: 0x%X %s%s", __func__, __LINE__, (uint32_t) status, message, CFG_PRINTF_NEWLINE);\
+            /*_PRINTF("Assert: '%s' at line %d: 0x%X %s%s", __func__, __LINE__, (uint32_t) status, message, CFG_PRINTF_NEWLINE);*/\
             return status;\
           }\
         }while(0)

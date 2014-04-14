@@ -46,13 +46,12 @@
 #include <string.h>
 
 #include "usbd.h"
-#include "core/iap/iap.h"
 
 #ifdef CFG_USB
 
 #define USB_ROM_SIZE (1024*2)
 
-volatile static bool isConfigured = false;
+static volatile bool isConfigured = false;
 
 
 uint8_t *usb_RomDriver_buffer = (uint8_t*)0x20004800;
@@ -142,10 +141,15 @@ ErrorCode_t usb_init(void)
     USB_StringDescriptor.strProduct[i] = CFG_USB_STRING_PRODUCT[i];
 
   /* Use the 128-bit chip ID for USB serial to make sure it's unique */
-  iapReadUID(uid);  /* 1st byte is LSB, 4th byte is MSB */
-  sprintf((char*)USB_StringDescriptor.strSerial , "%08X%08X%08X%08X", (unsigned int)uid[3], (unsigned int)uid[2], (unsigned int)uid[1], (unsigned int)uid[0]);
+//  iapReadUID(uid);  /* 1st byte is LSB, 4th byte is MSB */
+//  sprintf((char*)USB_StringDescriptor.strSerial , "%08X%08X%08X%08X", (unsigned int)uid[3], (unsigned int)uid[2], (unsigned int)uid[1], (unsigned int)uid[0]);
+  
+//  sprintf((char*)USB_StringDescriptor.strSerial , "%08X%08X%08X%08X", 1, 2, 3, 4);
+  
+  
   for (i = USB_STRING_SERIAL_LEN-1; i > 0; i--)
   {
+      USB_StringDescriptor.strSerial[0] = i;
     USB_StringDescriptor.strSerial[i] = ((uint8_t*)USB_StringDescriptor.strSerial)[i];
     ((uint8_t*)USB_StringDescriptor.strSerial)[i] = 0;
   }
@@ -220,7 +224,7 @@ ErrorCode_t usb_init(void)
   #if defined CFG_MCU_FAMILY_LPC11UXX
     NVIC_EnableIRQ(USB_IRQn);
   #elif defined CFG_MCU_FAMILY_LPC13UXX
-    NVIC_EnableIRQ(USB_IRQ_IRQn);
+    NVIC_EnableIRQ(USB_IRQn);
   #else
     #error "No MCU defined"
   #endif
