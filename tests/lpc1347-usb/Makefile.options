@@ -9,14 +9,14 @@ NAME = firmware
 DEFINE = -DSTACKSIZE=128
 
 # Project source files:
-SOURCE_PROJECT= main.c usb.c cdc_desc.c cdc_vcom.c
+SOURCE_PROJECT= main.c usbd.c
 
 
 # Include repertory : -I<repertory path>
-HEADER_PROJECT=-I./include/usbd_rom/inc -I./include
+HEADER_PROJECT=-I./include
 
 # Path to project source code
-SOURCE_PATH_PROJECT=./source
+SOURCE_PATH_PROJECT=./source ./usb
 
 # Path to Klipos project directory:
 KLIPOS_PATH=../../

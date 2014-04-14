@@ -5,6 +5,7 @@
     </df>
     <df root="." name="1">
       <df name="include">
+        <in>projectconfig.h</in>
         <in>usb.h</in>
       </df>
       <df name="source">
@@ -56,6 +57,8 @@
           </cTool>
         </makeTool>
       </makefileType>
+      <item path="include/projectconfig.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/usb.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="source/usb.c" ex="false" tool="0" flavor2="0">
