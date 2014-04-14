@@ -1,7 +1,8 @@
 
 #include <libs-klipos.h>
 
-
+#include "../include/app_usbd_cfg.h"
+#include "../include/cdc_vcom.h"
 
 extern void initUsbHardware(void);
 extern void initUsbStack(void);
@@ -41,6 +42,7 @@ void gpioTaskCode(uint32_t event)
 }
 
 bool usbConnected = false;
+int prompt = 0;
 
 void ledTaskCode(uint32_t event)
 {
@@ -50,8 +52,13 @@ void ledTaskCode(uint32_t event)
         usbConnected = true;
     }
     
-    toggleGpio(LED);
+//    toggleGpio(LED);
     
+    if ((vcom_connected() != 0) && (prompt == 0)) 
+    {
+        vcom_write("Hello World!!\r\n", 15);
+	prompt = 1;
+    }
 
 }
 
@@ -78,10 +85,6 @@ int main(void)
     initTimer(&ledTimer, MS_TO_US(500), &ledTask);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
-    
-    
-    
-    printf("USB Initialized !\r\n");
     
     while(1)
     {

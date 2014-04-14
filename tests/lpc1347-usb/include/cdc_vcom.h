@@ -44,12 +44,12 @@ extern "C"
  */
 
 #define VCOM_RX_BUF_SZ      512
-#define VCOM_TX_CONNECTED   _BIT(8)		/* connection state is for both RX/Tx */
-#define VCOM_TX_BUSY        _BIT(0)
-#define VCOM_RX_DONE        _BIT(0)
-#define VCOM_RX_BUF_FULL    _BIT(1)
-#define VCOM_RX_BUF_QUEUED  _BIT(2)
-#define VCOM_RX_DB_QUEUED   _BIT(3)
+#define VCOM_TX_CONNECTED   BIT(8)		/* connection state is for both RX/Tx */
+#define VCOM_TX_BUSY        BIT(0)
+#define VCOM_RX_DONE        BIT(0)
+#define VCOM_RX_BUF_FULL    BIT(1)
+#define VCOM_RX_BUF_QUEUED  BIT(2)
+#define VCOM_RX_DB_QUEUED   BIT(3)
 
 /**
  * Structure containing Virtual Comm port control data
@@ -104,7 +104,7 @@ uint32_t vcom_read_cnt(void);
  * @brief	Check if Vcom is connected
  * @return	Returns non-zero value if connected.
  */
-static INLINE uint32_t vcom_connected(void) {
+static __INLINE uint32_t vcom_connected(void) {
 	return g_vCOM.tx_flags & VCOM_TX_CONNECTED;
 }
 

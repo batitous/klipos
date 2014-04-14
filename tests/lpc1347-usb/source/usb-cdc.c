@@ -3,10 +3,9 @@
 
 #include "../include/app_usbd_cfg.h"
 #include "../usbrom/romapi_13xx.h"
-
+#include "../include/cdc_vcom.h"
 
 static USBD_HANDLE_T g_hUsb;
-static uint8_t g_rxBuff[256];
 const  USBD_API_T *g_pUsbApi;
 
 
@@ -62,7 +61,6 @@ void initUsbStack(void)
     USBD_API_INIT_PARAM_T usb_param;
     USB_CORE_DESCS_T desc;
     ErrorCode_t ret = LPC_OK;
-    uint32_t prompt = 0, rdCnt = 0;
 
     /* initialize USBD ROM API pointer. */
     g_pUsbApi = (const USBD_API_T *) LPC_ROM_API->usbdApiBase;
@@ -102,13 +100,14 @@ void initUsbStack(void)
 		    further components.
 		 */
         usb_param.mem_base = USB_STACK_MEM_BASE + (USB_STACK_MEM_SIZE - usb_param.mem_size);
-
+        
         /* Init VCOM interface */
-/*        ret = vcom_init(g_hUsb, &desc, &usb_param);
+        ret = vcom_init(g_hUsb, &desc, &usb_param);
         if (ret == LPC_OK) 
         {
-            NVIC_EnableIRQ(USB0_IRQn);
+            
+            NVIC_EnableIRQ(USB_IRQn);
             USBD_API->hw->Connect(g_hUsb, 1);
-        }*/
+        }
     }
 }

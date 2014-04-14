@@ -40,6 +40,8 @@ extern "C"
 {
 #endif
 
+#define DEBUGLED()      setGpioValue(GPIO0_7,1)
+    
 /** @ingroup EXAMPLES_USBDROM_11UXX_CDC
  * @{
  */
