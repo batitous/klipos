@@ -52,7 +52,7 @@ void ledTaskCode(uint32_t event)
         usbConnected = true;
     }
     
-//    toggleGpio(LED);
+    toggleGpio(LED);
     
     if ((vcom_connected() != 0) && (prompt == 0)) 
     {

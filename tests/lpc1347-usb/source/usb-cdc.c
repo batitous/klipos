@@ -68,6 +68,7 @@ void initUsbStack(void)
     /* initialize call back structures */
     memset((void *) &usb_param, 0, sizeof(USBD_API_INIT_PARAM_T));
     usb_param.usb_reg_base = LPC_USB_BASE;
+    
     /*	WORKAROUND for artf44835 ROM driver BUG:
         Code clearing STALL bits in endpoint reset routine corrupts memory area
         next to the endpoint control data. For example When EP0, EP1_IN, EP1_OUT,
@@ -100,12 +101,14 @@ void initUsbStack(void)
 		    further components.
 		 */
         usb_param.mem_base = USB_STACK_MEM_BASE + (USB_STACK_MEM_SIZE - usb_param.mem_size);
+  
+//        usb_param.mem_base = USB_STACK_MEM_BASE + 0x500;
+//        usb_param.mem_size = 0x200;
         
         /* Init VCOM interface */
         ret = vcom_init(g_hUsb, &desc, &usb_param);
         if (ret == LPC_OK) 
         {
-            
             NVIC_EnableIRQ(USB_IRQn);
             USBD_API->hw->Connect(g_hUsb, 1);
         }

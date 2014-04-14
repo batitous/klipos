@@ -57,7 +57,7 @@ kernel-full-debug = no
 #### compiler defines ####
 
 # compiler optimization:
-OPTIMIZE=-O1
+OPTIMIZE=-Os
 
 #compiler options (CFLAGS):
 COMPILER_OPTION	=$(OPTIMIZE)
