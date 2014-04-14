@@ -42,6 +42,12 @@ bool usbConnected = false;
 
 void ledTaskCode(uint32_t event)
 {
+    if (usbConnected == false)
+    {
+        usb_init();
+        usbConnected = true;
+    }
+    
     toggleGpio(LED);
     
     if (usb_isConfigured())
@@ -76,7 +82,7 @@ int main(void)
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     
-    usb_init();
+    
     
     printf("USB Initialized !\r\n");
     

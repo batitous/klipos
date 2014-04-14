@@ -17,8 +17,6 @@ extern "C" {
 #define CFG_MCU_FAMILY_LPC13UXX
 #define CFG_ENABLE_USB
     
-#define CFG_PRINTF_USBCDC
-
 #define CFG_USB_STRING_MANUFACTURER       "microBuilder.eu"
 #define CFG_USB_STRING_PRODUCT            "LPC1347 LPCXpresso"
 #define CFG_USB_VENDORID                  (0x1FC9)
@@ -29,6 +27,8 @@ extern "C" {
 #define ASSERT_MESSAGE(i,a,d)
 #define ASSERT(a,e)
     
+#define LED_DBG       setGpioValue(GPIO0_7, 1);
+
 #ifdef	__cplusplus
 }
 #endif

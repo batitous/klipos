@@ -54,7 +54,8 @@
 static volatile bool isConfigured = false;
 
 
-uint8_t *usb_RomDriver_buffer = (uint8_t*)0x20004800;
+//uint8_t *usb_RomDriver_buffer = (uint8_t*)0x20004000;
+uint8_t usb_RomDriver_buffer[USB_ROM_SIZE] __attribute__((section("USB_RAM")));
 
 USBD_HANDLE_T g_hUsb;
 
@@ -120,19 +121,36 @@ ErrorCode_t USB_Reset_Event (USBD_HANDLE_T hUsb)
 ErrorCode_t usb_init(void)
 {
   uint32_t i;
-  uint32_t uid[4];
 
   /* HARDWARE INIT */
-
+  SETBIT(LPC_IOCON->PIO0_3, 0);
+  SETBIT(LPC_IOCON->PIO0_6, 0);
+    
+  // power on usb and usb ram
+  SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,14);
+  SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,27);
+    
+  // power up usb PHY and PLL
+  CLRBIT(LPC_SYSCON->PDRUNCFG,10);
+  CLRBIT(LPC_SYSCON->PDRUNCFG,8);
+    
+  LPC_SYSCON->USBPLLCLKSEL  = 1; // select system osc  
+  LPC_SYSCON->USBPLLCTRL = 0x23; //(3 & 0x1F) | ((1 & 0x3) << 5);
+    
+  while (!(LPC_SYSCON->USBPLLSTAT & 0x01));     // Wait Until PLL Locked
+    
+  LPC_SYSCON->USBCLKSEL     = 0; // select usb pll out
+  LPC_SYSCON->USBCLKDIV     = 1; 
+    
   /* Enable AHB clock to the USB block and USB RAM. */
-  LPC_SYSCON->SYSAHBCLKCTRL |= ((0x1<<14) | (0x1<<27));
+//  LPC_SYSCON->SYSAHBCLKCTRL |= ((0x1<<14) | (0x1<<27));
 
   /* Pull-down is needed, or internally, VBUS will be floating. This is to
   address the wrong status in VBUSDebouncing bit in CmdStatus register.  */
-  LPC_IOCON->PIO0_3   &= ~0x1F;
-  LPC_IOCON->PIO0_3   |= (0x01<<0);            /* Secondary function VBUS */
-  LPC_IOCON->PIO0_6   &= ~0x07;
-  LPC_IOCON->PIO0_6   |= (0x01<<0);            /* Secondary function SoftConn */
+//  LPC_IOCON->PIO0_3   &= ~0x1F;
+//  LPC_IOCON->PIO0_3   |= (0x01<<0);            /* Secondary function VBUS */
+//  LPC_IOCON->PIO0_6   &= ~0x07;
+//  LPC_IOCON->PIO0_6   |= (0x01<<0);            /* Secondary function SoftConn */
 
   for (i=0; i < strlen(CFG_USB_STRING_MANUFACTURER); i++)
     USB_StringDescriptor.strManufacturer[i] = CFG_USB_STRING_MANUFACTURER[i];
@@ -146,10 +164,10 @@ ErrorCode_t usb_init(void)
   
 //  sprintf((char*)USB_StringDescriptor.strSerial , "%08X%08X%08X%08X", 1, 2, 3, 4);
   
+  memcpy((char *)USB_StringDescriptor.strSerial,(char *)"8070605040302010",16 );  
   
   for (i = USB_STRING_SERIAL_LEN-1; i > 0; i--)
   {
-      USB_StringDescriptor.strSerial[0] = i;
     USB_StringDescriptor.strSerial[i] = ((uint8_t*)USB_StringDescriptor.strSerial)[i];
     ((uint8_t*)USB_StringDescriptor.strSerial)[i] = 0;
   }
@@ -181,6 +199,8 @@ ErrorCode_t usb_init(void)
   /* Start USB hardware initialisation */
   ASSERT_USB_STATUS(USBD_API->hw->Init(&g_hUsb, &DeviceDes, &usb_param));
 
+  LED_DBG
+          
   membase += (memsize - usb_param.mem_size);
   memsize = usb_param.mem_size;
 
