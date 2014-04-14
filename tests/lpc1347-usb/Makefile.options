@@ -9,11 +9,11 @@ NAME = firmware
 DEFINE = -DSTACKSIZE=256
 
 # Project source files:
-SOURCE_PROJECT= main.c usbd.c descriptors.c usb_cdc.c
+SOURCE_PROJECT= main.c usb-hardware.c
 
 
 # Include repertory : -I<repertory path>
-HEADER_PROJECT=-I./include
+HEADER_PROJECT=-I./include -I./usbrom
 
 # Path to project source code
 SOURCE_PATH_PROJECT=./source ./usb

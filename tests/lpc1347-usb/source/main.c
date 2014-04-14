@@ -1,8 +1,9 @@
 
 #include <libs-klipos.h>
 
-#include "../usb/usbd.h"
-#include "../usb/usb_cdc.h"
+
+
+extern void initUsbHardware(void);
 
 #define LED     GPIO0_7
 #define BUTTON  GPIO0_1 
@@ -67,6 +68,8 @@ int main(void)
     setPrintfInterface(sendByteToUart0);
     
     setGpioDirection(LED, GPIO_OUT);
+
+    initUsbHardware();
     
     initSimpleKernel();
     

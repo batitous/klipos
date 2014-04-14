@@ -4,6 +4,10 @@
     <df root="../../klipos" name="0">
     </df>
     <df root="." name="1">
+      <df name="source">
+        <in>usb-cdc.c</in>
+        <in>usb-hardware.c</in>
+      </df>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -50,6 +54,10 @@
           </cTool>
         </makeTool>
       </makefileType>
+      <item path="source/usb-cdc.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="source/usb-hardware.c" ex="false" tool="0" flavor2="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>
