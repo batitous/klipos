@@ -4,6 +4,7 @@
 
 
 extern void initUsbHardware(void);
+extern void initUsbStack(void);
 
 #define LED     GPIO0_7
 #define BUTTON  GPIO0_1 
@@ -45,20 +46,13 @@ void ledTaskCode(uint32_t event)
 {
     if (usbConnected == false)
     {
-        usb_init();
+        initUsbStack();
         usbConnected = true;
     }
     
     toggleGpio(LED);
     
-    if (usb_isConfigured())
-    {
-      uint8_t cdc_char;
-      if( usb_cdc_getc(&cdc_char)==true )
-      {
-          usb_cdc_putc(cdc_char);
-      }
-    }
+
 }
 
 int main(void)

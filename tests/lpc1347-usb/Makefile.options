@@ -9,7 +9,7 @@ NAME = firmware
 DEFINE = -DSTACKSIZE=256
 
 # Project source files:
-SOURCE_PROJECT= main.c usb-hardware.c
+SOURCE_PROJECT= main.c usb-hardware.c usb-cdc.c cdc_desc.c
 
 
 # Include repertory : -I<repertory path>
