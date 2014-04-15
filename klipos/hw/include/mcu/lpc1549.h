@@ -25,6 +25,11 @@
 #ifndef __LPC1549_H__
 #define __LPC1549_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+    
 /*
  * ==========================================================================
  * ---------- Interrupt Number Definition -----------------------------------
@@ -111,645 +116,616 @@ typedef enum IRQn {
  * ==========================================================================
  */
 
-/* Configuration of the Cortex-M3 Processor and Core Peripherals */
-#define __MPU_PRESENT             1         /*!< MPU present or not                               */
-#define __NVIC_PRIO_BITS          3         /*!< Number of Bits used for Priority Levels          */
-#define __Vendor_SysTickConfig    0         /*!< Set to 1 if different SysTick Config is used     */
+/** @defgroup CMSIS_15XX_COMMON CHIP: LPC15xx Cortex CMSIS definitions
+ * @{
+ */
 
+#define __CM3_REV               0x0201		/*!< Cortex-M3 Core Revision                          */
+#define __MPU_PRESENT             0			/*!< MPU present or not                    */
+#define __NVIC_PRIO_BITS          3			/*!< Number of Bits used for Priority Levels */
+#define __Vendor_SysTickConfig    0			/*!< Set to 1 if different SysTick Config is used */
+#define __FPU_PRESENT             0			/*!< FPU present or not                    */
 
-#include "../core/core_cm3.h"                       /* Cortex-M3 processor and core peripherals           */
-//#include "system_LPC13xx.h"                 /* System Header                                      */
+/**
+ * @}
+ */
 
+#include "../core/core_cm3.h"
 
 /******************************************************************************/
 /*                Device Specific Peripheral registers structures             */
 /******************************************************************************/
 
-#if defined ( __CC_ARM   )
-#pragma anon_unions
+#if defined(__ARMCC_VERSION)
+// Kill warning "#pragma push with no matching #pragma pop"
+  #pragma diag_suppress 2525
+  #pragma push
+  #pragma anon_unions
+#elif defined(__CWCC__)
+  #pragma push
+  #pragma cpp_extensions on
+#elif defined(__GNUC__)
+/* anonymous unions are enabled by default */
+#elif defined(__IAR_SYSTEMS_ICC__)
+//  #pragma push // FIXME not usable for IAR
+  #pragma language=extended
+#else
+  #error Not supported compiler type
 #endif
 
-typedef struct {
-	__IO uint32_t  STARTAPR;		/*!< Start logic edge control register */
-	__IO uint32_t  STARTER;			/*!< Start logic signal enable register */
-	__IO uint32_t  STARTRSRCLR;		/*!< Start logic reset register */
-	__IO uint32_t  STARTSR;			/*!< Start logic status register */
-} LPC_SYSCTL_STARTST_T;
+#include "lpc15xx/romapi_15xx.h"
 
-/*------------- System Control (SYSCON) --------------------------------------*/
-typedef struct {			/*!< SYSCTL Structure */
+/**
+ * @brief LPC15XX System Control block structure
+ */
+typedef struct {					/*!< SYSCTL Structure */
 	__IO uint32_t  SYSMEMREMAP;		/*!< System Memory remap register */
-	__IO uint32_t  PRESETCTRL;		/*!< Peripheral reset Control register */
+	__I  uint32_t  RESERVED0[2];
+	__IO uint32_t  AHBBUFEN0;		
+	__IO uint32_t  AHBBUFEN1;		
+	__IO uint32_t  SYSTCKCAL;		/*!< System tick counter calibration register */
+	__I  uint32_t  RESERVED1[1];
+	__IO uint32_t  NMISRC;			/*!< NMI source control register */
+	__I  uint32_t  RESERVED2[8];
+	__IO uint32_t  SYSRSTSTAT;		/*!< System Reset Status register */
+	__IO uint32_t  PRESETCTRL[2];	/*!< Peripheral reset Control registers */
+	__I  uint32_t  PIOPORCAP[3];	/*!< POR captured PIO status registers */
+	__I  uint32_t  RESERVED3[10];
+	__IO uint32_t  MAINCLKSELA;		/*!< Main clock source A select register */
+	__IO uint32_t  MAINCLKSELB;		/*!< Main clock source B select register */
+	__IO uint32_t  USBCLKSEL;		/*!< USB clock source select register */
+	__IO uint32_t  ADCASYNCCLKSEL;	/*!< ADC asynchronous clock source select register */
+	__I  uint32_t  RESERVED4[1];
+	__IO uint32_t  CLKOUTSEL[2];	/*!< Clock out source select registers */
+	__I  uint32_t  RESERVED5[1];
+	__IO uint32_t  SYSPLLCLKSEL;	/*!< System PLL clock source select register */
+	__IO uint32_t  USBPLLCLKSEL;	/*!< USB PLL clock source select register */
+	__IO uint32_t  SCTPLLCLKSEL;	/*!< SCT PLL clock source select register */
+	__I  uint32_t  RESERVED6[5];
+	__IO uint32_t  SYSAHBCLKDIV;	/*!< System Clock divider register */
+	__IO uint32_t  SYSAHBCLKCTRL[2];/*!< System clock control registers */
+	__IO uint32_t  SYSTICKCLKDIV;	/*!< SYSTICK clock divider */
+	__IO uint32_t  UARTCLKDIV;		/*!< UART clock divider register */
+	__IO uint32_t  IOCONCLKDIV;		/*!< programmable glitch filter divider registers for IOCON */
+	__IO uint32_t  TRACECLKDIV;		/*!< ARM trace clock divider register */
+	__I  uint32_t  RESERVED7[4];
+	__IO uint32_t  USBCLKDIV;		/*!< USB clock source divider register */
+	__IO uint32_t  ADCASYNCCLKDIV;	/*!< Asynchronous ADC clock divider */
+	__I  uint32_t  RESERVED8[1];
+	__IO uint32_t  CLKOUTDIV;		/*!< Clock out divider register */
+	__I  uint32_t  RESERVED9[9];
+	__IO uint32_t  FREQMECTRL;		/*!< Frequency measure register */
+	__IO uint32_t  FLASHCFG;		/*!< Flash configuration register */
+	__IO uint32_t  FRGCTRL;			/*!< USART fractional baud rate generator control register */
+	__IO uint32_t  USBCLKCTRL;		/*!< USB clock control register */
+	__I  uint32_t  USBCLKST;		/*!< USB clock status register */
+	__I  uint32_t  RESERVED10[19];
+	__IO uint32_t  BODCTRL;			/*!< Brown Out Detect register */
+	__I  uint32_t  IRCCTRL;			
+	__IO uint32_t  SYSOSCCTRL;		/*!< System Oscillator control register */
+	__I  uint32_t  RESERVED11[1];
+	__IO uint32_t  RTCOSCCTRL;		/*!< RTC Oscillator control register */
+	__I  uint32_t  RESERVED12[1];
 	__IO uint32_t  SYSPLLCTRL;		/*!< System PLL control register */
 	__I  uint32_t  SYSPLLSTAT;		/*!< System PLL status register */
-	__IO uint32_t  USBPLLCTRL;		/*!< USB PLL control register, LPC134x only */
-	__I  uint32_t  USBPLLSTAT;		/*!< USB PLL status register, LPC134x only */
-	__I  uint32_t  RESERVED1[2];
-	__IO uint32_t  SYSOSCCTRL;		/*!< System Oscillator control register */
-	__IO uint32_t  WDTOSCCTRL;		/*!< Watchdog Oscillator control register */
-#if defined(MCU_IS_LPC1315)
-	__I  uint32_t  RESERVED2[2];
-#else
-	__IO uint32_t  IRCCTRL;			/*!< IRC control register */
-	__I  uint32_t  RESERVED2[1];
-#endif
-
-	__IO uint32_t  SYSRSTSTAT;		/*!< System Reset Status register           */
-	__I  uint32_t  RESERVED3[3];
-	__IO uint32_t  SYSPLLCLKSEL;	/*!< System PLL clock source select register */
-#if defined(MCU_IS_LPC1315)
-	__I  uint32_t  RESERVED4;
-#else
-	__IO uint32_t  SYSPLLCLKUEN;	/*!< System PLL clock source update enable register*/
-#endif
-	__IO uint32_t  USBPLLCLKSEL;	/*!< USB PLL clock source select register, LPC134x only */
-#if defined(MCU_IS_LPC1315)
-	__I  uint32_t  RESERVED4A[1];
-#else
-	__IO uint32_t  USBPLLCLKUEN;	/*!< USB PLL clock source update enable register, LPC1342/43 only */
-#endif
-	__I  uint32_t  RESERVED5[8];
-	__IO uint32_t  MAINCLKSEL;		/*!< Main clock source select register		*/
-#if defined(MCU_IS_LPC1315)
-	__IO uint32_t  RESERVED6;
-#else
-	__IO uint32_t  MAINCLKUEN;		/*!< Main clock source update enable register	*/
-#endif
-	__IO uint32_t  SYSAHBCLKDIV;	/*!< System Clock divider register */
-	__I  uint32_t  RESERVED6A;
-	__IO uint32_t  SYSAHBCLKCTRL;	/*!< System Clock control register */
-	__I  uint32_t  RESERVED7[4];
-	__IO uint32_t  SSP0CLKDIV;		/*!< SSP0 clock divider register   */
-	__IO uint32_t  USARTCLKDIV;		/*!< UART clock divider register   */
-	__IO uint32_t  SSP1CLKDIV;		/*!< SSP1 clock divider register */
-	__I  uint32_t  RESERVED8[3];
-	__IO uint32_t  TRACECLKDIV;		/*!< ARM trace clock divider register */
-	__IO uint32_t  SYSTICKCLKDIV;	/*!< SYSTICK clock divider register */
-	__I  uint32_t  RESERVED9[3];
-	__IO uint32_t  USBCLKSEL;		/*!< USB clock source select register, LPC134x only */
-#if defined(MCU_IS_LPC1315)
-	__I  uint32_t  RESERVED10;
-#else
-	__IO uint32_t  USBCLKUEN;		/*!< USB clock source update enable register, LPC1342/43 only */
-#endif
-	__IO uint32_t  USBCLKDIV;		/*!< USB clock source divider register, LPC134x only */
-#if defined(MCU_IS_LPC1315)
-	__I  uint32_t  RESERVED11[4];
-#else
-	__I  uint32_t  RESERVED11;
-	__IO uint32_t  WDTCLKSEL;		/*!< WDT clock source select register, some parts only */
-	__IO uint32_t  WDTCLKUEN;		/*!< WDT clock source update enable register, some parts only */
-	__IO uint32_t  WDTCLKDIV;		/*!< WDT clock divider register, some parts only */
-#endif
-	__I  uint32_t  RESERVED13;
-	__IO uint32_t  CLKOUTSEL;		/*!< Clock out source select register */
-#if defined(MCU_IS_LPC1315)
-	__I  uint32_t  RESERVED12;
-#else
-	__IO uint32_t  CLKOUTUEN;		/*!< Clock out source update enable register, not on LPC1311/13/42/43 only */
-#endif
-	__IO uint32_t  CLKOUTDIV;		/*!< Clock out divider register */
-	__I  uint32_t  RESERVED14[5];
-	__I  uint32_t  PIOPORCAP[2];	/*!< POR captured PIO status registers */
-	__I  uint32_t  RESERVED15[18];
-	__IO uint32_t  BODCTRL;			/*!< Brown Out Detect register */
-	__IO uint32_t  SYSTCKCAL;		/*!< System tick counter calibration register */
-#if defined(MCU_IS_LPC1315)
-	__I  uint32_t  RESERVED16[6];
-	__IO uint32_t  IRQLATENCY;		/*!< IRQ delay register */
-	__IO uint32_t  NMISRC;			/*!< NMI source control register,some parts only */
-	__IO uint32_t  PINTSEL[8];		/*!< GPIO pin interrupt select register 0-7 */
-	__IO uint32_t  USBCLKCTRL;		/*!< USB clock control register, LPC134x only */
-	__I  uint32_t  USBCLKST;		/*!< USB clock status register, LPC134x only */
-	__I  uint32_t  RESERVED17[25];
-	__IO uint32_t  STARTERP0;		/*!< Start logic 0 interrupt wake-up enable register */
-	__I  uint32_t  RESERVED18[3];
-	__IO uint32_t  STARTERP1;		/*!< Start logic 1 interrupt wake-up enable register */
-	__I  uint32_t  RESERVED19[6];
-#else
-	__I  uint32_t  RESERVED16[42];
-	LPC_SYSCTL_STARTST_T STARTLOGIC[2];
-	__I  uint32_t  RESERVED17[4];
-#endif
-	__IO uint32_t  PDSLEEPCFG;		/*!< Power down states in deep sleep mode register */
+	__IO uint32_t  USBPLLCTRL;		/*!< USB PLL control register */
+	__I  uint32_t  USBPLLSTAT;		/*!< USB PLL status register */
+	__IO uint32_t  SCTPLLCTRL;		/*!< SCT PLL control register */
+	__I  uint32_t  SCTPLLSTAT;		/*!< SCT PLL status register */
+	__I  uint32_t  RESERVED13[21];
 	__IO uint32_t  PDWAKECFG;		/*!< Power down states in wake up from deep sleep register */
 	__IO uint32_t  PDRUNCFG;		/*!< Power configuration register*/
-	__I  uint32_t  RESERVED20[110];
-	__I  uint32_t  DEVICEID;		/*!< Device ID register */
-} LPC_SYSCON_TypeDef;
+	__I  uint32_t  RESERVED14[3];
+	__IO uint32_t  STARTERP[2];		/*!< Start logic interrupt wake-up enable registers */
+	__I  uint32_t  RESERVED15[117];
+	__I  uint32_t  JTAG_IDCODE;		/*!< JTAG ID code register */
+	__I  uint32_t  DEVICEID[2];		/*!< Device ID registers */
+} LPC_SYSCTL_T;
 
 
-/*------------- Pin Connect Block (IOCON) --------------------------------*/
-#if defined(MCU_IS_LPC1315)
-
-typedef struct {                            /*!< (@ 0x40044000) IOCONFIG Structure     */
-  __IO uint32_t RESET_PIO0_0;               /*!< (@ 0x40044000) I/O configuration for pin RESET/PIO0_0 */
-  __IO uint32_t PIO0_1;                     /*!< (@ 0x40044004) I/O configuration for pin PIO0_1/CLKOUT/CT32B0_MAT2/USB_FTOGGLE */
-  __IO uint32_t PIO0_2;                     /*!< (@ 0x40044008) I/O configuration for pin PIO0_2/SSEL0/CT16B0_CAP0 */
-  __IO uint32_t PIO0_3;                     /*!< (@ 0x4004400C) I/O configuration for pin PIO0_3/USB_VBUS */
-  __IO uint32_t PIO0_4;                     /*!< (@ 0x40044010) I/O configuration for pin PIO0_4/SCL */
-  __IO uint32_t PIO0_5;                     /*!< (@ 0x40044014) I/O configuration for pin PIO0_5/SDA */
-  __IO uint32_t PIO0_6;                     /*!< (@ 0x40044018) I/O configuration for pin PIO0_6/USB_CONNECT/SCK0 */
-  __IO uint32_t PIO0_7;                     /*!< (@ 0x4004401C) I/O configuration for pin PIO0_7/CTS */
-  __IO uint32_t PIO0_8;                     /*!< (@ 0x40044020) I/O configuration for pin PIO0_8/MISO0/CT16B0_MAT0 */
-  __IO uint32_t PIO0_9;                     /*!< (@ 0x40044024) I/O configuration for pin PIO0_9/MOSI0/CT16B0_MAT1 */
-  __IO uint32_t SWCLK_PIO0_10;              /*!< (@ 0x40044028) I/O configuration for pin SWCLK/PIO0_10/ SCK0/CT16B0_MAT2 */
-  __IO uint32_t TDI_PIO0_11;                /*!< (@ 0x4004402C) I/O configuration for pin TDI/PIO0_11/AD0/CT32B0_MAT3 */
-  __IO uint32_t TMS_PIO0_12;                /*!< (@ 0x40044030) I/O configuration for pin TMS/PIO0_12/AD1/CT32B1_CAP0 */
-  __IO uint32_t TDO_PIO0_13;                /*!< (@ 0x40044034) I/O configuration for pin TDO/PIO0_13/AD2/CT32B1_MAT0 */
-  __IO uint32_t TRST_PIO0_14;               /*!< (@ 0x40044038) I/O configuration for pin TRST/PIO0_14/AD3/CT32B1_MAT1 */
-  __IO uint32_t SWDIO_PIO0_15;              /*!< (@ 0x4004403C) I/O configuration for pin SWDIO/PIO0_15/AD4/CT32B1_MAT2 */
-  __IO uint32_t PIO0_16;                    /*!< (@ 0x40044040) I/O configuration for pin PIO0_16/AD5/CT32B1_MAT3/ WAKEUP */
-  __IO uint32_t PIO0_17;                    /*!< (@ 0x40044044) I/O configuration for pin PIO0_17/RTS/CT32B0_CAP0/SCLK */
-  __IO uint32_t PIO0_18;                    /*!< (@ 0x40044048) I/O configuration for pin PIO0_18/RXD/CT32B0_MAT0 */
-  __IO uint32_t PIO0_19;                    /*!< (@ 0x4004404C) I/O configuration for pin PIO0_19/TXD/CT32B0_MAT1 */
-  __IO uint32_t PIO0_20;                    /*!< (@ 0x40044050) I/O configuration for pin PIO0_20/CT16B1_CAP0 */
-  __IO uint32_t PIO0_21;                    /*!< (@ 0x40044054) I/O configuration for pin PIO0_21/CT16B1_MAT0/MOSI1 */
-  __IO uint32_t PIO0_22;                    /*!< (@ 0x40044058) I/O configuration for pin PIO0_22/AD6/CT16B1_MAT1/MISO1 */
-  __IO uint32_t PIO0_23;                    /*!< (@ 0x4004405C) I/O configuration for pin PIO0_23/AD7 */
-  __IO uint32_t PIO1_0;                 /*!< Offset: 0x060 */
-  __IO uint32_t PIO1_1;         
-  __IO uint32_t PIO1_2;       
-  __IO uint32_t PIO1_3;      
-  __IO uint32_t PIO1_4;                 /*!< Offset: 0x070 */
-  __IO uint32_t PIO1_5;                     /*!< (@ 0x40044074) I/O configuration for pin PIO1_5/CT32B1_CAP1 */
-  uint32_t RESERVED0[1];
-  __IO uint32_t PIO1_6;     
-  __IO uint32_t PIO1_7;       
-  __IO uint32_t PIO1_8;                 /*!< Offset: 0x080 */
-  uint32_t RESERVED1[1];
-  __IO uint32_t PIO1_9;        
-  __IO uint32_t PIO1_10;        
-  __IO uint32_t PIO1_11;
-  uint32_t RESERVED3[1];
-  __IO uint32_t PIO1_12;                /*!< Offset: 0x090 */
-  __IO uint32_t PIO1_13;                    /*!< (@ 0x40044094) I/O configuration for pin PIO1_13/DTR/CT16B0_MAT0/TXD */
-  __IO uint32_t PIO1_14;                    /*!< (@ 0x40044098) I/O configuration for pin PIO1_14/DSR/CT16B0_MAT1/RXD */
-  __IO uint32_t PIO1_15;                    /*!< (@ 0x4004409C) I/O configuration for pin PIO1_15/DCD/ CT16B0_MAT2/SCK1 */
-  __IO uint32_t PIO1_16;                    /*!< (@ 0x400440A0) I/O configuration for pin PIO1_16/RI/CT16B0_CAP0 */
-  __IO uint32_t PIO1_17;
-  __IO uint32_t PIO1_18;
-  __IO uint32_t PIO1_19;                    /*!< (@ 0x400440AC) I/O configuration for pin PIO1_19/DTR/SSEL1 */
-  __IO uint32_t PIO1_20;                    /*!< (@ 0x400440B0) I/O configuration for pin PIO1_20/DSR/SCK1 */
-  __IO uint32_t PIO1_21;                    /*!< (@ 0x400440B4) I/O configuration for pin PIO1_21/DCD/MISO1 */
-  __IO uint32_t PIO1_22;                    /*!< (@ 0x400440B8) I/O configuration for pin PIO1_22/RI/MOSI1 */
-  __IO uint32_t PIO1_23;                    /*!< (@ 0x400440BC) I/O configuration for pin PIO1_23/CT16B1_MAT1/SSEL1 */
-  __IO uint32_t PIO1_24;                    /*!< (@ 0x400440C0) I/O configuration for pin PIO1_24/ CT32B0_MAT0 */
-  __IO uint32_t PIO1_25;                    /*!< (@ 0x400440C4) I/O configuration for pin PIO1_25/CT32B0_MAT1 */
-  __IO uint32_t PIO1_26;                    /*!< (@ 0x400440C8) I/O configuration for pin PIO1_26/CT32B0_MAT2/ RXD */
-  __IO uint32_t PIO1_27;                    /*!< (@ 0x400440CC) I/O configuration for pin PIO1_27/CT32B0_MAT3/ TXD */
-  __IO uint32_t PIO1_28;                    /*!< (@ 0x400440D0) I/O configuration for pin PIO1_28/CT32B0_CAP0/ SCLK */
-  __IO uint32_t PIO1_29;                    /*!< (@ 0x400440D4) I/O configuration for pin PIO1_29/SCK0/ CT32B0_CAP1 */
-  uint32_t RESERVED4[1];
-  __IO uint32_t PIO1_30;
-  __IO uint32_t PIO1_31;                    /*!< (@ 0x400440DC) I/O configuration for pin PIO1_31 */
-} LPC_IOCON_TypeDef;
-
-#else 
-
-typedef struct
-{
-  __IO uint32_t PIO2_6;
-       uint32_t RESERVED0[1];
-  __IO uint32_t PIO2_0;
-  __IO uint32_t RESET_PIO0_0;
-  __IO uint32_t PIO0_1;
-  __IO uint32_t PIO1_8;
-       uint32_t RESERVED1[1];
-  __IO uint32_t PIO0_2;
-
-  __IO uint32_t PIO2_7;
-  __IO uint32_t PIO2_8;
-  __IO uint32_t PIO2_1;
-  __IO uint32_t PIO0_3;
-  __IO uint32_t PIO0_4;
-  __IO uint32_t PIO0_5;
-  __IO uint32_t PIO1_9;
-  __IO uint32_t PIO3_4;
-
-  __IO uint32_t PIO2_4;
-  __IO uint32_t PIO2_5;
-  __IO uint32_t PIO3_5;
-  __IO uint32_t PIO0_6;
-  __IO uint32_t PIO0_7;
-  __IO uint32_t PIO2_9;
-  __IO uint32_t PIO2_10;
-  __IO uint32_t PIO2_2;
-
-  __IO uint32_t PIO0_8;
-  __IO uint32_t PIO0_9;
-  union {
-	  // SWCLK_PIO0_10 preferred name rather than original JTAG_TCK_PIO0_10
-	  __IO uint32_t SWCLK_PIO0_10;
-	  __IO uint32_t JTAG_TCK_PIO0_10;
-  };
-  __IO uint32_t PIO1_10;
-  __IO uint32_t PIO2_11;
-  union {
-	  // R_PIO0_11 preferred name rather than original JTAG_TDI_PIO0_11
-	  __IO uint32_t R_PIO0_11;
-	  __IO uint32_t JTAG_TDI_PIO0_11;
-  };
-  union {
-	  // R_PIO1_0 preferred name rather than original JTAG_TMS_PIO1_0
-	  __IO uint32_t R_PIO1_0;
-	  __IO uint32_t JTAG_TMS_PIO1_0;
-  };
-  union {
-	  // R_PIO1_1 preferred name rather than original JTAG_TDO_PIO1_1
-	  __IO uint32_t R_PIO1_1;
-	  __IO uint32_t JTAG_TDO_PIO1_1;
-  };
-
-  union {
-	  // R_PIO1_2 preferred name rather than original JTAG_nTRST_PIO1_2
-	  __IO uint32_t R_PIO1_2;
-	  __IO uint32_t JTAG_nTRST_PIO1_2;
-  };
-  __IO uint32_t PIO3_0;
-  __IO uint32_t PIO3_1;
-  __IO uint32_t PIO2_3;
-  union {
-	  // SWDIO_PIO1_3 preferred name rather than original ARM_SWDIO_PIO1_3
-	  __IO uint32_t SWDIO_PIO1_3;
-	  __IO uint32_t ARM_SWDIO_PIO1_3;
-  };
-
-  __IO uint32_t PIO1_4;
-  __IO uint32_t PIO1_11;
-  __IO uint32_t PIO3_2;
-
-  __IO uint32_t PIO1_5;
-  __IO uint32_t PIO1_6;
-  __IO uint32_t PIO1_7;
-  __IO uint32_t PIO3_3;
-  union {
-	  // SCK_LOC preferred name rather than original SCKLOC
-	  __IO uint32_t SCK_LOC;                /*!< Offset: 0x0B0 SCK pin location select Register (R/W) */
-	  __IO uint32_t SCKLOC;
-  };
-  __IO uint32_t DSR_LOC;                /*!< Offset: 0x0B4 DSR pin location select Register (R/W) */
-  __IO uint32_t DCD_LOC;                /*!< Offset: 0x0B8 DCD pin location select Register (R/W) */
-  __IO uint32_t RI_LOC;                 /*!< Offset: 0x0BC RI pin location Register (R/W) */
-} LPC_IOCON_TypeDef;
-
-#endif
-
-/*------------- Power Management Unit (PMU) --------------------------*/
-typedef struct
-{
-  __IO uint32_t PCON;
-  __IO uint32_t GPREG0;
-  __IO uint32_t GPREG1;
-  __IO uint32_t GPREG2;
-  __IO uint32_t GPREG3;
-  __IO uint32_t GPREG4;
-} LPC_PMU_TypeDef;
+/**
+ * @brief LPC15XX IO Configuration Unit register block structure
+ */
+typedef struct {			/*!< LPC15XX IOCON Structure */
+	__IO uint32_t  PIO[3][32];
+} LPC_IOCON_T;
 
 
-/*------------- General Purpose Input/Output (GPIO) --------------------------*/
+/**
+ * @brief LPC15XX Switch Matrix register block structure
+ */
+typedef struct {
+	__IO uint32_t PINASSIGN[16];	/*!< Pin Assignment register array */
+	__I  uint32_t RESERVED0[96];
+	__IO uint32_t PINENABLE[2];		/*!< fixed pin enable/disable registers */
+} LPC_SWM_T;
 
-#if defined(MCU_IS_LPC1315)
 
-typedef struct {                            
-  union {
-    struct {
-      __IO uint8_t _B0[32];                       /*!< (@ 0x50000000) Byte pin registers port 0; pins PIO0_0 to PIO0_31 */
-      __IO uint8_t _B1[32];                       /*!< (@ 0x50000020) Byte pin registers port 1 */
-    };
-    __IO uint8_t B[64];                       /*!< (@ 0x50000000) Byte pin registers port 0/1 */
-  };
-  __I  uint32_t RESERVED0[1008];
-  union {
-    struct {
-      __IO uint32_t W0[32];                      /*!< (@ 0x50001000) Word pin registers port 0 */
-      __IO uint32_t W1[32];                      /*!< (@ 0x50001080) Word pin registers port 1 */
-    };
-    __IO uint32_t W[64];                       /*!< (@ 0x50001000) Word pin registers port 0/1 */
-  };
-       uint32_t RESERVED1[960];
-  __IO uint32_t DIR[2];			/* 0x2000 */
-       uint32_t RESERVED2[30];
-  __IO uint32_t MASK[2];		/* 0x2080 */
-       uint32_t RESERVED3[30];
-  __IO uint32_t PIN[2];			/* 0x2100 */
-       uint32_t RESERVED4[30];
-  __IO uint32_t MPIN[2];		/* 0x2180 */
-       uint32_t RESERVED5[30];
-  __IO uint32_t SET[2];			/* 0x2200 */
-       uint32_t RESERVED6[30];
-  __O  uint32_t CLR[2];			/* 0x2280 */
-       uint32_t RESERVED7[30];
-  __O  uint32_t NOT[2];			/* 0x2300 */
-} LPC_GPIO_TypeDef;
+/**
+ * @brief LPC15xx Power Management Unit register block structure
+ */
+typedef struct {
+	__IO uint32_t PCON;		/*!< Offset: 0x000 Power control Register (R/W) */
+	__IO uint32_t GPREG[5];	/*!< Offset: 0x004 General purpose Registers 0..4 (R/W) */
+} LPC_PMU_T;
 
-// GPIO pin interrupt register block structure
-typedef struct {				/*!< GPIO_PIN_INT Structure */
-	__IO uint32_t  ISEL;		/*!< Pin Interrupt Mode register */
-	__IO uint32_t  IENR;		/*!< Pin Interrupt Enable (Rising) register */
-	__O  uint32_t  SIENR;		/*!< Set Pin Interrupt Enable (Rising) register */
-	__O  uint32_t  CIENR;		/*!< Clear Pin Interrupt Enable (Rising) register */
-	__IO uint32_t  IENF;		/*!< Pin Interrupt Enable Falling Edge / Active Level register */
-	__O  uint32_t  SIENF;		/*!< Set Pin Interrupt Enable Falling Edge / Active Level register */
-	__O  uint32_t  CIENF;		/*!< Clear Pin Interrupt Enable Falling Edge / Active Level address */
-	__IO uint32_t  RISE;		/*!< Pin Interrupt Rising Edge register */
-	__IO uint32_t  FALL;		/*!< Pin Interrupt Falling Edge register */
-	__IO uint32_t  IST;			/*!< Pin Interrupt Status register */
-} LPC_GPIOINT_Typedef;
 
-// GPIO grouped interrupt register block structure
+/**
+ * @brief  GPIO port register block structure
+ */
+typedef struct {				/*!< GPIO_PORT Structure */
+	__IO uint8_t B[128][32];	/*!< Offset 0x0000: Byte pin registers ports 0 to n; pins PIOn_0 to PIOn_31 */
+	__IO uint32_t W[32][32];	/*!< Offset 0x1000: Word pin registers port 0 to n */
+	__IO uint32_t DIR[32];		/*!< Offset 0x2000: Direction registers port n */
+	__IO uint32_t MASK[32];		/*!< Offset 0x2080: Mask register port n */
+	__IO uint32_t PIN[32];		/*!< Offset 0x2100: Portpin register port n */
+	__IO uint32_t MPIN[32];		/*!< Offset 0x2180: Masked port register port n */
+	__IO uint32_t SET[32];		/*!< Offset 0x2200: Write: Set register for port n Read: output bits for port n */
+	__O  uint32_t CLR[32];		/*!< Offset 0x2280: Clear port n */
+	__O  uint32_t NOT[32];		/*!< Offset 0x2300: Toggle port n */
+} LPC_GPIO_T;
+
+
+/**
+ * @brief LPC15xx Pin Interrupt and Pattern Match register block structure
+ */
+typedef struct {			/*!< PIN_INT Structure */
+	__IO uint32_t ISEL;		/*!< Pin Interrupt Mode register */
+	__IO uint32_t IENR;		/*!< Pin Interrupt Enable (Rising) register */
+	__IO uint32_t SIENR;	/*!< Set Pin Interrupt Enable (Rising) register */
+	__IO uint32_t CIENR;	/*!< Clear Pin Interrupt Enable (Rising) register */
+	__IO uint32_t IENF;		/*!< Pin Interrupt Enable Falling Edge / Active Level register */
+	__IO uint32_t SIENF;	/*!< Set Pin Interrupt Enable Falling Edge / Active Level register */
+	__IO uint32_t CIENF;	/*!< Clear Pin Interrupt Enable Falling Edge / Active Level address */
+	__IO uint32_t RISE;		/*!< Pin Interrupt Rising Edge register */
+	__IO uint32_t FALL;		/*!< Pin Interrupt Falling Edge register */
+	__IO uint32_t IST;		/*!< Pin Interrupt Status register */
+} LPC_PIN_INT_T;
+
+
+/**
+ * @brief GPIO grouped interrupt register block structure
+ */
 typedef struct {					/*!< GPIO_GROUP_INTn Structure */
 	__IO uint32_t  CTRL;			/*!< GPIO grouped interrupt control register */
 	__I  uint32_t  RESERVED0[7];
 	__IO uint32_t  PORT_POL[8];		/*!< GPIO grouped interrupt port polarity register */
 	__IO uint32_t  PORT_ENA[8];		/*!< GPIO grouped interrupt port m enable register */
-} LPC_GPIOGROUPINT_Typedef;
-
-#else // MCU_IS_LPC1315
-
-typedef struct
-{
-  union {
-    __IO uint32_t MASKED_ACCESS[4096];
-    struct {
-         uint32_t RESERVED0[4095];
-    __IO uint32_t DATA;
-    };
-  };
-       uint32_t RESERVED1[4096];
-  __IO uint32_t DIR;
-  __IO uint32_t IS;
-  __IO uint32_t IBE;
-  __IO uint32_t IEV;
-  __IO uint32_t IE;
-  __IO uint32_t RIS;
-  __IO uint32_t MIS;
-  __IO uint32_t IC;
-} LPC_GPIO_TypeDef;
-
-#endif //MCU_IS_LPC1315
-
-/*------------- Timer (TMR) --------------------------------------------------*/
-typedef struct
-{
-  __IO uint32_t IR;
-  __IO uint32_t TCR;
-  __IO uint32_t TC;
-  __IO uint32_t PR;
-  __IO uint32_t PC;
-  __IO uint32_t MCR;
-  __IO uint32_t MR0;
-  __IO uint32_t MR1;
-  __IO uint32_t MR2;
-  __IO uint32_t MR3;
-  __IO uint32_t CCR;
-  __I  uint32_t CR0;
-       uint32_t RESERVED1[3];
-  __IO uint32_t EMR;
-       uint32_t RESERVED2[12];
-  __IO uint32_t CTCR;
-  __IO uint32_t PWMC;
-} LPC_TMR_TypeDef;
-
-/*------------- Universal Asynchronous Receiver Transmitter (UART) -----------*/
-typedef struct
-{
-  union {
-  __I  uint32_t  RBR;
-  __O  uint32_t  THR;
-  __IO uint32_t  DLL;
-  };
-  union {
-  __IO uint32_t  DLM;
-  __IO uint32_t  IER;
-  };
-  union {
-  __I  uint32_t  IIR;
-  __O  uint32_t  FCR;
-  };
-  __IO uint32_t  LCR;
-  __IO uint32_t  MCR;
-  __I  uint32_t  LSR;
-  __I  uint32_t  MSR;
-  __IO uint32_t  SCR;
-  __IO uint32_t  ACR;
-  __IO uint32_t  ICR;
-  __IO uint32_t  FDR;
-       uint32_t  RESERVED0;
-  __IO uint32_t  TER;
-       uint32_t  RESERVED1[6];
-  __IO uint32_t  RS485CTRL;
-  __IO uint32_t  ADRMATCH;
-  __IO uint32_t  RS485DLY;
-  __I  uint32_t  FIFOLVL;
-} LPC_UART_TypeDef;
-
-/*------------- Synchronous Serial Communication (SSP) -----------------------*/
-typedef struct
-{
-  __IO uint32_t CR0;
-  __IO uint32_t CR1;
-  __IO uint32_t DR;
-  __I  uint32_t SR;
-  __IO uint32_t CPSR;
-  __IO uint32_t IMSC;
-  __IO uint32_t RIS;
-  __IO uint32_t MIS;
-  __IO uint32_t ICR;
-} LPC_SSP_TypeDef;
-
-/*------------- Inter-Integrated Circuit (I2C) -------------------------------*/
-typedef struct
-{
-  __IO uint32_t CONSET;
-  __I  uint32_t STAT;
-  __IO uint32_t DAT;
-  __IO uint32_t ADR0;
-  __IO uint32_t SCLH;
-  __IO uint32_t SCLL;
-  __O  uint32_t CONCLR;
-  __IO uint32_t MMCTRL;
-  __IO uint32_t ADR1;
-  __IO uint32_t ADR2;
-  __IO uint32_t ADR3;
-  __I  uint32_t DATA_BUFFER;
-  __IO uint32_t MASK0;
-  __IO uint32_t MASK1;
-  __IO uint32_t MASK2;
-  __IO uint32_t MASK3;
-} LPC_I2C_TypeDef;
-
-/*------------- Watchdog Timer (WDT) -----------------------------------------*/
-typedef struct
-{
-  __IO uint32_t MOD;
-  __IO uint32_t TC;
-  __O  uint32_t FEED;
-  __I  uint32_t TV;
-#if defined(MCU_IS_LPC1315)
-  __IO uint32_t CLKSEL;
-#else
-  uint32_t RESERVED0;
-#endif
-__IO uint32_t WARNINT;				/*!< Offset: 0x014 Watchdog timer warning int. register (R/W) */
-__IO uint32_t WINDOW;				/*!< Offset: 0x018 Watchdog timer window value register (R/W) */
-
-} LPC_WDT_TypeDef;
-
-/*------------- Analog-to-Digital Converter (ADC) ----------------------------*/
-typedef struct
-{
-  __IO uint32_t CR;
-  __IO uint32_t GDR;
-       uint32_t RESERVED0;
-  __IO uint32_t INTEN;
-  union {
-	  __IO uint32_t DR[8];
-	  struct {
-	  __I  uint32_t DR0;
-	  __I  uint32_t DR1;
-	  __I  uint32_t DR2;
-	  __I  uint32_t DR3;
-	  __I  uint32_t DR4;
-	  __I  uint32_t DR5;
-	  __I  uint32_t DR6;
-	  __I  uint32_t DR7;
-	  };
-  };
-	  __I  uint32_t STAT;
-} LPC_ADC_TypeDef;
+	uint32_t       RESERVED1[1000];
+} LPC_GPIOGROUPINT_T;
 
 
-/*------------- Universal Serial Bus (USB) -----------------------------------*/
-
-#if defined(MCU_IS_LPC1315)
-
-typedef struct {				/*!< (@ 0x40080000) USB Structure */
-    __IO uint32_t DEVCMDSTAT;	/*!< (@ 0x40080000) USB Device Command/Status register */
-    __IO uint32_t INFO;			/*!< (@ 0x40080004) USB Info register */
-    __IO uint32_t EPLISTSTART;	/*!< (@ 0x40080008) USB EP Command/Status List start address */
-    __IO uint32_t DATABUFSTART;	/*!< (@ 0x4008000C) USB Data buffer start address */
-    __IO uint32_t LPM;			/*!< (@ 0x40080010) Link Power Management register */
-    __IO uint32_t EPSKIP;		/*!< (@ 0x40080014) USB Endpoint skip */
-    __IO uint32_t EPINUSE;		/*!< (@ 0x40080018) USB Endpoint Buffer in use */
-    __IO uint32_t EPBUFCFG;		/*!< (@ 0x4008001C) USB Endpoint Buffer Configuration register */
-    __IO uint32_t INTSTAT;		/*!< (@ 0x40080020) USB interrupt status register */
-    __IO uint32_t INTEN;		/*!< (@ 0x40080024) USB interrupt enable register */
-    __IO uint32_t INTSETSTAT;	/*!< (@ 0x40080028) USB set interrupt status register */
-    __IO uint32_t INTROUTING;	/*!< (@ 0x4008002C) USB interrupt routing register */
-    __I  uint32_t RESERVED0[1];
-    __I  uint32_t EPTOGGLE;		/*!< (@ 0x40080034) USB Endpoint toggle register */
-} LPC_USB_TypeDef;
-
-#else
-
-typedef struct
-{
-  __I  uint32_t DevIntSt;            /* USB Device Interrupt Registers     */
-  __IO uint32_t DevIntEn;
-  __O  uint32_t DevIntClr;
-  __O  uint32_t DevIntSet;
-
-  __O  uint32_t CmdCode;             /* USB Device SIE Command Registers   */
-  __I  uint32_t CmdData;
-
-  __I  uint32_t RxData;              /* USB Device Transfer Registers      */
-  __O  uint32_t TxData;
-  __I  uint32_t RxPLen;
-  __O  uint32_t TxPLen;
-  __IO uint32_t Ctrl;
-  __O  uint32_t DevFIQSel;
-} LPC_USB_TypeDef;
-
-#endif
-
-#if defined ( __CC_ARM   )
-#pragma no_anon_unions
-#endif
+/**
+ * @brief UART register block structure
+ */
+typedef struct {
+	__IO uint32_t  CFG;				/*!< Configuration register */
+	__IO uint32_t  CTRL;			/*!< Control register */
+	__IO uint32_t  STAT;			/*!< Status register */
+	__IO uint32_t  INTENSET;		/*!< Interrupt Enable read and set register */
+	__O  uint32_t  INTENCLR;		/*!< Interrupt Enable clear register */
+	__I  uint32_t  RXDATA;			/*!< Receive Data register */
+	__I  uint32_t  RXDATA_STAT;		/*!< Receive Data with status register */
+	__IO uint32_t  TXDATA;			/*!< Transmit data register */
+	__IO uint32_t  BRG;				/*!< Baud Rate Generator register */
+	__IO uint32_t  INTSTAT;			/*!< Interrupt status register */
+} LPC_USART_T;
 
 
-/******************************************************************************/
-/*                         Peripheral memory map                              */
-/******************************************************************************/
-/* Base addresses                                                             */
-#define LPC_FLASH_BASE        (0x00000000UL)
-#define LPC_RAM_BASE          (0x10000000UL)
-#define LPC_APB0_BASE         (0x40000000UL)
-#define LPC_AHB_BASE          (0x50000000UL)
+/**
+ * @brief ADC register block structure
+ */
+typedef struct {								/*!< ADCn Structure */
+	__IO uint32_t CTRL;							/*!< A/D Control Register. The AD0CR register must be written to select the operating mode before A/D conversion can occur. */
+	__IO uint32_t INSEL;						/*!< A/D Input Select Register. This field selects the input source for channel 0. */
+	__IO uint32_t SEQ_CTRL[ADC_SEQB_IDX + 1];	/*!< A/D Sequence A & B Control Register. Controls triggering and channel selection for sonversion sequence. */
+	__IO uint32_t SEQ_GDAT[ADC_SEQB_IDX + 1];	/*!< A/D Sequence A & B Global Data Register. Contains the result of the most recent A/D conversion for sequence. */
+	__I  uint32_t RESERVED1[2];
+	__I  uint32_t DR[12];						/*!< A/D Channel Data Register. This register contains the result of the most recent conversion completed on channel n. */
+	__IO uint32_t THR_LOW[2];					/*!< A/D Low Compare Threshold Register 0 & 1. Contains the lower threshold level for automatic threshold comparison. */
+	__IO uint32_t THR_HIGH[2];					/*!< A/D High Compare Threshold Register 0 & 1. Contains the higher threshold level for automatic threshold comparison. */
+	__IO uint32_t CHAN_THRSEL;					/*!< A/D Channel Threshold Select Register. Specifies which set of threshold compare registers to use. */
+	__IO uint32_t INTEN;						/*!< A/D Interrupt Enable Register. This register contains enable bits that enable sequence-A, sequence-B, threshold compare and overrun interrupts. */
+	__IO uint32_t FLAGS;						/*!< A/D Flags Register. This register contains interrupt flags. - To be checked */
+	__IO uint32_t TRM;							/*!< A/D Trim Register. */
+} LPC_ADC_T;
 
-/* APB0 peripherals                                                           */
-#define LPC_I2C_BASE          (LPC_APB0_BASE + 0x00000)
-#define LPC_WDT_BASE          (LPC_APB0_BASE + 0x04000)
-#define LPC_UART_BASE         (LPC_APB0_BASE + 0x08000)
-#define LPC_CT16B0_BASE       (LPC_APB0_BASE + 0x0C000)
-#define LPC_CT16B1_BASE       (LPC_APB0_BASE + 0x10000)
-#define LPC_CT32B0_BASE       (LPC_APB0_BASE + 0x14000)
-#define LPC_CT32B1_BASE       (LPC_APB0_BASE + 0x18000)
-#define LPC_ADC_BASE          (LPC_APB0_BASE + 0x1C000)
 
-#if defined(MCU_IS_LPC1315)
-#       define LPC_USB_BASE          (LPC_APB0_BASE + 0x80000)
-#else
-#       define LPC_USB_BASE          (LPC_APB0_BASE + 0x20000)
-#endif
+/**
+ * @brief LPC15xx MRT chip configuration
+ */
+#define MRT_CHANNELS_NUM      (4)
+#define MRT_NO_IDLE_CHANNEL   (0x40)
 
-#define LPC_PMU_BASE          (LPC_APB0_BASE + 0x38000)
-// LPC_SSP_BASE original name, LPC_SSP0_BASE new preferred name
-#define LPC_SSP_BASE          (LPC_APB0_BASE + 0x40000)
-#define LPC_SSP0_BASE         (LPC_APB0_BASE + 0x40000)
-#define LPC_IOCON_BASE        (LPC_APB0_BASE + 0x44000)
-#define LPC_SYSCON_BASE       (LPC_APB0_BASE + 0x48000)
-#define LPC_SSP1_BASE         (LPC_APB0_BASE + 0x58000)
+/**
+ * @brief MRT register block structure
+ */
+typedef struct {
+	__IO uint32_t INTVAL;	/*!< Timer interval register */
+	__O  uint32_t TIMER;	/*!< Timer register */
+	__IO uint32_t CTRL;		/*!< Timer control register */
+	__IO uint32_t STAT;		/*!< Timer status register */
+} LPC_MRT_CH_T;
 
-/* AHB peripherals                                                            */	
-#define LPC_GPIO_BASE         (LPC_AHB_BASE  + 0x00000)
-#define LPC_GPIO0_BASE        (LPC_AHB_BASE  + 0x00000)
+/**
+ * @brief MRT register block structure
+ */
+typedef struct {
+	LPC_MRT_CH_T CHANNEL[MRT_CHANNELS_NUM];
+	uint32_t unused[45];
+	__O  uint32_t IDLE_CH;
+	__IO uint32_t IRQ_FLAG;
+} LPC_MRT_T;
 
-#if defined(MCU_IS_LPC1311)
-#       define LPC_GPIO1_BASE        (LPC_AHB_BASE  + 0x10000)
-#       define LPC_GPIO2_BASE        (LPC_AHB_BASE  + 0x20000)
-#       define LPC_GPIO3_BASE        (LPC_AHB_BASE  + 0x30000)
-#endif
 
-/******************************************************************************/
-/*                         Peripheral declaration                             */
-/******************************************************************************/
-#define LPC_I2C               ((LPC_I2C_TypeDef    *) LPC_I2C_BASE   )
-#define LPC_WDT               ((LPC_WDT_TypeDef    *) LPC_WDT_BASE   )
-#define LPC_UART              ((LPC_UART_TypeDef   *) LPC_UART_BASE  )
-#define LPC_TMR16B0           ((LPC_TMR_TypeDef    *) LPC_CT16B0_BASE)
-#define LPC_TMR16B1           ((LPC_TMR_TypeDef    *) LPC_CT16B1_BASE)
-#define LPC_TMR32B0           ((LPC_TMR_TypeDef    *) LPC_CT32B0_BASE)
-#define LPC_TMR32B1           ((LPC_TMR_TypeDef    *) LPC_CT32B1_BASE)
-#define LPC_ADC               ((LPC_ADC_TypeDef    *) LPC_ADC_BASE   )
-#define LPC_PMU               ((LPC_PMU_TypeDef    *) LPC_PMU_BASE   )
-// LPC_SSP original name, LPC_SSP0 new preferred name
-#define LPC_SSP               ((LPC_SSP_TypeDef    *) LPC_SSP_BASE   )
-#define LPC_SSP0              ((LPC_SSP_TypeDef    *) LPC_SSP0_BASE  )
-#define LPC_SSP1              ((LPC_SSP_TypeDef    *) LPC_SSP1_BASE  )
-#define LPC_IOCON             ((LPC_IOCON_TypeDef  *) LPC_IOCON_BASE )
-#define LPC_SYSCON            ((LPC_SYSCON_TypeDef *) LPC_SYSCON_BASE)
-#define LPC_USB               ((LPC_USB_TypeDef    *) LPC_USB_BASE   )
+/**
+ * @brief Repetitive Interrupt Timer register block structure
+ */
+typedef struct {				/*!< RITIMER Structure      */
+	__IO uint32_t  COMPVAL;		/*!< Compare register       */
+	__IO uint32_t  MASK;		/*!< Mask register. This register holds the 32-bit mask value. A 1 written to any bit will force a compare on the corresponding bit of the counter and compare register. */
+	__IO uint32_t  CTRL;		/*!< Control register       */
+	__IO uint32_t  COUNTER;		/*!< 32-bit counter         */
+	__IO uint32_t  COMPVAL_H;	/*!< Compare upper register */
+	__IO uint32_t  MASK_H;		/*!< Mask upper register    */
+	__I  uint32_t  RESERVED0[1];
+	__IO uint32_t  COUNTER_H;	/*!< Counter upper register */
+} LPC_RITIMER_T;
 
-#if defined(MCU_IS_LPC1315)
-#       define LPC_GPIO_PIN_INT_BASE     0x4004C000
-#       define LPC_GPIO_GROUP_INT0_BASE  0x4005C000
-#       define LPC_GPIO_GROUP_INT1_BASE  0x40060000
 
-#       define LPC_GPIO       ((LPC_GPIO_TypeDef    *) LPC_GPIO0_BASE )
-#       define LPC_GPIO0        LPC_GPIO
-#       define LPC_GPIO1        LPC_GPIO
+/**
+ * @brief DMA Controller shared registers structure
+ */
+typedef struct {					/*!< DMA shared registers structure */
+	__IO uint32_t  ENABLESET;		/*!< DMA Channel Enable read and Set for all DMA channels */
+	__I  uint32_t  RESERVED0;
+	__O  uint32_t  ENABLECLR;		/*!< DMA Channel Enable Clear for all DMA channels */
+	__I  uint32_t  RESERVED1;
+	__I  uint32_t  ACTIVE;			/*!< DMA Channel Active status for all DMA channels */
+	__I  uint32_t  RESERVED2;
+	__I  uint32_t  BUSY;			/*!< DMA Channel Busy status for all DMA channels */
+	__I  uint32_t  RESERVED3;
+	__IO uint32_t  ERRINT;			/*!< DMA Error Interrupt status for all DMA channels */
+	__I  uint32_t  RESERVED4;
+	__IO uint32_t  INTENSET;		/*!< DMA Interrupt Enable read and Set for all DMA channels */
+	__I  uint32_t  RESERVED5;
+	__O  uint32_t  INTENCLR;		/*!< DMA Interrupt Enable Clear for all DMA channels */
+	__I  uint32_t  RESERVED6;
+	__IO uint32_t  INTA;			/*!< DMA Interrupt A status for all DMA channels */
+	__I  uint32_t  RESERVED7;
+	__IO uint32_t  INTB;			/*!< DMA Interrupt B status for all DMA channels */
+	__I  uint32_t  RESERVED8;
+	__O  uint32_t  SETVALID;		/*!< DMA Set ValidPending control bits for all DMA channels */
+	__I  uint32_t  RESERVED9;
+	__O  uint32_t  SETTRIG;			/*!< DMA Set Trigger control bits for all DMA channels */
+	__I  uint32_t  RESERVED10;
+	__O  uint32_t  ABORT;			/*!< DMA Channel Abort control for all DMA channels */
+} LPC_DMA_COMMON_T;
 
-#       define LPC_GPIO_PIN_INT          ((LPC_GPIOINT_Typedef       *) LPC_GPIO_PIN_INT_BASE)
-#       define LPC_GPIO_GROUP_INT0       ((LPC_GPIOGROUPINT_Typedef     *) LPC_GPIO_GROUP_INT0_BASE)
-#       define LPC_GPIO_GROUP_INT1       ((LPC_GPIOGROUPINT_Typedef     *) LPC_GPIO_GROUP_INT1_BASE)
-#else
-#       define LPC_GPIO0             ((LPC_GPIO_TypeDef   *) LPC_GPIO0_BASE )
-#       define LPC_GPIO1             ((LPC_GPIO_TypeDef   *) LPC_GPIO1_BASE )
-#       define LPC_GPIO2             ((LPC_GPIO_TypeDef   *) LPC_GPIO2_BASE )
-#       define LPC_GPIO3             ((LPC_GPIO_TypeDef   *) LPC_GPIO3_BASE )
-#endif
+/**
+ * @brief DMA Controller shared registers structure
+ */
+typedef struct {					/*!< DMA channel register structure */
+	__IO uint32_t  CFG;				/*!< DMA Configuration register */
+	__I  uint32_t  CTLSTAT;			/*!< DMA Control and status register */
+	__IO uint32_t  XFERCFG;			/*!< DMA Transfer configuration register */
+	__I  uint32_t  RESERVED;
+} LPC_DMA_CHANNEL_T;
 
+/* DMA channel mapping - each channel is mapped to an individual peripheral
+   and direction or a DMA imput mux trigger */
+typedef enum {
+	DMAREQ_USART0_RX = 0,					/*!< USART0 receive DMA channel */
+	DMA_CH0 = DMAREQ_USART0_RX,
+	DMAREQ_USART0_TX,						/*!< USART0 transmit DMA channel */
+	DMA_CH1 = DMAREQ_USART0_TX,
+	DMAREQ_USART1_RX,						/*!< USART1 receive DMA channel */
+	DMA_CH2 = DMAREQ_USART1_RX,
+	DMAREQ_USART1_TX,						/*!< USART1 transmit DMA channel */
+	DMA_CH3 = DMAREQ_USART1_TX,
+	DMAREQ_USART2_RX,						/*!< USART2 receive DMA channel */
+	DMA_CH4 = DMAREQ_USART2_RX,
+	DMAREQ_USART2_TX,						/*!< USART2 transmit DMA channel */
+	DMA_CH5 = DMAREQ_USART2_TX,
+	DMAREQ_SPI0_RX,							/*!< SSP0 receive DMA channel */
+	DMA_CH6 = DMAREQ_SPI0_RX,
+	DMAREQ_SPI0_TX,							/*!< SSP0 transmit DMA channel */
+	DMA_CH7 = DMAREQ_SPI0_TX,
+	DMAREQ_SPI1_RX,							/*!< SSP1 receive DMA channel */
+	DMA_CH8 = DMAREQ_SPI1_RX,
+	DMAREQ_SPI1_TX,							/*!< SSP1 transmit DMA channel */
+	DMA_CH9 = DMAREQ_SPI1_TX,
+	DMAREQ_I2C0_SLV,						/*!< I2C0 slave DMA channel */
+	DMA_CH10 = DMAREQ_I2C0_SLV,
+	DMAREQ_I2C0_MST,						/*!< I2C0 master DMA channel */
+	DMA_CH11 = DMAREQ_I2C0_MST,
+	DMAREQ_I2C0_MONITOR,					/*!< I2C0 monitor DMA channel */
+	DMA_CH12 = DMAREQ_I2C0_MONITOR,
+	DMAREQ_DAC_IRQ,							/*!< DAC DMA channel */
+	DMA_CH13 = DMAREQ_DAC_IRQ,
+	DMAREQ_RESERVED_14,
+	DMA_CH14 = DMAREQ_RESERVED_14,
+	DMAREQ_RESERVED_15,
+	DMA_CH15 = DMAREQ_RESERVED_15,
+	DMAREQ_RESERVED_16,
+	DMA_CH16 = DMAREQ_RESERVED_16,
+	DMAREQ_RESERVED_17,
+	DMA_CH17 = DMAREQ_RESERVED_17
+} DMA_CHID_T;
+
+/* On LPC15xx, Max DMA channel is 18 */
+#define MAX_DMA_CHANNEL         (DMA_CH17 + 1)
+
+/**
+ * @brief DMA Controller register block structure
+ */
+typedef struct {					/*!< DMA Structure */
+	__IO uint32_t  CTRL;			/*!< DMA control register */
+	__I  uint32_t  INTSTAT;			/*!< DMA Interrupt status register */
+	__IO uint32_t  SRAMBASE;		/*!< DMA SRAM address of the channel configuration table */
+	__I  uint32_t  RESERVED2[5];
+	LPC_DMA_COMMON_T DMACOMMON[1];	/*!< DMA shared channel (common) registers */
+	__I  uint32_t  RESERVED0[225];
+	LPC_DMA_CHANNEL_T DMACH[MAX_DMA_CHANNEL];	/*!< DMA channel registers */
+} LPC_DMA_T;
+
+
+/**
+ * @brief LPC15XX SCTIPU abort enable/source register block structure
+ */
+typedef struct {			/*!< LPC15XX abort enable/source structure */
+	__IO uint32_t  ABORT_ENABLE;	/*!< SCTIPU abort enable register */
+	__IO uint32_t  ABORT_SOURCE;	/*!< SCTIPU abort source register */
+	__I  uint32_t  RESERVED[6];
+} LPC_SCTIPU_ABT_T;
+
+
+/**
+ * @brief USB device register block structure
+ */
+typedef struct {				/*!< USB Structure */
+	__IO uint32_t DEVCMDSTAT;	/*!< USB Device Command/Status register */
+	__IO uint32_t INFO;			/*!< USB Info register */
+	__IO uint32_t EPLISTSTART;	/*!< USB EP Command/Status List start address */
+	__IO uint32_t DATABUFSTART;	/*!< USB Data buffer start address */
+	__IO uint32_t LPM;			/*!< Link Power Management register */
+	__IO uint32_t EPSKIP;		/*!< USB Endpoint skip */
+	__IO uint32_t EPINUSE;		/*!< USB Endpoint Buffer in use */
+	__IO uint32_t EPBUFCFG;		/*!< USB Endpoint Buffer Configuration register */
+	__IO uint32_t INTSTAT;		/*!< USB interrupt status register */
+	__IO uint32_t INTEN;		/*!< USB interrupt enable register */
+	__IO uint32_t INTSETSTAT;	/*!< USB set interrupt status register */
+	__IO uint32_t INTROUTING;	/*!< USB interrupt routing register */
+	__I  uint32_t RESERVED0[1];
+	__I  uint32_t EPTOGGLE;		/*!< USB Endpoint toggle register */
+} LPC_USB_T;
+
+
+/**
+ * @brief LPC15XX SCTIPU register block structure
+ */
+typedef struct {			/*!< LPC15XX SCTIPU Structure */
+	__IO uint32_t  SAMPLE_CTRL;	/*!< SCTIPU sample control register */
+	__I  uint32_t  RESERVED[7];
+	LPC_SCTIPU_ABT_T ABORT[4];	/*!< SCTIPU abort enable/source registers */
+} LPC_SCTIPU_T;
+
+
+/**
+ * @brief LPC15xx Pin Interrupt and Pattern Match register block structure
+ */
+typedef struct {			/*!< RTC */
+	__IO uint32_t CTRL;		/*!< RTC control register */
+	__IO uint32_t MATCH;	/*!< PRTC match (alarm) register */
+	__IO uint32_t COUNT;	/*!< RTC counter register */
+	__IO uint32_t WAKE;		/*!< RTC high-resolution/wake-up timer control register */
+} LPC_RTC_T;
+
+
+/**
+ * @brief Windowed Watchdog register block structure
+ */
+typedef struct {				/*!< WWDT Structure         */
+	__IO uint32_t  MOD;			/*!< Watchdog mode register. This register contains the basic mode and status of the Watchdog Timer. */
+	__IO uint32_t  TC;			/*!< Watchdog timer constant register. This register determines the time-out value. */
+	__O  uint32_t  FEED;		/*!< Watchdog feed sequence register. Writing 0xAA followed by 0x55 to this register reloads the Watchdog timer with the value contained in WDTC. */
+	__I  uint32_t  TV;			/*!< Watchdog timer value register. This register reads out the current value of the Watchdog timer. */
+	__IO uint32_t  RESERVED;
+	__IO uint32_t  WARNINT;		/*!< Watchdog warning interrupt register. This register contains the Watchdog warning interrupt compare value. */
+	__IO uint32_t  WINDOW;		/*!< Watchdog timer window register. This register contains the Watchdog window value. */
+} LPC_WWDT_T;
+
+
+/**
+ * @brief FLASH Memory Controller Unit register block structure
+ */
+typedef struct {		/*!< FMC Structure */
+	__I  uint32_t  RESERVED1[7];
+	__IO uint32_t  FMSSTART;
+	__IO uint32_t  FMSSTOP;
+	__I  uint32_t  RESERVED2;
+	__I  uint32_t  FMSW[1];
+} LPC_FMC_T;
+
+
+/**
+ * @brief LPC15xx Input Mux Register Block Structure
+ */
+typedef struct {						/*!< INMUX Structure */
+	__IO uint32_t SCT0_INMUX[7];		/*!< Input mux registers for SCT0 inputs */
+	__I  uint32_t  RESERVED1[1];
+	__IO uint32_t SCT1_INMUX[7];		/*!< Input mux registers for SCT1 inputs */
+	__I  uint32_t  RESERVED2[1];
+	__IO uint32_t SCT2_INMUX[3];		/*!< Input mux registers for SCT2 inputs */
+	__I  uint32_t  RESERVED3[5];
+	__IO uint32_t SCT3_INMUX[3];		/*!< Input mux registers for SCT3 inputs */
+	__I  uint32_t  RESERVED4[5];
+	__I  uint32_t  RESERVED4A[16];
+	__IO uint32_t PINTSEL[8];			/*!< Pin interrupt select registers */
+	__IO uint32_t DMA_ITRIG_INMUX[18];	/*!< Input mux register for DMA trigger inputs */
+	__I  uint32_t  RESERVED5[6];
+	__IO uint32_t DMA_INMUX[4];			/*!< Input mux register for DMA trigger inputs */
+	__I  uint32_t  RESERVED6[4];
+	__IO uint32_t FREQMEAS_REF;			/*!< Clock selection for frequency measurement ref clock */
+	__IO uint32_t FREQMEAS_TARGET;		/*!< Clock selection for frequency measurement target clock */
+} LPC_INMUX_T;
+
+
+/**
+ * @brief Analog Comparator channel register block structure
+ */
+typedef struct {
+	__IO uint32_t  CMP;			/*!< Individual Comparator control register */
+	__IO uint32_t  CMPFILTR;	/*!< Individual Comparator Filter registers */
+} CMP_REG_T;
+
+/**
+ * @brief Analog Comparator register block structure
+ */
+typedef struct {					/*!< ACMP Structure */
+	__IO uint32_t  CTRL;		/*!< Comparator block control register */
+	__IO CMP_REG_T ACMP[4];		/*!< Individual Comparator registers */
+} LPC_CMP_T;
+
+
+/**
+ * @brief DAC register block structure
+ */
+typedef struct {				/*!< DAC Structure */
+	__IO uint32_t  VAL;		/*!< DAC register. Holds the conversion data */
+	__IO uint32_t  CTRL;	/*!< DAC control register */
+	__IO uint32_t  CNTVAL;	/*!< DAC counter value register */
+} LPC_DAC_T;
+
+
+/**
+ * @brief SPI register block structure
+ */
+typedef struct {					/*!< SPI Structure */
+	__IO uint32_t  CFG;				/*!< SPI Configuration register*/
+	__IO uint32_t  DLY;				/*!< SPI Delay register*/
+	__IO uint32_t  STAT;			/*!< SPI Status. register*/
+	__IO uint32_t  INTENSET;		/*!< SPI Interrupt Enable.Set register*/
+	__O  uint32_t  INTENCLR;		/*!< SPI Interrupt Enable Clear. register*/
+	__I  uint32_t  RXDAT;			/*!< SPI Receive Data register*/
+	__IO uint32_t  TXDATCTL;		/*!< SPI Transmit Data with Control register*/
+	__IO uint32_t  TXDAT;			/*!< SPI Transmit Data register*/
+	__IO uint32_t  TXCTRL;			/*!< SPI Transmit Control register*/
+	__IO uint32_t  DIV;				/*!< SPI clock Divider register*/
+	__I  uint32_t  INTSTAT;			/*!< SPI Interrupt Status register*/
+} LPC_SPI_T;
+
+
+/**
+ * @brief I2C register block structure
+ */
+typedef struct {					/* I2C0 Structure         */
+	__IO uint32_t CFG;			/*!< I2C Configuration Register common for Master, Slave and Monitor */
+	__IO uint32_t STAT;			/*!< I2C Status Register common for Master, Slave and Monitor */
+	__IO uint32_t INTENSET;	/*!< I2C Interrupt Enable Set Register common for Master, Slave and Monitor */
+	__O  uint32_t INTENCLR;	/*!< I2C Interrupt Enable Clear Register common for Master, Slave and Monitor */
+	__IO uint32_t TIMEOUT;	/*!< I2C Timeout value Register */
+	__IO uint32_t CLKDIV;		/*!< I2C Clock Divider Register */
+	__I  uint32_t INTSTAT;	/*!< I2C Interrupt Status Register */
+	__I  uint32_t RESERVED0;
+	__IO uint32_t MSTCTL;		/*!< I2C Master Control Register */
+	__IO uint32_t MSTTIME;	/*!< I2C Master Time Register for SCL */
+	__IO uint32_t MSTDAT;		/*!< I2C Master Data Register */
+	__I  uint32_t RESERVED1[5];
+	__IO uint32_t SLVCTL;		/*!< I2C Slave Control Register */
+	__IO uint32_t SLVDAT;		/*!< I2C Slave Data Register */
+	__IO uint32_t SLVADR[4];	/*!< I2C Slave Address Registers */
+	__IO uint32_t SLVQUAL0;	/*!< I2C Slave Address Qualifier 0 Register */
+	__I  uint32_t RESERVED2[9];
+	__I  uint32_t MONRXDAT;	/*!< I2C Monitor Data Register */
+} LPC_I2C_T;
+
+
+
+
+/** @defgroup PERIPH_15XX_BASE CHIP: LPC15xx Peripheral addresses and register set declarations
+ * @ingroup CHIP_15XX_Drivers
+ * @{
+ */
+
+#define LPC_ADC0_BASE             0x40000000
+#define LPC_DAC_BASE              0x40004000
+#define LPC_CMP_BASE              0x40008000
+#define LPC_INMUX_BASE            0x40014000
+#define LPC_RTC_BASE              0x40028000
+#define LPC_WWDT_BASE             0x4002C000
+#define LPC_SWM_BASE              0x40038000
+#define LPC_PMU_BASE              0x4003C000
+#define LPC_USART0_BASE           0x40040000
+#define LPC_USART1_BASE           0x40044000
+#define LPC_SPI0_BASE             0x40048000
+#define LPC_SPI1_BASE             0x4004C000
+#define LPC_I2C_BASE              0x40050000
+#define LPC_QEI_BASE              0x40058000
+#define LPC_SYSCTL_BASE           0x40074000
+#define LPC_ADC1_BASE             0x40080000
+#define LPC_MRT_BASE              0x400A0000
+#define LPC_PIN_INT_BASE          0x400A4000
+#define LPC_GPIO_GROUP_INT0_BASE  0x400A8000
+#define LPC_GPIO_GROUP_INT1_BASE  0x400AC000
+#define LPC_RITIMER_BASE          0x400B4000
+#define LPC_SCTIPU_BASE           0x400B8000
+#define LPC_FLASH_BASE            0x400BC000
+#define LPC_USART2_BASE           0x400C0000
+#define TBD_BASE                  0x400E8000
+#define LPC_C_CAN0_BASE           0x400F0000
+#define LPC_IOCON_BASE            0x400F8000
+#define LPC_EEPROM_BASE           0x400FC000
+#define LPC_GPIO_PIN_INT_BASE     0x1C000000
+#define LPC_DMA_BASE              0x1C004000
+#define LPC_USB0_BASE             0x1C00C000
+#define LPC_CRC_BASE              0x1C010000
+#define LPC_SCTLARGE_0_BASE       0x1C018000
+#define LPC_SCTLARGE_1_BASE       0x1C01C000
+#define LPC_SCTSMALL_0_BASE       0x1C020000
+#define LPC_SCTSMALL_1_BASE       0x1C024000
+
+#define LPC_PMU                   ((LPC_PMU_T              *) LPC_PMU_BASE)
+#define LPC_IOCON                 ((LPC_IOCON_T            *) LPC_IOCON_BASE)
+#define LPC_SYSCTL                ((LPC_SYSCTL_T           *) LPC_SYSCTL_BASE)
+#define LPC_SYSCON                ((LPC_SYSCTL_T           *) LPC_SYSCTL_BASE)	/* Alias for LPC_SYSCTL */
+#define LPC_GPIO                  ((LPC_GPIO_T             *) LPC_GPIO_PIN_INT_BASE)
+#define LPC_GPIOGROUP             ((LPC_GPIOGROUPINT_T     *) LPC_GPIO_GROUP_INT0_BASE)
+#define LPC_GPIO_PIN_INT          ((LPC_PIN_INT_T          *) LPC_PIN_INT_BASE)
+#define LPC_USART0                ((LPC_USART_T            *) LPC_USART0_BASE)
+#define LPC_USART1                ((LPC_USART_T            *) LPC_USART1_BASE)
+#define LPC_USART2                ((LPC_USART_T            *) LPC_USART2_BASE)
+#define LPC_I2C0                  ((LPC_I2C_T              *) LPC_I2C_BASE)
+// #define LPC_I2C1                  ((LPC_I2C_T              *) LPC_I2C1_BASE)
+// #define LPC_SSP0                  ((LPC_SSP_T              *) LPC_SSP0_BASE)
+// #define LPC_SSP1                  ((LPC_SSP_T              *) LPC_SSP1_BASE)
+#define LPC_USB                   ((LPC_USB_T              *) LPC_USB0_BASE)
+#define LPC_ADC0                  ((LPC_ADC_T              *) LPC_ADC0_BASE)
+#define LPC_ADC1                  ((LPC_ADC_T              *) LPC_ADC1_BASE)
+// #define LPC_SCT0                  ((LPC_SCT_T              *) LPC_SCT0_BASE)
+// #define LPC_SCT1                  ((LPC_SCT_T              *) LPC_SCT1_BASE)
+// #define LPC_TIMER16_0             ((LPC_TIMER_T            *) LPC_TIMER16_0_BASE)
+// #define LPC_TIMER16_1             ((LPC_TIMER_T            *) LPC_TIMER16_1_BASE)
+// #define LPC_TIMER32_0             ((LPC_TIMER_T            *) LPC_TIMER32_0_BASE)
+// #define LPC_TIMER32_1             ((LPC_TIMER_T            *) LPC_TIMER32_1_BASE)
+#define LPC_RTC                   ((LPC_RTC_T              *) LPC_RTC_BASE)
+#define LPC_WWDT                  ((LPC_WWDT_T             *) LPC_WWDT_BASE)
+#define LPC_DMA                   ((LPC_DMA_T              *) LPC_DMA_BASE)
+#define LPC_CRC                   ((LPC_CRC_T              *) LPC_CRC_BASE)
+#define LPC_FMC                   ((LPC_FMC_T              *) LPC_FLASH_BASE)
+#define LPC_MRT                   ((LPC_MRT_T              *) LPC_MRT_BASE)
+#define LPC_SWM                   ((LPC_SWM_T              *) LPC_SWM_BASE)
+#define LPC_RITIMER               ((LPC_RITIMER_T          *) LPC_RITIMER_BASE)
+#define LPC_INMUX                 ((LPC_INMUX_T            *) LPC_INMUX_BASE)
+#define LPC_SCTIPU                ((LPC_SCTIPU_T           *) LPC_SCTIPU_BASE)
+#define LPC_CMP                   ((LPC_CMP_T              *) LPC_CMP_BASE)
+#define LPC_DAC                   ((LPC_DAC_T              *) LPC_DAC_BASE)
+#define LPC_SPI0                  ((LPC_SPI_T              *) LPC_SPI0_BASE)
+#define LPC_SPI1                  ((LPC_SPI_T              *) LPC_SPI1_BASE)
+
+/**
+ * @}
+ */
 
 
 /******************************************************************************/
@@ -763,5 +739,8 @@ typedef struct
 #define LPC_I2C0                LPC_I2C
 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif  // __LPC13xx_H__
