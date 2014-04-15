@@ -35,17 +35,12 @@ void initLowLevelCpu(void)
 {
     uint32_t i;
 
-    // Power on I/O
-    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL,16);
         
     //====== CONFIGURE CLOCK & OSCILLATOR ====//
 
     // Power up system oscillator
-    CLRBIT(LPC_SYSCON->PDRUNCFG,5); //system oscillator power on
+    CLRBIT(LPC_SYSCON->PDRUNCFG,22); //system oscillator power on
     
-    // Use an external oscillator between 1-20 MHz
-//    SETBIT(LPC_SYSCON->SYSOSCCTRL,0);
-
     CLRBIT(LPC_SYSCON->SYSOSCCTRL,0);
   
     for (i = 0; i < 200; i++)
@@ -75,15 +70,12 @@ void initLowLevelCpu(void)
     // MUST SET M-1 AND P-1
     
     // Set system pll clock value
-    LPC_SYSCON->SYSPLLCTRL = BITS(0,5) | BITS(5,1);
-      
-    // Power up system pll
-    CLRBIT(LPC_SYSCON->PDRUNCFG,7);
+    LPC_SYSCON->SYSPLLCTRL = BITS(0,5) | BITS(6,1);
     
     while (!(LPC_SYSCON->SYSPLLSTAT & BIT(0)) );
     
     // Use system pll clock out for the main clock
-    LPC_SYSCON->MAINCLKSEL    = 3;
+    LPC_SYSCON->MAINCLKSEL[1]    = 0x2;
     
     
     //====== Peripheral clock ====//
