@@ -41,8 +41,4 @@ SECTIONS
         _ebss = .;
     } > RAM
 
-    .usb_ram (NOLOAD): ALIGN(4)
-    {
-        *(USB_RAM)
-    } > USBRAM
 }
