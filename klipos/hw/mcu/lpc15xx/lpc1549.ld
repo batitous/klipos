@@ -1,0 +1,45 @@
+/*
+ * generic gcc linker script for LPC1549
+ * Taken from Kamal Mostafa <kamal@whence.com>.
+ *
+ * License: Public Domain
+ */
+
+MEMORY
+{
+    FLASH (rx)    : ORIGIN = 0x00000000, LENGTH = 256K 
+    RAM (rwx)     : ORIGIN = 0x02000000, LENGTH = 16K
+    RAM1 (rwx)    : ORIGIN = 0x02004000, LENGTH = 16K
+    RAM2 (rwx)    : ORIGIN = 0x02008000, LENGTH = 4K
+}
+
+SECTIONS
+{
+    .text :
+    {
+        _text = .;
+        KEEP(*(.isr_vector))
+        KEEP(*(.after_vectors))
+        *(.text*)
+        *(.rodata*)
+        _etext = .;
+    } > FLASH
+
+    .data : AT (ADDR(.text) + SIZEOF(.text))
+    {
+        KEEP(*(.stack))
+        _data = .;
+        *(vtable)
+        *(.data*)
+        _edata = .;
+    } > RAM
+
+    .bss :
+    {
+        _bss = .;
+        *(.bss*)
+        *(COMMON)
+        _ebss = .;
+    } > RAM
+
+}
