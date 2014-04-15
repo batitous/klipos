@@ -38,10 +38,10 @@ USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass
 	pD = (USB_COMMON_DESCRIPTOR *) pDesc;
 	next_desc_adr = (uint32_t) pDesc;
 
-        printf("pD->bLength %d next %x\r\n", pD->bLength, next_desc_adr);
+//        printf("pD->bLength %d next %x\r\n", pD->bLength, next_desc_adr);
         
 	while (pD->bLength) {
-            printf("pD->bDescriptorType %x (%d)\r\n", pD->bDescriptorType, pD->bDescriptorType);
+//            printf("pD->bDescriptorType %x (%d)\r\n", pD->bDescriptorType, pD->bDescriptorType);
             
 		/* is it interface descriptor */
 		if (pD->bDescriptorType == USB_INTERFACE_DESCRIPTOR_TYPE) {
@@ -57,7 +57,7 @@ USB_INTERFACE_DESCRIPTOR *find_IntfDesc(const uint8_t *pDesc, uint32_t intfClass
 		pD = (USB_COMMON_DESCRIPTOR *) next_desc_adr;
 	}
 
-        printf("find_IntfDesc: %x\r\n", pIntfDesc);
+//        printf("find_IntfDesc: %x\r\n", pIntfDesc);
         
 	return pIntfDesc;
 }
@@ -97,9 +97,9 @@ void initUsbStack(void)
     desc.full_speed_desc = (uint8_t *) &USB_FsConfigDescriptor[0];
     desc.device_qualifier = 0;
 
-    printf("USB_CONFIGURATION_DESC_SIZE %d USB_FsConfigDescriptor[0] = %d\r\n",
-            USB_CONFIGURATION_DESC_SIZE, 
-            USB_FsConfigDescriptor[0]);
+//    printf("USB_CONFIGURATION_DESC_SIZE %d USB_FsConfigDescriptor[0] = %d\r\n",
+//            USB_CONFIGURATION_DESC_SIZE, 
+//            USB_FsConfigDescriptor[0]);
     
     /* USB Initialization */
     ret = USBD_API->hw->Init(&g_hUsb, &desc, &usb_param);
@@ -112,9 +112,6 @@ void initUsbStack(void)
 		 */
         usb_param.mem_base = USB_STACK_MEM_BASE + (USB_STACK_MEM_SIZE - usb_param.mem_size);
   
-//        usb_param.mem_base = USB_STACK_MEM_BASE + 0x500;
-//        usb_param.mem_size = 0x200;
-        
         /* Init VCOM interface */
         ret = vcom_init(g_hUsb, &desc, &usb_param);
         if (ret == LPC_OK) 

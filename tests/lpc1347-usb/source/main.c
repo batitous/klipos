@@ -41,23 +41,26 @@ void gpioTaskCode(uint32_t event)
     printf("IRQ Button: %x\r\n", event);    
 }
 
-bool usbConnected = false;
 int prompt = 0;
 
 void ledTaskCode(uint32_t event)
 {
-    if (usbConnected == false)
-    {
-        initUsbStack();
-        usbConnected = true;
-    }
-    
+    uint8_t buffer[1];
+        
     toggleGpio(LED);
     
     if ((vcom_connected() != 0) && (prompt == 0)) 
     {
         vcom_write("Hello World!!\r\n", 15);
 	prompt = 1;
+    }
+    
+    if ((vcom_connected() != 0))
+    {
+        if (vcom_bread(buffer,1)!=0)
+        {
+            vcom_write(buffer,1);
+        }
     }
 
 }
@@ -85,6 +88,8 @@ int main(void)
     initTimer(&ledTimer, MS_TO_US(500), &ledTask);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
+    
+    initUsbStack();
     
     while(1)
     {

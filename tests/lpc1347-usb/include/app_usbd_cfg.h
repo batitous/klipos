@@ -71,9 +71,6 @@ extern "C"
  */
 #define USB_STACK_MEM_BASE      0x20004000
 #define USB_STACK_MEM_SIZE      0x0800
-
-//#define USB_STACK_MEM_BASE      0x2000400
-//#define USB_STACK_MEM_SIZE      0x500
     
 /* USB descriptor arrays defined *_desc.c file */
 extern const uint8_t USB_DeviceDescriptor[];

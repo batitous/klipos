@@ -67,7 +67,7 @@ static ErrorCode_t VCOM_bulk_out_hdlr(USBD_HANDLE_T hUsb, void *data, uint32_t e
 
 	switch (event) {
 	case USB_EVT_OUT:
-		pVcom->rx_count = USBD_API->hw->ReadEP(hUsb, USB_CDC_OUT_EP, pVcom->rx_buff);
+		pVcom->rx_count = USBD_API->hw->ReadEP(hUsb, USB_CDC_OUT_EP, pVcom->rx_buff);                
 		if (pVcom->rx_flags & VCOM_RX_BUF_QUEUED) {
 			pVcom->rx_flags &= ~VCOM_RX_BUF_QUEUED;
 			if (pVcom->rx_count != 0) {
@@ -107,11 +107,6 @@ static ErrorCode_t VCOM_SetLineCode(USBD_HANDLE_T hCDC, CDC_LINE_CODING *line_co
 	return LPC_OK;
 }
 
-ErrorCode_t CDC_SendBreak(USBD_HANDLE_T hCDC, uint16_t mstime)
-{
-  return LPC_OK;
-}
-
 /*****************************************************************************
  * Public functions
  ****************************************************************************/
@@ -131,11 +126,10 @@ ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT
         cdc_param.cif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_COMMUNICATION_INTERFACE_CLASS);
 	cdc_param.dif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_DATA_INTERFACE_CLASS);
 	cdc_param.SetLineCode = VCOM_SetLineCode;
-        cdc_param.SendBreak = CDC_SendBreak;
   
         ret = USBD_API->cdc->init(hUsb, &cdc_param, &g_vCOM.hCdc);
         
-        printf("cdc ret: %x\r\n", ret);
+//        printf("cdc ret: %x\r\n", ret);
         
 	if (ret == LPC_OK)
         {
