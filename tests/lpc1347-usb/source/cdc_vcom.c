@@ -127,12 +127,16 @@ ErrorCode_t vcom_init(USBD_HANDLE_T hUsb, USB_CORE_DESCS_T *pDesc, USBD_API_INIT
 	memset((void *) &cdc_param, 0, sizeof(USBD_CDC_INIT_PARAM_T));
 	cdc_param.mem_base = pUsbParam->mem_base;
 	cdc_param.mem_size = pUsbParam->mem_size;
-	cdc_param.cif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_COMMUNICATION_INTERFACE_CLASS);
+	
+        cdc_param.cif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_COMMUNICATION_INTERFACE_CLASS);
 	cdc_param.dif_intf_desc = (uint8_t *) find_IntfDesc(pDesc->high_speed_desc, CDC_DATA_INTERFACE_CLASS);
 	cdc_param.SetLineCode = VCOM_SetLineCode;
         cdc_param.SendBreak = CDC_SendBreak;
   
         ret = USBD_API->cdc->init(hUsb, &cdc_param, &g_vCOM.hCdc);
+        
+        printf("cdc ret: %x\r\n", ret);
+        
 	if (ret == LPC_OK)
         {
         	/* allocate transfer buffers */

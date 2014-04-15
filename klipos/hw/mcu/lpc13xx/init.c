@@ -46,7 +46,6 @@ void initLowLevelCpu(void)
     // Use an external oscillator between 1-20 MHz
 //    SETBIT(LPC_SYSCON->SYSOSCCTRL,0);
 
-    // use internal osc ?
     CLRBIT(LPC_SYSCON->SYSOSCCTRL,0);
   
     for (i = 0; i < 200; i++)
@@ -54,9 +53,12 @@ void initLowLevelCpu(void)
         __NOP();
     }
     
-    // Use system oscillator
+    // Use IRC system oscillator
     LPC_SYSCON->SYSPLLCLKSEL = 0 ;
         
+    // Use external oscillator
+//    LPC_SYSCON->SYSPLLCLKSEL = 1 ;
+    
 #ifdef MCU_IS_LPC1311
     // Update system oscillator
     LPC_SYSCON->SYSPLLCLKUEN  = 1;
