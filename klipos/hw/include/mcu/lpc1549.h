@@ -312,6 +312,13 @@ typedef struct {
 } LPC_USART_T;
 
 
+/** Sequence index enumerations, used in various parts of the code for
+    register indexing and sequencer selection */
+typedef enum {
+	ADC_SEQA_IDX,
+	ADC_SEQB_IDX
+} ADC_SEQ_IDX_T;
+
 /**
  * @brief ADC register block structure
  */
@@ -735,8 +742,6 @@ typedef struct {					/* I2C0 Structure         */
 #define UART0_IRQn              UART_IRQn
 #define LPC_UART0_BASE          LPC_UART_BASE
 #define LPC_UART0               LPC_UART
-
-#define LPC_I2C0                LPC_I2C
 
 
 #ifdef __cplusplus
