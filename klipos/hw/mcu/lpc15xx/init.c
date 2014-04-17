@@ -75,7 +75,7 @@ void initLowLevelCpu(void)
     while (!(LPC_SYSCON->SYSPLLSTAT & BIT(0)) );
     
     // Use system pll clock out for the main clock
-    LPC_SYSCON->MAINCLKSEL[1]    = 0x2;
+    LPC_SYSCON->MAINCLKSELB    = 0x2;
     
     
     //====== Peripheral clock ====//

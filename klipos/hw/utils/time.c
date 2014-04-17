@@ -28,6 +28,10 @@
 #       define LOOP_DELAY      2
 #endif
 
+#ifdef MCU_IS_LPC15XX
+#       define LOOP_DELAY      2
+#endif
+
 #ifdef MCU_IS_LPC17XX
 #       define LOOP_DELAY       4
 #endif

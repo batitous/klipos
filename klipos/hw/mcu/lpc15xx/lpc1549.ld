@@ -27,7 +27,11 @@ SECTIONS
 
     .data : AT (ADDR(.text) + SIZEOF(.text))
     {
+        __stack_start__ = .; /* start of the stack section */
         KEEP(*(.stack))
+         . = ALIGN(4);
+        __stack_end__ = .;   /* end of the stack section */
+
         _data = .;
         *(vtable)
         *(.data*)

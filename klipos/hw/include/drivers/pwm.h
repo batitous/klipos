@@ -41,6 +41,10 @@ typedef enum _pwm_output_
         PWM2 = 0x04         /**< PWM output 2 */
 #endif
 
+#ifdef MCU_IS_LPC15XX
+       PWM0 = 0xFF
+#endif
+                
 #ifdef MCU_IS_LPC17XX
         PWM1 = 0x01,
         PWM2 = 0x02,
@@ -63,7 +67,11 @@ typedef enum _timertype_
 
 typedef struct _pwm_device_
 {
+#if defined(MCU_IS_LPC15XX)
+
+#else
     LPC_TMR_TypeDef     *timer;
+#endif
     PWMOUTPUT           outputs;
     bool                enable;
 } Pwm;

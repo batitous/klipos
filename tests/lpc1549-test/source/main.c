@@ -1,11 +1,6 @@
 
 #include <libs-klipos.h>
 
-#include "../include/app_usbd_cfg.h"
-#include "../include/cdc_vcom.h"
-
-extern void initUsbHardware(void);
-extern void initUsbStack(void);
 
 #define LED     GPIO0_7
 #define BUTTON  GPIO0_1 
@@ -45,23 +40,10 @@ int prompt = 0;
 
 void ledTaskCode(uint32_t event)
 {
-    uint8_t buffer[1];
         
     toggleGpio(LED);
     
-    if ((vcom_connected() != 0) && (prompt == 0)) 
-    {
-        vcom_write("Hello World!!\r\n", 15);
-	prompt = 1;
-    }
     
-    if ((vcom_connected() != 0))
-    {
-        if (vcom_bread(buffer,1)!=0)
-        {
-            vcom_write(buffer,1);
-        }
-    }
 
 }
 
@@ -73,7 +55,6 @@ int main(void)
     
     setGpioDirection(LED, GPIO_OUT);
 
-    initUsbHardware();
     
     initSimpleKernel();
     
@@ -89,7 +70,6 @@ int main(void)
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     
-    initUsbStack();
     
     while(1)
     {

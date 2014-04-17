@@ -39,7 +39,11 @@ typedef enum _timer_enum_
 
 typedef struct _timer_
 {
+#if defined(MCU_IS_LPC15XX)
+    uint32_t    t;
+#else
     LPC_TMR_TypeDef*    t;
+#endif
 } Timer;
 
 typedef void (*TimerIrqCallback)(void);
