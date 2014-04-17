@@ -22,12 +22,12 @@
 */
 #include "i2c-master-common.h"
 
-uint32_t i2c0_write(uint8_t data);
+static uint32_t i2c0_write(uint8_t data);
 
 
 #define I2C_CNT         65536
 
-uint32_t private_i2c0_getStat(void)
+static uint32_t private_i2c0_getStat(void)
 {
     uint32_t cnt = I2C_CNT;
     while( (I2C_I2CONSET & 0x08) == 0)
@@ -46,7 +46,7 @@ uint32_t private_i2c0_getStat(void)
                             status = I2C_I2STAT
 
 
-uint32_t private_i2c0_send(uint8_t data)
+static uint32_t private_i2c0_send(uint8_t data)
 {
     uint32_t cnt = I2C_CNT;
     while( i2c0_write(data) == I2C_BUSY)
@@ -69,7 +69,7 @@ uint32_t private_i2c0_send(uint8_t data)
 #define SEND_ACK()			I2C_I2CONSET |= 0x04; /*AA=1*/ I2C_I2CONCLR = 0x08 /*clear SI flag*/
 #define SEND_NACK()			I2C_I2CONCLR = 0x04; I2C_I2CONCLR = 0x08   /*clear SI flag*/
 
-uint32_t i2c0_start(void)
+static uint32_t i2c0_start(void)
 {
 //    uint32_t cnt;
     uint32_t result;
@@ -109,7 +109,7 @@ uint32_t i2c0_start(void)
 }
 
 
-void i2c0_stop(void)
+static void i2c0_stop(void)
 {
     uint32_t cnt = I2C_CNT;
 
@@ -128,7 +128,7 @@ void i2c0_stop(void)
     }
 }
 
-uint32_t i2c0_write(uint8_t data)
+static uint32_t i2c0_write(uint8_t data)
 {
     //check if I2C Data register can be accessed
     if((I2C_I2CONSET & 0x08) != 0)    //if SI = 1
@@ -146,7 +146,7 @@ uint32_t i2c0_write(uint8_t data)
 
 }
 
-uint32_t i2c0_wait_after_write(void)
+static uint32_t i2c0_wait_after_write(void)
 {
     uint8_t status;
 
@@ -175,24 +175,8 @@ uint32_t i2c0_wait_after_write(void)
     }
 }
 
-void i2c0_write_wait(uint8_t data)
-{
-    uint32_t cnt = I2C_CNT;
-    while( i2c0_write(data) == I2C_BUSY)
-    {
-        cnt--;
-        waitSomeTimeInUs(1);
-        if(cnt==0)
-        {
-            //DebugPrintf("i2c0_write_wait timeout\r\n");
-            return;
-        }
-    }
 
-    i2c0_wait_after_write();
-}
-
-uint32_t i2c0_read(uint8_t *data)
+static uint32_t i2c0_read(uint8_t *data)
 {
     //check if I2C Data register can be accessed
     if((I2C_I2CONSET & 0x08) != 0)    //SI = 1

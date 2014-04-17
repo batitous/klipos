@@ -28,20 +28,20 @@ extern uint32_t getIRQNumber(uint32_t reg);
 
 //----------------------------- private object
 
-void defaultIrqCallback();
+static void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge);
 
 static GpioIrqCallback gpioIrqCallback = defaultIrqCallback;
 
 
 //----------------------------- private functions
 
-void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge)
+static void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge)
 {
     gpioIrqEvent = 0;
     gpioIrqEdge = 0;
 }
 
-uint32_t getEventFromGpio(LPC_GPIO_TypeDef * gpio, uint32_t * edge)
+static uint32_t getEventFromGpio(LPC_GPIO_TypeDef * gpio, uint32_t * edge)
 {
     uint32_t thepin = getIRQNumber(gpio->MIS);
         
@@ -65,7 +65,7 @@ uint32_t getEventFromGpio(LPC_GPIO_TypeDef * gpio, uint32_t * edge)
     return thepin;
 }
 
-void IRQ_Handler(uint32_t eventPort, LPC_GPIO_TypeDef * gpio)
+static void IRQ_Handler(uint32_t eventPort, LPC_GPIO_TypeDef * gpio)
 {
     uint32_t edge = 0;
     uint32_t event = getEventFromGpio(gpio, &edge) | eventPort;

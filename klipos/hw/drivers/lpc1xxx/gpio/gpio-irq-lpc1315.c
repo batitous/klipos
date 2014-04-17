@@ -27,7 +27,7 @@
 
 #define PIN_IRQ_MAX     8
 
-void defaultIrqCallback();
+static void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge);
 
 static GpioIrqCallback gpioIrqCallback = defaultIrqCallback;
 static uint32_t pinIrqFree = 0;
@@ -52,7 +52,7 @@ static uint32_t getIndexFromGpio(GPIO_PIN pin)
     return 0;
 }
 
-void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge)
+static void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge)
 {
     gpioIrqEvent = 0;
     gpioIrqEdge = 0;
