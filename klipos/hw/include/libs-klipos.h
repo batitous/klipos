@@ -44,7 +44,7 @@ extern "C" {
 #else
 #       include "drivers/lpc8xx/uart.h"
 #endif 
-    
+        
 #include "drivers/gpio.h"
 #include "drivers/gpio-irq.h"
 #include "drivers/analog.h"
@@ -56,6 +56,9 @@ extern "C" {
 #include "drivers/spi.h"
 #include "drivers/mem-protocol.h"
 
+#if defined(MCU_IS_LPC15XX)
+#       include "drivers/lpc15xx/switchmatrix.h"
+#endif
     
 #ifdef __cplusplus
  }

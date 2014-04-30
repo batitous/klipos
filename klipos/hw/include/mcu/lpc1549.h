@@ -741,7 +741,7 @@ typedef struct {					/* I2C0 Structure         */
 
 #define UART0_IRQn              UART_IRQn
 #define LPC_UART0_BASE          LPC_UART_BASE
-#define LPC_UART0               LPC_UART
+#define LPC_UART0               LPC_USART0
 #define LPC_GPIO_TypeDef        LPC_GPIO_T
 
 #ifdef __cplusplus

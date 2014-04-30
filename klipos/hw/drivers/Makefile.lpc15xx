@@ -1,0 +1,10 @@
+
+# Include path of Hardware library:
+HEADER_KLIP += -I$(HW_PATH)include/drivers 
+            
+# Source path of Hardware library:
+SOURCE_PATH_KLIP += $(HW_PATH)drivers \
+                $(HW_PATH)drivers/lpc15xx/switchmatrix 
+
+SOURCE_KLIP += switchmatrix.c
+

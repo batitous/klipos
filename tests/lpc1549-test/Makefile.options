@@ -31,7 +31,7 @@ klock = no
 printf = yes
 fsm = yes
 
-uart0 = no
+uart0 = yes
 
 gpio = no
 gpioirq = no
