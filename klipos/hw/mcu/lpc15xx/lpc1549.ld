@@ -25,7 +25,7 @@ SECTIONS
         _etext = .;
     } > FLASH
 
-    .data : AT (ADDR(.text) + SIZEOF(.text))
+    .data : 
     {
         __stack_start__ = .; /* start of the stack section */
         KEEP(*(.stack))
@@ -36,7 +36,7 @@ SECTIONS
         *(vtable)
         *(.data*)
         _edata = .;
-    } > RAM
+    } > RAM AT > FLASH
 
     .bss :
     {
