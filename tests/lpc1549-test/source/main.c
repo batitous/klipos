@@ -38,7 +38,14 @@ void uartTaskCode(uint32_t event)
 int main(void)
 {
     // enable IOCON clock
-//    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0],13);
+    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0],13);
+    
+    SETBIT(LPC_SYSCON->PRESETCTRL[0], 13);
+    CLRBIT(LPC_SYSCON->PRESETCTRL[0], 13);
+    
+    
+    // set systick clock divider
+    LPC_SYSCTL->SYSTICKCLKDIV = 1;
     
     initSwitchMatrix();
     
@@ -56,7 +63,7 @@ int main(void)
     initSimpleKernel();
     
     initTask(&uartTask, uartTaskCode, PRIORITY_LOW);
-    setTaskOnUart0(&uartTask);
+    assignTaskOnUart0(&uartTask);
     
     initTask(&timerTask, timerTaskCode, PRIORITY_LOW);
     initTimer(&myTimer, MS_TO_US(500), &timerTask);

@@ -73,7 +73,7 @@ extern bool getByteFromUart0(uint8_t *byte);
 #endif
 
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
-        extern void setTaskOnUart0(KTask* t);
+        extern void assignTaskOnUart0(KTask* t);
 #endif
         
 extern uint32_t getByteAvailableOnUart0(void);

@@ -205,7 +205,7 @@ void waitDataFromUart0(void)
 
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
 
-void setTaskOnUart0(KTask* t)
+void assignTaskOnUart0(KTask* t)
 {
     uartTask = t;
 }
