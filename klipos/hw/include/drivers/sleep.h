@@ -60,7 +60,7 @@ extern void initWakeUp(void);
 #endif
 
 #ifdef MCU_IS_LPC15XX
-#       define setMcuToDefaultSleep()    /*SETBIT(LPC_PMU->PCON,8); SETBIT(LPC_PMU->PCON,11); __WFI();*/
+#       define setMcuToDefaultSleep()    SETBIT(LPC_PMU->PCON,8); SETBIT(LPC_PMU->PCON,11); __WFI();
 #endif
 
 

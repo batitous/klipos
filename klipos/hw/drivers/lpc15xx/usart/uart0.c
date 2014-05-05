@@ -26,6 +26,8 @@
 
 //--------------------- private variables:
 
+#define IRC_CLOCK    12000000
+
 #ifndef UART_BUFFER_SIZE
 #       define UART_BUFFER_SIZE    64
 #endif
@@ -69,6 +71,63 @@ void UART0_IRQHandler(void)
     }
 }
 
+void setUartClockRate(uint32_t rate, bool fEnable)
+{
+    uint32_t div, inclk;
+
+    inclk = IRC_CLOCK;
+
+    div = inclk / rate;
+    if (div == 0) 
+    {
+        div = 1;
+    }
+
+    LPC_SYSCON->UARTCLKDIV = div;
+
+    if (fEnable) 
+    {
+            uint32_t err;
+            uint64_t uart_fra_multiplier;
+
+            err = inclk - (rate * div);
+            uart_fra_multiplier = ((uint64_t) err  * 256) / (uint64_t) (rate * div);
+
+            /* Enable fractional divider and set multiplier */
+            LPC_SYSCTL->FRGCTRL = 0xFF | ((uart_fra_multiplier & 0xFF) << 8);
+    }
+    else 
+    {
+            /* Disable fractional generator and use integer divider only */
+            LPC_SYSCTL->FRGCTRL = 0;
+    }
+
+}
+
+uint32_t getUartClockRate(void)
+{
+    uint64_t inclk;
+    uint32_t div;
+
+    div = (uint32_t) LPC_SYSCON->UARTCLKDIV;
+    
+    uint32_t mult, divmult;
+
+    /* Input clock into FRG block is the divided main system clock */
+    inclk = (uint64_t) (IRC_CLOCK / div);
+
+    divmult = LPC_SYSCTL->FRGCTRL & 0xFFFF;
+    if ((divmult & 0xFF) == 0xFF) 
+    {
+        /* Fractional part is enabled, get multiplier */
+        mult = (divmult >> 8) & 0xFF;
+
+        /* Get fractional error */
+        inclk = (inclk * 256) / (uint64_t) (256 + mult);
+    }
+
+    return (uint32_t) inclk;
+}
 
 //--------------------- public functions:
 
@@ -77,18 +136,18 @@ const Uart * initUart0(void)
 {
     initIOStream(&uartStream,uartBuffer,UART_BUFFER_SIZE);
     
-    LPC_SYSCON->UARTCLKDIV = 1;
-    LPC_SYSCTL->FRGCTRL = 0;
+    setUartClockRate(IRC_CLOCK,false); 
+//    setUartClockRate(115200*128,true);
     
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],17);
+    
     SETBIT(LPC_SYSCON->PRESETCTRL[1], 17);
     CLRBIT(LPC_SYSCON->PRESETCTRL[1], 17);
     
     // 8 bit, 1 stop, no parity
     SETBIT(LPC_USART0->CFG,2);
     
-    uint32_t baudRateGenerator;
-    baudRateGenerator = (12000000) / (16 * 115200);
+    uint32_t baudRateGenerator = getUartClockRate() / (16 * 19200);
         
     LPC_USART0->BRG = baudRateGenerator - 1;
     

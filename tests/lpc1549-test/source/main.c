@@ -4,6 +4,14 @@
 
 
 KTask uartTask;
+KTask timerTask;
+
+KTimer myTimer;
+
+void timerTaskCode(uint32_t event)
+{
+    printf("Timer !\r\n");
+}
 
 void uartTaskCode(uint32_t event)
 {
@@ -41,15 +49,18 @@ int main(void)
     setPrintfInterface(sendByteToUart0);
     
     sendByteToUart0('1');
-    sendByteToUart0('2');
+    sendByteToUart0(' ');
     sendByteToUart0('3');
-    sendByteToUart0('4');
+    sendByteToUart0(' ');
     
     initSimpleKernel();
     
     initTask(&uartTask, uartTaskCode, PRIORITY_LOW);
     setTaskOnUart0(&uartTask);
-        
+    
+    initTask(&timerTask, timerTaskCode, PRIORITY_LOW);
+    initTimer(&myTimer, MS_TO_US(500), &timerTask);
+    
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
     
     
