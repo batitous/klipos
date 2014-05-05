@@ -39,7 +39,7 @@ void initLowLevelCpu(void)
     //====== CONFIGURE CLOCK & OSCILLATOR ====//
 
     // Power up system oscillator
-    CLRBIT(LPC_SYSCON->PDRUNCFG,22); //system oscillator power on
+    CLRBIT(LPC_SYSCON->PDRUNCFG,21);
     
     CLRBIT(LPC_SYSCON->SYSOSCCTRL,0);
   
@@ -69,8 +69,12 @@ void initLowLevelCpu(void)
     //
     // MUST SET M-1 AND P-1
     
+    SETBIT(LPC_SYSCON->PDRUNCFG,22);
+    
     // Set system pll clock value
-    LPC_SYSCON->SYSPLLCTRL = BITS(0,5) | BITS(6,1);
+    LPC_SYSCON->SYSPLLCTRL = BITS(0,5) | BITS(6,2);
+    
+    CLRBIT(LPC_SYSCON->PDRUNCFG,22);
     
     while (!(LPC_SYSCON->SYSPLLSTAT & BIT(0)) );
     
