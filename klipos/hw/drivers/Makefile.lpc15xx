@@ -4,7 +4,8 @@ HEADER_KLIP += -I$(HW_PATH)include/drivers
             
 # Source path of Hardware library:
 SOURCE_PATH_KLIP += $(HW_PATH)drivers \
-                $(HW_PATH)drivers/lpc15xx/switchmatrix 
+                $(HW_PATH)drivers/lpc15xx/switchmatrix \
+                $(HW_PATH)drivers/lpc15xx/usart
 
-SOURCE_KLIP += switchmatrix.c
+SOURCE_KLIP += switchmatrix.c uart0.c
 

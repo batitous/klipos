@@ -29,10 +29,21 @@ void uartTaskCode(uint32_t event)
 
 int main(void)
 {
-    initGpio();
+    // enable IOCON clock
+//    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0],13);
+    
+    initSwitchMatrix();
+    
+    assignMovableFunctionToGpio(SWM_UART0_RXD_I , GPIO0_13);
+    assignMovableFunctionToGpio(SWM_UART0_TXD_O , GPIO0_18);
+    
     initUart0();
     setPrintfInterface(sendByteToUart0);
     
+    sendByteToUart0('1');
+    sendByteToUart0('2');
+    sendByteToUart0('3');
+    sendByteToUart0('4');
     
     initSimpleKernel();
     
