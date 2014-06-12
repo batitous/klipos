@@ -22,7 +22,7 @@
 */
 #include "../../../include/libs-klipos.h"
 
-extern LPC_GPIO_TypeDef * getGpioPort(GPIO_PIN pin);
+extern LPC_GPIO_TypeDef * getLpcGpio(uint32_t pin);
 
 extern uint32_t getIRQNumber(uint32_t reg);
 
@@ -104,7 +104,7 @@ void setGpioIrqCallback(GpioIrqCallback callback)
 
 void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge)
 {
-    LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
+    LPC_GPIO_TypeDef * gpio = getLpcGpio(pin);
     uint32_t thepin = pin & 0xFFFF;
     
 
@@ -155,7 +155,7 @@ void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge)
 
 void disableGpioIrq(GPIO_PIN pin)
 {
-    LPC_GPIO_TypeDef * gpio = getGpioPort(pin);
+    LPC_GPIO_TypeDef * gpio = getLpcGpio(pin);
     uint32_t thepin = pin & 0xFFFF;
     
     // disable IRQ
