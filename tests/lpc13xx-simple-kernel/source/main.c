@@ -79,6 +79,56 @@ void t333TaskCode(uint32_t event)
     //printf("333\r\n");
 }
 
+Pwm mot1;
+Pwm mot2;
+Pwm mot3;
+Pwm mot4;
+
+void initDcMotor(void)
+{
+    // a partir de 100 000 us ca foire le pwm, il faut mettre un prescaler
+    initPwm(&mot1, TIMER32_1, PWM0, 100, 0,0);
+    initPwm(&mot2, TIMER32_1, PWM1, 100, 0,0);
+    initPwm(&mot3, TIMER32_1, PWM2, 100, 0,0);
+    initPwm(&mot4, TIMER32_0, PWM0, 100, 0,0);
+    
+    enablePwm(&mot1);
+    enablePwm(&mot2);
+    enablePwm(&mot3);
+    enablePwm(&mot4);
+}
+
+void setDcMotor(uint32_t m1, uint32_t m2, uint32_t m3, uint32_t m4)
+{
+    setPwmRawDutyCycle(&mot1, m1);
+    setPwmRawDutyCycle(&mot2, m2);
+    setPwmRawDutyCycle(&mot3, m3);
+    setPwmRawDutyCycle(&mot4, m4);
+}
+
+#define LED_PERIOD_IN_US        900
+
+Pwm ledr;
+Pwm ledg;
+Pwm ledb;
+
+void initRGBLed(void)
+{
+    initPwm(&ledr, TIMER16_1, PWM0, LED_PERIOD_IN_US, 0,0);
+    initPwm(&ledg, TIMER16_1, PWM1, LED_PERIOD_IN_US, 0,0);
+    initPwm(&ledb, TIMER16_0, PWM2, LED_PERIOD_IN_US, 0,0);
+    
+    enablePwm(&ledr);
+    enablePwm(&ledg);
+    enablePwm(&ledb);
+}
+
+void setRGBLed(uint32_t r, uint32_t g, uint32_t b)
+{
+    setPwmDutyCycle(&ledr, r);
+    setPwmDutyCycle(&ledg, g);
+    setPwmDutyCycle(&ledb, b);
+}
 
 int main(void)
 {
@@ -101,7 +151,7 @@ int main(void)
     initTask(&t333Task, t333TaskCode, PRIORITY_HIGH);
     initTask(&gpioTask, gpioTaskCode, PRIORITY_LOW);
     
-    setTaskOnUart0(&uartTask);
+    assignTaskOnUart0(&uartTask);
     
     enableGpioIrqOnTask(&gpioTask, GPIO0_1, GPIO_BOTH_EDGE);
     
@@ -112,6 +162,13 @@ int main(void)
     initTimer(&t333, MS_TO_US(1333), &t333Task);
     
     printf("Test Simple Kernel sizeof KTask %d !\r\n", sizeof(KTask));
+    
+    
+    initDcMotor();
+    setDcMotor(500,500,500,500);
+    
+    initRGBLed();
+    setRGBLed(500,500,500);
     
     while(1)
     {

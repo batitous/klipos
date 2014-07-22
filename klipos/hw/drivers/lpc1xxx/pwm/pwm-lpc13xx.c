@@ -98,7 +98,11 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
             // not activated!
 
             // IOCON_PIO1_7 CT32B0_MAT1 warning: TXD FUNC=0x2
-            //SETBIT(LPC_IOCON->PIO1_7,1);
+            
+#ifdef MCU_IS_LPC1315
+            // only on lqfp48 package !
+            SETBIT(LPC_IOCON->PIO1_25,0);
+#endif
         }
 
         if( (pwmSelected&PWM2)==PWM2)
