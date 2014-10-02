@@ -144,14 +144,16 @@ bool isTimer32Enable(Timer* timer)
     return false;
 }
 
-void setTimer0Callback(TimerIrqCallback c)
+void setTimer32Callback(Timer* timer, TimerIrqCallback c)
 {
-    timer0IrqCallback = c;
-}
-
-void setTimer1Callback(TimerIrqCallback c)
-{
-    timer1IrqCallback = c;
+    if (timer->t == LPC_TMR32B0)
+    {
+        timer0IrqCallback = c;
+    }
+    else
+    {
+        timer1IrqCallback = c;
+    }
 }
 
 
