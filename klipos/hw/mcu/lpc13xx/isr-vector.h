@@ -62,6 +62,7 @@ void PIN_INT7_IRQHandler(void) ALIAS(IntDefaultHandler);
 void GINT0_IRQHandler(void) ALIAS(IntDefaultHandler);
 void GINT1_IRQHandler(void) ALIAS(IntDefaultHandler);
 void RESERVED_IRQn_Handler(void) ALIAS(IntDefaultHandler);
+void RIT_IRQn_Handler(void) ALIAS(IntDefaultHandler);
 void SSP1_IRQn_Handler(void) ALIAS(IntDefaultHandler);
 void I2C_IRQn_Handler(void) ALIAS(IntDefaultHandler);
 void TIMER_16_0_IRQn_Handler(void) ALIAS(IntDefaultHandler);

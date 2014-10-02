@@ -86,9 +86,7 @@ void initTask(KTask* task, KTaskCode c, KPriority prio)
 void scheduleTask(void)
 {
     uint32_t tmp;
-    
     bool executed = false;
-    
     KTask* next = (KTask*)tasks.next;
     
     while (next != (KTask*)&tasks)
@@ -112,11 +110,6 @@ void scheduleTask(void)
 
 bool postEventToTask(KTask* task, uint32_t data)
 {
-    if (task==0)
-    {
-        return false;
-    }
-    
     if (task->priority == PRIORITY_VERY_HIGH)
     {
         // execute immediatly the task if high priority

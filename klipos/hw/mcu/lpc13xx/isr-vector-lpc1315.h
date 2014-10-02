@@ -13,7 +13,7 @@
     GINT1_IRQHandler,           /* GPIO Group 1 Interrupt                           */
     RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
     RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
-    RESERVED_IRQn_Handler,      /* RIT Interrupt                                    */
+    RIT_IRQn_Handler,           /* RIT Interrupt                                    */
     RESERVED_IRQn_Handler,      /* Reserved Interrupt                               */
     SSP1_IRQn_Handler,          /* SSP1 Interrupt  - new name                       */
     I2C_IRQn_Handler,           /* I2C Interrupt                                    */

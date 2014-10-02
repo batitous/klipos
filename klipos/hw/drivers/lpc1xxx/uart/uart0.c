@@ -98,7 +98,7 @@ static const Uart uart0 = {
 };
 
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
-static KTask*   uartTask;
+static KTask*   uartTask = 0;
 #endif
 
 //--------------------- private functions:
@@ -124,7 +124,10 @@ void UART0_IRQHandler(void)
 #endif
             
 #ifdef FIRMWARE_USE_KERNEL_SIMPLE
-            postEventToTask(uartTask,(uint32_t)data);
+            if (uartTask!=0)
+            {
+                postEventToTask(uartTask,(uint32_t)data);
+            }
 #endif
             
         }

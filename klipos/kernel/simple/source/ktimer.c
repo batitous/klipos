@@ -76,11 +76,8 @@ void SysTick_Handler(void)
         {
             currentTime = MAX_TIME_IN_US;
         }
-        
-        if (SysTick_Config( GET_TICK_FROM_US(currentTime))==1)
-        {
-            printf("SysTick_Config 1 err %d\r\n",currentTime);
-        }
+  
+        SysTick_Config( GET_TICK_FROM_US(currentTime));
     }
     
 }

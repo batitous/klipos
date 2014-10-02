@@ -116,7 +116,7 @@ typedef enum IRQn
   GINT1_IRQn                    = 9,        /*!< Grouped Interrupt 1                              */
   Reserved0_IRQn                = 10,       /*!< Reserved Interrupt                               */
   Reserved1_IRQn                = 11,       
-  Reserved2_IRQn                = 12,       
+  RIT_IRQn                      = 12,       
   Reserved3_IRQn                = 13,       
   SSP1_IRQn                     = 14,       /*!< SSP1 Interrupt                                   */
   I2C_IRQn                      = 15,       /*!< I2C Interrupt                                    */
@@ -542,6 +542,26 @@ typedef struct
   __IO uint32_t PWMC;
 } LPC_TMR_TypeDef;
 
+
+/*------------- Repetitive Interrupt Timer (RIT) --------------------------*/
+
+#if defined(MCU_IS_LPC1315)
+/**
+ * @brief Repetitive Interrupt Timer register block structure
+ */
+typedef struct {				/*!< RITIMER Structure      */
+	__IO uint32_t  COMPVAL;		/*!< Compare register       */
+	__IO uint32_t  MASK;		/*!< Mask register. This register holds the 32-bit mask value. A 1 written to any bit will force a compare on the corresponding bit of the counter and compare register. */
+	__IO uint32_t  CTRL;		/*!< Control register.      */
+	__IO uint32_t  COUNTER;		/*!< 32-bit counter         */
+	__IO uint32_t  COMPVAL_H;	/*!< Compare upper register */
+	__IO uint32_t  MASK_H;		/*!< Mask upper register    */
+	__I  uint32_t  RESERVED0[1];
+	__IO uint32_t  COUNTER_H;	/*!< Counter upper register */
+} LPC_RITIMER_T;
+
+#endif
+
 /*------------- Universal Asynchronous Receiver Transmitter (UART) -----------*/
 typedef struct
 {
@@ -719,6 +739,7 @@ typedef struct
 #define LPC_ADC_BASE          (LPC_APB0_BASE + 0x1C000)
 
 #if defined(MCU_IS_LPC1315)
+#       define LPC_RITIMER_BASE      (0x40064000)
 #       define LPC_USB_BASE          (LPC_APB0_BASE + 0x80000)
 #else
 #       define LPC_USB_BASE          (LPC_APB0_BASE + 0x20000)
@@ -748,6 +769,7 @@ typedef struct
 #define LPC_I2C               ((LPC_I2C_TypeDef    *) LPC_I2C_BASE   )
 #define LPC_WDT               ((LPC_WDT_TypeDef    *) LPC_WDT_BASE   )
 #define LPC_UART              ((LPC_UART_TypeDef   *) LPC_UART_BASE  )
+#define LPC_RITIMER           ((LPC_RITIMER_T          *) LPC_RITIMER_BASE)
 #define LPC_TMR16B0           ((LPC_TMR_TypeDef    *) LPC_CT16B0_BASE)
 #define LPC_TMR16B1           ((LPC_TMR_TypeDef    *) LPC_CT16B1_BASE)
 #define LPC_TMR32B0           ((LPC_TMR_TypeDef    *) LPC_CT32B0_BASE)
