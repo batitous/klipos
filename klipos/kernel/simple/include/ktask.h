@@ -51,8 +51,8 @@ typedef struct _ktask_
     KLink *     prev;           /**< previous task in the list */
     
     KQueue      events;         /**< queue event of this task */
-    uint32_t      eventsBuffer[TASK_QUEUE_SIZE]; /**< event's buffer */
-    uint32_t      eventId;        /**< event identifier */
+    uint32_t    eventsBuffer[TASK_QUEUE_SIZE]; /**< event's buffer */
+    uint32_t    eventId;        /**< event identifier */
     
     KTaskCode   code;           /**< task's code */
     KPriority   priority;       /**< task's priority */

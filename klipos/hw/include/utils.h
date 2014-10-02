@@ -27,6 +27,7 @@
 extern "C" {
 #endif
 
+#include "util-bytestream.h"
 #include "util-fsm.h"
 #include "util-time.h"
 
