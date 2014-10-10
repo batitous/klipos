@@ -27,7 +27,17 @@
 extern "C" {
 #endif
 
-extern void initSpi(void);
+// Clock out polarity  / Clock out phase
+typedef enum _spi_mode
+{
+    SPI_MODE0 = 0x00, // cpol = 0 cpha = 0
+    SPI_MODE1 = 0x80, // cpol = 0 cpha = 1
+    SPI_MODE2 = 0x40, // cpol = 1 cpha = 0
+    SPI_MODE3 = 0xC0 // cpol = 1 cpha = 1
+} SpiMode;
+    
+    
+extern void initSpi(SpiMode mode);
 
 extern uint8_t sendByteToSpi(uint8_t outgoing);
 
