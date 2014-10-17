@@ -56,6 +56,11 @@ typedef struct _ktask_
     
     KTaskCode   code;           /**< task's code */
     KPriority   priority;       /**< task's priority */
+    
+#ifdef KERNEL_USE_DEBUG
+    uint32_t    cpuLast;        /**< Last CPU time used by this task */
+    uint32_t    cpuMax;         /**< Maximum CPU time used by this task */
+#endif
 } KTask;
 
 
