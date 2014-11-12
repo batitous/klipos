@@ -179,6 +179,7 @@ void dumpKernel(void)
 {
     KTask* next = (KTask*)tasks.next;
     
+    printf("Dump Kernel, time in 100us tick\r\n");
     printf("Task \t\tPrio \tCpuLast \tCpuMax\r\n");
     
     while (next != (KTask*)&tasks)
