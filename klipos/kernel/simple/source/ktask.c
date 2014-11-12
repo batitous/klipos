@@ -105,6 +105,8 @@ void scheduleTask(void)
             executed = true;
             
 #ifdef KERNEL_USE_DEBUG
+            extern uint32_t getTimerRitCounter(void);
+            
             begin = getTimerRitCounter();
 #endif
             next->code(tmp);
