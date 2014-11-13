@@ -22,7 +22,7 @@
 */
 #include "../include/libs-klipos.h"
 
-void write32bitsToBuffer(uint8_t * buffer, uint32_t integer)
+void write32BitsToBuffer(uint8_t * buffer, uint32_t integer)
 {
     buffer[0] = (uint8_t)(integer & 0xFF);
     buffer[1] = (uint8_t)((integer>>8UL) & 0xFF);
@@ -30,7 +30,7 @@ void write32bitsToBuffer(uint8_t * buffer, uint32_t integer)
     buffer[3] = (uint8_t)((integer>>24UL) & 0xFF);
 }
 
-uint32_t read32bitsFromBuffer(const uint8_t * buffer)
+uint32_t read32BitsFromBuffer(const uint8_t * buffer)
 {
     uint32_t integer;
     uint32_t temp;
@@ -50,13 +50,13 @@ uint32_t read32bitsFromBuffer(const uint8_t * buffer)
     return integer;
 }
 
-void write16bitsToBuffer(uint8_t * buffer, uint16_t integer)
+void write16BitsToBuffer(uint8_t * buffer, uint16_t integer)
 {
     buffer[0] = (uint8_t)(integer);
     buffer[1] = (integer>>8UL);
 }
 
-uint16_t read16bitsFromBuffer(const uint8_t * buffer)
+uint16_t read16BitsFromBuffer(const uint8_t * buffer)
 {
     uint16_t integer = (buffer[1]<<8UL)| (buffer[0]);
     
@@ -98,13 +98,13 @@ void write8BitsToStream(ByteStream * stream, uint8_t data)
 
 void write16BitsToStream(ByteStream * stream, uint16_t data)
 {
-    write16bitsToBuffer(stream->current, data);
+    write16BitsToBuffer(stream->current, data);
     stream->current += 2;
 }
 
 void write32BitsToStream(ByteStream * stream, uint32_t data)
 {
-    write32bitsToBuffer(stream->current, data);
+    write32BitsToBuffer(stream->current, data);
     stream->current += 4;
 }
 
@@ -124,7 +124,7 @@ uint8_t read8BitsFromStream(ByteStream * stream)
 
 uint16_t read16BitsFromStream(ByteStream * stream)
 {
-    uint16_t integer = read16bitsFromBuffer(stream->current);
+    uint16_t integer = read16BitsFromBuffer(stream->current);
     
     stream->current +=2;
     return integer;
@@ -132,7 +132,7 @@ uint16_t read16BitsFromStream(ByteStream * stream)
 
 uint32_t read32BitsFromStream(ByteStream * stream)
 {
-    uint32_t integer = read32bitsFromBuffer(stream->current);
+    uint32_t integer = read32BitsFromBuffer(stream->current);
     
     stream->current +=4;
     return integer;

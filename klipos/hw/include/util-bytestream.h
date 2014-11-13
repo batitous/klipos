@@ -34,11 +34,11 @@ typedef struct _bytestream_
     uint8_t *       end;
 } ByteStream;
 
-extern void write32bitsToBuffer(uint8_t * buffer, uint32_t integer);
-extern void write16bitsToBuffer(uint8_t * buffer, uint16_t integer);
+extern void write32BitsToBuffer(uint8_t * buffer, uint32_t integer);
+extern void write16BitsToBuffer(uint8_t * buffer, uint16_t integer);
 
-extern uint32_t read32bitsFromBuffer(const uint8_t * buffer);
-extern uint16_t read16bitsFromBuffer(const uint8_t * buffer);
+extern uint32_t read32BitsFromBuffer(const uint8_t * buffer);
+extern uint16_t read16BitsFromBuffer(const uint8_t * buffer);
 
 extern void initByteStream(ByteStream * stream, uint8_t * pBuffer, uint32_t size);
 extern void resetByteStream(ByteStream * stream);
