@@ -97,6 +97,11 @@ extern void postEventToTaskWithId(uint32_t id, uint32_t data);
  */
 extern bool postEventToTask(KTask* task, uint32_t data);
 
+#ifdef KERNEL_USE_DEBUG
+/** Print a kernel dump (taks, execution time)
+ */
+extern void dumpKernel(void);
+#endif
 
 #ifdef	__cplusplus
 }

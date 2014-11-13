@@ -24,7 +24,7 @@
 
 //----------------------------- private menbers
 
-static volatile bool     ritOverflow;
+//static volatile bool     ritOverflow;
 static volatile uint32_t ritCounter;
 
 //----------------------------- private functions
@@ -35,10 +35,10 @@ void RIT_IRQn_Handler(void)
     LPC_RITIMER->CTRL |= (1<< 0);   // Write RITINT to clear
 
     ritCounter++;
-    if (ritCounter==UINT32_MAX)
-    {
-        ritOverflow = true;
-    }
+//    if (ritCounter==UINT32_MAX)
+//    {
+//        ritOverflow = true;
+//    }
 }
 
 //----------------------------- public functions
@@ -46,7 +46,7 @@ void RIT_IRQn_Handler(void)
 void initTimerRit(uint32_t timeInUs)
 {
     ritCounter = 0;
-    ritOverflow = false;
+//    ritOverflow = false;
     
     // Stop RI timer – otherwise we can't reset the counter
     LPC_RITIMER->CTRL = 0;
@@ -71,7 +71,7 @@ uint32_t getTimerRitCounter(void)
     return ritCounter;
 }
 
-bool isTimerRitOverflow(void)
-{
-    return ritOverflow;
-}
+//bool isTimerRitOverflow(void)
+//{
+//    return ritOverflow;
+//}
