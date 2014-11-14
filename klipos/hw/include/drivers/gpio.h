@@ -59,6 +59,10 @@ typedef enum _GPIO_IRQ_TYPE_
 //     GPIO_HIGH_LEVEL     = 0x1000000   /**< high */
 //#endif
 
+#ifdef MCU_IS_LPC15XX
+     GPIO_BOTH_EDGE      = 0x0400000      /**< fall and rise */
+#endif
+            
 } GPIO_IRQ_TYPE;
 
 /** @brief Mask on GPIO Pin and Port */

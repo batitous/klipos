@@ -129,12 +129,14 @@ bool isTimer16Enable(Timer* timer)
     return false;
 }
 
-void setTimer16_0Callback(TimerIrqCallback c)
+void setTimer16Callback(Timer* timer, TimerIrqCallback c)
 {
-    timer16_0IrqCallback = c;
-}
-
-void setTimer16_1Callback(TimerIrqCallback c)
-{
-    timer16_1IrqCallback = c;
+    if (timer->t == LPC_TMR16B0)
+    {
+        timer16_0IrqCallback = c;
+    }
+    else
+    {
+        timer16_1IrqCallback = c;
+    }
 }

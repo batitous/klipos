@@ -99,6 +99,10 @@ void initGpio(void)
 #endif
 }
 
+LPC_GPIO_TypeDef * getLpcGpio(uint32_t pin)
+{
+    return GET_LPC_GPIO_PORT(pin);
+}
 
 void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
 {

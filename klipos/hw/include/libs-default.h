@@ -38,6 +38,10 @@ extern "C" {
 #include "mcu/lpc13xx.h"
 #endif
     
+#ifdef MCU_IS_LPC15XX
+#include "mcu/lpc1549.h"
+#endif
+    
 #ifdef MCU_IS_LPC8XX
 #include "mcu/lpc8xx.h"
 #endif

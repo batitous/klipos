@@ -59,6 +59,11 @@ extern void initWakeUp(void);
 #       define setMcuToDefaultSleep()    CLRBIT(LPC_PMU->PCON,1); SETBIT(LPC_PMU->PCON,11); CLRBIT(SCB->SCR,2); __WFI();
 #endif
 
+#ifdef MCU_IS_LPC15XX
+#       define setMcuToDefaultSleep()    SETBIT(LPC_PMU->PCON,8); SETBIT(LPC_PMU->PCON,11); __WFI();
+#endif
+
+
 #ifdef __cplusplus
  }
 #endif

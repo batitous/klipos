@@ -27,6 +27,7 @@
 extern "C" {
 #endif
 
+#include "util-bytestream.h"
 #include "util-fsm.h"
 #include "util-time.h"
 
@@ -46,8 +47,8 @@ extern "C" {
 // clear multiple bits of register
 #define CLRBITS(reg,mask)     reg &= ~(mask)
     
-    
 
+    
     
 
 #ifdef __cplusplus

@@ -15,9 +15,6 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc1xxx/flash \
                 $(HW_PATH)drivers/lpc1xxx/eeprom \
                 $(HW_PATH)drivers/lpc1xxx/watchdog \
-                $(HW_PATH)drivers/external/compass \
-                $(HW_PATH)drivers/external/accelerometer \
-                $(HW_PATH)drivers/external/magnetometer \
                 $(HW_PATH)drivers/external/mem-protocol \
                 $(HW_PATH)drivers/external/flash \
                 $(HW_PATH)drivers/lpc1xxx/sleep \
@@ -73,7 +70,7 @@ endif
 
 ifeq ($(timer),yes)
     ifeq ($(core),lpc13xx)
-        SOURCE_KLIP += timer32-lpc13xx.c timer16-lpc13xx.c
+        SOURCE_KLIP += timer32-lpc13xx.c timer16-lpc13xx.c timer-rit.c
         DEFINE += -DTIMER16_1_USED=1 -DTIMER32_USED=1
     endif
 endif

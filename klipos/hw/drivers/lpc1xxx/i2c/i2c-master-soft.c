@@ -77,14 +77,14 @@ static int SDA_PIN;
 
 //-------------------------- private functions
 
-void i2c_soft_start(void)
+static void i2c_soft_start(void)
 {
     SDA(0);
     SCL0();
     waitSomeTimeInUs(1);
 }
 
-void i2c_soft_send_bit(uint8_t bit)
+static void i2c_soft_send_bit(uint8_t bit)
 {
     // set bit on SDA
     // NOP
@@ -127,8 +127,7 @@ static uint8_t i2c_soft_receive_bit(void)
     return bit;
 }
 
-
- void i2c_soft_stop(void)
+static void i2c_soft_stop(void)
 {
     SCL1();
     waitSomeTimeInUs(2);
@@ -136,7 +135,7 @@ static uint8_t i2c_soft_receive_bit(void)
     waitSomeTimeInUs(1);
 }
 
- uint8_t i2c_soft_send_byte(uint8_t byte)
+static uint8_t i2c_soft_send_byte(uint8_t byte)
 {    
     // send byte :
     i2c_soft_send_bit(byte>>7);
@@ -152,7 +151,7 @@ static uint8_t i2c_soft_receive_bit(void)
     return i2c_soft_receive_bit();
 }
 
- uint8_t i2c_soft_receive_byte(uint8_t ack)
+static uint8_t i2c_soft_receive_byte(uint8_t ack)
 {
     uint8_t bit;
     uint8_t byte;

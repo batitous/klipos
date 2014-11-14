@@ -88,3 +88,29 @@ void HardFault_Handler(void)
     __asm__ ("pop {pc}");
 #endif
 }
+
+/* todo test this code for detect stack overflow
+
+extern unsigned __stack_start__;          // defined in the GNU linker script 
+extern unsigned __stack_end__;            // defined in the GNU linker script 
+
+__attribute__((naked)) void HardFault_Handler(void);
+void HardFault_Handler(void) {
+    __asm volatile (
+        "    mov r0,sp\n\t"
+        "    ldr r1,=__stack_start__\n\t"
+        "    cmp r0,r1\n\t"
+        "    bcs stack_ok\n\t"
+        "    ldr r0,=__stack_end__\n\t"
+        "    mov sp,r0\n\t"
+        "    ldr r0,=str_overflow\n\t"
+        "    mov r1,#1\n\t"
+        "    b assert_failed\n\t"
+        "stack_ok:\n\t"
+        "    ldr r0,=str_hardfault\n\t"
+        "    mov r1,#2\n\t"
+        "    b assert_failed\n\t"
+        "str_overflow:  .asciz \"StackOverflow\"\n\t"
+        "str_hardfault: .asciz \"HardFault\"\n\t"
+    );
+}*/

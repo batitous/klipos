@@ -39,7 +39,7 @@ gpio = yes
 gpioirq = yes
 
 gpio-option = yes
-pwm = no
+pwm = yes
 timer = no
 eeprom = no
 analog = no

@@ -35,6 +35,10 @@ ifeq ($(fsm),yes)
     SOURCE_KLIP += fsm.c
 endif
 
+ifeq ($(bytestream),yes)
+    SOURCE_KLIP += bytestream.c
+endif
+
 ifeq ($(libc),yes)
     SOURCE_KLIP += string.c
 endif

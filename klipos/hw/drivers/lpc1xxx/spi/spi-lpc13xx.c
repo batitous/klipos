@@ -23,12 +23,9 @@
 #include "../../../include/libs-klipos.h"
 
 
-#define CPHA    7
-#define CPOL    6
-
 #define SSE     1
 
-void initSpi(void)
+void initSpi(SpiMode mode)
 {        
     // de assert reset spi line
     SETBIT(LPC_SYSCON->PRESETCTRL,0);
@@ -53,10 +50,7 @@ void initSpi(void)
     
     LPC_SYSCON->SSP0CLKDIV = 1;
     
-    LPC_SSP0->CR0 = 0x7;
-    
-    CLRBIT(LPC_SSP0->CR0,CPOL);
-    CLRBIT(LPC_SSP0->CR0,CPHA);
+    LPC_SSP0->CR0 = 0x7 | mode;
 
     // clock : PCLK / CPSR = 72MHz / 12MHz
     LPC_SSP0->CPSR = 8;

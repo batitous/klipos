@@ -27,7 +27,7 @@ void uartTaskCode(uint32_t event)
     if (lenReceived == 4)
     {
         printf("Received: ");
-        for (i=0;i<4;i++)
+        for (i=0;i<4;++i)
         {
             printf("%c", buffer[i]);
         }

@@ -88,9 +88,9 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
             // IOCON_PIO1_6 CT32B0_MAT0 warning: RXD FUNC=0x2
             //SETBIT(LPC_IOCON->PIO1_6,1);
 
-        #ifdef MCU_IS_LPC1315
+#ifdef MCU_IS_LPC1315
             SETBIT(LPC_IOCON->PIO1_24,0);
-        #endif      
+#endif      
         }
 
         if( (pwmSelected&PWM1)==PWM1)
@@ -98,7 +98,11 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
             // not activated!
 
             // IOCON_PIO1_7 CT32B0_MAT1 warning: TXD FUNC=0x2
-            //SETBIT(LPC_IOCON->PIO1_7,1);
+            
+#ifdef MCU_IS_LPC1315
+            // only on lqfp48 package !
+            SETBIT(LPC_IOCON->PIO1_25,0);
+#endif
         }
 
         if( (pwmSelected&PWM2)==PWM2)
@@ -111,41 +115,41 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
     {
         if( (pwmSelected&PWM0)==PWM0)
         {
-        #ifdef MCU_IS_LPC1311
+#ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->R_PIO1_1,0);
             SETBIT(LPC_IOCON->R_PIO1_1,1);
-        #endif
+#endif
 
-        #ifdef MCU_IS_LPC1315
+#ifdef MCU_IS_LPC1315
             SETBIT(LPC_IOCON->TDO_PIO0_13,0);
             SETBIT(LPC_IOCON->TDO_PIO0_13,1);
-        #endif
+#endif
         }
 
         if( (pwmSelected&PWM1)==PWM1)
         {
-        #ifdef MCU_IS_LPC1311
+#ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->R_PIO1_2,0);
             SETBIT(LPC_IOCON->R_PIO1_2,1);
-        #endif
+#endif
 
-        #ifdef MCU_IS_LPC1315
+#ifdef MCU_IS_LPC1315
             SETBIT(LPC_IOCON->TRST_PIO0_14,0);
             SETBIT(LPC_IOCON->TRST_PIO0_14,1);
-        #endif
+#endif
         }
 
         if( (pwmSelected&PWM2)==PWM2)
         {
-        #ifdef MCU_IS_LPC1311
+#ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->SWDIO_PIO1_3,0);
             SETBIT(LPC_IOCON->SWDIO_PIO1_3,1);
-        #endif
+#endif
 
-        #ifdef MCU_IS_LPC1315
+#ifdef MCU_IS_LPC1315
             SETBIT(LPC_IOCON->SWDIO_PIO0_15,0);
             SETBIT(LPC_IOCON->SWDIO_PIO0_15,1);
-        #endif
+#endif
         }
     }
     else if(timerSelected==TIMER16_0)
@@ -170,14 +174,14 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
         if( (pwmSelected&PWM2)==PWM2)
         {
             // SWCLK/PIO0_10/ SCK0/CT16B0_MAT2
-        #ifdef MCU_IS_LPC1311
+#ifdef MCU_IS_LPC1311
             SETBIT(LPC_IOCON->SWCLK_PIO0_10,0);
             SETBIT(LPC_IOCON->SWCLK_PIO0_10,1);
-        #endif
+#endif
             
-       #ifdef MCU_IS_LPC1315
+#ifdef MCU_IS_LPC1315
             SETBIT(LPC_IOCON->PIO1_15,1);
-        #endif
+#endif
 
         }
     }
@@ -185,32 +189,32 @@ void setPwmPin(PWMTIMER timerSelected, PWMOUTPUT pwmSelected)
     {
         if( (pwmSelected&PWM0)==PWM0)
         {
-        #ifdef MCU_IS_LPC1311
+#ifdef MCU_IS_LPC1311
             // PIO1_9/CT16B1_MAT0
             SETBIT(LPC_IOCON->PIO1_9,0);
-        #endif
+#endif
 
-        #ifdef MCU_IS_LPC1315
+#ifdef MCU_IS_LPC1315
             // PIO0_21/CT16B1_MAT0/MOSI1
             SETBIT(LPC_IOCON->PIO0_21,0);
-        #endif
+#endif
 
         }
 
         if( (pwmSelected&PWM1)==PWM1)
         {
-        #ifdef MCU_IS_LPC1311
+#ifdef MCU_IS_LPC1311
             // PIO1_10/AD6/ CT16B1_MAT1
             SETBIT(LPC_IOCON->PIO1_10,1);
-        #endif
+#endif
 
-        #ifdef MCU_IS_LPC1315
+#ifdef MCU_IS_LPC1315
             // PIO0_22/AD6/CT16B1_MAT1/MISO1
             //SETBIT(LPC_IOCON->PIO0_22,1);
 
             // PIO1_23/CT16B1_MAT1/SSEL1
             SETBIT(LPC_IOCON->PIO1_23,0);
-        #endif
+#endif
         }
     }
 

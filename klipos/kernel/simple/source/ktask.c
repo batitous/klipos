@@ -78,6 +78,9 @@ void initTask(KTask* task, KTaskCode c, KPriority prio)
     task->priority = prio;
     task->eventId = 0;
     
+#ifdef KERNEL_USE_DEBUG
+    task->cpuMax = 0;
+#endif
     initKQueue(&task->events, task->eventsBuffer, TASK_QUEUE_SIZE);
     
     insertTaskWithPriority(task);
@@ -86,10 +89,12 @@ void initTask(KTask* task, KTaskCode c, KPriority prio)
 void scheduleTask(void)
 {
     uint32_t tmp;
-    
     bool executed = false;
-    
     KTask* next = (KTask*)tasks.next;
+    
+#ifdef KERNEL_USE_DEBUG
+    uint32_t begin, time;
+#endif
     
     while (next != (KTask*)&tasks)
     {
@@ -98,7 +103,23 @@ void scheduleTask(void)
 //          printf("Scheduler: execute task prio %d (data = 0x%x %c %d)\n", next->priority,tmp, tmp, tmp);
             
             executed = true;
+            
+#ifdef KERNEL_USE_DEBUG
+            extern uint32_t getTimerRitCounter(void);
+            
+            begin = getTimerRitCounter();
+#endif
             next->code(tmp);
+      
+#ifdef KERNEL_USE_DEBUG
+            time = getTimerRitCounter() - begin;
+            next->cpuLast = time;
+            if ( time > next->cpuMax)
+            {
+                next->cpuMax = time;
+            }
+#endif
+            
         }
         next = next->next;
     }
@@ -112,11 +133,6 @@ void scheduleTask(void)
 
 bool postEventToTask(KTask* task, uint32_t data)
 {
-    if (task==0)
-    {
-        return false;
-    }
-    
     if (task->priority == PRIORITY_VERY_HIGH)
     {
         // execute immediatly the task if high priority
@@ -156,3 +172,22 @@ void initSimpleKernel(void)
     initKList(&tasks);
     initKernelTimers();
 }
+
+#ifdef KERNEL_USE_DEBUG
+
+void dumpKernel(void)
+{
+    KTask* next = (KTask*)tasks.next;
+    
+    printf("Dump Kernel, time in 100us tick\r\n");
+    printf("Task \t\tPrio \tCpuLast \tCpuMax\r\n");
+    
+    while (next != (KTask*)&tasks)
+    {
+        printf("0x%x \t%d \t%d \t%d\r\n", next, next->priority, next->cpuLast, next->cpuMax);
+        
+        next = next->next;
+    }
+}
+
+#endif

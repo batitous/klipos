@@ -69,7 +69,7 @@ cleanbuild:
 
 
 flash:
-	$(FTDI) $(EXE) -wipe /dev/cu.SLAB_USBtoUART  115200 12000
+	$(FTDI) $(EXE) -wipe /dev/cu.usbserial  115200 12000
 
 usb:
 	sudo $(USB) $(EXE_BIN)

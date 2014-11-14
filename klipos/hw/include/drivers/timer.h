@@ -39,13 +39,15 @@ typedef enum _timer_enum_
 
 typedef struct _timer_
 {
+#if defined(MCU_IS_LPC15XX)
+    uint32_t    t;
+#else
     LPC_TMR_TypeDef*    t;
+#endif
 } Timer;
 
 typedef void (*TimerIrqCallback)(void);
 
-extern void setTimer0Callback(TimerIrqCallback c);
-extern void setTimer1Callback(TimerIrqCallback c);
 
 /** Initialize the specified timer interrupt to be fired
  * 
@@ -84,7 +86,13 @@ extern void disableTimer32(Timer* timer);
  */
 extern bool isTimer32Enable(Timer* timer);
 
+// Set callback for specified Timer
+extern void setTimer32Callback(Timer* timer, TimerIrqCallback c);
+
+
 /** Wait some time
+ * 
+ * Warning, it use the selected Timer32 !
  * 
  * @param timerSelected
  * @param waitInUs      Time in microseconds
@@ -92,14 +100,18 @@ extern bool isTimer32Enable(Timer* timer);
 extern void waitUsPrecise(TIMER timerSelected, uint32_t waitInUs);
 
 
-
+// Timer 16 bits
 extern bool initTimer16(Timer* timer, TIMER timerSelected, uint32_t waitInUs);
 extern void setTimer16(Timer* timer, uint32_t waitInUs);
 extern void enableTimer16(Timer* timer);
 extern void disableTimer16(Timer* timer);
 extern bool isTimer16Enable(Timer* timer);
-extern void setTimer16_0Callback(TimerIrqCallback c);
-extern void setTimer16_1Callback(TimerIrqCallback c);
+extern void setTimer16Callback(Timer* timer, TimerIrqCallback c);
+
+// Repetitive Interrupt Timer 
+extern void initTimerRit(uint32_t timeInUs);
+extern uint32_t getTimerRitCounter(void);
+extern bool isTimerRitOverflow(void);
 
 #ifdef __cplusplus
  }

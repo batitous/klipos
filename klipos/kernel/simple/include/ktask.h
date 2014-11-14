@@ -51,11 +51,16 @@ typedef struct _ktask_
     KLink *     prev;           /**< previous task in the list */
     
     KQueue      events;         /**< queue event of this task */
-    uint32_t      eventsBuffer[TASK_QUEUE_SIZE]; /**< event's buffer */
-    uint32_t      eventId;        /**< event identifier */
+    uint32_t    eventsBuffer[TASK_QUEUE_SIZE]; /**< event's buffer */
+    uint32_t    eventId;        /**< event identifier */
     
     KTaskCode   code;           /**< task's code */
     KPriority   priority;       /**< task's priority */
+    
+#ifdef KERNEL_USE_DEBUG
+    uint32_t    cpuLast;        /**< Last CPU time used by this task */
+    uint32_t    cpuMax;         /**< Maximum CPU time used by this task */
+#endif
 } KTask;
 
 
@@ -92,6 +97,11 @@ extern void postEventToTaskWithId(uint32_t id, uint32_t data);
  */
 extern bool postEventToTask(KTask* task, uint32_t data);
 
+#ifdef KERNEL_USE_DEBUG
+/** Print a kernel dump (taks, execution time)
+ */
+extern void dumpKernel(void);
+#endif
 
 #ifdef	__cplusplus
 }

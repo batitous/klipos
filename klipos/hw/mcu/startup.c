@@ -59,6 +59,9 @@ WEAK void IntDefaultHandler(void);
 #       include "lpc13xx/isr-vector.h"
 #endif
 
+#ifdef MCU_IS_LPC15XX
+#       include "lpc15xx/isr-vector.h"
+#endif
 
 #ifdef MCU_IS_LPC8XX
 #       include "lpc8xx/isr-vector.h"
@@ -89,7 +92,11 @@ void (* const g_pfnVectors[])(void) = {
 #       include "isr-vector-cm3.h"
 #       include "lpc13xx/isr-vector-lpc1315.h"
 #endif
-            
+
+#ifdef MCU_IS_LPC15XX
+#       include "isr-vector-cm3.h"
+#       include "lpc15xx/isr-vector-lpc1549.h"
+#endif
             
 }; /* End of g_pfnVectors */
 
