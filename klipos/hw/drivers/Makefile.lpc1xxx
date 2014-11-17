@@ -70,9 +70,13 @@ endif
 
 ifeq ($(timer),yes)
     ifeq ($(core),lpc13xx)
-        SOURCE_KLIP += timer32-lpc13xx.c timer16-lpc13xx.c timer-rit.c
+        SOURCE_KLIP += timer32-lpc13xx.c timer16-lpc13xx.c
         DEFINE += -DTIMER16_1_USED=1 -DTIMER32_USED=1
     endif
+endif
+
+ifeq ($(timer-rit),yes)
+    SOURCE_KLIP += timer-rit.c
 endif
 
 ifeq ($(flash),yes)
