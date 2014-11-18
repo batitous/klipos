@@ -113,13 +113,13 @@ signed int PutString(char *pStr, char fill, signed int width, const char *pSourc
         num++;
     }
 
-        width -= num;
-        while (width > 0) {
+    width -= num;
+    while (width > 0) {
 
-        *pStr++ = fill;
-                num++;
-                width--;
-        }
+    *pStr++ = fill;
+            num++;
+            width--;
+    }
 
     return num;
 }
@@ -630,7 +630,7 @@ signed int vsprintf(char *pString, const char *pFormat, va_list ap)
 signed int vprintf(const char *pFormat, va_list ap)
 {
   char pStr[CFG_PRINTF_MAXSTRINGSIZE];
-  char pError[] = "stdio.c: increase CFG_PRINTF_MAXSTRINGSIZE\r\n";
+  char pError[] = "stdio.c: vprintf error\r\n";
 
   // Write formatted string in buffer
   if (vsprintf(pStr, pFormat, ap) >= CFG_PRINTF_MAXSTRINGSIZE) {
