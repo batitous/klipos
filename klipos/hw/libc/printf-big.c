@@ -55,35 +55,8 @@
 //         Local Functions
 //------------------------------------------------------------------------------
 
+extern int writeStringToPrintfStream(const char * str);
 
-void defaultPrintfInterface(uint8_t c)
-{
-    c = 0;
-}
-
-static PrintfInterfaceCallback printfInterfaceCallback = &defaultPrintfInterface;
-
-void xputc(uint8_t c)
-{
-    printfInterfaceCallback(c);
-}
-
-void setPrintfInterface(PrintfInterfaceCallback callback)
-{
-    printfInterfaceCallback = callback;
-}
-
-int sendToDebugStream(const char * str)
-{
-    int count = 0;
-    while (*str)
-    {
-        xputc(*str++);
-        count++;
-    }
-    
-    return count;
-}
 
 //------------------------------------------------------------------------------
 // Writes a character inside the given string. Returns 1.
@@ -635,14 +608,13 @@ signed int vprintf(const char *pFormat, va_list ap)
   // Write formatted string in buffer
   if (vsprintf(pStr, pFormat, ap) >= CFG_PRINTF_MAXSTRINGSIZE) {
 
-    sendToDebugStream(pError);
-    //while (1); // Increase CFG_PRINTF_MAXSTRINGSIZE
+    writeStringToPrintfStream(pError);
     
     return 0;
   }
 
   // Display string
-  return sendToDebugStream(pStr);
+  return writeStringToPrintfStream(pStr);
 }
 
 //------------------------------------------------------------------------------

@@ -27,12 +27,12 @@ ifeq ($(systick),yes)
 endif
 
 ifeq ($(printf),yes)
-    SOURCE_KLIP += printf-minimum.c
+    SOURCE_KLIP += printf-minimum.c printf-callback.c
     DEFINE += -DFIRMWARE_USE_PRINTF
 endif
 
 ifeq ($(printf-big),yes)
-    SOURCE_KLIP += printf-big.c
+    SOURCE_KLIP += printf-big.c printf-callback.c
     DEFINE += -DFIRMWARE_USE_PRINTF
 endif
 

@@ -24,30 +24,10 @@
 
 #include <stdarg.h>
 
-void defaultPrintfInterface(uint8_t c)
-{
-    c = 0;
-}
 
-static PrintfInterfaceCallback printfInterfaceCallback = &defaultPrintfInterface;
+extern int writeStringToPrintfStream(const char * str);
+extern void writeByteToPrintfStream(uint8_t c);
 
-void xputc(uint8_t c)
-{
-    printfInterfaceCallback(c);
-}
-
-void xputs (const char* str)
-{
-	while (*str)
-	{
-		xputc(*str++);
-	}
-}
-
-void setPrintfInterface(PrintfInterfaceCallback callback)
-{
-    printfInterfaceCallback = callback;
-}
 
 #ifdef FIRMWARE_USE_FLOAT_IN_PRINTF
 
@@ -101,14 +81,14 @@ void printFloat(double value)
     len = binToDecimalAscii(first, string);
     string[len] = 0;
     
-    xputs(string);
-    xputc('.');
+    writeStringToPrintfStream(string);
+    writeByteToPrintfStream('.');
     
     
     len = binToDecimalAscii((int)t, string);
     string[len] = 0;
 
-    xputs(string);
+    writeStringToPrintfStream(string);
 }
 #endif
 
@@ -130,7 +110,7 @@ int printf (
 
 	while ((c = *str++) != 0) {
 		if (c != '%') {
-			xputc(c); continue;
+			writeByteToPrintfStream(c); continue;
 		}
 		c = *str++;
 		f = 0;
@@ -150,9 +130,9 @@ int printf (
 		if (d >= 'a') d -= 0x20;
 		switch (d) {				// Type is...
 		case 'S' :					// String
-			xputs(va_arg(arp, char*)); continue;
+			writeStringToPrintfStream(va_arg(arp, char*)); continue;
 		case 'C' :					// Character
-			xputc((char)va_arg(arp, int)); continue;
+			writeByteToPrintfStream((char)va_arg(arp, int)); continue;
 		case 'B' :					// Binary
 			r = 2; break;
 		case 'O' :					// Octal
@@ -169,7 +149,7 @@ int printf (
                         continue;
 #endif
 		default:					// Unknown
-			xputc(c); continue;
+			writeByteToPrintfStream(c); continue;
 		}
 
 		// Get an argument and put it in numeral
@@ -196,8 +176,8 @@ int printf (
 			s[i++] = d + '0';
 		} while (val && i < sizeof(s));
 		if (f & 4) s[i++] = '-';
-		while (i < w--) xputc((f & 1) ? '0' : ' ');
-		do xputc(s[--i]); while(i);
+		while (i < w--) writeByteToPrintfStream((f & 1) ? '0' : ' ');
+		do writeByteToPrintfStream(s[--i]); while(i);
 	}
 
 	va_end(arp);
