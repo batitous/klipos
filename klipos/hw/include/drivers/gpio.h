@@ -133,6 +133,15 @@ extern void toggleGpio(GPIO_PIN pin);
 extern void setGpioOption(GPIO_PIN pin, GPIO_MODE mode, bool hysteresis, bool inputInverted);
 #endif
 
+#ifdef MCU_IS_LPC15XX
+/** @brief Toggle a GPIO pin
+ *
+ * @param pin   The pin to toggle
+ */
+extern void toggleGpio(GPIO_PIN pin);
+#endif
+
+
 #ifdef __cplusplus
  }
 #endif

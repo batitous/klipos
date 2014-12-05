@@ -76,6 +76,9 @@ extern void disableGpioIrq(GPIO_PIN pin);
 extern void disableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge);
 #endif
 
+#ifdef MCU_IS_LPC15XX
+extern void initGpioIrq(void);
+#endif
 
 #ifdef	__cplusplus
 }

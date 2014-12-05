@@ -29,8 +29,8 @@
 
 static void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge);
 
-static GpioIrqCallback gpioIrqCallback = defaultIrqCallback;
-static uint32_t pinIrqFree = 0;
+static GpioIrqCallback gpioIrqCallback;
+static uint32_t pinIrqFree;
 static GPIO_PIN pinIrq[PIN_IRQ_MAX];
 
 
@@ -62,6 +62,8 @@ void PIN_IRQ_Handler(uint32_t irqSlot)
 {
     uint32_t edge = 0;
     GPIO_PIN pin = pinIrq[irqSlot];
+ 
+    sendByteToUart0('*');
     
     if ( ((LPC_GPIO_PIN_INT->RISE>>irqSlot) & 0x1)!=0 )
     {
@@ -122,6 +124,18 @@ void PIN_INT7_IRQHandler(void)
 
 //----------------------------- public functions
 
+void initGpioIrq(void)
+{
+    gpioIrqCallback = defaultIrqCallback;
+    pinIrqFree = 0;
+    
+    // enable clock for irq block
+    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 18);
+    
+    SETBIT(LPC_SYSCON->PRESETCTRL[0], 18);
+    
+}
+
 void setGpioIrqCallback(GpioIrqCallback callback)
 {
     gpioIrqCallback = callback;
@@ -135,12 +149,12 @@ void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE type)
         return;
     }
     
-    // enable clock for irq block
-    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 18);
     
     // set port number and pin number in the pin interrupt selector
     LPC_INMUX->PINTSEL[pinIrqFree] = pin;
     
+    
+    SETBIT(LPC_GPIO_PIN_INT->IST,pinIrqFree);
     
     if (type==GPIO_BOTH_EDGE)
     {
@@ -175,6 +189,7 @@ void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE type)
     pinIrq[pinIrqFree] = pin;
     
     // enable interrupt
+    NVIC_ClearPendingIRQ(PIN_INT0_IRQn + pinIrqFree);
     NVIC_EnableIRQ(PIN_INT0_IRQn + pinIrqFree);
     
     pinIrqFree++;

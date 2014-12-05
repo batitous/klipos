@@ -60,11 +60,17 @@ void initGpio(void)
 {
     // enabe iocon block
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 13);
+    SETBIT(LPC_SYSCON->PRESETCTRL[0], 13);
 
     // enable gpio port block
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 14);
 //    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 15);
 //    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 16);
+    
+    // enable mux
+    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 11);
+    SETBIT(LPC_SYSCON->PRESETCTRL[0], 11);
+    
 }
 
 
