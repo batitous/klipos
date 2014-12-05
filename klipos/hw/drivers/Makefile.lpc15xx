@@ -7,9 +7,14 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/switchmatrix \
                 $(HW_PATH)drivers/lpc15xx/usart \
                 $(HW_PATH)drivers/lpc15xx/gpio \
-                $(HW_PATH)drivers/lpc15xx/analog
+                $(HW_PATH)drivers/lpc15xx/analog \
+                $(HW_PATH)drivers/lpc15xx/dac
 
-SOURCE_KLIP += switchmatrix.c uart0.c
+SOURCE_KLIP += switchmatrix.c 
+
+ifeq ($(uart0),yes)
+    SOURCE_KLIP += uart0.c
+endif
 
 ifeq ($(gpio),yes)
     SOURCE_KLIP += gpio.c
@@ -21,4 +26,8 @@ endif
 
 ifeq ($(analog),yes)
     SOURCE_KLIP += analog.c
+endif
+
+ifeq ($(dac),yes)
+    SOURCE_KLIP += dac.c
 endif

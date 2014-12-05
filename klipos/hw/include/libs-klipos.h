@@ -58,6 +58,7 @@ extern "C" {
 
 #if defined(MCU_IS_LPC15XX)
 #       include "drivers/lpc15xx/switchmatrix.h"
+#       include "drivers/lpc15xx/dac.h"
 #endif
     
 #ifdef __cplusplus
