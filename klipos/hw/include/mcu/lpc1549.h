@@ -679,7 +679,6 @@ typedef struct {					/* I2C0 Structure         */
 #define LPC_SCTIPU_BASE           0x400B8000
 #define LPC_FLASH_BASE            0x400BC000
 #define LPC_USART2_BASE           0x400C0000
-#define TBD_BASE                  0x400E8000
 #define LPC_C_CAN0_BASE           0x400F0000
 #define LPC_IOCON_BASE            0x400F8000
 #define LPC_EEPROM_BASE           0x400FC000
@@ -702,19 +701,19 @@ typedef struct {					/* I2C0 Structure         */
 #define LPC_USART0                ((LPC_USART_T            *) LPC_USART0_BASE)
 #define LPC_USART1                ((LPC_USART_T            *) LPC_USART1_BASE)
 #define LPC_USART2                ((LPC_USART_T            *) LPC_USART2_BASE)
-#define LPC_I2C0                  ((LPC_I2C_T              *) LPC_I2C_BASE)
-// #define LPC_I2C1                  ((LPC_I2C_T              *) LPC_I2C1_BASE)
-// #define LPC_SSP0                  ((LPC_SSP_T              *) LPC_SSP0_BASE)
-// #define LPC_SSP1                  ((LPC_SSP_T              *) LPC_SSP1_BASE)
+//#define LPC_I2C0                  ((LPC_I2C_T              *) LPC_I2C_BASE)
+//#define LPC_I2C                   ((LPC_I2C_T              *) LPC_I2C_BASE) /* Alias for I2C0 */
 #define LPC_USB                   ((LPC_USB_T              *) LPC_USB0_BASE)
 #define LPC_ADC0                  ((LPC_ADC_T              *) LPC_ADC0_BASE)
 #define LPC_ADC1                  ((LPC_ADC_T              *) LPC_ADC1_BASE)
-// #define LPC_SCT0                  ((LPC_SCT_T              *) LPC_SCT0_BASE)
-// #define LPC_SCT1                  ((LPC_SCT_T              *) LPC_SCT1_BASE)
-// #define LPC_TIMER16_0             ((LPC_TIMER_T            *) LPC_TIMER16_0_BASE)
-// #define LPC_TIMER16_1             ((LPC_TIMER_T            *) LPC_TIMER16_1_BASE)
-// #define LPC_TIMER32_0             ((LPC_TIMER_T            *) LPC_TIMER32_0_BASE)
-// #define LPC_TIMER32_1             ((LPC_TIMER_T            *) LPC_TIMER32_1_BASE)
+//#define LPC_SCTLARGE0             ((LPC_SCT_T              *) LPC_SCTLARGE_0_BASE)
+//#define LPC_SCTLARGE1             ((LPC_SCT_T              *) LPC_SCTLARGE_1_BASE)
+//#define LPC_SCTSMALL0             ((LPC_SCT_T              *) LPC_SCTSMALL_0_BASE)
+//#define LPC_SCTSMALL1             ((LPC_SCT_T              *) LPC_SCTSMALL_1_BASE)
+//#define LPC_SCT0                  LPC_SCTLARGE0
+//#define LPC_SCT1                  LPC_SCTLARGE1
+//#define LPC_SCT2                  LPC_SCTSMALL0
+//#define LPC_SCT3                  LPC_SCTSMALL1
 #define LPC_RTC                   ((LPC_RTC_T              *) LPC_RTC_BASE)
 #define LPC_WWDT                  ((LPC_WWDT_T             *) LPC_WWDT_BASE)
 #define LPC_DMA                   ((LPC_DMA_T              *) LPC_DMA_BASE)
@@ -729,7 +728,6 @@ typedef struct {					/* I2C0 Structure         */
 #define LPC_DAC                   ((LPC_DAC_T              *) LPC_DAC_BASE)
 #define LPC_SPI0                  ((LPC_SPI_T              *) LPC_SPI0_BASE)
 #define LPC_SPI1                  ((LPC_SPI_T              *) LPC_SPI1_BASE)
-
 /**
  * @}
  */
