@@ -8,7 +8,8 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/usart \
                 $(HW_PATH)drivers/lpc15xx/gpio \
                 $(HW_PATH)drivers/lpc15xx/analog \
-                $(HW_PATH)drivers/lpc15xx/dac
+                $(HW_PATH)drivers/lpc15xx/dac \
+                $(HW_PATH)drivers/lpc15xx/rit
 
 SOURCE_KLIP += switchmatrix.c 
 
@@ -30,4 +31,8 @@ endif
 
 ifeq ($(dac),yes)
     SOURCE_KLIP += dac.c
+endif
+
+ifeq ($(timer-rit),yes)
+    SOURCE_KLIP += rit.c
 endif
