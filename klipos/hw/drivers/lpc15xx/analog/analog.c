@@ -86,8 +86,8 @@ void initAnalog(uint32_t analogChannel)
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 27);
 
     // clear reset for adc
-    CLRBIT(LPC_SYSCON->PRESETCTRL[0], 27);
     SETBIT(LPC_SYSCON->PRESETCTRL[0], 27);
+    CLRBIT(LPC_SYSCON->PRESETCTRL[0], 27);
 
 //    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 28);
 //    CLRBIT(LPC_SYSCON->PRESETCTRL[0], 28);
@@ -152,19 +152,27 @@ uint16_t getAnalog(ANALOG_CHANNEL channel)
     uint32_t temp;
     uint16_t result;
 
+    // disable convertion channel
+    CLRBIT(LPC_ADC0->SEQ_CTRL[0], 31);
+    
     // clear previous channel
     CLRBITS(LPC_ADC0->SEQ_CTRL[0],0xFFF);  
     
     LPC_ADC0->SEQ_CTRL[0] |= channel;
     
     SETBIT(LPC_ADC0->SEQ_CTRL[0], 18);
+    SETBIT(LPC_ADC0->SEQ_CTRL[0], 28);
+    
     SETBIT(LPC_ADC0->SEQ_CTRL[0], 31);
     
     // launch adc
     SETBIT(LPC_ADC0->SEQ_CTRL[0], 26);
     
-    while ( ((temp = LPC_ADC0->DR[0]) & BIT(31)) == 0 )
+    temp = LPC_ADC0->SEQ_GDAT[0];
+    
+    while ( (temp & BIT(31)) == 0 )
     {
+        temp = LPC_ADC0->SEQ_GDAT[0];
     }
     
     result = (temp >> 4) & 0x0FFF;
