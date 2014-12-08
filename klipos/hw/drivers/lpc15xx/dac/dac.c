@@ -29,7 +29,9 @@ void initDac(void)
 {
     // enable clock for DAC block
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 29);
+    
     enableFixedFunction(SWM_FIXED_DAC_OUT, true);
+    
     CLRBIT(LPC_SYSCON->PDRUNCFG, 12);
     
     LPC_DAC->CTRL = 0;

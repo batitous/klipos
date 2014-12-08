@@ -33,7 +33,7 @@
 #define ADC_CR_CALMODEBIT       (1 << 30)	/*!< Self calibration cycle enable bit */
 
 /** Maximum sample rate in Hz (12-bit conversions) */
-#define ADC_MAX_SAMPLE_RATE     50000000
+//#define ADC_MAX_SAMPLE_RATE     50000000
 
 
 void setAnalogClock(LPC_ADC_T *pADC, uint32_t rateInKHz)
@@ -84,10 +84,12 @@ void initAnalog(uint32_t analogChannel)
 {
     // enable clock for adc block
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 27);
-//    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 28);
-    
+
     // clear reset for adc
     CLRBIT(LPC_SYSCON->PRESETCTRL[0], 27);
+    SETBIT(LPC_SYSCON->PRESETCTRL[0], 27);
+
+//    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0], 28);
 //    CLRBIT(LPC_SYSCON->PRESETCTRL[0], 28);
     
     if( (analogChannel & ANA0) == ANA0)
@@ -132,8 +134,6 @@ void initAnalog(uint32_t analogChannel)
     
     // power on adc
     CLRBIT(LPC_SYSCON->PDRUNCFG, 10);
-//    CLRBIT(LPC_SYSCON->PDRUNCFG, 11);
-    
   
     LPC_ADC0->INTEN = 0;
     LPC_ADC0->CTRL = 0; // normal mode 12 bits
@@ -142,6 +142,9 @@ void initAnalog(uint32_t analogChannel)
     
     // set clock to 36 MHz
     LPC_ADC0->CTRL = 1;
+    
+    
+//    CLRBIT(LPC_SYSCON->PDRUNCFG, 11);
 }
 
 uint16_t getAnalog(ANALOG_CHANNEL channel)
