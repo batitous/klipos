@@ -49,7 +49,7 @@ typedef enum IRQn {
 	SysTick_IRQn                  =  -1,	/*!< System Tick Timer                               */
 
 	WDT_IRQn                      = 0,		/*!< Watchdog timer Interrupt                         */
-	WWDT_IRQn                     = WDT_IRQn,	/*!< Watchdog timer Interrupt alias for WDT_IRQn    */
+	//WWDT_IRQn                     = WDT_IRQn,	/*!< Watchdog timer Interrupt alias for WDT_IRQn    */
 	BOD_IRQn                      = 1,		/*!< Brown Out Detect(BOD) Interrupt                  */
 	FMC_IRQn                      = 2,		/*!< FLASH Interrupt                                  */
 	FLASHEEPROM_IRQn              = 3,		/*!< EEPROM controller interrupt                      */
@@ -701,19 +701,19 @@ typedef struct {					/* I2C0 Structure         */
 #define LPC_USART0                ((LPC_USART_T            *) LPC_USART0_BASE)
 #define LPC_USART1                ((LPC_USART_T            *) LPC_USART1_BASE)
 #define LPC_USART2                ((LPC_USART_T            *) LPC_USART2_BASE)
-//#define LPC_I2C0                  ((LPC_I2C_T              *) LPC_I2C_BASE)
-//#define LPC_I2C                   ((LPC_I2C_T              *) LPC_I2C_BASE) /* Alias for I2C0 */
+#define LPC_I2C0                  ((LPC_I2C_T              *) LPC_I2C_BASE)
+#define LPC_I2C                   ((LPC_I2C_T              *) LPC_I2C_BASE) /* Alias for I2C0 */
 #define LPC_USB                   ((LPC_USB_T              *) LPC_USB0_BASE)
 #define LPC_ADC0                  ((LPC_ADC_T              *) LPC_ADC0_BASE)
 #define LPC_ADC1                  ((LPC_ADC_T              *) LPC_ADC1_BASE)
-//#define LPC_SCTLARGE0             ((LPC_SCT_T              *) LPC_SCTLARGE_0_BASE)
-//#define LPC_SCTLARGE1             ((LPC_SCT_T              *) LPC_SCTLARGE_1_BASE)
-//#define LPC_SCTSMALL0             ((LPC_SCT_T              *) LPC_SCTSMALL_0_BASE)
-//#define LPC_SCTSMALL1             ((LPC_SCT_T              *) LPC_SCTSMALL_1_BASE)
-//#define LPC_SCT0                  LPC_SCTLARGE0
-//#define LPC_SCT1                  LPC_SCTLARGE1
-//#define LPC_SCT2                  LPC_SCTSMALL0
-//#define LPC_SCT3                  LPC_SCTSMALL1
+#define LPC_SCTLARGE0             ((LPC_SCT_T              *) LPC_SCTLARGE_0_BASE)
+#define LPC_SCTLARGE1             ((LPC_SCT_T              *) LPC_SCTLARGE_1_BASE)
+#define LPC_SCTSMALL0             ((LPC_SCT_T              *) LPC_SCTSMALL_0_BASE)
+#define LPC_SCTSMALL1             ((LPC_SCT_T              *) LPC_SCTSMALL_1_BASE)
+#define LPC_SCT0                  LPC_SCTLARGE0
+#define LPC_SCT1                  LPC_SCTLARGE1
+#define LPC_SCT2                  LPC_SCTSMALL0
+#define LPC_SCT3                  LPC_SCTSMALL1
 #define LPC_RTC                   ((LPC_RTC_T              *) LPC_RTC_BASE)
 #define LPC_WWDT                  ((LPC_WWDT_T             *) LPC_WWDT_BASE)
 #define LPC_DMA                   ((LPC_DMA_T              *) LPC_DMA_BASE)

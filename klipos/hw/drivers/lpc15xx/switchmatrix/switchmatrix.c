@@ -36,6 +36,9 @@
 void initSwitchMatrix(void)
 {
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[0],12);
+   
+    // switchmatrix don't need clear reset ? test failed if decomment next line
+    //    CLRBIT(LPC_SYSCON->SYSAHBCLKCTRL[0],12);
 }
 
 void assignMovableFunctionToGpio(SwitchMatrixMovableFunction function, GPIO_PIN gpiopin)

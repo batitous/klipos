@@ -142,6 +142,7 @@ const Uart * initUart0(void)
     
 //    setUartClockRate(UART_CLOCK,false);
     
+    // enable uart clock and block
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],17);
     
     SETBIT(LPC_SYSCON->PRESETCTRL[1], 17);
