@@ -21,6 +21,10 @@ ifeq ($(gpio),yes)
     SOURCE_KLIP += gpio.c
 endif
 
+ifeq ($(gpio-option),yes)
+    SOURCE_KLIP += gpio-option.c    
+endif
+
 ifeq ($(gpioirq),yes)
     SOURCE_KLIP += gpio-irq-lpc15xx.c
 endif
