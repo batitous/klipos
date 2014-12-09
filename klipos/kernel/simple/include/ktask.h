@@ -29,7 +29,9 @@ extern "C" {
 
 typedef void (*KTaskCode)(uint32_t dataEvent);
 
-#define TASK_QUEUE_SIZE  8
+#ifndef TASK_QUEUE_SIZE
+#       define TASK_QUEUE_SIZE  8
+#endif
 
 
 /** @brief Task's Priority */
