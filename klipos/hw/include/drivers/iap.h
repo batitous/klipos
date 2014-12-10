@@ -44,13 +44,19 @@ typedef enum _iap_command_
         IAP_READ_BOOT_VER		= 55,
         IAP_COMPARE			= 56,
         IAP_REINVOKE_ISP		= 57,
+        IAP_READ_UID                    = 58, // works on lpc15xx chip
         IAP_WRITE_EEPROM                = 61,
         IAP_READ_EEPROM                 = 62
 } IapCommand;
 
 
 #define IAP_SUCCESS 0
-#define IAP_ADDRESS 0x1FFF1FF1
+
+#if defined(MCU_IS_LPC15XX)
+#       define IAP_ADDRESS 0x03000205UL
+#else
+#       define IAP_ADDRESS 0x1FFF1FF1
+#endif
 
 /** Execute a low level ROM IAP command
  * 

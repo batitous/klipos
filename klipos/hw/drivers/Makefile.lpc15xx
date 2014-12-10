@@ -10,7 +10,9 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/analog \
                 $(HW_PATH)drivers/lpc15xx/dac \
                 $(HW_PATH)drivers/lpc15xx/rit \
-                $(HW_PATH)drivers/lpc15xx/timer
+                $(HW_PATH)drivers/lpc15xx/timer \
+                $(HW_PATH)drivers/lpc1xxx/iap \
+                $(HW_PATH)drivers/lpc1xxx/eeprom
 
 SOURCE_KLIP += switchmatrix.c 
 
@@ -44,4 +46,8 @@ endif
 
 ifeq ($(timer),yes)
     SOURCE_KLIP += timer.c
+endif
+
+ifeq ($(eeprom),yes)
+    SOURCE_KLIP += eeprom.c iap.c
 endif
