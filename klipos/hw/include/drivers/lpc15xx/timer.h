@@ -48,6 +48,8 @@ typedef void (*TimerIrqCallback)(void);
 
 extern void initScTimer(Timer * timer, TIMER selectedTimer, uint32_t timeInUs, TimerIrqCallback callback);
 
+extern void setTimeInScTimer(Timer * timer, uint32_t timeInUs);
+
 extern void setScTimer(Timer * timer, uint32_t timeInUs, TimerIrqCallback callback);
 
 extern void enableScTimer(Timer * timer);

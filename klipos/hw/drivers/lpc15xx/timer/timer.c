@@ -122,10 +122,17 @@ void initScTimer(Timer * timer, TIMER selectedTimer, uint32_t timeInUs, TimerIrq
     
 }
 
+void setTimeInScTimer(Timer * timer, uint32_t timeInUs)
+{
+    uint32_t tick = GET_TICK_FROM_US(timeInUs);
+    
+    timer->t->MATCH[0].U        = tick;
+    timer->t->MATCHREL[0].U     = tick;
+}
+
 void setScTimer(Timer * timer, uint32_t timeInUs, TimerIrqCallback callback)
 {
-    timer->t->MATCH[0].U        = GET_TICK_FROM_US(timeInUs);
-    timer->t->MATCHREL[0].U     = GET_TICK_FROM_US(timeInUs);
+    setTimeInScTimer(timer, timeInUs);
     
     switch(timer->selected)
     {
