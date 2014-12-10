@@ -38,7 +38,9 @@ extern "C" {
     
 #if !defined(MCU_IS_LPC8XX)
 #       include "drivers/uart.h"
-#       include "drivers/timer.h"
+#if     !defined(MCU_IS_LPC15XX)
+#               include "drivers/timer.h"
+#       endif
 #       include "drivers/pwm.h"
 #       include "drivers/i2c-soft.h"
 #else
@@ -59,6 +61,7 @@ extern "C" {
 #if defined(MCU_IS_LPC15XX)
 #       include "drivers/lpc15xx/switchmatrix.h"
 #       include "drivers/lpc15xx/dac.h"
+#       include "drivers/lpc15xx/timer.h"
 #endif
     
 #ifdef __cplusplus
