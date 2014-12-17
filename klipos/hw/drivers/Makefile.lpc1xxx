@@ -75,6 +75,10 @@ ifeq ($(timer),yes)
     endif
 endif
 
+ifeq ($(timer-rit),yes)
+    SOURCE_KLIP += timer-rit.c
+endif
+
 ifeq ($(timer-rit-irq),yes)
     SOURCE_KLIP += timer-rit-irq.c
 endif

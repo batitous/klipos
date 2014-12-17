@@ -30,7 +30,7 @@ void initRitWithTick(void)
     LPC_RITIMER->CTRL = 0;
 
     LPC_RITIMER->COMPVAL = 0xffffffff;
-    LPC_RITIMER->COMPVAL_H = 0x0000ffff;
+    LPC_RITIMER->COMPVAL_H = 0x00000000;
 
     LPC_RITIMER->COUNTER = 0;
     LPC_RITIMER->COUNTER_H = 0;
@@ -40,9 +40,11 @@ void initRitWithTick(void)
 
 uint64_t getTickFromRit(void)
 {
-    uint64_t temp;
+    // todo fix uint64_t on lpc1315 ?
+    // uint64_t don't works on lpc1315 ? 
+    uint32_t temp; 
     
-    temp = LPC_RITIMER->COUNTER | ((uint64_t)LPC_RITIMER->COUNTER_H << 32);
+    temp = LPC_RITIMER->COUNTER;
 
 // todo manage overflow by x 1000    
 //    if (temp > 0x3FFFFFFFFF)
