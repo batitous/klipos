@@ -104,10 +104,6 @@ extern void disableTimer16(Timer* timer);
 extern bool isTimer16Enable(Timer* timer);
 extern void setTimer16Callback(Timer* timer, TimerIrqCallback c);
 
-// Repetitive Interrupt Timer 
-extern void initTimerRit(uint32_t timeInUs);
-extern uint32_t getTimerRitCounter(void);
-extern bool isTimerRitOverflow(void);
 
 #ifdef __cplusplus
  }

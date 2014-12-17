@@ -20,41 +20,28 @@
  IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-#include "../../../include/libs-klipos.h"
+#ifndef LIB_HW_TIMER_RIT_H
+#define LIB_HW_TIMER_RIT_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Repetitive Interrupt Timer 
 
 
+// Use the RIT as a irq timer fired at periodic interval
+extern void initRitWithIrq(uint32_t timeInUs);
+extern uint32_t getCounterFromRitIrq(void);
 
-void initRitWithTick(void)
-{
-    SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1], 1);
-        
-    // Stop RI timer – otherwise we can't reset the counter
-    LPC_RITIMER->CTRL = 0;
 
-    LPC_RITIMER->COMPVAL = 0xffffffff;
-    LPC_RITIMER->COMPVAL_H = 0x0000ffff;
+// Use the RIT as a infinite ticker with timestamp of 64 bits
+extern void initRitWithTick(void);
+extern uint64_t getTickFromRit(void);
 
-    LPC_RITIMER->COUNTER = 0;
-    LPC_RITIMER->COUNTER_H = 0;
 
-    LPC_RITIMER->CTRL = (1<< 2) | (1<< 3);
-}
+#ifdef __cplusplus
+ }
+#endif
 
-uint64_t getTickFromRit(void)
-{
-    uint64_t temp;
-    
-    temp = LPC_RITIMER->COUNTER | ((uint64_t)LPC_RITIMER->COUNTER_H << 32);
-
-// todo manage overflow by x 1000    
-//    if (temp > 0x3FFFFFFFFF)
-//    {
-//        temp = (temp / KERNEL_CPU_FREQ) * 1000;
-//    }
-//    else
-    {
-        temp = (temp *1000) / KERNEL_CPU_FREQ;
-    }
-    
-    return temp;
-}
+#endif

@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
  
- Copyright (c) 2014 Baptiste Burles
+ Copyright (c) 2013 Baptiste Burles, Christophe Casson, Sylvain Fay-Chatelard
  
  Permission is hereby granted, free of charge, to any person obtaining a copy of
  this software and associated documentation files (the "Software"), to deal in
@@ -23,38 +23,49 @@
 #include "../../../include/libs-klipos.h"
 
 
+//----------------------------- private menbers
 
-void initRitWithTick(void)
+static volatile uint32_t ritCounter;
+
+
+//----------------------------- private functions
+
+void RIT_IRQHandler(void)
+{
+    // Clear interrupt
+    LPC_RITIMER->CTRL |= (1<< 0);
+
+    ritCounter++;
+}
+
+
+//----------------------------- public functions
+
+void initRitWithIrq(uint32_t timeInUs)
 {
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1], 1);
-        
+    
+    ritCounter = 0;
+    
     // Stop RI timer – otherwise we can't reset the counter
     LPC_RITIMER->CTRL = 0;
 
-    LPC_RITIMER->COMPVAL = 0xffffffff;
-    LPC_RITIMER->COMPVAL_H = 0x0000ffff;
+    // Init RI timer (we don't need to enable timer – it is always running as per the updated User Manual UM10524)
+    LPC_RITIMER->COMPVAL = GET_TICK_FROM_US(timeInUs);
+    LPC_RITIMER->COMPVAL_H = 0;
 
+    // Reset counter (otherwise it might already be above the compare value and then it would take a loong time to overflow to zero)
     LPC_RITIMER->COUNTER = 0;
     LPC_RITIMER->COUNTER_H = 0;
 
-    LPC_RITIMER->CTRL = (1<< 2) | (1<< 3);
+    // Set RITENCLR (clear on match), RITENBR (halt timer on debug) and RITEN (start timer)
+    LPC_RITIMER->CTRL = (1<< 1) | (1<< 2) | (1<< 3);
+
+    // Enable RIT interrupt
+    NVIC_EnableIRQ( RITIMER_IRQn ); 
 }
-
-uint64_t getTickFromRit(void)
+ 
+uint32_t getCounterFromRitIrq(void)
 {
-    uint64_t temp;
-    
-    temp = LPC_RITIMER->COUNTER | ((uint64_t)LPC_RITIMER->COUNTER_H << 32);
-
-// todo manage overflow by x 1000    
-//    if (temp > 0x3FFFFFFFFF)
-//    {
-//        temp = (temp / KERNEL_CPU_FREQ) * 1000;
-//    }
-//    else
-    {
-        temp = (temp *1000) / KERNEL_CPU_FREQ;
-    }
-    
-    return temp;
+    return ritCounter;
 }

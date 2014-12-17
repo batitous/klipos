@@ -57,6 +57,7 @@ extern "C" {
 #include "drivers/watchdog.h"
 #include "drivers/spi.h"
 #include "drivers/mem-protocol.h"
+#include "drivers/timer-rit.h"
 
 #if defined(MCU_IS_LPC15XX)
 #       include "drivers/lpc15xx/switchmatrix.h"
