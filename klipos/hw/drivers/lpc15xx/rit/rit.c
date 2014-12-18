@@ -44,8 +44,6 @@ uint32_t getTickFromRit(void)
 {
     uint64_t temp;
     
-//    temp = LPC_RITIMER->COUNTER ; //| ((uint64_t)LPC_RITIMER->COUNTER_H << 32);
-
     temp = LPC_RITIMER->COUNTER | ((uint64_t)LPC_RITIMER->COUNTER_H << 32);
     
 /*    if (temp > 0x3FFFFF)

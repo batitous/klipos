@@ -25,12 +25,11 @@
 
 
 void initRitWithTick(void)
-{        
-    // Stop RI timer – otherwise we can't reset the counter
+{
     LPC_RITIMER->CTRL = 0;
 
     LPC_RITIMER->COMPVAL = 0xffffffff;
-    LPC_RITIMER->COMPVAL_H = 0x00000000;
+    LPC_RITIMER->COMPVAL_H = 0;
 
     LPC_RITIMER->COUNTER = 0;
     LPC_RITIMER->COUNTER_H = 0;
@@ -38,23 +37,12 @@ void initRitWithTick(void)
     LPC_RITIMER->CTRL = (1<< 2) | (1<< 3);
 }
 
-uint64_t getTickFromRit(void)
+uint32_t getTickFromRit(void)
 {
-    // todo fix uint64_t on lpc1315 ?
-    // uint64_t don't works on lpc1315 ? 
-    uint32_t temp; 
+    uint32_t temp;
     
     temp = LPC_RITIMER->COUNTER;
-
-// todo manage overflow by x 1000    
-//    if (temp > 0x3FFFFFFFFF)
-//    {
-//        temp = (temp / KERNEL_CPU_FREQ) * 1000;
-//    }
-//    else
-    {
-        temp = (temp *1000) / KERNEL_CPU_FREQ;
-    }
+    temp = temp / 72;
     
     return temp;
 }
