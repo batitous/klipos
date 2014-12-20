@@ -13,6 +13,7 @@ The framework has been tested on this micro-controller :
 - LPC1317
 - LPC1343
 - LPC1347
+- LPC1549
 - LPC800
 
 
