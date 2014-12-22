@@ -93,6 +93,9 @@ void initScTimer(Timer * timer, TIMER selectedTimer, uint32_t timeInUs, TimerIrq
             break;
     }
     
+    // disable timer before set
+    SETBIT(timer->t->CTRL_U, 2);
+    
     timer->t->CONFIG            = (1 << 0) | (1 << 17); // unified 32-bit timer, auto limit
 
     timer->t->MATCH[0].U        = GET_TICK_FROM_US(timeInUs);
