@@ -186,6 +186,7 @@ void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE type)
     pinIrqFree++;
 }
 
+/*
 void disableGpioIrq(GPIO_PIN pin)
 {
     uint32_t irqIndex = getIndexFromGpio(pin);
@@ -201,6 +202,47 @@ void disableGpioIrq(GPIO_PIN pin)
         //level
         SETBIT(LPC_GPIO_PIN_INT->CIENR, irqIndex);
     }
+}*/
+
+
+void startOrStopGpioIrq(GPIO_PIN pin, bool enable)
+{
+    uint32_t irqIndex = getIndexFromGpio(pin);
+    
+    if (enable==true)
+    {
+        NVIC_ClearPendingIRQ(PIN_INT0_IRQn + irqIndex);
+        
+        SETBIT(LPC_GPIO_PIN_INT->IENR,irqIndex);
+        SETBIT(LPC_GPIO_PIN_INT->IENF,irqIndex);
+        
+        SETBIT(LPC_GPIO_PIN_INT->IST,irqIndex);
+    }
+    else
+    {
+        CLRBIT(LPC_GPIO_PIN_INT->IENR,irqIndex);
+        CLRBIT(LPC_GPIO_PIN_INT->IENF,irqIndex);
+    }
+            
+    /*if (enable==true)
+    {
+        NVIC_ClearPendingIRQ(PIN_INT0_IRQn + irqIndex);
+        NVIC_EnableIRQ(PIN_INT0_IRQn + irqIndex);
+    }
+    else
+    {
+        NVIC_DisableIRQ(PIN_INT0_IRQn + irqIndex);
+    }*/
+    
+    /*if ( ((LPC_GPIO_PIN_INT->ISEL >> irqIndex) & 0x1) == 0)
+    {
+        //edge
+        SETBIT(LPC_GPIO_PIN_INT->CIENF, irqIndex);
+        SETBIT(LPC_GPIO_PIN_INT->CIENR, irqIndex);
+    }
+    else
+    {
+        //level
+        SETBIT(LPC_GPIO_PIN_INT->CIENR, irqIndex);
+    }*/
 }
-
-

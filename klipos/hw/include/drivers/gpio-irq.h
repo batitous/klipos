@@ -66,11 +66,11 @@ extern void setGpioIrqCallback(GpioIrqCallback callback);
 extern void enableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge);
 
 
-// disable only the irq, the event object is not deactivated !
+// Start / stop irq on both edge
+// todo : add edge parameters
+// disable only the irq, the kernel event object is not deactivated !
+extern void startOrStopGpioIrq(GPIO_PIN pin, bool enable);
 
-#ifdef MCU_IS_LPC13XX
-extern void disableGpioIrq(GPIO_PIN pin);
-#endif
 
 #ifdef MCU_IS_LPC17XX
 extern void disableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge);
@@ -78,9 +78,10 @@ extern void disableGpioIrq(GPIO_PIN pin, GPIO_IRQ_TYPE edge);
 
 #ifdef MCU_IS_LPC15XX
         extern void initGpioIrq(void);
-        extern void startOrStopGpioIrq(GPIO_PIN pin, bool enable);
 #endif
 
+        
+        
 #ifdef	__cplusplus
 }
 #endif
