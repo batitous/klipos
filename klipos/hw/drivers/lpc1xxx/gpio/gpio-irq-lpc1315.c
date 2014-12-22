@@ -211,7 +211,7 @@ void startOrStopGpioIrq(GPIO_PIN pin, bool enable)
     
     if (enable==true)
     {
-        NVIC_ClearPendingIRQ(PIN_INT0_IRQn + irqIndex);
+        NVIC_ClearPendingIRQ(FLEX_INT0_IRQn + irqIndex);
         
         SETBIT(LPC_GPIO_PIN_INT->IENR,irqIndex);
         SETBIT(LPC_GPIO_PIN_INT->IENF,irqIndex);
