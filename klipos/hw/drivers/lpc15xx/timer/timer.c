@@ -131,6 +131,7 @@ void setTimeInScTimer(Timer * timer, uint32_t timeInUs)
     
     timer->t->MATCH[0].U        = tick;
     timer->t->MATCHREL[0].U     = tick;
+    timer->t->COUNT_U           = 0;
 }
 
 void setScTimer(Timer * timer, uint32_t timeInUs, TimerIrqCallback callback)
