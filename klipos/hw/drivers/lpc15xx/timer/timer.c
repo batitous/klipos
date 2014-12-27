@@ -96,14 +96,14 @@ void initScTimer(Timer * timer, TIMER selectedTimer, uint32_t timeInUs, TimerIrq
     // disable timer before set
     SETBIT(timer->t->CTRL_U, 2);
     
-    timer->t->CONFIG            = (1 << 0) | (1 << 17); // unified 32-bit timer, auto limit
+    timer->t->CONFIG            = BIT(0) | BIT(17); // unified 32-bit timer, auto limit
 
     timer->t->MATCH[0].U        = GET_TICK_FROM_US(timeInUs);
     timer->t->MATCHREL[0].U     = GET_TICK_FROM_US(timeInUs);
 
     timer->t->EVENT[0].STATE    = 0xFFFFFFFF;    // event 0 happens in all states
-    timer->t->EVENT[0].CTRL     = (1 << 12);     // match 0 condition only
-    timer->t->EVEN              = (1 << 0);      // event 0 generates an interrupt
+    timer->t->EVENT[0].CTRL     = BIT(12);     // match 0 condition only
+    timer->t->EVEN              = BIT(0);      // event 0 generates an interrupt
     
     
     // enable SCTx interrupt
