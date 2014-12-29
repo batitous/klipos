@@ -11,8 +11,9 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/dac \
                 $(HW_PATH)drivers/lpc15xx/rit \
                 $(HW_PATH)drivers/lpc15xx/timer \
+                $(HW_PATH)drivers/lpc15xx/watchdog \
                 $(HW_PATH)drivers/lpc1xxx/iap \
-                $(HW_PATH)drivers/lpc1xxx/eeprom
+                $(HW_PATH)drivers/lpc1xxx/eeprom 
 
 SOURCE_KLIP += switchmatrix.c 
 
@@ -42,6 +43,10 @@ endif
 
 ifeq ($(timer-rit),yes)
     SOURCE_KLIP += rit.c
+endif
+
+ifeq ($(watchdog),yes)
+    SOURCE_KLIP += watchdog.c
 endif
 
 ifeq ($(timer-rit-irq),yes)
