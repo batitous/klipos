@@ -102,12 +102,12 @@ extern void initGpio(void);
  */
 extern void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir);
 
-/** @brief Set value of GPIO (0 or 1)
+/** @brief Set 1 to GPIO
  *
  * @param pin   GPIO to set
- * @param bit   value
  */
-extern void setGpioValue(GPIO_PIN pin, uint32_t bit);
+extern void setGpioValue(GPIO_PIN pin);
+extern void clearGpioValue(GPIO_PIN pin);
 
 /** @brief Get value of a GPIO
  *

@@ -188,7 +188,7 @@ void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
 #endif
 }
 
-void setGpioValue(GPIO_PIN pin, uint32_t bit)
+void clearGpioValue(GPIO_PIN pin)
 {
     LPC_GPIO_TypeDef * gpio = GET_LPC_GPIO_PORT(pin);
     
@@ -198,14 +198,20 @@ void setGpioValue(GPIO_PIN pin, uint32_t bit)
     
     uint32_t thepin = pin & 0xFFFF;
     
-    if(bit!=0)
-    {
-        GPIOSET
-    }
-    else
-    {
-        GPIOCLR
-    }
+    GPIOCLR
+}
+
+void setGpioValue(GPIO_PIN pin)
+{
+    LPC_GPIO_TypeDef * gpio = GET_LPC_GPIO_PORT(pin);
+    
+#ifdef MCU_IS_LPC1315
+    uint32_t portNumber = GET_GPIO_PORT_NUMBER(pin);
+#endif
+    
+    uint32_t thepin = pin & 0xFFFF;
+    
+    GPIOSET
 }
 
 uint32_t getGpioValue(GPIO_PIN pin)

@@ -90,16 +90,14 @@ void setGpioDirection(GPIO_PIN pin, GPIO_DIR dir)
     }
 }
 
-void setGpioValue(GPIO_PIN pin, uint32_t bit)
+void setGpioValue(GPIO_PIN pin)
 {
-    if(bit!=0)
-    {
-        GPIOSET(pin);
-    }
-    else
-    {
-        GPIOCLR(pin);
-    }
+    GPIOSET(pin);
+}
+
+void clearGpioValue(GPIO_PIN pin)
+{
+    GPIOCLR(pin);
 }
 
 uint32_t getGpioValue(GPIO_PIN pin)
