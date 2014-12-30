@@ -105,14 +105,14 @@ void scheduleTask(void)
             executed = true;
             
 #ifdef KERNEL_USE_DEBUG
-            extern uint32_t getCounterFromRitIrq(void);
+            extern uint32_t getTickFromRit(void);
             
-            begin = getCounterFromRitIrq();
+            begin = getTickFromRit();
 #endif
             next->code(tmp);
       
 #ifdef KERNEL_USE_DEBUG
-            time = getCounterFromRitIrq() - begin;
+            time = (getTickFromRit() - begin)/100;
             next->cpuLast = time;
             if ( time > next->cpuMax)
             {
