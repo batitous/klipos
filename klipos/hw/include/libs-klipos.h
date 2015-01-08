@@ -33,6 +33,8 @@ extern "C" {
     
 #include "../../kernel/kernel-klipos.h"
 
+#include "util-virtualtimer.h"
+    
 #include "drivers/sleep.h"
 #include "drivers/i2c.h"
     

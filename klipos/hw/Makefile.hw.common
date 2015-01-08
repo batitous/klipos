@@ -47,3 +47,8 @@ endif
 ifeq ($(libc),yes)
     SOURCE_KLIP += string.c
 endif
+
+ifeq ($(virtual-timer),yes)
+#    SOURCE_KLIP += slist.c
+    SOURCE_KLIP += virtualtimer.c
+endif
