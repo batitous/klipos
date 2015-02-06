@@ -93,7 +93,7 @@ void scheduleTask(void)
     KTask* next = (KTask*)tasks.next;
     
 #ifdef KERNEL_USE_DEBUG
-    uint32_t begin, time, current;
+    uint32_t taskBeginTick, taskTimeTick, taskCurrentTick;
 #endif
     
     while (next != (KTask*)&tasks)
@@ -107,26 +107,27 @@ void scheduleTask(void)
 #ifdef KERNEL_USE_DEBUG
             extern uint32_t getTickFromRit(void);
             
-            begin = getTickFromRit();
+            taskBeginTick = getTickFromRit();
 #endif
             next->code(tmp);
       
 #ifdef KERNEL_USE_DEBUG
-            current = getTickFromRit();
-            if (current >= begin)
+            taskCurrentTick = getTickFromRit();
+            if (taskCurrentTick >= taskBeginTick)
             {
-                time = (current - begin)/100;
+                taskTimeTick = (taskCurrentTick - taskBeginTick);
             }
             else
             {
-                time = ((0xFFFFFFFFU) - begin) + current;
+                taskTimeTick = ((0xFFFFFFFFU) - taskBeginTick) + taskCurrentTick;
             }
             
+            taskTimeTick = taskTimeTick / 100;
             
-            next->cpuLast = time;
-            if ( time > next->cpuMax)
+            next->cpuLast = taskTimeTick;
+            if ( taskTimeTick > next->cpuMax)
             {
-                next->cpuMax = time;
+                next->cpuMax = taskTimeTick;
             }
 #endif
             
