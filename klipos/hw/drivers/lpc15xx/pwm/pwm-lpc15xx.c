@@ -46,30 +46,29 @@ void initPwm(Pwm *pwm,
     uint32_t dutyCycle;
     
     uint32_t evt;
-    LPC_SCT_T * sct;
+    LPC_SCT_T * sct = LPC_SCT0;
     
     switch(timerType)
     {
-        case SCT0:
+        case PWM_SCT0:
             sct = LPC_SCT0;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],2);
             break;
-        case SCT1:
+        case PWM_SCT1:
             sct = LPC_SCT1;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],3);
             break;
-        case SCT2:
+        case PWM_SCT2:
             sct = LPC_SCT2;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],4);
             break;
-        case SCT3:
+        case PWM_SCT3:
             sct = LPC_SCT3;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],5);
             break;
     }
     
-    //todo 
-    evt = 0;
+    evt = pwmSelected *2;
     
     pwm->evt = evt;
     pwm->sct = sct;
@@ -114,10 +113,10 @@ void disablePwm(Pwm *pwm)
 
 void setPwmDutyCycle(Pwm *pwm, uint32_t percentage)
 {
-    uint32_t ticks = pwm->sct->MATCHREL[0].L;
+    uint32_t ticks = pwm->sct->MATCHREL[pwm->evt].L;
     uint32_t dutyCycle = (ticks * percentage) / 1000;
     
-    pwm->sct->MATCHREL[1].L = dutyCycle;
+    pwm->sct->MATCHREL[pwm->evt+1].L = dutyCycle;
 }
 
 void setPwmRawDutyCycle(Pwm *pwm, uint32_t raw)

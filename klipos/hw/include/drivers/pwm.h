@@ -65,10 +65,10 @@ typedef enum _pwm_output_
 typedef enum _timertype_
 {
 #if defined(MCU_IS_LPC15XX)
-    SCT0      = 0,
-    SCT1      = 1,
-    SCT2      = 2,
-    SCT3      = 3 
+    PWM_SCT0  = 0,
+    PWM_SCT1  = 1,
+    PWM_SCT2  = 2,
+    PWM_SCT3  = 3 
 #else
     TIMER32_0 = 0,
     TIMER32_1 = 1,
