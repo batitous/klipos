@@ -119,12 +119,9 @@ void setPwmDutyCycle(Pwm *pwm, uint32_t percentage)
     pwm->sct->MATCHREL[pwm->evt+1].L = dutyCycle;
 }
 
-void setPwmRawDutyCycle(Pwm *pwm, uint32_t raw)
-{
-    
-}
-
 void setPwmWidth(Pwm *pwm, uint32_t widthInUs)
 {
+    uint32_t ticks = GET_PWM_TICK(widthInUs);
     
+    pwm->sct->MATCHREL[pwm->evt].L= ticks;
 }
