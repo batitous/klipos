@@ -39,10 +39,11 @@ extern "C" {
 #include "drivers/i2c.h"
     
 #if !defined(MCU_IS_LPC8XX)
-#       include "drivers/uart.h"
-#if     !defined(MCU_IS_LPC15XX)
-#               include "drivers/timer.h"
-#       endif
+#    include "drivers/uart.h"
+#if  !defined(MCU_IS_LPC15XX)
+#       include "drivers/timer.h"
+#     endif
+    
 #       include "drivers/pwm.h"
 #       include "drivers/i2c-soft.h"
 #else

@@ -35,17 +35,23 @@ extern "C" {
 
 typedef enum _pwm_output_
 {
-#ifdef MCU_IS_LPC13XX
+#if defined(MCU_IS_LPC13XX)
         PWM0 = 0x01,        /**< PWM output 0 */
         PWM1 = 0x02,        /**< PWM output 1 */
         PWM2 = 0x04         /**< PWM output 2 */
 #endif
 
-#ifdef MCU_IS_LPC15XX
-       PWM0 = 0xFF
+#if defined(MCU_IS_LPC15XX)
+       PWM0 = 0x00,
+       PWM1 = 0x01,
+       PWM2 = 0x02,
+       PWM3 = 0x03,
+       PWM4 = 0x04,
+       PWM5 = 0x05,
+       PWM6 = 0x06
 #endif
                 
-#ifdef MCU_IS_LPC17XX
+#if defined(MCU_IS_LPC17XX)
         PWM1 = 0x01,
         PWM2 = 0x02,
         PWM3 = 0x04,
@@ -58,22 +64,30 @@ typedef enum _pwm_output_
 
 typedef enum _timertype_
 {
+#if defined(MCU_IS_LPC15XX)
+    SCT0      = 0,
+    SCT1      = 1,
+    SCT2      = 2,
+    SCT3      = 3 
+#else
     TIMER32_0 = 0,
     TIMER32_1 = 1,
     TIMER16_0 = 2,
     TIMER16_1 = 3
+#endif
 } PWMTIMER;
 
 
 typedef struct _pwm_device_
 {
 #if defined(MCU_IS_LPC15XX)
-
+    LPC_SCT_T *         sct;
+    uint32_t            evt;
 #else
-    LPC_TMR_TypeDef     *timer;
-#endif
+    LPC_TMR_TypeDef *   timer;
     PWMOUTPUT           outputs;
     bool                enable;
+#endif
 } Pwm;
 
 
