@@ -60,12 +60,14 @@ void enableFixedFunction(SwitchMatrixFixexFunction function, bool enable)
     pinPos = ((uint32_t) function) & 0x1F;
     regOff = ((uint32_t) function) >> 7;
 
-    if (enable)
+    if (enable==true)
     {
-        CLRBIT(LPC_SWM->PINENABLE[regOff], pinPos);
+        LPC_SWM->PINENABLE[regOff] &= ~(1 << pinPos);
+//        CLRBIT(LPC_SWM->PINENABLE[regOff], pinPos);
     }
     else
     {
-        SETBIT(LPC_SWM->PINENABLE[regOff], pinPos);
+        LPC_SWM->PINENABLE[regOff] |= (1 << pinPos);
+//        SETBIT(LPC_SWM->PINENABLE[regOff], pinPos);
     }
 }

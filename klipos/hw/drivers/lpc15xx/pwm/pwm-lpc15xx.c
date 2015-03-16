@@ -53,18 +53,30 @@ void initPwm(Pwm *pwm,
         case PWM_SCT0:
             sct = LPC_SCT0;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],2);
+            
+            SETBIT(LPC_SYSCON->PRESETCTRL[1], 2);
+            CLRBIT(LPC_SYSCON->PRESETCTRL[1], 2);
             break;
         case PWM_SCT1:
             sct = LPC_SCT1;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],3);
+            
+            SETBIT(LPC_SYSCON->PRESETCTRL[1], 3);
+            CLRBIT(LPC_SYSCON->PRESETCTRL[1], 3);
             break;
         case PWM_SCT2:
             sct = LPC_SCT2;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],4);
+
+            SETBIT(LPC_SYSCON->PRESETCTRL[1], 4);
+            CLRBIT(LPC_SYSCON->PRESETCTRL[1], 4);
             break;
         case PWM_SCT3:
             sct = LPC_SCT3;
             SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],5);
+            
+            SETBIT(LPC_SYSCON->PRESETCTRL[1], 5);
+            CLRBIT(LPC_SYSCON->PRESETCTRL[1], 5);
             break;
     }
     

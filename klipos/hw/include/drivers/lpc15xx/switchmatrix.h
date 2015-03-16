@@ -29,10 +29,23 @@ extern "C" {
 
 #include "switchmatrix-pins.h"
 
+/** @brief Initialize the GPIO swich matrix hardware
+ * 
+ */
 extern void initSwitchMatrix(void);
 
+/** @brief Assign a moving function to a GPIO pin
+ * 
+ * @param function      Function 
+ * @param pin           GPIO 
+ */
 extern void assignMovableFunctionToGpio(SwitchMatrixMovableFunction function, GPIO_PIN pin);
 
+/** Enable or disable a fixed function on the GPIO
+ * 
+ * @param function      Function to enable or disable
+ * @param enable        True to enable, else false
+ */
 extern void enableFixedFunction(SwitchMatrixFixexFunction function, bool enable);
 
 
