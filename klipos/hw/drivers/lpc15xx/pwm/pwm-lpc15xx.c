@@ -31,7 +31,7 @@
 #define SCT_3_INDEX              6
 
 
-#define GET_PWM_TICK(timeInUs, freq) (((freq)/1000)*(timeInUs) -1)
+#define GET_PWM_TICK(timeInUs, freq) (((freq)/1000)*(timeInUs))
 
 
 
