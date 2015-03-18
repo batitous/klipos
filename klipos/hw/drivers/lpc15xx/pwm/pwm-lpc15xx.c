@@ -140,23 +140,6 @@ void setPwmOutput(Pwm *pwm, PWM_OUTPUT pwmSelected,
     
     sct->OUT[pwmSelected].SET = (1 << (evt));
     sct->OUT[pwmSelected].CLR = (1 << (evt+1));
-    
-    
-    evt = evt+2;
-    ticks = GET_PWM_TICK(700, frequency);  
-    dutyCycle = (ticks * 750) / 1000;
-    sct->MATCHREL[evt].L= ticks;
-    sct->MATCHREL[evt+1].L = dutyCycle;
-    
-    sct->EVENT[evt].STATE = 0xFFFFFFFF;
-    sct->EVENT[evt].CTRL = (evt) | (1 << 12);
-    
-    sct->EVENT[evt+1].STATE = 0xFFFFFFFF;
-    sct->EVENT[evt+1].CTRL = (evt+1) | (1 << 12);
-    
-    pwmSelected = 1;
-    sct->OUT[pwmSelected].SET = (1 << (evt));
-    sct->OUT[pwmSelected].CLR = (1 << (evt+1));
 }
 
 
