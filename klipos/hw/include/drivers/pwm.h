@@ -40,16 +40,6 @@ typedef enum _pwm_output_
         PWM1 = 0x02,        /**< PWM output 1 */
         PWM2 = 0x04         /**< PWM output 2 */
 #endif
-
-#if defined(MCU_IS_LPC15XX)
-       PWM0 = 0x00,
-       PWM1 = 0x01,
-       PWM2 = 0x02,
-       PWM3 = 0x03,
-       PWM4 = 0x04,
-       PWM5 = 0x05,
-       PWM6 = 0x06
-#endif
                 
 #if defined(MCU_IS_LPC17XX)
         PWM1 = 0x01,
@@ -64,30 +54,18 @@ typedef enum _pwm_output_
 
 typedef enum _timertype_
 {
-#if defined(MCU_IS_LPC15XX)
-    PWM_SCT0  = 0,
-    PWM_SCT1  = 1,
-    PWM_SCT2  = 2,
-    PWM_SCT3  = 3 
-#else
     TIMER32_0 = 0,
     TIMER32_1 = 1,
     TIMER16_0 = 2,
     TIMER16_1 = 3
-#endif
 } PWMTIMER;
 
 
 typedef struct _pwm_device_
 {
-#if defined(MCU_IS_LPC15XX)
-    LPC_SCT_T *         sct;
-    uint32_t            evt;
-#else
     LPC_TMR_TypeDef *   timer;
     PWMOUTPUT           outputs;
     bool                enable;
-#endif
 } Pwm;
 
 
@@ -97,10 +75,10 @@ typedef struct _pwm_device_
  * @param timerType             Select a timer for the PWM.
  * @param pwmSelected           Select an PWM output (or multiple PWM output).
  * @param widthInUs             PWM period in us.
- * @param widthDivider          Constant to divide your period (to lower PWM frequency)
+ * @param prescaler             Constant to divide your period (to lower PWM frequency)
  * @param percentage            Duty cycle (between 0% and 1000%).
  */
-extern void initPwm(Pwm *pwm, PWMTIMER timerType, PWMOUTPUT pwmSelected, uint32_t widthInUs, uint32_t widthDivider, uint32_t percentage);
+extern void initPwm(Pwm *pwm, PWMTIMER timerType, PWMOUTPUT pwmSelected, uint32_t widthInUs, uint32_t prescaler, uint32_t percentage);
 
 
 /** @brief Enable or Disable PWM.

@@ -22,7 +22,8 @@
 */
 #include "../../../include/libs-klipos.h"
 
-#define SCT_FREQUENCY_KHZ       12000
+#define DEFAULT_SCT_PRESCALER    5
+#define DEFAULT_FREQUENCY_KHZ    12000
 
 #define SCT_0_INDEX              0
 #define SCT_1_INDEX              2
@@ -30,25 +31,36 @@
 #define SCT_3_INDEX              6
 
 
-#define GET_PWM_TICK(timeInUs) ((SCT_FREQUENCY_KHZ/1000)*(timeInUs) -1)
+#define GET_PWM_TICK(timeInUs, freq) (((freq)/1000)*(timeInUs) -1)
 
 
 
 //------------------------ public functions
 
-void initPwm(Pwm *pwm, 
-        PWMTIMER timerType, PWMOUTPUT pwmSelected, 
-        uint32_t widthInUs, 
-        uint32_t widthDivider, 
-        uint32_t percentage)
+
+uint32_t computePwmPrescalerFromClock(uint32_t pwmClockInKHz)
 {
-    uint32_t ticks;
-    uint32_t dutyCycle;
+    uint32_t prescaler = KERNEL_CPU_FREQ / pwmClockInKHz;
     
-    uint32_t evt;
+    if (prescaler > 255)
+    {
+        return 0;
+    }
+    else if (prescaler == 0)
+    {
+        return 0;
+    }
+    
+    prescaler = prescaler-1;
+    
+    return prescaler;
+}
+
+void initPwm(Pwm * pwm, PWM_SCT sctPwm, uint32_t prescaler)
+{
     LPC_SCT_T * sct = LPC_SCT0;
     
-    switch(timerType)
+    switch(sctPwm)
     {
         case PWM_SCT0:
             sct = LPC_SCT0;
@@ -80,20 +92,41 @@ void initPwm(Pwm *pwm,
             break;
     }
     
-    evt = pwmSelected *2;
-    
-    pwm->evt = evt;
-    pwm->sct = sct;
-    
     sct->CONFIG |= BIT(17);
     
-    // SCT frequency set to 12 MHz
-    sct->CTRL_U |= BITS(5,5);
-    sct->CTRL_U |= BITS(21,5);
- 
+    uint32_t frequency;
+    if (prescaler==0)
+    {
+        prescaler = DEFAULT_SCT_PRESCALER;
+        frequency = DEFAULT_FREQUENCY_KHZ;
+    }
     
-    ticks = GET_PWM_TICK(widthInUs);
+    pwm->sct = sct;
+    pwm->freq = KERNEL_CPU_FREQ / (prescaler+1);
+     
+    sct->CTRL_U |= BITS(5,prescaler);
+    sct->CTRL_U |= BITS(21,prescaler);
+}
+
+void clonePwm(Pwm *from, Pwm *to)
+{
+    to->sct = from->sct;
+    to->freq = from->freq;
+}
+
+void setPwmOutput(Pwm *pwm, PWM_OUTPUT pwmSelected, 
+        uint32_t widthInUs, uint32_t percentage)
+{
+    uint32_t ticks;
+    uint32_t dutyCycle;
     
+    uint32_t evt = pwmSelected * 2;
+    LPC_SCT_T * sct = pwm->sct;
+    uint32_t frequency = pwm->freq;
+    
+    pwm->evt = evt;
+    
+    ticks = GET_PWM_TICK(widthInUs, frequency);    
     dutyCycle = (ticks * percentage) / 1000;
     
     sct->MATCHREL[evt].L= ticks;
@@ -108,6 +141,22 @@ void initPwm(Pwm *pwm,
     sct->OUT[pwmSelected].SET = (1 << (evt));
     sct->OUT[pwmSelected].CLR = (1 << (evt+1));
     
+    
+    evt = evt+2;
+    ticks = GET_PWM_TICK(700, frequency);  
+    dutyCycle = (ticks * 750) / 1000;
+    sct->MATCHREL[evt].L= ticks;
+    sct->MATCHREL[evt+1].L = dutyCycle;
+    
+    sct->EVENT[evt].STATE = 0xFFFFFFFF;
+    sct->EVENT[evt].CTRL = (evt) | (1 << 12);
+    
+    sct->EVENT[evt+1].STATE = 0xFFFFFFFF;
+    sct->EVENT[evt+1].CTRL = (evt+1) | (1 << 12);
+    
+    pwmSelected = 1;
+    sct->OUT[pwmSelected].SET = (1 << (evt));
+    sct->OUT[pwmSelected].CLR = (1 << (evt+1));
 }
 
 
@@ -133,7 +182,7 @@ void setPwmDutyCycle(Pwm *pwm, uint32_t percentage)
 
 void setPwmWidth(Pwm *pwm, uint32_t widthInUs)
 {
-    uint32_t ticks = GET_PWM_TICK(widthInUs);
+    uint32_t ticks = GET_PWM_TICK(widthInUs, pwm->freq);
     
     pwm->sct->MATCHREL[pwm->evt].L= ticks;
 }
