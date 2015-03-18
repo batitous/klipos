@@ -129,6 +129,8 @@ void setPwmOutput(Pwm *pwm, PWM_OUTPUT pwmSelected,
     ticks = GET_PWM_TICK(widthInUs, frequency);    
     dutyCycle = (ticks * percentage) / 1000;
     
+    sct->MATCH[evt].L=0;
+    
     sct->MATCHREL[evt].L= ticks;
     sct->MATCHREL[evt+1].L = dutyCycle;
     
@@ -153,6 +155,12 @@ void disablePwm(Pwm *pwm)
 {
     SETBIT(pwm->sct->CTRL_U, 2); 
     SETBIT(pwm->sct->CTRL_U, 18);
+    
+    SETBIT(pwm->sct->CTRL_U, 3);
+    SETBIT(pwm->sct->CTRL_U, 19);
+    
+    pwm->sct->COUNT_L = 0;
+    pwm->sct->COUNT_H = 0;
 }
 
 void setPwmDutyCycle(Pwm *pwm, uint32_t percentage)
@@ -167,5 +175,6 @@ void setPwmWidth(Pwm *pwm, uint32_t widthInUs)
 {
     uint32_t ticks = GET_PWM_TICK(widthInUs, pwm->freq);
     
+    pwm->sct->MATCH[pwm->evt].L=0;
     pwm->sct->MATCHREL[pwm->evt].L= ticks;
 }
