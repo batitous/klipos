@@ -13,6 +13,7 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/timer \
                 $(HW_PATH)drivers/lpc15xx/watchdog \
                 $(HW_PATH)drivers/lpc15xx/pwm \
+                $(HW_PATH)drivers/lpc15xx/can \
                 $(HW_PATH)drivers/lpc1xxx/iap \
                 $(HW_PATH)drivers/lpc1xxx/eeprom 
 
@@ -69,4 +70,7 @@ endif
 ifeq ($(pwm),yes)
     SOURCE_KLIP += pwm-lpc15xx.c
 endif
-    
+
+ifeq ($(can0),yes)
+    SOURCE_KLIP += can0.c
+endif
