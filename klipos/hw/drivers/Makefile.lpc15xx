@@ -22,6 +22,10 @@ ifeq ($(uart0),yes)
     SOURCE_KLIP += uart0.c
 endif
 
+ifeq ($(uart1),yes)
+    SOURCE_KLIP += uart1.c
+endif
+
 ifeq ($(gpio),yes)
     SOURCE_KLIP += gpio.c
 endif

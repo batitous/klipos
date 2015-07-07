@@ -67,6 +67,7 @@ extern "C" {
 #       include "drivers/lpc15xx/dac.h"
 #       include "drivers/lpc15xx/timer.h"
 #       include "drivers/lpc15xx/pwm.h"
+#       include "drivers/lpc15xx/uart1.h"
 #endif
     
 #ifdef __cplusplus
