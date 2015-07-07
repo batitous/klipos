@@ -56,6 +56,7 @@ static const c_speed_t c_speed[] =
 #define MAX_CAN_PARAM_SIZE          512
 
 static uint32_t         gCANapiMem[MAX_CAN_PARAM_SIZE];
+
 static CAN_HANDLE_T     pCanHandle;
 static CAN_CFG          gCANConfig;
 static CANMessage       messageReceive;
@@ -141,12 +142,6 @@ void CAN_IRQHandler(void)
     LPC_CAND_API->hwCAN_Isr(pCanHandle);
 }
 
-static void setSpeedCAN(CANBaudrate selection)
-{
-    gCANConfig.clkdiv = c_speed[selection].div;
-    gCANConfig.btr    = c_speed[selection].btr;
-}
-
 //--------------------- public functions
 
 
@@ -154,7 +149,15 @@ void initCAN(CANBaudrate kbaud)
 {
     uint32_t maxParamSize;
     uint32_t status;
-    CAN_API_INIT_PARAM_T myCANConfig = {0, LPC_C_CAN0_BASE, &gCANConfig, &callbacks, 0, 0};
+    
+    CAN_API_INIT_PARAM_T myCANConfig = {
+        (uint32_t) &gCANapiMem[0], 
+        LPC_C_CAN0_BASE, 
+        &gCANConfig, 
+        &callbacks, 
+        0, 
+        0
+    };
     
     // Enable CAN clock and reset
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],7);
@@ -181,9 +184,9 @@ void initCAN(CANBaudrate kbaud)
 #endif*/
 
     myCANConfig.mem_base = (uint32_t) &gCANapiMem[0];
-    gCANConfig.clkdiv = 0; // Target divisor = 1, clkdiv = (target-1) i.e 0
-
-    setSpeedCAN(kbaud);
+    
+    gCANConfig.clkdiv = c_speed[kbaud].div;
+    gCANConfig.btr    = c_speed[kbaud].btr;
     gCANConfig.isr_ena = 1;
 
     // Validate that we reserved enough memory 
@@ -200,20 +203,20 @@ void initCAN(CANBaudrate kbaud)
         while (1) { __WFI();} 
     }
 
-    //change CAN DAR / LOOPBACK if necessary
+    
     LPC_CAN->CNTL &= ~CTRL_CCE;
     
-#ifdef DAR_MODE
+//    LPC_CAN->CNTL |= CTRL_INIT;
+    
+    //change CAN DAR / LOOPBACK if necessary  
+    
     LPC_CAN->CNTL |= (CTRL_DAR); //disable retransmission
-#endif
-
-//#ifdef LOOPBACK_MODE
-    LPC_CAN->CNTL |= (CTRL_TEST);  //enable test
-    LPC_CAN->TEST |= (TEST_LBACK); //enable loopback
-//#endif
-
+    LPC_CAN->CNTL |= (CTRL_TEST); //enable test
+//    LPC_CAN->TEST |= (TEST_BASIC); //BASIC mode
+    LPC_CAN->TEST |= (TEST_LBACK); // Loopback
+    
     LPC_CAN->CNTL &= ~CTRL_INIT; //normal operation
-
+    
     //if (gCANConfig.isr_ena == 1)
     { 
         NVIC_EnableIRQ(CAN_IRQn); 
@@ -237,7 +240,7 @@ CANResult sendMessageOnCAN(CANMessage * message)
     
     if (tx_busy==1)
     {
-        return CAN_TX_BUSY;
+//        return CAN_TX_BUSY;
     }
         
     tx_busy = 1;
