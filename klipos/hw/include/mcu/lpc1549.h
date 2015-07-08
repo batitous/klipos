@@ -822,6 +822,59 @@ typedef struct {					/* I2C0 Structure         */
 } LPC_I2C_T;
 
 
+/*------------- CAN Controller (CAN) ----------------------------*/
+/** @addtogroup LPC15xx_CAN LPC15xx Controller Area Network(CAN)
+  @{
+*/
+typedef struct
+{
+  __IO uint32_t CNTL;				/* 0x000 */
+  __IO uint32_t STAT;
+  __I  uint32_t EC;
+  __IO uint32_t BT;
+  __I  uint32_t INT;
+  __IO uint32_t TEST;
+  __IO uint32_t BRPE;
+       uint32_t RESERVED0;
+  __IO uint32_t IF1_CMDREQ;			/* 0x020 */
+  __IO uint32_t IF1_CMDMSK;
+  __IO uint32_t IF1_MSK1;
+  __IO uint32_t IF1_MSK2;
+  __IO uint32_t IF1_ARB1;
+  __IO uint32_t IF1_ARB2;
+  __IO uint32_t IF1_MCTRL;
+  __IO uint32_t IF1_DA1;
+  __IO uint32_t IF1_DA2;
+  __IO uint32_t IF1_DB1;
+  __IO uint32_t IF1_DB2;
+       uint32_t RESERVED1[13];
+  __IO uint32_t IF2_CMDREQ;			/* 0x080 */
+  __IO uint32_t IF2_CMDMSK;
+  __IO uint32_t IF2_MSK1;
+  __IO uint32_t IF2_MSK2;
+  __IO uint32_t IF2_ARB1;
+  __IO uint32_t IF2_ARB2;
+  __IO uint32_t IF2_MCTRL;
+  __IO uint32_t IF2_DA1;
+  __IO uint32_t IF2_DA2;
+  __IO uint32_t IF2_DB1;
+  __IO uint32_t IF2_DB2;
+       uint32_t RESERVED2[21];
+  __I  uint32_t TXREQ1;				/* 0x100 */
+  __I  uint32_t TXREQ2;
+       uint32_t RESERVED3[6];
+  __I  uint32_t ND1;				/* 0x120 */
+  __I  uint32_t ND2;
+       uint32_t RESERVED4[6];
+  __I  uint32_t IR1;				/* 0x140 */
+  __I  uint32_t IR2;
+       uint32_t RESERVED5[6];
+  __I  uint32_t MSGV1;				/* 0x160 */
+  __I  uint32_t MSGV2;
+       uint32_t RESERVED6[6];
+  __IO uint32_t CLKDIV;				/* 0x180 */
+} LPC_CAN_TypeDef;
+/*@}*/ /* end of group LPC15xx_CAN */
 
 
 /** @defgroup PERIPH_15XX_BASE CHIP: LPC15xx Peripheral addresses and register set declarations
@@ -902,6 +955,7 @@ typedef struct {					/* I2C0 Structure         */
 #define LPC_DAC                   ((LPC_DAC_T              *) LPC_DAC_BASE)
 #define LPC_SPI0                  ((LPC_SPI_T              *) LPC_SPI0_BASE)
 #define LPC_SPI1                  ((LPC_SPI_T              *) LPC_SPI1_BASE)
+#define LPC_CAN                   ((LPC_CAN_TypeDef *)LPC_C_CAN0_BASE)
 /**
  * @}
  */

@@ -53,93 +53,78 @@ static const c_speed_t c_speed[] =
 
 //--------------------- private variables
 
-#define MAX_CAN_PARAM_SIZE          512
-
-static uint32_t         gCANapiMem[MAX_CAN_PARAM_SIZE];
-
-static CAN_HANDLE_T     pCanHandle;
-static CAN_CFG          gCANConfig;
 static CANMessage       messageReceive;
 static volatile uint8_t tx_busy;
-static CAN_ERROR_t      canError;
+//static CAN_ERROR_t      canError;
 static KTask *          CANTask;
-
-static void callbackRxCAN(uint8_t msg_obj_num);
-static void callbackTxCAN(uint8_t msg_obj_num);
-static void callbackErrorCAN(uint32_t error_info);
-
-CAN_CALLBACKS callbacks = {
-	callbackRxCAN,
-	callbackTxCAN,
-	callbackErrorCAN
-};
-
-static void callbackRxCAN(uint8_t msgNumber)
-{
-    // Determine which CAN message has been received
-    messageReceive.msgobj = msgNumber;
-
-    sendByteToUart1('r');
-    
-    // Now load up the rec_obj structure with the CAN message
-    LPC_CAND_API->hwCAN_MsgReceive(pCanHandle, (CAN_MSG_OBJ*)&messageReceive);
-        
-    postEventToTask(CANTask,messageReceive.mode_id);
-}
-
-static void callbackTxCAN(uint8_t msg_obj)
-{
-    sendByteToUart1('t');
-    tx_busy = 0;
-}
-
-static void callbackErrorCAN(uint32_t error_info)
-{
-    sendByteToUart1('e');
-    
-    if(error_info & CAN_ERROR_PASS) //passive error
-    {
-        canError.Pass_Cnt++;
-    }
-    if(error_info & CAN_ERROR_WARN) //warning error
-    {
-        canError.WARN_Cnt++;
-    }
-    if(error_info & CAN_ERROR_BOFF) //busoff error
-    {
-        canError.BOff_Cnt++;
-    }
-    if(error_info & CAN_ERROR_STUF) //stuf error
-    {
-        canError.STUF_Cnt++;
-    }
-    if(error_info & CAN_ERROR_FORM) //form error
-    {
-        canError.FORM_Cnt++;
-    }
-    if(error_info & CAN_ERROR_ACK) //ack error
-    {
-        canError.ACK_Cnt++;
-    }
-    if(error_info & CAN_ERROR_BIT1) //bit1 error
-    {
-        canError.BIT1_Cnt++;
-    }
-    if(error_info & CAN_ERROR_BIT0) //bit0 error
-    {
-        canError.BIT0_Cnt++;
-    }
-    if(error_info & CAN_ERROR_CRC) //crc error
-    {
-        canError.CRC_Cnt++;
-    }
-}
 
 void CAN_IRQHandler(void)
 {
-    sendByteToUart1('+');
+    uint32_t irq = LPC_CAN->INT;
+    uint32_t stat = LPC_CAN->STAT;
+    uint32_t msg_no = irq & 0x7FFF;
     
-    LPC_CAND_API->hwCAN_Isr(pCanHandle);
+    printf("IRQ %x STAT %x no %d\r\n", irq, stat, msg_no);
+    
+    if ( (stat & BIT(3)) != 0 )
+    {
+        CLRBIT(LPC_CAN->STAT, 3);
+    }
+    
+    if ( (stat & BIT(4)) != 0 )
+    {
+        CLRBIT(LPC_CAN->STAT, 4);
+        
+        
+        printf("MCTRL %x\r\n", LPC_CAN->IF2_MCTRL);
+        
+//        if (msg_no==0)
+//        {
+//            return;
+//        }
+        
+        while ( LPC_CAN->IF2_CMDREQ & IFCREQ_BUSY );
+        
+        LPC_CAN->IF2_CMDMSK = RD|MASK|ARB|CTRL|INTPND|TREQ|DATAA|DATAB;
+        LPC_CAN->IF2_CMDREQ = msg_no;    /* Start message transfer */
+  
+  
+//        LPC_CAN->IF2_CMDMSK = RD|MASK|ARB|TREQ|DATAA|DATAB;
+//        LPC_CAN->IF2_CMDREQ = IFCREQ_BUSY;
+        
+        while(LPC_CAN->IF2_CMDREQ & IFCREQ_BUSY );	/* Check new data bit */
+        
+        messageReceive.mode_id = (LPC_CAN->IF2_ARB2 & 0x1FFF) >> 2;
+        messageReceive.dataSize = LPC_CAN->IF2_MCTRL & 0x000F;	// Get Msg Obj Data length
+        messageReceive.DA1 = LPC_CAN->IF2_DA1;
+        messageReceive.DA2 = LPC_CAN->IF2_DA2;
+        messageReceive.DB1 = LPC_CAN->IF2_DB1;
+        messageReceive.DB2 = LPC_CAN->IF2_DB2;
+        
+        postEventToTask(CANTask,messageReceive.mode_id);
+        
+        
+    }
+    
+    
+}
+
+void initCANMessage(void)
+{
+    LPC_CAN->IF1_CMDMSK = WR|MASK|ARB|CTRL|DATAA|DATAB;
+
+    LPC_CAN->IF1_ARB1 = 0x0000;
+    LPC_CAN->IF1_ARB2 = ID_MVAL ; //| ID_MTD;
+    
+    LPC_CAN->IF1_MCTRL = UMSK|RXIE|EOB|DLC_MAX;
+    LPC_CAN->IF1_DA1 = 0x0000;
+    LPC_CAN->IF1_DA2 = 0x0000;
+    LPC_CAN->IF1_DB1 = 0x0000;
+    LPC_CAN->IF1_DB2 = 0x0000;
+    
+    LPC_CAN->IF1_CMDREQ = 1; //IFCREQ_BUSY;
+    while( LPC_CAN->IF1_CMDREQ & IFCREQ_BUSY );
+    
 }
 
 //--------------------- public functions
@@ -147,82 +132,40 @@ void CAN_IRQHandler(void)
 
 void initCAN(CANBaudrate kbaud)
 {
-    uint32_t maxParamSize;
-    uint32_t status;
-    
-    CAN_API_INIT_PARAM_T myCANConfig = {
-        (uint32_t) &gCANapiMem[0], 
-        LPC_C_CAN0_BASE, 
-        &gCANConfig, 
-        &callbacks, 
-        0, 
-        0
-    };
-    
     // Enable CAN clock and reset
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],7);
     
     SETBIT(LPC_SYSCON->PRESETCTRL[1], 7);
     CLRBIT(LPC_SYSCON->PRESETCTRL[1], 7);
 
-/*
-#ifdef LQFP48
-    //CAN signal muxing LQFP48
-    Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 18, (IOCON_MODE_INACT | IOCON_DIGMODE_EN));
-    Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 13, (IOCON_MODE_INACT | IOCON_DIGMODE_EN));
-    Chip_SWM_MovablePortPinAssign(SWM_CAN_TD1_O , 0, 18);
-    Chip_SWM_MovablePortPinAssign(SWM_CAN_RD1_I,  0, 13);
-
-#endif
-
-#ifdef LQFP64
-    // Assign the pins rx 0[11] and tx 0[31] @ LQFP64 
-    Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 11, (IOCON_MODE_INACT | IOCON_DIGMODE_EN));
-    Chip_IOCON_PinMuxSet(LPC_IOCON, 0, 31, (IOCON_MODE_INACT | IOCON_DIGMODE_EN));
-    Chip_SWM_MovablePinAssign(SWM_CAN_RD1_I, 11);	// Rx P0.11 
-    Chip_SWM_MovablePinAssign(SWM_CAN_TD1_O, 31);	// Tx P0.31 
-#endif*/
-
-    myCANConfig.mem_base = (uint32_t) &gCANapiMem[0];
+    SETBIT(LPC_CAN->CNTL, 0); // INIT Start
     
-    gCANConfig.clkdiv = c_speed[kbaud].div;
-    gCANConfig.btr    = c_speed[kbaud].btr;
-    gCANConfig.isr_ena = 1;
-
-    // Validate that we reserved enough memory 
-    maxParamSize = LPC_CAND_API->hwCAN_GetMemSize(&myCANConfig);
-    if (maxParamSize > MAX_CAN_PARAM_SIZE / 4)
-    { 
-        while ( 1 ) {}
+    LPC_CAN->CLKDIV = c_speed[kbaud].div;
+    SETBIT(LPC_CAN->CNTL, 6); //CCE
+    LPC_CAN->BT = c_speed[kbaud].btr;
+    LPC_CAN->BRPE = 0;
+    CLRBIT(LPC_CAN->CNTL, 6); //CCE end
+    
+//    SETBIT(LPC_CAN->CNTL, 7); // TEST
+//    SETBIT(LPC_CAN->TEST, 2); // Mode BASIC
+    
+    CLRBIT(LPC_CAN->CNTL, 0); // Init End
+    
+    while ( LPC_CAN->CNTL & CTRL_INIT )
+    {
+        
     }
-
-    // Initialize the ROM with specific configuration
-    status = LPC_CAND_API->hwCAN_Init(&pCanHandle, &myCANConfig);
-    if (status != CAN_ERROR_NONE)
-    { 
-        while (1) { __WFI();} 
-    }
-
     
-    LPC_CAN->CNTL &= ~CTRL_CCE;
+    printf("CNTL %x STAT %x\r\n", LPC_CAN->CNTL, LPC_CAN->STAT);
+    printf("BT %x BRPE %x CLKDIV %x\r\n", LPC_CAN->BT, LPC_CAN->BRPE, LPC_CAN->CLKDIV);
     
-//    LPC_CAN->CNTL |= CTRL_INIT;
+    initCANMessage();
     
-    //change CAN DAR / LOOPBACK if necessary  
+    NVIC_EnableIRQ(CAN_IRQn); 
     
-    LPC_CAN->CNTL |= (CTRL_DAR); //disable retransmission
-    LPC_CAN->CNTL |= (CTRL_TEST); //enable test
-//    LPC_CAN->TEST |= (TEST_BASIC); //BASIC mode
-    LPC_CAN->TEST |= (TEST_LBACK); // Loopback
-    
-    LPC_CAN->CNTL &= ~CTRL_INIT; //normal operation
-    
-    //if (gCANConfig.isr_ena == 1)
-    { 
-        NVIC_EnableIRQ(CAN_IRQn); 
-    }
-
-
+    SETBIT(LPC_CAN->CNTL, 1); //IE
+    SETBIT(LPC_CAN->CNTL, 2); //SIE
+    SETBIT(LPC_CAN->CNTL, 3); //EIE
 }
 
 CANResult sendMessageOnCAN(CANMessage * message)
@@ -244,8 +187,21 @@ CANResult sendMessageOnCAN(CANMessage * message)
     }
         
     tx_busy = 1;
-    LPC_CAND_API->hwCAN_MsgTransmit(pCanHandle, (CAN_MSG_OBJ*)message);
+//    LPC_CAND_API->hwCAN_MsgTransmit(pCanHandle, (CAN_MSG_OBJ*)message);
     
+    LPC_CAN->IF1_ARB2 = ID_MVAL | ID_DIR | (message->mode_id << 2);
+    LPC_CAN->IF1_ARB1 = 0x0000;
+    /* Mxtd: 0, Mdir: 1, Mask is 0x7FF */
+    LPC_CAN->IF1_MSK2 = MASK_MDIR | (ID_STD_MASK << 2);
+    LPC_CAN->IF1_MSK1 = 0x0000;
+    LPC_CAN->IF1_MCTRL = UMSK|TXRQ|EOB|(message->dataSize & DLC_MASK);
+    LPC_CAN->IF1_DA1 =  message->DA1;
+    LPC_CAN->IF1_DA2 = message->DA2;
+    LPC_CAN->IF1_DB1 = message->DB1;
+    LPC_CAN->IF1_DB2 = message->DB2;
+    LPC_CAN->IF1_CMDMSK = WR|MASK|ARB|CTRL|TREQ|DATAA|DATAB;
+    LPC_CAN->IF1_CMDREQ = IFCREQ_BUSY;
+
     return CAN_OK;
 }
 
