@@ -33,7 +33,7 @@ typedef enum _can_result_
 
 typedef struct _can_message_object_
 {
-    uint32_t mode_id;
+    uint32_t id;
     uint32_t mask;
         
     union
@@ -54,7 +54,7 @@ typedef struct _can_message_object_
         };
     };
     
-    uint8_t dataSize;
+    uint8_t size;
     uint8_t msgobj;
 } CANMessage;
 
@@ -62,7 +62,9 @@ typedef struct _can_message_object_
 extern void initCAN(CANBaudrate kbaud);
 extern void assignTaskOnCAN(KTask* t);
 
-extern CANResult sendMessageOnCAN(CANMessage * message);
+extern void registerReceiverIdCAN(uint32_t id);
+
+extern bool sendMessageOnCAN(CANMessage * message);
 extern CANMessage * receiveMessageFromCAN();
 
 #ifdef	__cplusplus
