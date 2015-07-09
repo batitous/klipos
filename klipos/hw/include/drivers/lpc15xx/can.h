@@ -1,61 +1,47 @@
-/* 
- * File:   can.h
- * Author: baptiste
- *
- * Created on 7 juillet 2015, 15:35
- */
-
-#ifndef CAN_H
-#define	CAN_H
+/*
+ The MIT License (MIT)
+ 
+ Copyright (c) 2015 Baptiste Burles
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy of
+ this software and associated documentation files (the "Software"), to deal in
+ the Software without restriction, including without limitation the rights to
+ use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+#ifndef LIB_HW_CAN_H
+#define	LIB_HW_CAN_H
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-//#define DAR_MODE      //disable auto retransmission
-//#define LOOPBACK_MODE	//enable LOOPBACK
 
 typedef enum _can_baudrate_
 {
-    CAN_BAUDRATE_100 = 0,
-    CAN_BAUDRATE_125 = 1,
-    CAN_BAUDRATE_250 = 2,
-    CAN_BAUDRATE_500 = 3,
-    CAN_BAUDRATE_1000 = 4
+    CAN_BAUDRATE_100    = 0,
+    CAN_BAUDRATE_125    = 1,
+    CAN_BAUDRATE_250    = 2,
+    CAN_BAUDRATE_500    = 3,
+    CAN_BAUDRATE_1000   = 4
 } CANBaudrate;
-    
-typedef enum _can_result_
-{
-    CAN_OK              = 0,
-    CAN_TX_BUSY         = 1, // tx on CAN bus is busy 
-    CAN_TX_WRONG_MSGOBJ = 2  // wrong msgobj in CANMessage structure
-} CANResult;
 
 typedef struct _can_message_object_
 {
-    uint32_t id;
-    uint32_t mask;
-        
-    union
-    {
-        uint8_t   data[8];
-        struct
-        {
-            uint32_t DatA;
-            uint32_t DatB;
-        };
-
-        struct
-        {
-           uint16_t DA1;
-           uint16_t DA2;
-           uint16_t DB1;
-           uint16_t DB2;
-        };
-    };
-    
-    uint8_t size;
-    uint8_t msgobj;
+    uint32_t    id;
+    uint8_t     data[8];
+    uint8_t     size;
 } CANMessage;
 
 
