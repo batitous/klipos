@@ -5,6 +5,7 @@ HEADER_KLIP += -I$(HW_PATH)include/drivers
 # Source path of Hardware library:
 SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/switchmatrix \
+                $(HW_PATH)drivers/lpc15xx/pinmux \
                 $(HW_PATH)drivers/lpc15xx/usart \
                 $(HW_PATH)drivers/lpc15xx/gpio \
                 $(HW_PATH)drivers/lpc15xx/analog \
@@ -21,6 +22,10 @@ SOURCE_KLIP += switchmatrix.c
 
 ifeq ($(uart0),yes)
     SOURCE_KLIP += uart0.c
+endif
+
+ifeq ($(pinmux),yes)
+    SOURCE_KLIP += pinmux.c
 endif
 
 ifeq ($(uart1),yes)

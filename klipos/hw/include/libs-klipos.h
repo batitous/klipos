@@ -64,6 +64,7 @@ extern "C" {
 
 #if defined(MCU_IS_LPC15XX)
 #       include "drivers/lpc15xx/switchmatrix.h"
+#       include "drivers/lpc15xx/pinmux.h"
 #       include "drivers/lpc15xx/dac.h"
 #       include "drivers/lpc15xx/timer.h"
 #       include "drivers/lpc15xx/pwm.h"
