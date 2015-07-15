@@ -24,9 +24,9 @@
 #ifndef __MW_USBD_CORE_H__
 #define __MW_USBD_CORE_H__
 
-#include "error.h"
+//#include "error.h"
 #include "usbd.h"
-#include "app_usbd_cfg.h"
+//#include "app_usbd_cfg.h"
 
 /** \file
  *  \brief ROM API for USB device stack.
@@ -549,12 +549,12 @@ extern void mwUSB_InitCore(USB_CORE_CTRL_T* pCtrl, USB_CORE_DESCS_T* pdescr, USB
 extern void mwUSB_ResetCore(USBD_HANDLE_T hUsb);
 
 /* inline functions */
-static INLINE void USB_SetSpeedMode(USB_CORE_CTRL_T* pCtrl, uint8_t mode)
+static inline void USB_SetSpeedMode(USB_CORE_CTRL_T* pCtrl, uint8_t mode)
 {
     pCtrl->device_speed = mode;   
 }
 
-static INLINE bool USB_IsConfigured(USBD_HANDLE_T hUsb)
+static inline bool USB_IsConfigured(USBD_HANDLE_T hUsb)
 {
     USB_CORE_CTRL_T* pCtrl = (USB_CORE_CTRL_T*) hUsb;
     return (bool) (pCtrl->config_value != 0);   

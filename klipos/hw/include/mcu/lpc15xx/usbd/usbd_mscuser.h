@@ -24,11 +24,11 @@
 #ifndef __MSCUSER_H__
 #define __MSCUSER_H__
 
-#include "error.h"
+//#include "error.h"
 #include "usbd.h"
 #include "usbd_msc.h"
 #include "usbd_core.h"
-#include "app_usbd_cfg.h"
+//#include "app_usbd_cfg.h"
 
 /** \file
  *  \brief Mass Storage Class (MSC) API structures and function prototypes.

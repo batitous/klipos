@@ -24,7 +24,7 @@
 #ifndef __USBHW_H__
 #define __USBHW_H__
 
-#include "error.h"
+//#include "error.h"
 #include "usbd.h"
 #include "usbd_core.h"
 

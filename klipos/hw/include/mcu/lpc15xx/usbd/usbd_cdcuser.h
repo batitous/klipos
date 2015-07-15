@@ -24,7 +24,7 @@
 #ifndef __CDCUSER_H__
 #define __CDCUSER_H__
 
-#include "error.h"
+//#include "error.h"
 #include "usbd.h"
 #include "usbd_cdc.h"
 
