@@ -42,7 +42,13 @@ void initWatchdog(uint32_t timeInMs)
     // enable the clock source
     CLRBIT(LPC_SYSCON->PDRUNCFG,20);
     
+    // disable watchdog
+    LPC_WWDT->MOD       = 0;
+    LPC_WWDT->TC        = 0xFF;
+    LPC_WWDT->WARNINT   = 0x3FF;
+    LPC_WWDT->WINDOW    = 0xFFFFFF;
 
+    
     int32_t t = (timeInMs * 256) / HZ_TO_MS(WATCHDOG_FREQ);
     
     if ( t < 0xFF)
@@ -58,6 +64,8 @@ void initWatchdog(uint32_t timeInMs)
     // enable !
     SETBIT(LPC_WWDT->MOD, 0);
     
+    LPC_WWDT->FEED = 0xAA;
+    LPC_WWDT->FEED = 0x55;
 }
 
 void feedTheWatchdog(void)
