@@ -27,11 +27,23 @@
 
 //--------------------- Baudrate settings
 
+/* http://www.bittiming.can-wiki.info/#NXP
+ select Bosch C_CAN / D_CAN
+
+ Can Clock = 72 MHz / Can Div
+ Bit Rate = Can Clock / ( (BRP+1) * (TSEG1 + 2 + TSEG2 +1 )
+
+*/
+
 static const c_speed_t c_speed[] =
 {
  { //Initialize CAN Controller 72MHz-100kbps
-  0x00000001UL, //CANCLCLKDIV -> div: 2
-  0x00001BD7UL  //CAN_BTR     -> BRP: 24, Quanta: 15, Seg1: 12, Seg2: 2, SJW: 4, Sample 86%
+     5UL,
+     0x6FC4UL // SegTime=24 Seg1 = 16 Seg2 = 8
+//     0x1cc4UL
+
+//  0x00000001UL, //CANCLCLKDIV -> div: 2
+//  0x00001BD7UL  //CAN_BTR     -> BRP: 24, Quanta: 15, Seg1: 12, Seg2: 2, SJW: 4, Sample 86%
  },
  { //Initialize CAN Controller 72MHz-125kbps
   0x00000001UL, //CANCLCLKDIV -> div: 2
@@ -103,11 +115,9 @@ void CAN_IRQHandler(void)
 {
     uint32_t can_int;
     uint32_t can_stat;
-    
+        
     while ( (can_int=LPC_CAN->INT) != 0 )
     {
-//        printf("irq %x \r\n", can_int);
-        
         if (can_int & CCAN_INT_STATUS) 
         {
             can_stat = LPC_CAN->STAT;    
@@ -243,7 +253,6 @@ void initCAN(CANBaudrate kbaud)
     for (i = 1; i <= CCAN_MSG_MAX_NUM; i++) 
     {
         CCAN_SetValidMsg(i, false);
-//        freeMsgObject(pCCAN, CCAN_MSG_IF1, i);
     }
     
     // clear rx tx status
@@ -268,9 +277,7 @@ void initCAN(CANBaudrate kbaud)
     SETBIT(LPC_CAN->CNTL, 1); //IE
     SETBIT(LPC_CAN->CNTL, 2); //SIE
     SETBIT(LPC_CAN->CNTL, 3); //EIE
-    
-    registerReceiverIdCAN(0x0);
-    
+        
     NVIC_EnableIRQ(CAN_IRQn); 
 }
 
