@@ -16,7 +16,8 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/pwm \
                 $(HW_PATH)drivers/lpc15xx/can \
                 $(HW_PATH)drivers/lpc1xxx/iap \
-                $(HW_PATH)drivers/lpc1xxx/eeprom 
+                $(HW_PATH)drivers/lpc1xxx/eeprom \
+                $(HW_PATH)drivers/lpc1xxx/flash
 
 SOURCE_KLIP += switchmatrix.c 
 
@@ -66,6 +67,10 @@ endif
 
 ifeq ($(timer),yes)
     SOURCE_KLIP += timer.c
+endif
+
+ifeq ($(flash),yes)
+    SOURCE_KLIP += flash.c iap.c
 endif
 
 ifeq ($(eeprom),yes)
