@@ -48,12 +48,13 @@ void initLowLevelCpu(void)
         __NOP();
     }
     
+#ifdef MCU_USE_EXTERNAL_OSC
+    // Use external oscillator
+    LPC_SYSCON->SYSPLLCLKSEL = 1 ;
+#else
     // Use IRC system oscillator
     LPC_SYSCON->SYSPLLCLKSEL = 0 ;
-        
-    // Use external oscillator
-//    LPC_SYSCON->SYSPLLCLKSEL = 1 ;
-        
+#endif
     
     // Compute M :
     //
