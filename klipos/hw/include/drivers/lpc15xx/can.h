@@ -37,12 +37,16 @@ typedef enum _can_baudrate_
     CAN_BAUDRATE_1000   = 4
 } CANBaudrate;
 
+#define CAN_MESSAGE_SIZE        8
+
 typedef struct _can_message_object_
 {
     uint32_t    id;
-    uint8_t     data[8];
+    uint8_t     data[CAN_MESSAGE_SIZE];
     uint8_t     size;
 } CANMessage;
+
+#define SET_EXTENDED_ID(id)         (id | (0x1 << 30))
 
 
 extern void initCAN(CANBaudrate kbaud);
