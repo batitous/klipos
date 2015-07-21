@@ -63,10 +63,16 @@ static const c_speed_t c_speed[] =
  },
 };
 
+//--------------------- private defines
+
+#define CAN_MSG_SIZE    8
+
 //--------------------- private variables
 
-static CANMessage       messageReceive;
-static KTask *          CANTask;
+static uint32_t                 messageGetIndex;
+static volatile uint32_t        messageSetIndex;
+static volatile CANMessage      messages[CAN_MSG_SIZE];
+static KTask *                  CANTask;
 
 
 //--------------------- private functions
@@ -141,9 +147,15 @@ void CAN_IRQHandler(void)
         }
         else if ((1 <= can_int) && (can_int <= 0x20)) 
         {
-            if (CCAN_GetMsgObject(can_int, &messageReceive)==true)
+            if (CCAN_GetMsgObject(can_int, (CANMessage *)&messages[messageSetIndex])==true)
             {
-                postEventToTask(CANTask,messageReceive.id);
+                postEventToTask(CANTask,messages[messageSetIndex].id);
+                
+                messageSetIndex++;
+                if (messageSetIndex==CAN_MSG_SIZE)
+                {
+                    messageSetIndex=0;
+                }
             }
         }
     }
@@ -244,6 +256,9 @@ void initCAN(CANBaudrate kbaud)
 {
     uint32_t i;
     
+    messageSetIndex = 0;
+    messageGetIndex = 0;
+    
      // Enable CAN clock and reset
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],7);
     
@@ -326,5 +341,12 @@ void assignTaskOnCAN(KTask* t)
 
 CANMessage * receiveMessageFromCAN()
 {
-    return &messageReceive;
+    CANMessage * temp = (CANMessage *)&messages[messageGetIndex]; 
+    messageGetIndex++;
+    if (messageGetIndex==CAN_MSG_SIZE)
+    {
+        messageGetIndex = 0;
+    }
+    
+    return temp;
 }
