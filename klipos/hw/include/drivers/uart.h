@@ -44,7 +44,7 @@ typedef struct _uart_device_
     
     
 
-extern const Uart * initUart0(void);
+extern const Uart * initUart0(uint32_t baudrate);
 
 
 extern void sendByteToUart0(uint8_t byte);

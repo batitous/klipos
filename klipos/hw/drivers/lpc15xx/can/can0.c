@@ -65,7 +65,7 @@ static const c_speed_t c_speed[] =
 
 //--------------------- private defines
 
-#define CAN_MSG_SIZE    8
+#define CAN_MSG_SIZE    16
 
 //--------------------- private variables
 

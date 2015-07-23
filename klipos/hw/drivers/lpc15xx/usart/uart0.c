@@ -133,7 +133,7 @@ uint32_t getUartClockRate(void)
 //--------------------- public functions:
 
 
-const Uart * initUart0(void)
+const Uart * initUart0(uint32_t baudrate)
 {
     initIOStream(&uartStream,uartBuffer,UART_BUFFER_SIZE);
     
@@ -151,7 +151,7 @@ const Uart * initUart0(void)
     // 8 bit, 1 stop, no parity
     SETBIT(LPC_USART0->CFG,2);
     
-    uint32_t baudRateGenerator = UART_CLOCK/*getUartClockRate()*/ / (16 * 115200);
+    uint32_t baudRateGenerator = UART_CLOCK/*getUartClockRate()*/ / (16 * baudrate/*115200*/);
         
     LPC_USART0->BRG = baudRateGenerator - 1;
     
