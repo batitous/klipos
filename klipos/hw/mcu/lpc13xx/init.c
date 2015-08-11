@@ -29,9 +29,7 @@
 //
 
 
-
-//this code is called at cpu reset: don't call it directly!
-void initLowLevelCpu(void)
+void initCpuClockAndPower(void)
 {
     uint32_t i;
 

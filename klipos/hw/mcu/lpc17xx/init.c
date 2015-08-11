@@ -28,8 +28,7 @@
 // lpc17xx mcu boot processor code
 //
 
-//this code is called at cpu reset: don't call it directly!
-void initLowLevelCpu(void)
+void initCpuClockAndPower(void)
 {    
 	//====== CONFIGURE CLOCK & OSCILLATOR ====//
 

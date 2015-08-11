@@ -137,12 +137,7 @@ extern int main(void);
 __attribute__ ((section(".after_vectors")))
 void Reset_Handler(void)
 {
-    crt0();
-    
-#ifndef HW_NO_LOW_LEVEL_INIT
-    initLowLevelCpu();
-#endif
-    
+    crt0();    
     main();
     
     while (1) ;	// hang if main returns

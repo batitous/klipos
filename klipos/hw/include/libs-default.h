@@ -45,6 +45,11 @@ extern "C" {
 #ifdef MCU_IS_LPC8XX
 #include "mcu/lpc8xx.h"
 #endif
+
+/** Initialize the low level of CPU : clock and power
+ * 
+ */
+extern void initCpuClockAndPower(void);
     
 #include "libc.h"
 #include "math-integer.h"

@@ -124,7 +124,7 @@ static inline void __delayticks(unsigned int ticks) {
  * @brief  Setup the microcontroller system.
  *         Initialize the System.
  */
-void initLowLevelCpu (void) {
+void initCpuClockAndPower (void) {
   /* System clock to the IOCON & the SWM need to be enabled or
   most of the I/O related peripherals won't work. */
   LPC_SYSCON->SYSAHBCLKCTRL |= ( (0x1 << 7) | (0x1 << 18) );
