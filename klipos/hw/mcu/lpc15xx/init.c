@@ -35,7 +35,7 @@ void initLowLevelCpu(void)
 {
     uint32_t i;
 
-        
+
     //====== CONFIGURE CLOCK & OSCILLATOR ====//
 
     // Power up system oscillator
@@ -76,7 +76,7 @@ void initLowLevelCpu(void)
     LPC_SYSCON->SYSPLLCTRL = BITS(0,5) | BITS(6,2);
     
     CLRBIT(LPC_SYSCON->PDRUNCFG,22);
-    
+
     while (!(LPC_SYSCON->SYSPLLSTAT & BIT(0)) );
     
     // Use system pll clock out for the main clock
