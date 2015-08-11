@@ -132,6 +132,26 @@ void initAnalog(uint32_t analogChannel)
         enableFixedFunction(SWM_FIXED_ADC0_7, true);
     }
     
+    if( (analogChannel & ANA8) == ANA8)
+    {
+        enableFixedFunction(SWM_FIXED_ADC0_8, true);
+    }
+    
+    if( (analogChannel & ANA9) == ANA9)
+    {
+        enableFixedFunction(SWM_FIXED_ADC0_10, true);
+    }
+    
+    if( (analogChannel & ANA10) == ANA10)
+    {
+        enableFixedFunction(SWM_FIXED_ADC0_10, true);
+    }
+    
+    if( (analogChannel & ANA11) == ANA11)
+    {
+        enableFixedFunction(SWM_FIXED_ADC0_11, true);
+    }
+    
     // power on adc
     CLRBIT(LPC_SYSCON->PDRUNCFG, 10);
   

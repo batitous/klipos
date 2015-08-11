@@ -38,6 +38,12 @@ typedef enum ANALOG_CHANNEL_
 	ANA5=0x20,      /**< Channel 5 */
 	ANA6=0x40,      /**< Channel 6 */
 	ANA7=0x80,      /**< Channel 7 */
+#if defined(MCU_IS_LPC15XX)
+        ANA8=0x100,
+        ANA9=0x200,
+        ANA10=0x400,
+        ANA11=0x800,
+#endif
 } ANALOG_CHANNEL ;
 
 
