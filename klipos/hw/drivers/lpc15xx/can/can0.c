@@ -131,15 +131,15 @@ void CAN_IRQHandler(void)
             // TODO with error or TXOK, RXOK
             if (can_stat & CCAN_STAT_EPASS)
             {
-                printf("Passive error\r\n");
+//                printf("Passive error\r\n");
             }
             if (can_stat & CCAN_STAT_EWARN) 
             {
-                printf("Warning!!!\r\n");
+//                printf("Warning!!!\r\n");
             }
             if (can_stat & CCAN_STAT_BOFF) 
             {
-                printf("CAN bus is off\r\n");
+//                printf("CAN bus is off\r\n");
             }
             
             CLRBIT(LPC_CAN->STAT, 3);
