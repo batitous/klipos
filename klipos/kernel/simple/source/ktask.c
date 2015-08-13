@@ -63,12 +63,6 @@ void insertTaskWithPriority( KTask * th)
     
 }
 
-void idleTask(void)
-{
-    setMcuToDefaultSleep();
-}
-
-
 //-------------------------- public functions
 
 
@@ -86,7 +80,7 @@ void initTask(KTask* task, KTaskCode c, KPriority prio)
     insertTaskWithPriority(task);
 }
 
-void scheduleTask(void)
+bool scheduleTask(void)
 {
     uint32_t tmp;
     bool executed = false;
@@ -135,12 +129,14 @@ void scheduleTask(void)
         next = next->next;
     }
     
-    if (executed==false)
-    {
-        idleTask();
-    }
-
+    return executed;
 }
+
+void idleTask(void)
+{
+    setMcuToDefaultSleep();
+}
+
 
 bool postEventToTask(KTask* task, uint32_t data)
 {

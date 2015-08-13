@@ -79,9 +79,14 @@ extern void initSimpleKernel(void);
 extern void initTask(KTask* task, KTaskCode c, KPriority prio);
 
 
-/** @brief Launch the scheduler and execute any pending task */
-extern void scheduleTask(void);
+/** @brief Launch the scheduler and execute any pending task
+ * 
+ * @return false if no task are ready
+ */
+extern bool scheduleTask(void);
 
+/** @brief The idle task : by default, put the CPU in sleep mode */
+extern void idleTask(void);
 
 /** @brief Post an event
  * 
