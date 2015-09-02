@@ -25,7 +25,7 @@
 #define DEFAULT_SCT_PRESCALER    5
 #define DEFAULT_FREQUENCY_KHZ    12000
 
-#define GET_PWM_TICK(timeInUs, freq) (((freq)/1000)*(timeInUs))
+#define GET_PWM_TICK(timeInUs, freq) (((freq)*(timeInUs) )/1000)
 
 
 
