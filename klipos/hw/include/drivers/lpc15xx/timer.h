@@ -46,14 +46,28 @@ typedef struct _timer_
 typedef void (*TimerIrqCallback)(void);
 
 
+/** Initialize a SC Timer
+ * 
+ * @param timer                 Timer output object
+ * @param selectedTimer         Selected hardware timer
+ * @param timeInUs              Period in microseconds
+ * @param callback              Callback to be call when timers is fired
+ */
 extern void initScTimer(Timer * timer, TIMER selectedTimer, uint32_t timeInUs, TimerIrqCallback callback);
 
-extern void setTimeInScTimer(Timer * timer, uint32_t timeInUs);
 
+/** Set timer's period and callback
+ * 
+ */
+extern void setTimeInScTimer(Timer * timer, uint32_t timeInUs);
 extern void setScTimer(Timer * timer, uint32_t timeInUs, TimerIrqCallback callback);
 
-extern void enableScTimer(Timer * timer);
 
+/** Enable of Disable the timer
+ * 
+ * @param timer
+ */
+extern void enableScTimer(Timer * timer);
 extern void disableScTimer(Timer * timer);
 
 

@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-    
+/** PWM hardware block */    
 typedef enum _pwm_sct_
 {
     PWM_SCT0  = 0,
@@ -37,6 +37,7 @@ typedef enum _pwm_sct_
 } PWM_SCT;
 
 
+/** PWM output of a PWM hardware block */
 typedef enum _pwm_output_
 {
        PWM0 = 0x00,
@@ -49,6 +50,7 @@ typedef enum _pwm_output_
 } PWM_OUTPUT;
 
 
+/** PWM object */
 typedef struct _pwm_device_
 {
     LPC_SCT_T *         sct;
@@ -65,10 +67,23 @@ typedef struct _pwm_device_
 extern uint32_t computePwmPrescalerFromClock(uint32_t clockInKHz);
 
 
+/** Initialize a PWM on the specified PWM hardware block
+ * 
+ * @param pwm           Pwm outout object
+ * @param sctPwm        PWM hardware block selected
+ * @param prescaler     Prescaler clock
+ */
 extern void initPwm(Pwm * pwm, PWM_SCT sctPwm, uint32_t prescaler);
 extern void clonePwm(Pwm *from, Pwm *to);
 
 
+/** Initialize a PWM output 
+ * 
+ * @param pwm           a Pwm object initialized
+ * @param pwmSelected   PWM output
+ * @param widthInUs     Width of PWM in microseconds
+ * @param percentage    Duty cycle in percentage between 0 and 1000
+ */
 extern void setPwmOutput(Pwm *pwm, PWM_OUTPUT pwmSelected, uint32_t widthInUs, uint32_t percentage);
 
 
@@ -79,7 +94,19 @@ extern void setPwmOutput(Pwm *pwm, PWM_OUTPUT pwmSelected, uint32_t widthInUs, u
 extern void enablePwm(Pwm *pwm);
 extern void disablePwm(Pwm *pwm);
 
+/** Set the PWM duty cycle, PWM needs to be disable !
+ * 
+ * @param pwm           PWM object
+ * @param percentage    Duty cycle in percentage between 0 and 1000
+ */
 extern void setPwmDutyCycle(Pwm *pwm, uint32_t percentage);
+
+
+/** Set the PWM Period in microseconds, PWM needs to be disable !
+ * 
+ * @param pwm           PWM object
+ * @param widthInUs     Period in microseconds
+ */
 extern void setPwmWidth(Pwm *pwm, uint32_t widthInUs);
 
 

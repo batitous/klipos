@@ -27,9 +27,16 @@
 extern "C" {
 #endif
 
-
+/** @brief Initialize the Digital-To-Analog converter
+ * 
+ */
 extern void initDac(void);
 
+
+/** @brief Write the digital value into the DAC output
+ * 
+ * @param value         Value to set
+ */
 extern void setDac(uint16_t value);
 
 

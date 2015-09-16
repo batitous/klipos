@@ -27,7 +27,7 @@
 extern "C" {
 #endif
 
-
+/** CAN Bus baudrate */
 typedef enum _can_baudrate_
 {
     CAN_BAUDRATE_100    = 0,
@@ -39,22 +39,51 @@ typedef enum _can_baudrate_
 
 #define CAN_MESSAGE_SIZE        8
 
+/** CAN Message structure */
 typedef struct _can_message_object_
 {
-    uint32_t    id;
-    uint8_t     data[CAN_MESSAGE_SIZE];
-    uint8_t     size;
+    uint32_t    id;                     // Identifier
+    uint8_t     data[CAN_MESSAGE_SIZE]; // Data
+    uint8_t     size;                   // Size of data
 } CANMessage;
 
+// Create an extended CAN identifier
 #define SET_EXTENDED_ID(id)         (id | (0x1 << 30))
 
 
+/** Initialize the CAN bus controller
+ * 
+ * @param kbaud         CAN's Baudrate
+ */
 extern void initCAN(CANBaudrate kbaud);
+
+
+/** Assign a task when a new CAN trame is received
+ * 
+ * @param t     A task
+ */
 extern void assignTaskOnCAN(KTask* t);
 
+
+/** Register a CAN identifer into the receiver's controller
+ * 
+ * @param id    CAN identifier
+ */
 extern void registerReceiverIdCAN(uint32_t id);
 
+
+/** Send a message on the CAN bus
+ * 
+ * @param message       Message to send
+ * @return              True if success
+ */
 extern bool sendMessageOnCAN(CANMessage * message);
+
+
+/** Receive a message from the CAN bus
+ * 
+ * @return Pointer to a CAN message
+ */
 extern CANMessage * receiveMessageFromCAN();
 
 #ifdef	__cplusplus
