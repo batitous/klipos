@@ -61,6 +61,11 @@ static void sendSpi(uint8_t data)
     LPC_SPI0->TXDAT = data;
 }
 
+static uint8_t getSpi(void)
+{
+    while ( (LPC_SPI0->STAT & BIT(0))==0);
+    return (LPC_SPI0->RXDAT & 0xff);
+}
 
 //--------------------- public functions
 
@@ -141,16 +146,8 @@ void sendBufferToSpi(uint8_t * buffer, uint32_t size)
     
     // Make sure the last frame sent completely
     while (( LPC_SPI0->STAT & BIT(5)) == 0);
-
     SETBIT(LPC_SPI0->STAT, 5);
 
-}
-
-
-uint8_t getByteFromSpi(void)
-{
-    while ( (LPC_SPI0->STAT & BIT(0))==0);
-    return (LPC_SPI0->RXDAT & 0xff);
 }
 
 void getBufferFromSpi(uint8_t *buffer, uint32_t size)
@@ -177,10 +174,17 @@ void getBufferFromSpi(uint8_t *buffer, uint32_t size)
     for (i=0; i < size-1; i++)
     {
         sendSpi(0x55);
-        buffer[i] = getByteFromSpi();
+        buffer[i] = getSpi();
     }
     
     sendSpiEndOfTrame(0x55);
-    buffer[i] = getByteFromSpi();
+    buffer[i] = getSpi();
     
+}
+
+uint8_t getByteFromSpi(void)
+{
+    uint8_t buffer[1];
+    getBufferFromSpi(buffer, 1);
+    return buffer[0];
 }
