@@ -15,6 +15,7 @@ SOURCE_PATH_KLIP += $(HW_PATH)drivers \
                 $(HW_PATH)drivers/lpc15xx/watchdog \
                 $(HW_PATH)drivers/lpc15xx/pwm \
                 $(HW_PATH)drivers/lpc15xx/can \
+                $(HW_PATH)drivers/lpc15xx/spi \
                 $(HW_PATH)drivers/lpc1xxx/iap \
                 $(HW_PATH)drivers/lpc1xxx/eeprom \
                 $(HW_PATH)drivers/lpc1xxx/flash
@@ -83,4 +84,8 @@ endif
 
 ifeq ($(can0),yes)
     SOURCE_KLIP += can0.c
+endif
+
+ifeq ($(spi),yes)
+    SOURCE_KLIP += spi-lpc15xx.c
 endif
