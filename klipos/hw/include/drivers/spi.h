@@ -43,6 +43,8 @@ extern uint8_t sendByteToSpi(uint8_t outgoing);
 
 extern void sendBufferToSpi(uint8_t *buffer, uint32_t size);
 
+extern void sendBufferToSpiAndCloseTransfer(uint8_t * buffer, uint32_t size, bool end);
+
 extern uint8_t getByteFromSpi(void);
 
 extern void getBufferFromSpi(uint8_t *buffer, uint32_t size);
