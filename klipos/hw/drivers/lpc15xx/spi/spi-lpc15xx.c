@@ -25,22 +25,9 @@
 
 //--------------------- private functions
 
-#define CLEAR_STATUS()         SETBIT(LPC_SPI0->STAT, 2); SETBIT(LPC_SPI0->STAT, 3); SETBIT(LPC_SPI0->STAT, 4); \
-                                       SETBIT(LPC_SPI0->STAT, 5); SETBIT(LPC_SPI0->STAT, 7);
-
-
-static void configureSpiSend(void)
-{
-    // select slave 0
-    CLRBIT(LPC_SPI0->TXCTRL, 16);
-    
-    // NOT end of transfer
-    CLRBIT(LPC_SPI0->TXCTRL, 20);
-    // YES end of frame
-    SETBIT(LPC_SPI0->TXCTRL, 21);
-    // YES, rx ignored
-    SETBIT(LPC_SPI0->TXCTRL, 22);
-}
+#define CLEAR_STATUS()         SETBIT(LPC_SPI0->STAT, 2); SETBIT(LPC_SPI0->STAT, 3); \
+                               SETBIT(LPC_SPI0->STAT, 4); SETBIT(LPC_SPI0->STAT, 5); \
+                               SETBIT(LPC_SPI0->STAT, 7);
 
 
 static void sendSpiWithEnd(uint8_t data, bool isEndOfTrame)
@@ -49,6 +36,7 @@ static void sendSpiWithEnd(uint8_t data, bool isEndOfTrame)
     
     if (isEndOfTrame==true)
     {
+        // end of trame
         SETBIT(LPC_SPI0->TXCTRL, 20);
     }
     
@@ -161,82 +149,3 @@ void getBufferFromSpi(uint8_t *buffer, uint32_t size)
         buffer[i] = getSpi();
     }
 }
-
-/*uint8_t sendByteToSpi(uint8_t data)
-{
-    CLEAR_STATUS();
-    
-    configureSpiSend();
- 
-    sendSpiWithEnd(data, true);
-    
-    return 0;
-}
-
-void sendBufferToSpiAndCloseTransfer(uint8_t * buffer, uint32_t size, bool end)
-{
-    CLEAR_STATUS();
-    
-    configureSpiSend();
-    
-//    printf("spi conf\r\n");
-    
-    uint32_t i;
-    for (i=0; i < size-1; i++)
-    {
-        sendSpiWithEnd(buffer[i], false);
-    }
-    
-    sendSpiWithEnd(buffer[i], end);
-    
-    // Make sure the last frame sent completely
-    if (end==true)
-    {
-        while (( LPC_SPI0->STAT & BIT(5)) == 0);
-        SETBIT(LPC_SPI0->STAT, 5);
-    }
-    
-}
-
-void sendBufferToSpi(uint8_t *buffer, uint32_t size)
-{
-    sendBufferToSpiAndCloseTransfer(buffer, size, true);
-}
-
-void getBufferFromSpi(uint8_t *buffer, uint32_t size)
-{
-    CLEAR_STATUS();
-        
-    // 8 bits of data
-    LPC_SPI0->TXCTRL = BITS(24, 7);
-
-    // select slave 0
-    CLRBIT(LPC_SPI0->TXCTRL, 16);
-    
-    // NOT end of transfer
-    CLRBIT(LPC_SPI0->TXCTRL, 20);
-    // YES end of frame
-    SETBIT(LPC_SPI0->TXCTRL, 21);
-    // rx not ignored
-    CLRBIT(LPC_SPI0->TXCTRL, 22);
-    
-    uint32_t i;
-    for (i=0; i < size -1; i++)
-    {
-        sendSpiWithEnd(0x55, false);
-        buffer[i] = getSpi();
-    }
-
-    sendSpiWithEnd(0x55, true);
-    buffer[i] = getSpi();
-    
-}
-
-uint8_t getByteFromSpi(void)
-{
-    uint8_t buffer[1];
-    getBufferFromSpi(buffer, 1);
-    return buffer[0];
-}
-*/
-
