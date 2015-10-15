@@ -35,8 +35,10 @@ typedef enum _spi_mode
     SPI_MODE2 = 0x40, // cpol = 1 cpha = 0
     SPI_MODE3 = 0xC0 // cpol = 1 cpha = 1
 } SpiMode;
-    
-    
+
+
+extern void initSpiClock(uint32_t clockInKHz);
+
 extern void initSpi(SpiMode mode);
 
 extern uint8_t sendByteToSpi(uint8_t outgoing);

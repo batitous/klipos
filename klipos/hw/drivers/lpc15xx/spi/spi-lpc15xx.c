@@ -25,22 +25,23 @@
 
 //--------------------- private functions
 
+// Default SPI clock to 4 Mhz
+#define SPI_CLOCK       2000
+
+
 #define CLEAR_STATUS()         SETBIT(LPC_SPI0->STAT, 2); SETBIT(LPC_SPI0->STAT, 3); \
-                               SETBIT(LPC_SPI0->STAT, 4); SETBIT(LPC_SPI0->STAT, 5); \
-                               SETBIT(LPC_SPI0->STAT, 7);
+                               SETBIT(LPC_SPI0->STAT, 4); SETBIT(LPC_SPI0->STAT, 5); 
+//                               SETBIT(LPC_SPI0->STAT, 7);
 
 
-static void sendSpiWithEnd(uint8_t data, bool isEndOfTrame)
+static void sendSpi(uint8_t data)
 {
     while (!(LPC_SPI0->STAT & BIT(1))) {}
     
-    if (isEndOfTrame==true)
-    {
-        // end of trame
-        SETBIT(LPC_SPI0->TXCTRL, 20);
-    }
+    // end of trame
+    SETBIT(LPC_SPI0->TXCTRL, 20);
     
-    LPC_SPI0->TXDAT = (data && 0xff);
+    LPC_SPI0->TXDAT = data;
 }
 
 static uint8_t getSpi(void)
@@ -50,6 +51,18 @@ static uint8_t getSpi(void)
 }
 
 //--------------------- public functions
+
+void initSpiClock(uint32_t clockInKHz)
+{
+    // disable
+    CLRBIT(LPC_SPI0->CFG, 0);
+    
+    LPC_SPI0->DIV = (KERNEL_CPU_FREQ + (clockInKHz - 1))/clockInKHz - 1;
+    LPC_SPI0->DLY = 0;
+    
+    // enable
+    SETBIT(LPC_SPI0->CFG, 0);
+}
 
 void initSpi(SpiMode mode)
 {
@@ -91,9 +104,6 @@ void initSpi(SpiMode mode)
             break;
     }
     
-    // clock 4 MHz
-#define SPI_CLOCK       4000
-    
     LPC_SPI0->DIV = (KERNEL_CPU_FREQ + (SPI_CLOCK - 1))/SPI_CLOCK - 1;
     LPC_SPI0->DLY = 0;
     
@@ -116,22 +126,22 @@ void initSpi(SpiMode mode)
 
 uint8_t sendByteToSpi(uint8_t data)
 {
-    sendSpiWithEnd(data, true);
-    
-    return 0;
+    sendSpi(data);
+    return getSpi();;
 }
 
 void sendBufferToSpi(uint8_t *buffer, uint32_t size)
 {
     uint32_t i;
+    uint8_t dummy;
     
-    CLEAR_STATUS();
-    
-    SETBIT(LPC_SPI0->TXCTRL, 22);
+//    CLEAR_STATUS();
+//    SETBIT(LPC_SPI0->TXCTRL, 22);
     
     for (i=0; i < size; i++)
     {
-        sendSpiWithEnd(buffer[i], true);
+        sendSpi(buffer[i]);
+        dummy = getSpi();
     }
 }
 
@@ -139,13 +149,12 @@ void getBufferFromSpi(uint8_t *buffer, uint32_t size)
 {
     uint32_t i;
     
-    CLEAR_STATUS();
-    
-    CLRBIT(LPC_SPI0->TXCTRL, 22);
+//    CLEAR_STATUS();
+//    CLRBIT(LPC_SPI0->TXCTRL, 22);
     
     for (i=0; i < size; i++)
     {
-        sendSpiWithEnd(0x55, true);
+        sendSpi(0x55);
         buffer[i] = getSpi();
     }
 }
