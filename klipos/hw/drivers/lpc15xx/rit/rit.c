@@ -40,6 +40,12 @@ void initRitWithTick(void)
     LPC_RITIMER->CTRL = (1<< 1) | (1<< 3);
 }
 
+uint64_t getCpuTickFromRit(void)
+{
+    uint64_t temp = LPC_RITIMER->COUNTER | ((uint64_t)LPC_RITIMER->COUNTER_H << 32);
+    return temp;
+}
+
 uint32_t getTickFromRit(void)
 {
     uint64_t temp;

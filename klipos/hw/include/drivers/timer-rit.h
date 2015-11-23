@@ -37,6 +37,7 @@ extern uint32_t getCounterFromRitIrq(void);
 
 // Use the RIT as a infinite ticker with timestamp of 64 bits
 extern void initRitWithTick(void);
+extern uint64_t getCpuTickFromRit(void);
 extern uint32_t getTickFromRit(void);
 
 
