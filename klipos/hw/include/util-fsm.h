@@ -30,15 +30,20 @@ extern "C" {
     
 typedef void (*FsmCall)(void);
 
+typedef struct _FsmState_
+{
+    FsmCall    init;
+    FsmCall    call;
+} FsmState;
+
 
 /** @brief Finite state machine object */
 typedef struct _fsm_
 {
-    int32_t       current;        /**< current state */
-    int32_t       old;            /**< old state (used to detect initialization) */
-    int32_t       init;           /**< initialization flag */
-    FsmCall     initcall;       /**< state's initialization code */
-    FsmCall     call;           /**< state's code */
+    uint8_t         current; /**< current state */
+    uint8_t         old;     /**< previous state */
+    uint8_t         init;    /**< is this state has been initialized ? */
+    const FsmState *states;  /**< state's callback  */
 } Fsm;
 
 
@@ -48,10 +53,8 @@ typedef struct _fsm_
  * 
  * @param fsm           The FSM object
  * @param newstate      New state 
- * @param call          State function
- * @param first         State initialization function
  */
-extern void setFsm(Fsm* fsm, int32_t newstate, FsmCall call, FsmCall init);
+extern void setFsm(Fsm* fsm, uint8_t newstate);
 
 
 /** Initialize the finite state machine
@@ -60,10 +63,8 @@ extern void setFsm(Fsm* fsm, int32_t newstate, FsmCall call, FsmCall init);
  *   
  * @param fsm           The FSM object
  * @param state         New state
- * @param call          State function
- * @param first         State initialization function
  */
-extern void initFsm(Fsm* fsm, int32_t state, FsmCall call, FsmCall init);
+extern void initFsm(Fsm* fsm, uint8_t state);
 
 
 /** Run the finite state machine
@@ -79,7 +80,7 @@ extern void updateFsm(Fsm* fsm);
  * @param state         State to test
  * @return true if we are in the state, else false
  */
-extern bool isFsmInState(Fsm* fsm, int32_t state);
+extern bool isFsmInState(Fsm* fsm, uint8_t state);
 
 
 /** Is the current state initialized ?

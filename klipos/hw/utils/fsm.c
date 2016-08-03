@@ -23,18 +23,16 @@
 #include "../include/libs-klipos.h"
 
 
-void setFsm(Fsm* fsm, int32_t newstate, FsmCall call, FsmCall init)
+void setFsm(Fsm* fsm, uint8_t newstate)
 {
 //    printf("setFsm: new 0x%x old 0x%x\r\n", newstate, fsm->current);
     
     fsm->current = newstate;
-    fsm->call = call;
-    fsm->initcall = init;
 }
 
-void initFsm(Fsm* fsm, int32_t state, FsmCall call, FsmCall init)
+void initFsm(Fsm* fsm, uint8_t state)
 {
-    setFsm(fsm, state, call, init);
+    setFsm(fsm, state);
     
     fsm->init = 1;
     fsm->old = fsm->current;
@@ -42,19 +40,22 @@ void initFsm(Fsm* fsm, int32_t state, FsmCall call, FsmCall init)
 
 void updateFsm(Fsm* fsm)
 {
+     FsmCall init;
+    
     if (fsm->init == 1) 
     {
-        if (fsm->initcall != 0)
+        init = fsm->states[fsm->current].init;
+        if (init != 0)
         {
-            fsm->initcall();
+            init();
         }
         
         fsm->init = 0;
     }
     
-    if (fsm->call != 0)
+    if (fsm->states[fsm->current].call != 0)
     {
-        fsm->call();
+        fsm->states[fsm->current].call();
     }
     
     if (fsm->current != fsm->old)
@@ -64,7 +65,7 @@ void updateFsm(Fsm* fsm)
     }
 }
 
-bool isFsmInState(Fsm* fsm, int32_t state)
+bool isFsmInState(Fsm* fsm, uint8_t state)
 {
     if (fsm->current == state)
     {
