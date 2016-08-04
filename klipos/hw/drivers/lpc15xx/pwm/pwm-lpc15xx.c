@@ -88,11 +88,11 @@ void initPwm(Pwm * pwm, PWM_SCT sctPwm, uint32_t prescaler)
     
     sct->CONFIG |= BIT(17);
     
-    uint32_t frequency;
+//    uint32_t frequency;
     if (prescaler==0)
     {
         prescaler = DEFAULT_SCT_PRESCALER;
-        frequency = DEFAULT_FREQUENCY_KHZ;
+//        frequency = DEFAULT_FREQUENCY_KHZ;
     }
     
     pwm->sct = sct;

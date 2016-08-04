@@ -27,7 +27,7 @@ void writeByteToPrintfStream(uint8_t c);
 
 void defaultPrintfInterface(uint8_t c)
 {
-    c = 0;
+    (void)c;
 }
 
 int writeStringToPrintfStream(const char * str)

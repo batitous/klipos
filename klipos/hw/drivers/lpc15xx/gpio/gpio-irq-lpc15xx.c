@@ -54,8 +54,8 @@ static uint32_t getIndexFromGpio(GPIO_PIN pin)
 
 static void defaultIrqCallback(uint32_t gpioIrqEvent, uint32_t gpioIrqEdge)
 {
-    gpioIrqEvent = 0;
-    gpioIrqEdge = 0;
+    (void)gpioIrqEvent;
+    (void)gpioIrqEdge;
 }
 
 void PIN_IRQ_Handler(uint32_t irqSlot)
