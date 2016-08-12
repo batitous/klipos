@@ -73,6 +73,7 @@ static uint32_t                 messageGetIndex;
 static volatile uint32_t        messageSetIndex;
 static volatile CANMessage      messages[CAN_MSG_SIZE];
 static KTask *                  CANTask;
+static volatile uint32_t        canState;
 
 
 //--------------------- private functions
@@ -132,14 +133,17 @@ void CAN_IRQHandler(void)
             if (can_stat & CCAN_STAT_EPASS)
             {
 //                printf("Passive error\r\n");
+                SETBIT(canState, CAN_STATE_BUS_EPASS);
             }
             if (can_stat & CCAN_STAT_EWARN) 
             {
 //                printf("Warning!!!\r\n");
+                SETBIT(canState, CAN_STATE_BUS_WARN);
             }
             if (can_stat & CCAN_STAT_BOFF) 
             {
 //                printf("CAN bus is off\r\n");
+                SETBIT(canState, CAN_STATE_BUS_OFF);
             }
             
             CLRBIT(LPC_CAN->STAT, 3);
@@ -256,6 +260,7 @@ void initCAN(CANBaudrate kbaud)
 {
     uint32_t i;
     
+    canState = 0;
     messageSetIndex = 0;
     messageGetIndex = 0;
     
@@ -349,4 +354,9 @@ CANMessage * receiveMessageFromCAN()
     }
     
     return temp;
+}
+
+uint32_t    getStateCANBus()
+{
+    return canState;
 }

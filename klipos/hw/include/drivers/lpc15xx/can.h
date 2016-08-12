@@ -39,6 +39,11 @@ typedef enum _can_baudrate_
 
 #define CAN_MESSAGE_SIZE        8
 
+#define CAN_STATE_BUS_OFF       0   // CAN Bus OFF
+#define CAN_STATE_BUS_WARN      1   // CAN Bus Warning
+#define CAN_STATE_BUS_EPASS     2   // CAN Bus Error Passive
+
+
 /** CAN Message structure */
 typedef struct _can_message_object_
 {
@@ -85,6 +90,12 @@ extern bool sendMessageOnCAN(CANMessage * message);
  * @return Pointer to a CAN message
  */
 extern CANMessage * receiveMessageFromCAN();
+
+/** Get state of CAN Bus
+ * 
+ * @return 
+ */
+extern uint32_t    getStateCANBus();
 
 #ifdef	__cplusplus
 }
