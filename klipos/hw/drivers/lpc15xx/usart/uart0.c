@@ -71,35 +71,35 @@ void UART0_IRQHandler(void)
     }
 }
 
-/*
+
 void setUartClockRate(uint32_t rate, bool fEnable)
 {
     uint32_t div, inclk;
 
+    /* Input clock into FRG block is the main system cloock */
     inclk = UART_CLOCK;
 
+    /* Get integer divider for coarse rate */
     div = inclk / rate;
-    if (div == 0) 
-    {
+    if (div == 0) {
         div = 1;
     }
 
-    LPC_SYSCON->UARTCLKDIV = div;
+    /* Approximated rate with only integer divider */
+    LPC_SYSCTL->UARTCLKDIV = ((uint8_t) div);
 
-    if (fEnable!=false) 
-    {
+    if (fEnable) {
             uint32_t err;
             uint64_t uart_fra_multiplier;
 
             err = inclk - (rate * div);
             uart_fra_multiplier = ((uint64_t) err  * 256) / (uint64_t) (rate * div);
 
-            // Enable fractional divider and set multiplier 
+            /* Enable fractional divider and set multiplier */
             LPC_SYSCTL->FRGCTRL = 0xFF | ((uart_fra_multiplier & 0xFF) << 8);
     }
-    else 
-    {
-            // Disable fractional generator and use integer divider only 
+    else {
+            /* Disable fractional generator and use integer divider only */
             LPC_SYSCTL->FRGCTRL = 0;
     }
 
@@ -128,7 +128,7 @@ uint32_t getUartClockRate(void)
     }
 
     return (uint32_t) inclk;
-}*/
+}
 
 //--------------------- public functions:
 
@@ -140,7 +140,7 @@ const Uart * initUart0(uint32_t baudrate)
     LPC_SYSCON->UARTCLKDIV = 1;
     LPC_SYSCTL->FRGCTRL = 0;
     
-//    setUartClockRate(UART_CLOCK,false);
+    setUartClockRate(UART_CLOCK,false);
     
     // enable uart clock and block
     SETBIT(LPC_SYSCON->SYSAHBCLKCTRL[1],17);
@@ -151,9 +151,19 @@ const Uart * initUart0(uint32_t baudrate)
     // 8 bit, 1 stop, no parity
     SETBIT(LPC_USART0->CFG,2);
     
-    uint32_t baudRateGenerator = UART_CLOCK/*getUartClockRate()*/ / (16 * baudrate/*115200*/);
-        
-    LPC_USART0->BRG = baudRateGenerator - 1;
+//   uint32_t baudRateGenerator = UART_CLOCK/*getUartClockRate()*/ / (16 * baudrate/*115200*/);
+    uint32_t baudRateGenerator = getUartClockRate() / (16 * baudrate);
+    
+    switch(baudrate)
+    {
+        case 576000:
+        case 1152000:
+            LPC_USART0->BRG = baudRateGenerator ;
+            break;
+        default:
+            LPC_USART0->BRG = baudRateGenerator - 1;
+    }    
+    
     
     // enable uart
     SETBIT(LPC_USART0->CFG,0);
