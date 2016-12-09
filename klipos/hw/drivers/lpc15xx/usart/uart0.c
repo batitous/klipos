@@ -158,6 +158,7 @@ const Uart * initUart0(uint32_t baudrate)
     {
         case 576000:
         case 1152000:
+        case 230400:
             LPC_USART0->BRG = baudRateGenerator ;
             break;
         default:

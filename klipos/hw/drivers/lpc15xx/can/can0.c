@@ -317,6 +317,8 @@ void registerReceiverIdCAN(uint32_t id)
 
 bool sendMessageOnCAN(CANMessage * message)
 {
+    uint32_t counter = 0;
+    
     bool remoteFrame = false;
     uint8_t msgNum = getFreeMsgObject();
     if (!msgNum) 
@@ -329,6 +331,11 @@ bool sendMessageOnCAN(CANMessage * message)
     while (CCAN_GetTxRQST() >> (msgNum - 1))
     {	
         // blocking , wait for sending completed
+        counter++;
+        
+        if (counter == 0x20000) {
+            return false;
+        }
     }
     
     if (!remoteFrame)
